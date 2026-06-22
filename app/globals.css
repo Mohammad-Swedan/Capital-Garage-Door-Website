@@ -151,6 +151,26 @@
   overscroll-behavior: none;
 }
 
+/* Lenis smooth scrolling (components/motion/smooth-scroll-provider.tsx). The
+   library toggles these classes on <html>; the rules let it own the scroll
+   animation. `.lenis-stopped` keeps things still while the intro lock is up. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 /* ── Welcome intro animation (pure CSS) ──────────────────────────────────────
    Driven entirely by CSS so the door starts moving on the first paint instead
    of waiting for the (large) client bundle to hydrate. The component in

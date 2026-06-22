@@ -81,6 +81,12 @@ export function GarageDoorLoader() {
 
     const release = () => {
       root.classList.remove("intro-locked");
+      // Also flips on `html:not(.intro-seen) main`'s animation (globals.css) —
+      // without this, that animation's `fill-mode: both` keeps an explicit
+      // (if visually identity) `transform` on <main> for the rest of the
+      // session, which makes <main> a new containing block for any
+      // `position: fixed` descendant (e.g. the sticky mobile CTA bar).
+      root.classList.add("intro-seen");
       document.removeEventListener("touchmove", preventTouchScroll);
     };
 

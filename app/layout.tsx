@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { GarageDoorLoader } from "@/components/motion/garage-door-loader";
 import { LazyMotionProvider } from "@/components/motion/lazy-motion-provider";
+import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
@@ -74,6 +75,7 @@ export default function RootLayout({
           }}
         />
         <GarageDoorLoader />
+        <SmoothScrollProvider />
         <LazyMotionProvider>
           <ScrollProgress />
           <Header />

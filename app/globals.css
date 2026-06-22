@@ -1,26 +1,523 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-body);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --background: oklch(0.99 0.005 240);
+  --foreground: #0d1f45;
+  --card: oklch(1 0 0);
+  --card-foreground: #0d1f45;
+  --popover: oklch(1 0 0);
+  --popover-foreground: #0d1f45;
+  --primary: #1b3b8c;
+  --primary-foreground: #ffffff;
+  --secondary: oklch(0.96 0.015 245);
+  --secondary-foreground: #0d1f45;
+  --muted: oklch(0.96 0.015 245);
+  --muted-foreground: #5a6478;
+  --accent: oklch(0.95 0.02 245);
+  --accent-foreground: #0d1f45;
+  --cta: #c8222a;
+  --cta-foreground: #ffffff;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.9 0.02 250);
+  --input: oklch(0.9 0.02 250);
+  --ring: #1b3b8c;
+  --chart-1: #1b3b8c;
+  --chart-2: #c8222a;
+  --chart-3: oklch(0.6 0.18 260);
+  --chart-4: oklch(0.439 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: #3a5bb0;
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --cta: #e0444b;
+  --cta-foreground: oklch(0.145 0.02 41);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Skip the welcome intro instantly (no flash) once it has played this session. */
+.intro-seen #garage-intro {
+  display: none !important;
+}
+
+/* Lock scroll while the welcome intro is up. `overflow: hidden` on its own
+   doesn't stop touch scrolling/rubber-banding on iOS and Android, so this is
+   paired with a non-passive touchmove guard in garage-door-loader.tsx. */
+.intro-locked,
+.intro-locked body {
+  overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+/* ── Welcome intro animation (pure CSS) ──────────────────────────────────────
+   Driven entirely by CSS so the door starts moving on the first paint instead
+   of waiting for the (large) client bundle to hydrate. The component in
+   components/motion/garage-door-loader.tsx only locks scroll and removes the
+   overlay once this timeline has finished. Timeline (from page load) — kept
+   short since this overlay gates first-visit LCP (content can't be the
+   "largest paint" until the curtain starts lifting):
+     0.15s  brand greeting fades in
+     0.90s  hold ends — brand fades out
+     1.20s  door curtain rolls up   (HOLD + 0.3s)
+     2.10s  roller housing lifts
+     2.70s  shell hides itself (safety, in case JS removal is delayed)            */
+
+@keyframes cgd-intro-curtain-up {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes cgd-intro-housing-up {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes cgd-intro-brand-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cgd-intro-brand-out {
+  to {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.96);
+  }
+}
+
+@keyframes cgd-intro-sheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(260%);
+  }
+}
+
+@keyframes cgd-intro-shell-hide {
+  to {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.cgd-intro-shell {
+  animation: cgd-intro-shell-hide 0.01s linear 2.7s forwards;
+}
+.cgd-intro-curtain {
+  will-change: transform;
+  animation: cgd-intro-curtain-up 0.95s cubic-bezier(0.76, 0, 0.24, 1) 1.2s forwards;
+}
+.cgd-intro-housing {
+  will-change: transform;
+  animation: cgd-intro-housing-up 0.5s ease-in 2.1s forwards;
+}
+.cgd-intro-brand {
+  animation:
+    cgd-intro-brand-in 0.6s ease-out 0.15s both,
+    cgd-intro-brand-out 0.35s ease-in 0.9s forwards;
+}
+.cgd-intro-sheen {
+  animation: cgd-intro-sheen 2.6s ease-in-out infinite;
+}
+
+/* Reveal the page with a soft rise + fade as the welcome door rolls up. Scoped
+   to first visits only — on a refresh the inline guard adds `.intro-seen`, so
+   the page is shown immediately with no entrance. */
+@keyframes cgd-intro-page {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html:not(.intro-seen) main {
+  animation: cgd-intro-page 1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: skip the roll-up, just hold the greeting then fade out. */
+  .cgd-intro-curtain,
+  .cgd-intro-housing,
+  .cgd-intro-sheen,
+  .cgd-intro-brand {
+    animation: none;
+  }
+  .cgd-intro-shell {
+    animation: cgd-intro-fade 0.5s ease-out 0.9s forwards;
+  }
+  html:not(.intro-seen) main {
+    animation: none;
+  }
+}
+
+@keyframes cgd-intro-fade {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* ── On-load entrance (pure CSS) ─────────────────────────────────────────────
+   Used for above-the-fold content (e.g. the hero) so it animates in on the
+   first paint instead of shipping as `opacity:0` and waiting for Framer Motion
+   to hydrate. Stagger is applied per element with `[animation-delay:*]`. */
+@keyframes cgd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cgd-rise-right {
+  from {
+    opacity: 0;
+    transform: translateX(60px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cgd-rise {
+  animation: cgd-rise 0.6s ease-out both;
+}
+.cgd-rise-right {
+  animation: cgd-rise-right 0.8s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-rise,
+  .cgd-rise-right {
+    animation: none;
+  }
+}
+
+/* ── Scroll reveal (components/motion/reveal.tsx) ────────────────────────────
+   A native IntersectionObserver toggles `.cgd-reveal-in` once the element
+   scrolls into view; the transition runs on the compositor. */
+.cgd-reveal {
+  opacity: 0;
+  transform: translateY(var(--cgd-reveal-y, 16px));
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s ease-out;
+  transition-delay: var(--cgd-reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+.cgd-reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Hero van CTA: scrolling road dashes + speed lines (see components/sections/hero.tsx) */
+@keyframes cgd-road-scroll {
+  from {
+    transform: translateX(-48px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cgd-speed-dash {
+  0% {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+}
+
+/* Headlight glow on the van — small, opacity/scale only so it stays on the
+   compositor (no layout/paint cost) while hinting the van is running. */
+@keyframes cgd-headlight-glow {
+  from {
+    opacity: 0.45;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 0.75;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+/* Service-area map ripple animations — pure CSS so they loop on the compositor
+   with zero JS re-trigger lag. Opacity starts at 0 during the reset window
+   (0%–8%) so the scale snap-back is completely invisible. */
+@keyframes cgd-map-ripple {
+  0%,
+  8% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.45;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(6);
+    opacity: 0;
+  }
+}
+@keyframes cgd-map-ping {
+  0%,
+  8% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+  14% {
+    opacity: 0.38;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3.2);
+    opacity: 0;
+  }
+}
+.cgd-map-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 9999px;
+  background: rgb(125 211 252 / 0.35);
+  animation: cgd-map-ripple 4s cubic-bezier(0.22, 0.8, 0.4, 1) infinite;
+  will-change: transform, opacity;
+}
+.cgd-map-ping {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 9999px;
+  background: rgb(14 165 233 / 0.4);
+  animation: cgd-map-ping 3.2s cubic-bezier(0.22, 0.8, 0.4, 1) infinite;
+  will-change: transform, opacity;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cgd-map-ripple,
+  .cgd-map-ping {
+    animation: none;
+  }
+}
+
+/* Testimonials marquee columns (see components/ui/testimonials-columns-1.tsx).
+   Driven by CSS so it runs on the compositor instead of being re-computed by JS each frame. */
+@keyframes cgd-testimonial-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.cgd-testimonial-track {
+  animation: cgd-testimonial-scroll var(--cgd-duration, 10s) linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-testimonial-track {
+    animation: none;
+  }
+}
+
+/* Smart Chat tooltip: light frosted glass (see StickyMobileCta in
+   components/sections/hero.tsx). Plain CSS rather than Tailwind utilities
+   because the layered inset highlights + -webkit-backdrop-filter prefix
+   aren't expressible cleanly as arbitrary values. */
+.cgd-glass-tooltip {
+  /* No `position` here — it relies on Tailwind's `absolute` utility class in
+     the markup. Setting it here would tie with that utility's specificity
+     and (depending on stylesheet order) can silently override it back to
+     `relative`, turning the tooltip into a real flex item that squeezes its
+     siblings instead of floating above them. */
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 28px;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.cgd-glass-tooltip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.02)
+  );
+  pointer-events: none;
+}
+
+.cgd-glass-tooltip-pointer {
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  backdrop-filter: blur(22px) saturate(180%);
+  border-right: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+/* Dark frosted glass card for the Service Area Map's floating "Perth-Wide
+   Coverage" badge (see components/sections/service-area-map.tsx). Needs its
+   own variant since .cgd-glass-tooltip is tuned for a light background. */
+.cgd-glass-card-dark {
+  border-radius: 20px;
+  /* Solid tinted fill instead of `backdrop-filter: blur()`. This class is
+     rendered on all six service-tile badges (plus the map badge); per-region
+     backdrop blur is a paint/composite cost that scales with instances and was
+     a meaningful chunk of Lighthouse's Style & Layout time. The badges sit over
+     dark imagery, so an opaque navy fill reads the same without the blur. */
+  background: rgba(10, 23, 51, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 12px 32px rgba(2, 6, 23, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Faint garage-door-panel line texture for the Services bento tile
+   placeholders (see ServiceMedia in components/sections/services-grid.tsx). */
+.cgd-door-texture {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px 38px,
+    rgba(255, 255, 255, 0.05) 38px 40px
+  );
 }

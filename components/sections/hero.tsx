@@ -9,6 +9,8 @@ import {
   useSpring,
   useReducedMotion,
   useInView,
+  useScroll,
+  useMotionValueEvent,
   type Variants,
 } from "framer-motion";
 import {
@@ -497,6 +499,8 @@ export function Hero() {
 
 function StickyMobileCta() {
   const shouldReduceMotion = useReducedMotion();
+  const { scrollY } = useScroll();
+  const [visible, setVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [badgeVisible, setBadgeVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -504,8 +508,12 @@ function StickyMobileCta() {
   const tooltipTimeoutRef = useRef<number | undefined>(undefined);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setVisible(latest > 150);
+  });
+
   useEffect(() => {
-    if (!hasShownTooltipRef.current) {
+    if (visible && !hasShownTooltipRef.current) {
       tooltipTimeoutRef.current = window.setTimeout(() => {
         setShowTooltip(true);
         setBadgeVisible(true);
@@ -513,7 +521,7 @@ function StickyMobileCta() {
       }, 3000);
     }
     return () => window.clearTimeout(tooltipTimeoutRef.current);
-  }, []);
+  }, [visible]);
 
   // Dismiss after 7s if ignored, or on an actual outside tap. Outside taps
   // are tracked via "click" rather than "pointerdown" — a scroll gesture
@@ -546,9 +554,9 @@ function StickyMobileCta() {
     <m.div
       ref={wrapperRef}
       initial={false}
-      animate={{ y: 0, opacity: 1 }}
+      animate={{ y: visible ? 0 : 100, opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      style={{ pointerEvents: "auto" }}
+      style={{ pointerEvents: visible ? "auto" : "none" }}
       className="fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-sm items-center gap-2 lg:hidden"
     >
       <AnimatePresence>

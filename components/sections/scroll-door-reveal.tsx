@@ -59,18 +59,23 @@ function drawImageCover(
  * nearest-frame fallback always has something close to draw — you never get
  * stuck on the dark, door-closed opening frames while scrubbing ahead.
  */
-function buildLoadOrder() {
+function buildLoadOrder(isMobile: boolean) {
   const order: number[] = [];
   const seen = new Set<number>();
-  for (const stride of [8, 4, 2, 1]) {
+  const baseStep = isMobile ? 2 : 1;
+  const strides = isMobile ? [8, 4, 2] : [8, 4, 2, 1];
+
+  for (const stride of strides) {
     for (let i = 0; i < FRAME_COUNT; i += stride) {
+      if (i % baseStep !== 0) continue;
       if (!seen.has(i)) {
         seen.add(i);
         order.push(i);
       }
     }
   }
-  for (let i = 0; i < FRAME_COUNT; i++) {
+  // Ensure we catch all intended frames
+  for (let i = 0; i < FRAME_COUNT; i += baseStep) {
     if (!seen.has(i)) {
       seen.add(i);
       order.push(i);
@@ -192,7 +197,9 @@ export function ScrollDoorReveal() {
 
     let cancelled = false;
     const controller = new AbortController();
-    const order = buildLoadOrder();
+    const isMobile = window.innerWidth < 768;
+    const order = buildLoadOrder(isMobile);
+    const targetFramesToLoad = order.length;
     let cursor = 0;
     let loaded = 0;
 
@@ -215,7 +222,7 @@ export function ScrollDoorReveal() {
           /* skip a failed frame — the nearest-frame fallback covers the gap */
         }
         loaded++;
-        if (!cancelled) setLoadPct(Math.round((loaded / FRAME_COUNT) * 100));
+        if (!cancelled) setLoadPct(Math.round((loaded / targetFramesToLoad) * 100));
       }
     }
 
@@ -278,7 +285,14 @@ export function ScrollDoorReveal() {
     // removed (onUpdate only fires once the user actually scrolls).
     draw(lastProgressRef.current);
 
+    // Force refresh on next tick to ensure correct layout calculations for pin spacer
+    // after dynamic imports or client-side navigation.
+    const raf = requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+
     return () => {
+      cancelAnimationFrame(raf);
       ctxGsap.revert();
     };
   }, [framesReady, scheduleDraw, draw]);

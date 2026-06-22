@@ -497,7 +497,6 @@ export function Hero() {
 
 function StickyMobileCta() {
   const shouldReduceMotion = useReducedMotion();
-  const [visible, setVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [badgeVisible, setBadgeVisible] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
@@ -506,18 +505,7 @@ function StickyMobileCta() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleScroll() {
-      setVisible(window.scrollY > 150);
-    }
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // First time the bar scrolls into view, wait 3s then nudge the user toward
-  // the chat button with a tooltip. Only ever fires once per visit.
-  useEffect(() => {
-    if (visible && !hasShownTooltipRef.current) {
+    if (!hasShownTooltipRef.current) {
       tooltipTimeoutRef.current = window.setTimeout(() => {
         setShowTooltip(true);
         setBadgeVisible(true);
@@ -525,7 +513,7 @@ function StickyMobileCta() {
       }, 3000);
     }
     return () => window.clearTimeout(tooltipTimeoutRef.current);
-  }, [visible]);
+  }, []);
 
   // Dismiss after 7s if ignored, or on an actual outside tap. Outside taps
   // are tracked via "click" rather than "pointerdown" — a scroll gesture
@@ -558,9 +546,9 @@ function StickyMobileCta() {
     <m.div
       ref={wrapperRef}
       initial={false}
-      animate={{ y: visible ? 0 : 100, opacity: visible ? 1 : 0 }}
+      animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      style={{ pointerEvents: visible ? "auto" : "none" }}
+      style={{ pointerEvents: "auto" }}
       className="fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-sm items-center gap-2 lg:hidden"
     >
       <AnimatePresence>

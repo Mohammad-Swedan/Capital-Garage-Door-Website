@@ -90,7 +90,7 @@ export async function ServicesGrid() {
                 className={cn("h-full", layout.aspect, "lg:aspect-auto", layout.span)}
               >
                 <Link
-                  href={`/services/${service.slug}`}
+                  href={service.canonicalHref}
                   className="group relative block h-full cursor-pointer overflow-hidden rounded-2xl ring-1 ring-white/10 transition-all duration-300 ease-out active:scale-[0.98] sm:rounded-3xl sm:active:scale-100 hover:ring-cta/60 focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
                 >
                   <ServiceMedia image={service.image} alt={service.name} tone={layout.tone} />

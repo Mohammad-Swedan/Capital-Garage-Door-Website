@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI coding-tool skill mirrors (duplicated ui-ux-pro-max skill — kept on disk, out of git)
+.github/prompts/
+.claude/skills/
+.agent/skills/
+.cursor/
+.codex/
+.kiro/
+.gemini/
+.continue/
+.codebuddy/
+.windsurf/
+.qoder/
+.trae/
+.opencode/
+.roo/

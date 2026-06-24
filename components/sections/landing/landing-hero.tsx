@@ -1,0 +1,115 @@
+import { Phone, FileText, Lightbulb } from "lucide-react";
+import { Container } from "@/components/layout/container";
+import { LandingQuoteForm } from "@/components/forms/landing-quote-form";
+import { resolvePageIcon } from "@/components/page/icons";
+import { siteConfig } from "@/config/site";
+import type { LandingPage } from "@/types/landing-page";
+
+interface LandingHeroProps {
+  page: LandingPage;
+}
+
+/**
+ * Above-the-fold hero for paid landing pages. Mirrors the inner PageHero's
+ * backdrop/typography language but pairs the headline + CTAs with the lead form
+ * (right column on desktop, directly below the copy on mobile) so visitors can
+ * convert without scrolling. The form anchor (#quote) is the target of every
+ * "Request" CTA on the page.
+ */
+export function LandingHero({ page }: LandingHeroProps) {
+  const { business } = siteConfig;
+  const problemOptions = page.problems.items.map((problem) => problem.title);
+
+  return (
+    <section className="relative overflow-hidden bg-background">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,31,69,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,31,69,0.07)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_90%_70%_at_50%_0%,black_30%,transparent_85%)]" />
+        <div className="absolute -top-24 left-1/3 h-90 w-200 -translate-x-1/2 rounded-full bg-primary/6 blur-3xl" />
+        <div className="absolute top-1/4 -right-16 h-64 w-64 rounded-full bg-cta/8 blur-3xl sm:h-80 sm:w-80" />
+      </div>
+
+      <Container className="relative z-10 py-10 sm:py-14 lg:py-20">
+        <div className="grid items-start gap-10 lg:grid-cols-[1.05fr_minmax(0,460px)] lg:gap-12">
+          {/* Copy + CTAs */}
+          <div className="flex flex-col items-start gap-5 sm:gap-6">
+            {page.hero.eyebrow && (
+              <span className="inline-flex items-center gap-2 rounded-full border border-cta/20 bg-cta/10 px-3.5 py-1.5 text-xs font-bold tracking-wide text-cta uppercase">
+                {page.hero.eyebrow}
+              </span>
+            )}
+
+            <h1 className="text-balance font-display text-[clamp(1.75rem,5vw,3rem)] leading-[1.08] font-black tracking-tight text-foreground">
+              {page.hero.h1}
+            </h1>
+
+            <p className="text-pretty max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+              {page.hero.subtitle}
+            </p>
+
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+              <a
+                href={`tel:${business.phone}`}
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-cta px-8 text-base font-bold text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] transition-transform hover:scale-[1.03] hover:bg-cta/90 sm:w-auto"
+              >
+                <Phone className="h-5 w-5" aria-hidden="true" />
+                Call Now
+              </a>
+              <a
+                href="#quote"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#0f4e9b]/35 bg-[#0f4e9b]/5 px-8 text-base font-bold text-[#0f4e9b] transition-transform hover:scale-[1.03] hover:bg-[#0f4e9b]/10 sm:w-auto"
+              >
+                <FileText className="h-5 w-5" aria-hidden="true" />
+                Request {page.serviceLabel.includes("Emergency") ? "Emergency Repair" : "a Quote"}
+              </a>
+            </div>
+
+            {/* Trust badges */}
+            <ul className="flex flex-wrap gap-x-5 gap-y-2.5 pt-1">
+              {page.hero.badges.map((badge) => {
+                const Icon = resolvePageIcon(badge.icon);
+                return (
+                  <li
+                    key={badge.label}
+                    className="flex items-center gap-2 text-sm font-semibold text-foreground"
+                  >
+                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600/10 text-emerald-700">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                    {badge.label}
+                  </li>
+                );
+              })}
+            </ul>
+
+            {page.directAnswer && (
+              <div className="mt-1 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm leading-relaxed text-foreground sm:text-base">
+                <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <p>{page.directAnswer}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Lead form */}
+          <div
+            id="quote"
+            className="scroll-mt-24 rounded-3xl border border-border bg-card p-6 shadow-[0_18px_50px_rgba(13,31,69,0.12)] ring-1 ring-foreground/5 sm:p-7"
+          >
+            <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+              {page.form.heading}
+            </h2>
+            {page.form.subheading && (
+              <p className="mt-1.5 text-sm text-muted-foreground">{page.form.subheading}</p>
+            )}
+            <div className="mt-5">
+              <LandingQuoteForm
+                pageType={page.pageType}
+                service={page.serviceLabel}
+                problemOptions={problemOptions}
+              />
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}

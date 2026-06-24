@@ -14,6 +14,15 @@ const FRAME_COUNT = 120; // total files on disk
 /** Number of frames fetched/decoded in parallel. */
 const CONCURRENCY = 6;
 
+/**
+ * Reveal the scrub (drop the loader, pin the section) once this fraction of the
+ * frames have decoded — the rest keep streaming in behind it. Because
+ * `buildLoadOrder` is coarse-to-fine, the first 25% already span the whole
+ * sequence, so the nearest-frame fallback in `draw()` has something close to
+ * paint at every scroll position and never jumps far.
+ */
+const REVEAL_AT = 0.25;
+
 function getFrameSrc(i: number) {
   const fileNum = i + 1;
   return `/frames/ezgif-frame-${String(fileNum).padStart(3, "0")}.webp`;
@@ -200,8 +209,10 @@ export function ScrollDoorReveal() {
     const isMobile = window.innerWidth < 768;
     const order = buildLoadOrder(isMobile);
     const targetFramesToLoad = order.length;
+    const revealAtCount = Math.max(1, Math.ceil(targetFramesToLoad * REVEAL_AT));
     let cursor = 0;
     let loaded = 0;
+    let revealed = false;
 
     async function pump() {
       while (!cancelled && cursor < order.length) {
@@ -222,10 +233,22 @@ export function ScrollDoorReveal() {
           /* skip a failed frame — the nearest-frame fallback covers the gap */
         }
         loaded++;
-        if (!cancelled) setLoadPct(Math.round((loaded / targetFramesToLoad) * 100));
+        if (!cancelled) {
+          // Progress bar reads relative to the reveal threshold, so it fills to
+          // 100% exactly as the loader hands off to the scrub.
+          setLoadPct(Math.min(100, Math.round((loaded / revealAtCount) * 100)));
+          // Reveal early: a coarse pass across the whole timeline is enough to
+          // scrub smoothly; the remaining frames keep loading in the background.
+          if (!revealed && loaded >= revealAtCount) {
+            revealed = true;
+            setFramesReady(true);
+          }
+        }
       }
     }
 
+    // Safety net: if the sequence is tiny (target below the threshold) or a
+    // pump errors out early, still reveal once everything that can load has.
     Promise.all(Array.from({ length: CONCURRENCY }, () => pump())).then(() => {
       if (!cancelled) setFramesReady(true);
     });

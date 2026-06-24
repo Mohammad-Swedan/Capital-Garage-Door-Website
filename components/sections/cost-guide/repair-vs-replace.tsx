@@ -1,0 +1,62 @@
+import { CheckCircle2, RefreshCw } from "lucide-react";
+import { Container } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
+import type { RepairVsReplaceData } from "@/types/cost-guide";
+
+interface RepairVsReplaceProps {
+  data: RepairVsReplaceData;
+}
+
+/** Two-column guidance: when a repair makes sense vs. when replacement is the better call. */
+export function RepairVsReplace({ data }: RepairVsReplaceProps) {
+  const { heading, intro, repairWhen, replaceWhen } = data;
+
+  return (
+    <section className="bg-background py-14 sm:py-20">
+      <Container>
+        <Reveal>
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            {heading}
+          </h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">{intro}</p>
+        </Reveal>
+
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
+          <Reveal>
+            <div className="h-full rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-6">
+              <h3 className="flex items-center gap-2 font-heading text-base font-semibold text-emerald-700">
+                <RefreshCw className="h-4.5 w-4.5" aria-hidden="true" />
+                Repair is usually better when
+              </h3>
+              <ul className="mt-4 space-y-3">
+                {repairWhen.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
+                    <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-emerald-600" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <div className="h-full rounded-2xl border border-primary/15 bg-primary/5 p-6">
+              <h3 className="flex items-center gap-2 font-heading text-base font-semibold text-primary">
+                <RefreshCw className="h-4.5 w-4.5" aria-hidden="true" />
+                Replacement may be better when
+              </h3>
+              <ul className="mt-4 space-y-3">
+                {replaceWhen.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
+                    <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-primary" aria-hidden="true" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
+        </div>
+      </Container>
+    </section>
+  );
+}

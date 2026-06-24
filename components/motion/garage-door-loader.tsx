@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
 
@@ -8,12 +8,22 @@ import { siteConfig } from "@/config/site";
 const SEEN_KEY = "cgd:welcomed";
 
 /**
- * Total time the intro is on screen before it is removed from the DOM (ms).
- * Must cover the full CSS timeline in globals.css (hold → curtain roll-up →
- * housing lift). Kept slightly longer than the last keyframe so nothing is
- * cut off.
+ * Fallback only — used when the Web Animations API is unavailable so we can't
+ * observe the CSS timeline directly. Must cover the full CSS timeline in
+ * globals.css (hold → curtain roll-up → housing lift), measured from when this
+ * component's effect runs (which is always after first paint, so it can only
+ * ever remove the overlay LATER than the CSS animation, never cut it off).
  */
 const TOTAL_MS = 2800;
+
+/**
+ * Absolute safety cap for the primary (animation-driven) path: if the
+ * animation's `finished` promise somehow never resolves (e.g. the tab was
+ * backgrounded the whole time, which pauses CSS animations), don't keep the
+ * overlay and scroll lock up forever. Generous so it never pre-empts the real
+ * timeline.
+ */
+const SAFETY_MS = 6000;
 
 /**
  * Height of one steel section. Scales with viewport height so a tall phone
@@ -54,6 +64,7 @@ const STEEL: CSSProperties = {
  */
 export function GarageDoorLoader() {
   const [done, setDone] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let alreadySeen = false;
@@ -90,18 +101,37 @@ export function GarageDoorLoader() {
       document.removeEventListener("touchmove", preventTouchScroll);
     };
 
-    // Remove the overlay after the CSS timeline finishes. The timeline runs
-    // from first paint, so schedule the removal against time-since-page-load
-    // (not against when this effect happens to hydrate) — otherwise a slow
-    // hydration would keep scroll locked past the point the door has already
-    // rolled away. As a safety, the shell also hides itself via CSS
-    // (`cgd-intro-shell-hide`) at the same beat.
-    const elapsed = typeof performance !== "undefined" ? performance.now() : 0;
-    const remaining = Math.max(0, TOTAL_MS - elapsed);
-    const timer = window.setTimeout(() => {
+    let finished = false;
+    const finish = () => {
+      if (finished) return;
+      finished = true;
       release();
       setDone(true);
-    }, remaining);
+    };
+
+    // Remove the overlay when the CSS intro timeline actually ENDS. The door is
+    // animated purely in CSS, whose clock starts at the element's first paint —
+    // but `performance.now()` is anchored to navigation start. On a cold first
+    // load (uncached assets, large JS bundle) those two origins diverge by the
+    // big first-paint delay, so the old navigation-anchored timer fired while
+    // the door was still mid-roll and yanked it away — the intro looked instant
+    // or skipped entirely. Driving removal off the shell's own animation
+    // (`cgd-intro-shell-hide`, the last beat at 2.7s — or `cgd-intro-fade`
+    // under reduced motion) keeps JS in lockstep with the CSS, whenever first
+    // paint happens. `.finished` resolves immediately if the animation has
+    // already completed (very slow hydration), so the timing is robust both
+    // ways. Note: query only the shell's OWN animations, not the subtree — the
+    // sheen sweep on a child loops `infinite` and would never resolve.
+    const shellAnimations = shellRef.current?.getAnimations?.() ?? [];
+    if (shellAnimations.length > 0) {
+      Promise.allSettled(shellAnimations.map((a) => a.finished)).then(finish);
+    }
+
+    // Safety net. With the animation path active this only fires if `.finished`
+    // never resolves (e.g. a backgrounded tab pauses CSS animations). Without
+    // it (no Web Animations API) it's the primary path. Measured from now —
+    // after first paint — so it can only ever run later than the CSS timeline.
+    const timer = window.setTimeout(finish, shellAnimations.length > 0 ? SAFETY_MS : TOTAL_MS);
 
     return () => {
       window.clearTimeout(timer);
@@ -113,6 +143,7 @@ export function GarageDoorLoader() {
 
   return (
     <div
+      ref={shellRef}
       id="garage-intro"
       aria-hidden="true"
       className="cgd-intro-shell fixed inset-0 z-200 flex flex-col overflow-hidden"

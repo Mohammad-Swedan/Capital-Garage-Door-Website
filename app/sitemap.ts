@@ -1,14 +1,30 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { getServiceSlugs } from "@/lib/data/services";
-import { getServiceAreaSlugs } from "@/lib/data/service-areas";
-import { getBlogPostSlugs } from "@/lib/data/blog";
+import { getArticleSlugs } from "@/lib/data/articles";
+import { getProblemSlugs } from "@/lib/data/problems";
+import { getServicePageSlugs } from "@/lib/data/service-pages";
+import { getComparisonPageSlugs } from "@/lib/data/comparison-pages";
+import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
+import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
+import { getCaseStudySlugs } from "@/lib/data/case-studies";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [serviceSlugs, areaSlugs, blogSlugs] = await Promise.all([
-    getServiceSlugs(),
-    getServiceAreaSlugs(),
-    getBlogPostSlugs(),
+  const [
+    blogSlugs,
+    problemSlugs,
+    servicePageSlugs,
+    comparisonPageSlugs,
+    costGuidePageSlugs,
+    suburbPageSlugs,
+    caseStudySlugs,
+  ] = await Promise.all([
+    getArticleSlugs(),
+    getProblemSlugs(),
+    getServicePageSlugs(),
+    getComparisonPageSlugs(),
+    getCostGuidePageSlugs(),
+    getServiceSuburbPageSlugs(),
+    getCaseStudySlugs(),
   ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -17,19 +33,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/contact`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/services`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteConfig.url}/service-areas`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${siteConfig.url}/cost-guides`, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${siteConfig.url}/calculator`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/blog`, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteConfig.url}/problems`, changeFrequency: "weekly", priority: 0.6 },
+    { url: `${siteConfig.url}/case-studies`, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${siteConfig.url}/reviews`, changeFrequency: "weekly", priority: 0.8 },
   ];
 
-  const serviceRoutes: MetadataRoute.Sitemap = serviceSlugs.map((slug) => ({
-    url: `${siteConfig.url}/services/${slug}`,
+  const suburbPageRoutes: MetadataRoute.Sitemap = suburbPageSlugs.map((slug) => ({
+    url: `${siteConfig.url}/${slug}`,
     changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
-  const areaRoutes: MetadataRoute.Sitemap = areaSlugs.map((slug) => ({
-    url: `${siteConfig.url}/service-areas/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
+    priority: 0.9,
   }));
 
   const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
@@ -38,5 +53,44 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...areaRoutes, ...blogRoutes];
+  const problemRoutes: MetadataRoute.Sitemap = problemSlugs.map((slug) => ({
+    url: `${siteConfig.url}/problems/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const servicePageRoutes: MetadataRoute.Sitemap = servicePageSlugs.map((slug) => ({
+    url: `${siteConfig.url}/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.9,
+  }));
+
+  const comparisonPageRoutes: MetadataRoute.Sitemap = comparisonPageSlugs.map((slug) => ({
+    url: `${siteConfig.url}/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const costGuidePageRoutes: MetadataRoute.Sitemap = costGuidePageSlugs.map((slug) => ({
+    url: `${siteConfig.url}/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const caseStudyRoutes: MetadataRoute.Sitemap = caseStudySlugs.map((slug) => ({
+    url: `${siteConfig.url}/case-studies/${slug}`,
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...blogRoutes,
+    ...problemRoutes,
+    ...servicePageRoutes,
+    ...comparisonPageRoutes,
+    ...costGuidePageRoutes,
+    ...suburbPageRoutes,
+    ...caseStudyRoutes,
+  ];
 }

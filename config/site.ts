@@ -6,7 +6,7 @@ export const siteConfig = {
     "Capital Garage Door provides professional garage door repair, installation, and maintenance services. Licensed, insured, and available for same-day service.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.capitalgaragedoor.com",
   ogImage: "/images/og/default.jpg",
-  locale: "en_US",
+  locale: "en_AU",
 
   business: {
     legalName: "Capital Garage Door LLC",
@@ -14,15 +14,15 @@ export const siteConfig = {
     phoneDisplay: "0475 333 335",
     email: "info@capitalgaragedoor.com",
     address: {
-      streetAddress: "123 Main St",
-      addressLocality: "Your City",
-      addressRegion: "ST",
-      postalCode: "00000",
-      addressCountry: "US",
+      streetAddress: "", // TODO: real street address
+      addressLocality: "Perth",
+      addressRegion: "WA",
+      postalCode: "", // TODO: real postcode
+      addressCountry: "AU",
     },
     geo: {
-      latitude: 0,
-      longitude: 0,
+      latitude: -31.9523, // TODO: exact business location
+      longitude: 115.8613,
     },
     priceRange: "$$",
     hours: [
@@ -58,6 +58,7 @@ export const siteConfig = {
       title: "Company",
       links: [
         { label: "About Us", href: "/about" },
+        { label: "Reviews", href: "/reviews" },
         { label: "Blog", href: "/blog" },
         { label: "Contact", href: "/contact" },
       ],

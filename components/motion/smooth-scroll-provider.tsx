@@ -29,7 +29,15 @@ export function SmoothScrollProvider() {
       return;
     }
 
-    const lenis = new Lenis({ autoRaf: false });
+    // `lerp` 0.08 gives a slightly smoother glide than the 0.1 default while
+    // staying responsive (lower = floatier/laggier — don't go below ~0.07).
+    // Touch is left native (no `syncTouch`): smoothing mobile touch scroll
+    // feels laggy and fights the OS, so we only smooth wheel/trackpad input.
+    const lenis = new Lenis({
+      autoRaf: false,
+      lerp: 0.08,
+      smoothWheel: true,
+    });
 
     // Keep ScrollTrigger in sync with Lenis' smoothed scroll position.
     const onScroll = () => ScrollTrigger.update();

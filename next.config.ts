@@ -19,6 +19,47 @@ const nextConfig: NextConfig = {
     // every `quality` prop value to be allow-listed here.
     qualities: [60, 75],
   },
+  async redirects() {
+    return [
+      {
+        source: "/request-quote",
+        destination: "/contact",
+        permanent: true,
+      },
+      // Old /services/{slug} detail links never had a route — redirect each
+      // to its flat canonical SEO page so old links/bookmarks don't 404.
+      {
+        source: "/services/garage-door-repair",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/services/garage-door-installation",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/services/spring-repair",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/services/garage-door-opener-repair",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/services/emergency-garage-door-service",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/services/garage-door-maintenance",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

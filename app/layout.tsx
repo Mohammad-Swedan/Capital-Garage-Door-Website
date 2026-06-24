@@ -3,10 +3,8 @@ import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
-import { ScrollProgress } from "@/components/layout/scroll-progress";
-import { GarageDoorLoader } from "@/components/motion/garage-door-loader";
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { LazyMotionProvider } from "@/components/motion/lazy-motion-provider";
-import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
@@ -74,13 +72,10 @@ export default function RootLayout({
               "try{if(sessionStorage.getItem('cgd:welcomed'))document.documentElement.classList.add('intro-seen')}catch(e){}",
           }}
         />
-        <GarageDoorLoader />
-        <SmoothScrollProvider />
         <LazyMotionProvider>
-          <ScrollProgress />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <SiteChrome header={<Header />} footer={<Footer />}>
+            {children}
+          </SiteChrome>
         </LazyMotionProvider>
       </body>
     </html>

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
+import { cmsSitemap, type PageSitemapItem } from "@/lib/cms/client";
 import { getArticleSlugs } from "@/lib/data/articles";
 import { getProblemSlugs } from "@/lib/data/problems";
 import { getServicePageSlugs } from "@/lib/data/service-pages";
@@ -8,8 +9,19 @@ import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
 import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
 import { getCaseStudySlugs } from "@/lib/data/case-studies";
 
+/**
+ * XML sitemap for every public route.
+ *
+ * `lastModified` per dynamic entry comes from the CMS sitemap feed
+ * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL. When the CMS is off
+ * (content-fallback mode) the feed is empty and entries simply omit `lastModified`.
+ * `noIndex` pages (e.g. paid `/lp/*` landing pages, draft/hidden pages) are
+ * EXCLUDED — both by never listing /lp here and by dropping any CMS feed item
+ * flagged `noIndex`.
+ */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [
+    cmsFeed,
     blogSlugs,
     problemSlugs,
     servicePageSlugs,
@@ -18,6 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     suburbPageSlugs,
     caseStudySlugs,
   ] = await Promise.all([
+    cmsSitemap(),
     getArticleSlugs(),
     getProblemSlugs(),
     getServicePageSlugs(),
@@ -26,6 +39,35 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getServiceSuburbPageSlugs(),
     getCaseStudySlugs(),
   ]);
+
+  // Index the CMS feed by absolute URL for lastmod lookup, skipping noindex pages.
+  // The feed `href` is a site-relative path (e.g. "/garage-door-repairs-perth").
+  const lastmodByUrl = new Map<string, string>();
+  const noIndexUrls = new Set<string>();
+  for (const item of cmsFeed as PageSitemapItem[]) {
+    const url = absolute(item.href);
+    if (item.noIndex) {
+      noIndexUrls.add(url);
+      continue;
+    }
+    if (item.updatedAt) lastmodByUrl.set(url, item.updatedAt);
+  }
+
+  /** Build a sitemap entry, attaching lastmod from the CMS feed when known. */
+  const entry = (
+    path: string,
+    opts: { changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number },
+  ): MetadataRoute.Sitemap[number] | null => {
+    const url = absolute(path);
+    if (noIndexUrls.has(url)) return null; // never list noindex pages
+    const lastModified = lastmodByUrl.get(url);
+    return {
+      url,
+      changeFrequency: opts.changeFrequency,
+      priority: opts.priority,
+      ...(lastModified ? { lastModified: new Date(lastModified) } : {}),
+    };
+  };
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: siteConfig.url, changeFrequency: "weekly", priority: 1 },
@@ -41,56 +83,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/reviews`, changeFrequency: "weekly", priority: 0.8 },
   ];
 
-  const suburbPageRoutes: MetadataRoute.Sitemap = suburbPageSlugs.map((slug) => ({
-    url: `${siteConfig.url}/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.9,
-  }));
-
-  const blogRoutes: MetadataRoute.Sitemap = blogSlugs.map((slug) => ({
-    url: `${siteConfig.url}/blog/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.5,
-  }));
-
-  const problemRoutes: MetadataRoute.Sitemap = problemSlugs.map((slug) => ({
-    url: `${siteConfig.url}/problems/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
-  const servicePageRoutes: MetadataRoute.Sitemap = servicePageSlugs.map((slug) => ({
-    url: `${siteConfig.url}/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.9,
-  }));
-
-  const comparisonPageRoutes: MetadataRoute.Sitemap = comparisonPageSlugs.map((slug) => ({
-    url: `${siteConfig.url}/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
-  const costGuidePageRoutes: MetadataRoute.Sitemap = costGuidePageSlugs.map((slug) => ({
-    url: `${siteConfig.url}/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
-  const caseStudyRoutes: MetadataRoute.Sitemap = caseStudySlugs.map((slug) => ({
-    url: `${siteConfig.url}/case-studies/${slug}`,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  return [
-    ...staticRoutes,
-    ...blogRoutes,
-    ...problemRoutes,
-    ...servicePageRoutes,
-    ...comparisonPageRoutes,
-    ...costGuidePageRoutes,
-    ...suburbPageRoutes,
-    ...caseStudyRoutes,
+  const dynamic: Array<MetadataRoute.Sitemap[number] | null> = [
+    ...suburbPageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.9 })),
+    ...servicePageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.9 })),
+    ...comparisonPageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
+    ...costGuidePageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
+    ...blogSlugs.map((slug) => entry(`/blog/${slug}`, { changeFrequency: "monthly", priority: 0.5 })),
+    ...problemSlugs.map((slug) => entry(`/problems/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
+    ...caseStudySlugs.map((slug) => entry(`/case-studies/${slug}`, { changeFrequency: "monthly", priority: 0.6 })),
   ];
+
+  return [...staticRoutes, ...dynamic.filter((e): e is MetadataRoute.Sitemap[number] => e !== null)];
+}
+
+/** Resolve a site-relative path to an absolute URL, normalised to match siteConfig.url (no trailing slash). */
+function absolute(path: string): string {
+  if (/^https?:\/\//i.test(path)) return path.replace(/\/$/, "");
+  const url = new URL(path, siteConfig.url).toString();
+  return url.endsWith("/") ? url.slice(0, -1) : url;
 }

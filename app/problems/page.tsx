@@ -5,7 +5,9 @@ import { Reveal } from "@/components/motion/reveal";
 import { PageHero } from "@/components/sections/page-hero";
 import { InternalLinkCard } from "@/components/sections/internal-link-card";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getProblems } from "@/lib/data/problems";
+import { collectionPageSchema } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
@@ -22,6 +24,15 @@ export default async function ProblemsPage() {
 
   return (
     <>
+      <JsonLd
+        data={collectionPageSchema({
+          name: "Common Garage Door Problems",
+          description:
+            "Browse common garage door problems — causes, safe checks, and when to call a technician.",
+          path: "/problems",
+        })}
+      />
+
       <Container className="pt-6">
         <Breadcrumbs items={[{ name: "Home", url: "/" }, { name: "Problems", url: "/problems" }]} />
       </Container>

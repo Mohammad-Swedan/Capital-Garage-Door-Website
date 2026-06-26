@@ -6,8 +6,6 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import { SectionHeading } from "@/components/page/section-heading";
-import { JsonLd } from "@/components/seo/json-ld";
-import { faqSchema } from "@/lib/seo/schema";
 import type { FAQ } from "@/types";
 
 interface FAQSectionProps {
@@ -15,23 +13,23 @@ interface FAQSectionProps {
   title: string;
   description?: string;
   faqs: FAQ[];
-  /** Emit FAQPage JSON-LD (default true). Disable if another node covers it. */
-  emitSchema?: boolean;
 }
 
-/** FAQ accordion + FAQPage JSON-LD. Questions/answers render as real HTML. */
+/**
+ * FAQ accordion. Questions/answers render as real HTML for SEO/AEO; the matching
+ * FAQPage JSON-LD is emitted at the route level via `<PageSchema>`
+ * (components/seo/page-schema.tsx), keeping schema and visuals in separate files.
+ */
 export function FAQSection({
   eyebrow,
   title,
   description,
   faqs,
-  emitSchema = true,
 }: FAQSectionProps) {
   if (faqs.length === 0) return null;
 
   return (
     <section className="bg-background">
-      {emitSchema && <JsonLd data={faqSchema(faqs)} />}
       <Container className="py-12 sm:py-16">
         <SectionHeading eyebrow={eyebrow} title={title} description={description} />
         <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-border bg-card px-5 shadow-sm ring-1 ring-foreground/5 sm:px-7">

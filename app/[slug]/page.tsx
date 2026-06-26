@@ -4,6 +4,7 @@ import { ServicePageTemplate } from "@/components/sections/service/service-page-
 import { ComparisonPageTemplate } from "@/components/sections/comparison/comparison-page-template";
 import { CostGuidePageTemplate } from "@/components/sections/cost-guide/cost-guide-page-template";
 import { ServiceSuburbPageTemplate } from "@/components/page/service-suburb-page-template";
+import { PageSchema } from "@/components/seo/page-schema";
 import { getServicePageBySlug, getServicePageSlugs } from "@/lib/data/service-pages";
 import { getComparisonPageBySlug, getComparisonPageSlugs } from "@/lib/data/comparison-pages";
 import { getCostGuidePageBySlug, getCostGuidePageSlugs } from "@/lib/data/cost-guides";
@@ -64,6 +65,7 @@ export async function generateMetadata({ params }: FlatLandingPageProps): Promis
       title: comparisonPage.seo.title,
       description: comparisonPage.seo.description,
       path: `/${comparisonPage.slug}`,
+      lastModified: comparisonPage.updatedAt || undefined,
     });
   }
 
@@ -73,6 +75,7 @@ export async function generateMetadata({ params }: FlatLandingPageProps): Promis
       title: costGuidePage.seo.title,
       description: costGuidePage.seo.description,
       path: `/${costGuidePage.slug}`,
+      lastModified: costGuidePage.updatedAt || undefined,
     });
   }
 
@@ -93,22 +96,42 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
 
   const servicePage = await getServicePageBySlug(slug);
   if (servicePage) {
-    return <ServicePageTemplate data={servicePage} />;
+    return (
+      <>
+        <PageSchema kind="service" data={servicePage} />
+        <ServicePageTemplate data={servicePage} />
+      </>
+    );
   }
 
   const comparisonPage = await getComparisonPageBySlug(slug);
   if (comparisonPage) {
-    return <ComparisonPageTemplate data={comparisonPage} />;
+    return (
+      <>
+        <PageSchema kind="comparison" data={comparisonPage} />
+        <ComparisonPageTemplate data={comparisonPage} />
+      </>
+    );
   }
 
   const costGuidePage = await getCostGuidePageBySlug(slug);
   if (costGuidePage) {
-    return <CostGuidePageTemplate data={costGuidePage} />;
+    return (
+      <>
+        <PageSchema kind="cost-guide" data={costGuidePage} />
+        <CostGuidePageTemplate data={costGuidePage} />
+      </>
+    );
   }
 
   const suburbPage = await getServiceSuburbPageBySlug(slug);
   if (suburbPage) {
-    return <ServiceSuburbPageTemplate page={suburbPage} />;
+    return (
+      <>
+        <PageSchema kind="service-suburb" data={suburbPage} />
+        <ServiceSuburbPageTemplate page={suburbPage} />
+      </>
+    );
   }
 
   notFound();

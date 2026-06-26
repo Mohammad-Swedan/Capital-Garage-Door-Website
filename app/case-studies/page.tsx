@@ -5,7 +5,9 @@ import { Reveal } from "@/components/motion/reveal";
 import { PageHero } from "@/components/sections/page-hero";
 import { InternalLinkCard } from "@/components/sections/internal-link-card";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getCaseStudies } from "@/lib/data/case-studies";
+import { collectionPageSchema } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
@@ -22,6 +24,15 @@ export default async function CaseStudiesPage() {
 
   return (
     <>
+      <JsonLd
+        data={collectionPageSchema({
+          name: "Garage Door Case Studies",
+          description:
+            "Real completed garage door repairs, motor replacements, and installations across Perth.",
+          path: "/case-studies",
+        })}
+      />
+
       <Container className="pt-6">
         <Breadcrumbs items={[{ name: "Home", url: "/" }, { name: "Case Studies", url: "/case-studies" }]} />
       </Container>

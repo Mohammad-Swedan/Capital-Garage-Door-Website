@@ -1,7 +1,6 @@
 import { SmartCta } from "@/components/sections/smart-cta";
 import { CalendarCheck, FileText } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
-import { JsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { DirectAnswer } from "@/components/sections/direct-answer";
@@ -13,7 +12,6 @@ import { ArticleContent } from "@/components/sections/blog/article-content";
 import { ExpertTipCards } from "@/components/sections/blog/expert-tip-cards";
 import { RelatedServicesCta } from "@/components/sections/blog/related-services-cta";
 import { RelatedArticles } from "@/components/sections/blog/related-articles";
-import { blogArticleSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { Article } from "@/types/article";
 
@@ -32,8 +30,6 @@ export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
 
   return (
     <>
-      <JsonLd data={blogArticleSchema(article)} />
-
       <Container className="pt-6">
         <Breadcrumbs
           items={[

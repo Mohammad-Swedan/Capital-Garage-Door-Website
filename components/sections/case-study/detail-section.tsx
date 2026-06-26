@@ -32,7 +32,7 @@ export function DetailSection({ icon: Icon, heading, block, tone = "default", pa
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
-              <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+              <h2 className="cgd-h2 text-balance text-foreground">
                 {heading}
               </h2>
             </div>

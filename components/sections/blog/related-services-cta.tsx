@@ -17,7 +17,7 @@ export function RelatedServicesCta({ heading = "Need a Hand With This?", service
       <Container>
         <EditableGroup label="Related services · edit in Settings → Links">
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
+          <h2 className="cgd-h2 text-balance text-foreground">{heading}</h2>
         </Reveal>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (

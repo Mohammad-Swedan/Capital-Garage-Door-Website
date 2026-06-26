@@ -18,10 +18,11 @@ export function ServiceAreaGrid({ heading = "Areas We Service", areas }: Service
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Coverage</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
-          <p className="mt-3 max-w-2xl text-muted-foreground">
+          <p className="mt-3 max-w-2xl cgd-lead text-muted-foreground">
             Capital Garage Door provides this service across Perth, including:
           </p>
         </Reveal>
@@ -35,8 +36,8 @@ export function ServiceAreaGrid({ heading = "Areas We Service", areas }: Service
               addLabel="Add suburb"
               getKey={(area, i) => area || i}
               renderItem={(area, index) => (
-                <li className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground">
-                  <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                <li className="flex items-center gap-2 rounded-xl border border-border/70 bg-surface-elevated px-4 py-3 text-sm font-medium text-foreground shadow-card transition-all duration-300 hover:-translate-y-0.5 hover:border-brand/30">
+                  <MapPin className="h-4 w-4 shrink-0 text-brand" aria-hidden="true" />
                   <EditableText path={`serviceAreas[${index}]`} singleLine placeholder="Suburb…">
                     {area}
                   </EditableText>

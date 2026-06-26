@@ -27,7 +27,7 @@ export function ProblemCards({ eyebrow, title, description, problems }: ProblemC
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                   <div>
-                    <h3 className="font-heading text-base font-semibold text-foreground">
+                    <h3 className="cgd-h3 text-base text-foreground">
                       {problem.title}
                     </h3>
                     <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">

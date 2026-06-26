@@ -21,7 +21,7 @@ export function SafetyChecklist({
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
         </Reveal>

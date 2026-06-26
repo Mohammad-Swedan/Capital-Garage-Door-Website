@@ -42,7 +42,7 @@ export function ServiceCards({ eyebrow, title, description, services }: ServiceC
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </EditableIcon>
                   </span>
-                  <h3 className="mt-4 flex items-center gap-1.5 font-heading text-base font-semibold text-foreground">
+                  <h3 className="mt-4 flex items-center gap-1.5 cgd-h3 text-base text-foreground">
                     <EditableText path={`availableServices[${i}].title`} singleLine placeholder="Service title…">
                       {service.title}
                     </EditableText>

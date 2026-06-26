@@ -17,7 +17,7 @@ export function RelatedArticles({ heading = "Related Articles", articles }: Rela
       <Container>
         <EditableGroup label="Related articles · edit in Settings → Links">
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
+          <h2 className="cgd-h2 text-balance text-foreground">{heading}</h2>
         </Reveal>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article, index) => (
@@ -31,7 +31,7 @@ export function RelatedArticles({ heading = "Related Articles", articles }: Rela
                     {article.category}
                   </span>
                 )}
-                <h3 className="mt-3 font-heading text-base font-semibold text-foreground group-hover:text-cta sm:text-lg">
+                <h3 className="mt-3 cgd-h3 text-base text-foreground group-hover:text-cta sm:text-lg">
                   {article.title}
                 </h3>
                 {article.excerpt && (

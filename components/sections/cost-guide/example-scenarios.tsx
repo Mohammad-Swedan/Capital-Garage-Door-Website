@@ -24,7 +24,7 @@ export function ExampleScenarios({ heading, items }: ExampleScenariosProps) {
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <h2 className="cgd-h2 text-balance text-foreground">
             <EditableText path="scenarios.heading" placeholder="Section heading…">
               {heading}
             </EditableText>
@@ -47,7 +47,7 @@ export function ExampleScenarios({ heading, items }: ExampleScenariosProps) {
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </EditableIcon>
                     </span>
-                    <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
+                    <h3 className="mt-4 cgd-h3 text-base text-foreground">
                       <EditableText path={`scenarios.items[${index}].title`} placeholder="Scenario title…">
                         {item.title}
                       </EditableText>

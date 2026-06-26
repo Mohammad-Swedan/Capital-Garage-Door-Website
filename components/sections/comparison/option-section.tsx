@@ -37,7 +37,7 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
                 <icons.Resolved className="h-5 w-5" aria-hidden="true" />
               </EditableIcon>
             </span>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <h2 className="cgd-h2 text-balance text-foreground">
               <EditableText path={`${pathPrefix}.name`} singleLine placeholder="Option name…">
                 {option.name}
               </EditableText>
@@ -76,7 +76,7 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
 
           <Reveal delay={0.1}>
             <div className="h-full rounded-2xl border border-border bg-muted/40 p-6">
-              <h3 className="font-heading text-base font-semibold text-foreground">Limitations</h3>
+              <h3 className="cgd-h3 text-base text-foreground">Limitations</h3>
               <ul className="mt-4 space-y-3">
                 <EditableList<string>
                   path={`${pathPrefix}.limitations`}

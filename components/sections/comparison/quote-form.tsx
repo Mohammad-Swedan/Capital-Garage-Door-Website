@@ -48,7 +48,7 @@ export function ComparisonQuoteForm({ topicLabel, heading = "Get a Free Quote" }
   return (
     <div id="quote" className="rounded-3xl border border-border bg-card p-6 shadow-[0_8px_32px_rgba(13,31,69,0.08)] sm:p-8">
       <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
-        <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 className="cgd-h2 text-balance text-foreground">
           {heading}
         </h2>
         <a

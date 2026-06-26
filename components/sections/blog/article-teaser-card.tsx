@@ -23,7 +23,7 @@ export function ArticleTeaserCard({ teaser }: ArticleTeaserCardProps) {
           Coming Soon
         </span>
       </div>
-      <h3 className="font-heading text-base font-semibold text-foreground sm:text-lg">{teaser.title}</h3>
+      <h3 className="cgd-h3 text-base text-foreground sm:text-lg">{teaser.title}</h3>
       <p className="flex-1 text-sm leading-relaxed text-muted-foreground">{teaser.description}</p>
     </div>
   );

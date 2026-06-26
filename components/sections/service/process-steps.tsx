@@ -18,11 +18,12 @@ export function ProcessSteps({ heading = "How Our Repair Process Works", steps }
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Our Process</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
         </Reveal>
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           <EditableList<ServiceProcessStep>
             path="processSteps"
             items={steps}
@@ -33,18 +34,18 @@ export function ProcessSteps({ heading = "How Our Repair Process Works", steps }
               const Icon = resolveIcon(step.icon);
               return (
                 <Reveal delay={index * 0.06}>
-                  <div className="relative flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5">
+                  <div className="group relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated">
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-transform duration-300 group-hover:scale-105">
                         <EditableIcon path={`processSteps[${index}].icon`}>
                           <Icon className="h-5 w-5" aria-hidden="true" />
                         </EditableIcon>
                       </span>
-                      <span className="font-display text-2xl font-black text-primary/20">
+                      <span className="font-display text-3xl font-black text-gradient-brand opacity-30">
                         {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="font-heading text-base font-semibold text-foreground">
+                    <h3 className="cgd-h3 text-base text-foreground">
                       <EditableText path={`processSteps[${index}].title`} placeholder="Step title…">
                         {step.title}
                       </EditableText>

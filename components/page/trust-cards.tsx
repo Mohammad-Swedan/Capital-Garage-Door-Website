@@ -26,7 +26,7 @@ export function TrustCards({ eyebrow, title, description, reasons }: TrustCardsP
                   <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
+                  <h3 className="mt-4 cgd-h3 text-base text-foreground">
                     {reason.title}
                   </h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">

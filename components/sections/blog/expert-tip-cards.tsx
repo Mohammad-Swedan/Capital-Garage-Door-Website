@@ -25,7 +25,7 @@ export function ExpertTipCards({ heading = "Expert Tips", tips }: ExpertTipCards
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
+          <h2 className="cgd-h2 text-balance text-foreground">{heading}</h2>
         </Reveal>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <EditableList<ExpertTip>
@@ -44,7 +44,7 @@ export function ExpertTipCards({ heading = "Expert Tips", tips }: ExpertTipCards
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <p className="mt-4 text-xs font-bold tracking-wide text-muted-foreground uppercase">{style.label}</p>
-                    <h3 className="mt-1 font-heading text-base font-semibold text-foreground">
+                    <h3 className="mt-1 cgd-h3 text-base text-foreground">
                       <EditableText path={`expertTips[${index}].title`} placeholder="Tip title…">
                         {tip.title}
                       </EditableText>

@@ -33,7 +33,7 @@ export function SectionHeading({
           {eyebrow}
         </span>
       )}
-      <Heading className="text-balance font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2.25rem] lg:leading-[1.15]">
+      <Heading className="text-balance cgd-h2 text-balance text-foreground lg:text-[2.25rem] lg:leading-[1.15]">
         {title}
       </Heading>
       {description && (

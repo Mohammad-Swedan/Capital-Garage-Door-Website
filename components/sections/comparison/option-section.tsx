@@ -28,13 +28,13 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
   const icons = { Resolved: resolveIcon(option.icon) };
 
   return (
-    <section className={cn("py-14 sm:py-20", tone === "subtle" ? "bg-muted/30" : "bg-background")}>
+    <section className={cn("py-14 sm:py-20", tone === "subtle" ? "bg-surface-muted" : "bg-background")}>
       <Container>
         <Reveal>
-          <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <div className="flex items-center gap-3.5">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-elevated ring-1 ring-white/15">
               <EditableIcon path={`${pathPrefix}.icon`}>
-                <icons.Resolved className="h-5 w-5" aria-hidden="true" />
+                <icons.Resolved className="h-5.5 w-5.5" aria-hidden="true" />
               </EditableIcon>
             </span>
             <h2 className="cgd-h2 text-balance text-foreground">
@@ -43,7 +43,7 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
               </EditableText>
             </h2>
           </div>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-3xl cgd-lead text-muted-foreground">
             <EditableText path={`${pathPrefix}.summary`} placeholder="Option summary…">
               {option.summary}
             </EditableText>
@@ -52,8 +52,8 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <Reveal>
-            <div className="h-full rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-6">
-              <h3 className="font-heading text-base font-semibold text-emerald-700">Benefits</h3>
+            <div className="h-full rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-6 shadow-card">
+              <h3 className="cgd-h3 text-base text-emerald-700">Benefits</h3>
               <ul className="mt-4 space-y-3">
                 <EditableList<string>
                   path={`${pathPrefix}.benefits`}
@@ -75,7 +75,7 @@ export function OptionSection({ option, tone = "default", pathPrefix = "optionA"
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="h-full rounded-2xl border border-border bg-muted/40 p-6">
+            <div className="h-full rounded-2xl border border-border/70 bg-surface-muted p-6 shadow-card">
               <h3 className="cgd-h3 text-base text-foreground">Limitations</h3>
               <ul className="mt-4 space-y-3">
                 <EditableList<string>

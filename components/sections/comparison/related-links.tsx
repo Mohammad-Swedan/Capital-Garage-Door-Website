@@ -23,11 +23,12 @@ export function ComparisonRelatedLinks({ heading = "Related Services", links }: 
       <Container>
         <EditableGroup label="Related links · edit in Settings → Links">
           <Reveal>
-            <h2 className="cgd-h2 text-balance text-foreground">
+            <span className="cgd-eyebrow text-cta">Explore More</span>
+            <h2 className="mt-3 cgd-h2 text-balance text-foreground">
               {heading}
             </h2>
           </Reveal>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          <div className="mt-9 grid gap-4 sm:grid-cols-2">
             {links.map((link, index) => (
               <Reveal key={link.href} delay={index * 0.05}>
                 <InternalLinkCard

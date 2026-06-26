@@ -1,8 +1,10 @@
 import { SmartCta } from "@/components/sections/smart-cta";
+import { CalendarCheck, FileText } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { DirectAnswer } from "@/components/sections/direct-answer";
+import { CTASection } from "@/components/sections/cta-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { ArticleHero } from "@/components/sections/blog/article-hero";
 import { TableOfContents } from "@/components/sections/blog/table-of-contents";
@@ -10,6 +12,7 @@ import { ArticleContent } from "@/components/sections/blog/article-content";
 import { ExpertTipCards } from "@/components/sections/blog/expert-tip-cards";
 import { RelatedServicesCta } from "@/components/sections/blog/related-services-cta";
 import { RelatedArticles } from "@/components/sections/blog/related-articles";
+import { siteConfig } from "@/config/site";
 import type { Article } from "@/types/article";
 
 interface ArticlePageTemplateProps {
@@ -23,6 +26,8 @@ interface ArticlePageTemplateProps {
  * changes needed.
  */
 export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
+  const phone = siteConfig.business.phone;
+
   return (
     <>
       <Container className="pt-6">

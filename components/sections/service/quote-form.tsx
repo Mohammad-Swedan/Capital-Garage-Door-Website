@@ -65,9 +65,9 @@ export function ServiceQuoteForm({ serviceName, heading = "Request a Free Quote"
   }, []);
 
   return (
-    <div id="quote" className="rounded-3xl border border-border/70 bg-surface-elevated p-6 elevate-elevated sm:p-8">
+    <div id="quote" className="rounded-3xl border border-border bg-card p-6 shadow-[0_8px_32px_rgba(13,31,69,0.08)] sm:p-8">
       <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
-        <h2 className="cgd-h2 text-balance text-foreground">
+        <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
           {heading}
         </h2>
         <a
@@ -193,9 +193,8 @@ export function ServiceQuoteForm({ serviceName, heading = "Request a Free Quote"
         <Button
           type="submit"
           size="lg"
-          variant="cta"
           disabled={isPending}
-          className="h-12 w-full rounded-xl text-base"
+          className="h-12 w-full rounded-xl bg-cta text-base text-cta-foreground hover:bg-cta/90"
         >
           {isPending ? "Sending..." : "Request a Quote"}
         </Button>

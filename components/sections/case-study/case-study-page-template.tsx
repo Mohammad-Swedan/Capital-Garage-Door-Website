@@ -1,13 +1,21 @@
+"use client";
+
 import { SmartCta } from "@/components/sections/smart-cta";
-import { AlertTriangle, Search, Wrench } from "lucide-react";
+import { AlertTriangle, Search, Wrench, Phone, FileText } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Container } from "@/components/layout/container";
+import { Reveal } from "@/components/motion/reveal";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
+import { CTASection } from "@/components/sections/cta-section";
+import { FAQSection } from "@/components/sections/faq-section";
+import { InternalLinkCard } from "@/components/sections/internal-link-card";
 import { IncludedChecklist } from "@/components/sections/service/included-checklist";
+import { ServiceQuoteForm } from "@/components/sections/service/quote-form";
 import { CaseStudyHero } from "@/components/sections/case-study/case-study-hero";
 import { JobSummaryCards } from "@/components/sections/case-study/job-summary-cards";
 import { DetailSection } from "@/components/sections/case-study/detail-section";
 import { BeforeAfterGallery } from "@/components/sections/case-study/before-after-gallery";
+import { siteConfig } from "@/config/site";
 import type { CaseStudyPage } from "@/types/case-study";
 
 interface CaseStudyPageTemplateProps {
@@ -21,6 +29,8 @@ interface CaseStudyPageTemplateProps {
  * completed job — no component changes needed.
  */
 export function CaseStudyPageTemplate({ data }: CaseStudyPageTemplateProps) {
+  const phone = siteConfig.business.phone;
+
   return (
     <>
       <Container className="pt-6">
@@ -37,11 +47,11 @@ export function CaseStudyPageTemplate({ data }: CaseStudyPageTemplateProps) {
 
       <JobSummaryCards data={data} />
 
-      <DetailSection icon={<AlertTriangle className="h-5.5 w-5.5" aria-hidden="true" />} heading="Customer Problem" block={data.problem} tone="default" pathPrefix="problem" />
+      <DetailSection icon={AlertTriangle} heading="Customer Problem" block={data.problem} tone="default" pathPrefix="problem" />
 
-      <DetailSection icon={<Search className="h-5.5 w-5.5" aria-hidden="true" />} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" pathPrefix="diagnosis" />
+      <DetailSection icon={Search} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" pathPrefix="diagnosis" />
 
-      <DetailSection icon={<Wrench className="h-5.5 w-5.5" aria-hidden="true" />} heading="Solution" block={data.solution} tone="default" pathPrefix="solution" />
+      <DetailSection icon={Wrench} heading="Solution" block={data.solution} tone="default" pathPrefix="solution" />
 
       <BeforeAfterGallery images={data.images} />
 

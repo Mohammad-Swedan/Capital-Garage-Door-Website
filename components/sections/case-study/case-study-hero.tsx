@@ -38,14 +38,14 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
       <Container className="relative z-10 py-12 sm:py-16 lg:py-20">
         <div className="flex max-w-3xl flex-col items-start gap-5 sm:gap-6">
           <Reveal>
-            <span className="cgd-eyebrow inline-flex items-center gap-2 rounded-full border border-emerald-600/20 bg-emerald-600/10 px-3.5 py-1.5 text-emerald-700">
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-600/20 bg-emerald-600/10 px-3.5 py-1.5 text-[11px] font-bold tracking-wider text-emerald-700 uppercase sm:text-xs">
               <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
               Completed Job · Local Proof
             </span>
           </Reveal>
 
           <Reveal delay={0.06}>
-            <h1 className="cgd-display-fluid text-balance text-foreground">
+            <h1 className="text-balance font-display text-3xl leading-[1.1] font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               <EditableText path="title" placeholder="Case study title…" aria-label="Case study title">
                 {data.title}
               </EditableText>
@@ -53,7 +53,7 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
           </Reveal>
 
           <Reveal delay={0.12}>
-            <p className="max-w-xl text-pretty cgd-lead text-muted-foreground">
+            <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               <EditableText path="subtitle" placeholder="Subtitle…" aria-label="Subtitle">
                 {data.subtitle}
               </EditableText>
@@ -75,12 +75,12 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
             {stats.map((stat) => (
               <div
                 key={stat.label}
-                className="group flex flex-col gap-2 rounded-2xl border border-border/70 bg-surface-elevated p-4 elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated"
+                className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 shadow-sm ring-1 ring-foreground/5"
               >
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-transform duration-300 group-hover:scale-105">
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <stat.icon className="h-4.5 w-4.5" aria-hidden="true" />
                 </span>
-                <p className="cgd-eyebrow text-[11px] text-muted-foreground">{stat.label}</p>
+                <p className="text-[11px] font-bold tracking-wide text-muted-foreground uppercase">{stat.label}</p>
                 <p className="font-heading text-sm font-semibold text-foreground sm:text-base">
                   <EditableText path={stat.path} singleLine placeholder={`${stat.label}…`} aria-label={stat.label}>
                     {stat.value}

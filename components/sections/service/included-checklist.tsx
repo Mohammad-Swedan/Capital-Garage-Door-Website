@@ -17,13 +17,12 @@ export function IncludedChecklist({ heading = "What's Included", items }: Includ
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">What You Get</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
         </Reveal>
         <Reveal delay={0.1} className="mt-8">
-          <ul className="grid gap-3 rounded-3xl border border-border/70 bg-surface-elevated p-6 elevate-card sm:grid-cols-2 sm:p-8">
+          <ul className="grid gap-3 rounded-2xl border border-border bg-card p-6 sm:grid-cols-2 sm:p-8">
             <EditableList<string>
               path="includedItems"
               items={items}

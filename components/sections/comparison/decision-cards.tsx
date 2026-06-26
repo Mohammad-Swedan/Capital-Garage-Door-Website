@@ -38,12 +38,11 @@ export function DecisionCards({ heading = "Which One Should You Choose?", cards 
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Decision Guide</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
         </Reveal>
-        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <EditableList<ComparisonDecisionCard>
             path="decisionCards"
             items={cards}
@@ -55,10 +54,10 @@ export function DecisionCards({ heading = "Which One Should You Choose?", cards 
               const tone = TONE_STYLES[card.tone];
               return (
                 <Reveal delay={index * 0.05}>
-                  <div className={cn("group h-full rounded-2xl border p-5 shadow-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated", tone.border, tone.bg)}>
+                  <div className={cn("h-full rounded-2xl border p-5", tone.border, tone.bg)}>
                     <span
                       className={cn(
-                        "flex h-11 w-11 items-center justify-center rounded-xl bg-surface-elevated shadow-card transition-transform duration-300 group-hover:scale-105",
+                        "flex h-10 w-10 items-center justify-center rounded-xl bg-card",
                         tone.text,
                       )}
                     >
@@ -66,7 +65,7 @@ export function DecisionCards({ heading = "Which One Should You Choose?", cards 
                         <Icon className="h-5 w-5" aria-hidden="true" />
                       </EditableIcon>
                     </span>
-                    <h3 className={cn("mt-4 cgd-h3 text-base", tone.text)}>
+                    <h3 className={cn("mt-4 font-heading text-base font-semibold", tone.text)}>
                       <EditableText path={`decisionCards[${index}].heading`} placeholder="Card heading…">
                         {card.heading}
                       </EditableText>

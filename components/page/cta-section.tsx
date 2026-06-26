@@ -10,20 +10,20 @@ interface CTASectionProps {
 /** Final conversion band — navy background, strong CTAs. */
 export function CTASection({ title, description }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-navy">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#0d1f60] to-[#0a1733]">
       {/* Ambient glows */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -top-20 right-10 h-72 w-72 rounded-full bg-[#0f4e9b]/30 blur-3xl" />
         <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-cta/20 blur-3xl" />
       </div>
 
-      <Container className="relative z-10 py-16 sm:py-24">
+      <Container className="relative z-10 py-14 sm:py-20">
         <Reveal className="mx-auto flex max-w-2xl flex-col items-center text-center">
-          <h2 className="text-balance cgd-h1 text-white">
+          <h2 className="text-balance font-display text-2xl font-black tracking-tight text-white sm:text-3xl lg:text-4xl">
             {title}
           </h2>
           {description && (
-            <p className="mt-4 max-w-xl text-pretty cgd-lead text-white/80">
+            <p className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-white/70">
               {description}
             </p>
           )}

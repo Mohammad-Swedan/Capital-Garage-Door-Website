@@ -16,13 +16,12 @@ export function IntroSection({ heading, paragraphs }: IntroSectionProps) {
     <section className="bg-background py-14 sm:py-20">
       <Container className="max-w-3xl">
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Overview</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             <EditableText path="intro.heading" placeholder="Section heading…">
               {heading}
             </EditableText>
           </h2>
-          <div className="mt-6 space-y-4">
+          <div className="mt-5 space-y-4">
             <EditableList<string>
               path="intro.paragraphs"
               items={paragraphs}
@@ -30,7 +29,7 @@ export function IntroSection({ heading, paragraphs }: IntroSectionProps) {
               addLabel="Add paragraph"
               getKey={(_p, i) => i}
               renderItem={(paragraph, index) => (
-                <p className="cgd-lead text-muted-foreground">
+                <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
                   <EditableText path={`intro.paragraphs[${index}]`} placeholder="Paragraph…">
                     {paragraph}
                   </EditableText>

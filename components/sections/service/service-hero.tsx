@@ -43,22 +43,15 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
         <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="flex flex-col items-start gap-5 sm:gap-6">
             <Reveal>
-              <span className="inline-flex items-center gap-2 rounded-full bg-cta-soft px-3.5 py-1.5 text-cta">
-                <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="cgd-eyebrow">Licensed Perth Specialists</span>
-              </span>
-            </Reveal>
-
-            <Reveal delay={0.04}>
-              <h1 className="cgd-display-fluid text-balance text-foreground">
+              <h1 className="text-balance font-display text-3xl leading-[1.1] font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 <EditableText path="hero.h1" placeholder="Hero heading…" aria-label="Hero heading">
                   {hero.h1}
                 </EditableText>
               </h1>
             </Reveal>
 
-            <Reveal delay={0.1}>
-              <p className="max-w-xl text-pretty cgd-lead text-muted-foreground">
+            <Reveal delay={0.06}>
+              <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
                   {hero.subtitle}
                 </EditableText>
@@ -105,7 +98,7 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
           </div>
 
           <Reveal delay={0.1} className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-navy shadow-float ring-1 ring-white/10">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d1f60] to-[#0a1733] shadow-[0_30px_60px_rgba(13,31,69,0.25)] ring-1 ring-white/10">
               <EditableImage
                 path="hero.image"
                 src={hero.image}
@@ -120,8 +113,8 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
                 className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(125,211,252,0.18),transparent_60%)]"
               />
 
-              <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-2xl border border-white/20 bg-white/95 p-3.5 shadow-elevated backdrop-blur-sm sm:left-5 sm:right-auto sm:max-w-[17rem] dark:bg-surface-elevated/95">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
+              <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-2xl border border-white/20 bg-white/95 p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.25)] backdrop-blur-sm sm:left-5 sm:right-auto sm:max-w-[17rem]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0f4e9b]/10 text-[#0f4e9b]">
                   <Sparkles className="h-4.5 w-4.5" aria-hidden="true" />
                 </span>
                 <p className="text-[13px] font-bold leading-snug text-foreground">

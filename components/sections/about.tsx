@@ -78,7 +78,7 @@ export function AboutSection() {
 
             <Link
               href="/contact"
-              className="group inline-flex items-center justify-center gap-1.5 rounded-full bg-gradient-cta px-4 py-2 text-sm font-bold text-cta-foreground shadow-elevated transition-all hover:-translate-y-0.5 hover:shadow-float active:translate-y-0 active:scale-95 motion-reduce:hover:translate-y-0 w-fit md:px-6 md:py-2.5 md:text-base"
+              className="group inline-flex items-center justify-center gap-1.5 rounded-full bg-cta px-4 py-2 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:-translate-y-0.5 hover:bg-cta/90 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95 w-fit md:px-6 md:py-2.5 md:text-base"
             >
               Get Your Free Quote
               <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />

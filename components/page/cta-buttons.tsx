@@ -16,13 +16,13 @@ const BookingDialog = dynamic(
    red CTA, soft lift on hover, press feedback). Exported so other sections
    (e.g. the final CTA band) reuse the exact same look. */
 export const ctaPrimaryClass =
-  "inline-flex items-center justify-center gap-2 rounded-full bg-gradient-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-elevated transition-all hover:-translate-y-0.5 hover:shadow-float active:scale-95 active:translate-y-0 motion-reduce:hover:translate-y-0";
+  "inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:bg-cta/90 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:scale-95 active:translate-y-0";
 
 export const ctaSecondaryClass =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-brand/25 bg-brand-soft px-6 py-3 text-sm font-bold text-brand shadow-card transition-all hover:-translate-y-0.5 hover:bg-[color-mix(in_oklab,var(--brand),transparent_82%)] active:scale-95 active:translate-y-0 motion-reduce:hover:translate-y-0";
+  "inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/5 px-6 py-3 text-sm font-bold text-primary transition-all hover:bg-primary/10 hover:-translate-y-0.5 active:scale-95 active:translate-y-0";
 
 export const ctaGhostClass =
-  "inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:-translate-y-0.5 active:scale-95 active:translate-y-0 motion-reduce:hover:translate-y-0";
+  "inline-flex items-center justify-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 hover:-translate-y-0.5 active:scale-95 active:translate-y-0";
 
 interface CtaProps {
   className?: string;

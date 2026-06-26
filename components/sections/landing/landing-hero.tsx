@@ -43,20 +43,20 @@ export function LandingHero({ page }: LandingHeroProps) {
           {/* Copy + CTAs */}
           <div className="flex flex-col items-start gap-5 sm:gap-6">
             {page.hero.eyebrow && (
-              <span className="cgd-eyebrow inline-flex items-center gap-2 rounded-full bg-cta-soft px-3.5 py-1.5 text-cta">
+              <span className="inline-flex items-center gap-2 rounded-full border border-cta/20 bg-cta/10 px-3.5 py-1.5 text-xs font-bold tracking-wide text-cta uppercase">
                 <EditableText path="hero.eyebrow" singleLine placeholder="Eyebrow…" aria-label="Hero eyebrow">
                   {page.hero.eyebrow}
                 </EditableText>
               </span>
             )}
 
-            <h1 className="cgd-display-fluid text-balance text-foreground">
+            <h1 className="text-balance font-display text-[clamp(1.75rem,5vw,3rem)] leading-[1.08] font-black tracking-tight text-foreground">
               <EditableText path="hero.h1" placeholder="Hero heading…" aria-label="Hero heading">
                 {page.hero.h1}
               </EditableText>
             </h1>
 
-            <p className="text-pretty max-w-xl cgd-lead text-muted-foreground">
+            <p className="text-pretty max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
               <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
                 {page.hero.subtitle}
               </EditableText>
@@ -65,14 +65,14 @@ export function LandingHero({ page }: LandingHeroProps) {
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
               <a
                 href={`tel:${business.phone}`}
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-cta px-8 text-base font-bold text-cta-foreground shadow-elevated transition-all hover:-translate-y-px hover:shadow-float motion-reduce:hover:translate-y-0 sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-cta px-8 text-base font-bold text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] transition-transform hover:scale-[1.03] hover:bg-cta/90 sm:w-auto"
               >
                 <Phone className="h-5 w-5" aria-hidden="true" />
                 Call Now
               </a>
               <a
                 href="#quote"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-brand/35 bg-brand-soft px-8 text-base font-bold text-brand transition-all hover:-translate-y-px hover:bg-[color-mix(in_oklab,var(--brand),transparent_82%)] motion-reduce:hover:translate-y-0 sm:w-auto"
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-[#0f4e9b]/35 bg-[#0f4e9b]/5 px-8 text-base font-bold text-[#0f4e9b] transition-transform hover:scale-[1.03] hover:bg-[#0f4e9b]/10 sm:w-auto"
               >
                 <FileText className="h-5 w-5" aria-hidden="true" />
                 Request {page.serviceLabel.includes("Emergency") ? "Emergency Repair" : "a Quote"}
@@ -110,8 +110,8 @@ export function LandingHero({ page }: LandingHeroProps) {
             </ul>
 
             {page.directAnswer && (
-              <div className="mt-1 flex items-start gap-3 rounded-2xl border border-brand/15 bg-brand-soft p-4 text-sm leading-relaxed text-foreground shadow-card sm:text-base">
-                <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-brand" aria-hidden="true" />
+              <div className="mt-1 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm leading-relaxed text-foreground sm:text-base">
+                <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
                 <p>
                   <EditableText path="directAnswer" placeholder="Direct answer…" aria-label="Direct answer">
                     {page.directAnswer}
@@ -124,9 +124,9 @@ export function LandingHero({ page }: LandingHeroProps) {
           {/* Lead form */}
           <div
             id="quote"
-            className="scroll-mt-24 rounded-3xl border border-border/70 bg-surface-elevated p-6 elevate-float sm:p-7"
+            className="scroll-mt-24 rounded-3xl border border-border bg-card p-6 shadow-[0_18px_50px_rgba(13,31,69,0.12)] ring-1 ring-foreground/5 sm:p-7"
           >
-            <h2 className="cgd-h3 text-xl text-foreground sm:text-2xl">
+            <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
               <EditableText path="form.heading" placeholder="Form heading…" aria-label="Form heading">
                 {page.form.heading}
               </EditableText>

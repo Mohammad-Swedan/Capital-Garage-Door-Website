@@ -23,26 +23,16 @@ export function DirectAnswer({ heading = "Quick Answer", answer, path = "directA
   return (
     <section className="bg-background pb-2 sm:pb-4">
       <Container>
-        <div className="group/answer relative overflow-hidden rounded-3xl border-gradient-brand bg-surface-elevated p-6 elevate-card sm:p-8">
-          {/* Brand accent rail down the start edge */}
-          <span
-            aria-hidden="true"
-            className="absolute inset-y-0 start-0 w-1 bg-gradient-cta"
-          />
-          {/* Soft ambient glow toward the icon */}
-          <span
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-16 -left-10 h-40 w-40 rounded-full bg-glow-brand blur-2xl"
-          />
-          <div className="relative flex items-start gap-4 sm:gap-5">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-elevated ring-1 ring-white/15 sm:h-12 sm:w-12">
-              <Lightbulb className="h-5 w-5 sm:h-5.5 sm:w-5.5" aria-hidden="true" />
+        <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/5 p-5 sm:p-7">
+          <div className="flex items-start gap-3 sm:gap-4">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary sm:h-10 sm:w-10">
+              <Lightbulb className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />
             </span>
             <div>
-              <h2 className="cgd-eyebrow text-brand">
+              <h2 className="font-heading text-sm font-bold tracking-wide text-primary uppercase">
                 {heading}
               </h2>
-              <p className="mt-2.5 max-w-3xl cgd-lead text-foreground">
+              <p className="mt-2 max-w-3xl text-base leading-relaxed text-foreground sm:text-lg">
                 <EditableText path={path} placeholder="Write the short, quotable answer…" aria-label="Direct answer">
                   {answer}
                 </EditableText>

@@ -24,7 +24,7 @@ interface LocalProofProps {
  */
 export function LocalProof({ eyebrow, title, description, items }: LocalProofProps) {
   return (
-    <section className="bg-surface-muted">
+    <section className="bg-muted/40">
       <Container className="py-12 sm:py-16">
         <SectionHeading eyebrow={eyebrow} title={title} description={description} />
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -36,7 +36,7 @@ export function LocalProof({ eyebrow, title, description, items }: LocalProofPro
             getKey={(item, i) => `${item.serviceType}-${i}`}
             renderItem={(item, i) => (
               <Reveal delay={0.05 * i} className="h-full">
-                <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/70 bg-surface-elevated elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-float">
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm ring-1 ring-foreground/5">
                   {/* Before/after image placeholder — swap for real CRM photos. */}
                   <div className="relative grid aspect-[16/9] grid-cols-2 gap-px bg-border">
                     {(["Before", "After"] as const).map((label) => (
@@ -55,7 +55,7 @@ export function LocalProof({ eyebrow, title, description, items }: LocalProofPro
                   </div>
 
                   <div className="flex flex-1 flex-col p-5">
-                    <div className="flex items-center gap-2 cgd-eyebrow text-xs text-brand">
+                    <div className="flex items-center gap-2 text-xs font-bold tracking-wide text-[#0f4e9b] uppercase">
                       <Wrench className="h-3.5 w-3.5" aria-hidden="true" />
                       <EditableText path={`localProof[${i}].serviceType`} singleLine placeholder="Service type…">
                         {item.serviceType}

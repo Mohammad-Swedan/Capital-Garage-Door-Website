@@ -223,9 +223,8 @@ export function Hero() {
               <div className="cgd-rise [animation-delay:460ms] flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <Button
                   size="lg"
-                  variant="gradient"
                   nativeButton={false}
-                  className="group h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer gap-2 rounded-xl px-8 text-base sm:h-14 sm:w-auto"
+                  className="group h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer gap-2 rounded-xl bg-cta px-8 text-base text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] transition-transform hover:scale-[1.03] hover:bg-cta/90 sm:h-14 sm:w-auto"
                   render={
                     <a href={`tel:${siteConfig.business.phone}`}>
                       <Phone className="h-4 w-4" aria-hidden="true" />
@@ -266,7 +265,7 @@ export function Hero() {
 
               {/* Trust strip */}
               <div className="cgd-rise [animation-delay:700ms] flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2 rounded-full border border-border/70 bg-surface-elevated px-3.5 py-2 shadow-card">
+                <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
                   <span className="flex gap-0.5" aria-hidden="true">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
@@ -280,9 +279,9 @@ export function Hero() {
                     &middot; 247 Google Reviews
                   </span>
                 </div>
-                <div className="flex items-center gap-2 rounded-full border border-border/70 bg-surface-elevated px-3.5 py-2 shadow-card">
+                <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
                   <ShieldCheck
-                    className="h-4 w-4 text-brand"
+                    className="h-4 w-4 text-[#0f4e9b]"
                     aria-hidden="true"
                   />
                   <span className="text-xs font-semibold text-muted-foreground">

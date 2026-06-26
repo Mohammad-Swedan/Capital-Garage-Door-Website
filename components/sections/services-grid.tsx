@@ -67,12 +67,12 @@ export async function ServicesGrid() {
       />
 
       <Container className="relative">
-        <Reveal className="mx-auto flex max-w-2xl flex-col items-center text-center">
-          <span className="cgd-eyebrow text-cta">Our Services</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-white">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="text-sm font-bold tracking-[0.2em] text-cta uppercase">Our Services</p>
+          <h2 className="mt-2 font-heading text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Everything Your Garage Door Needs
           </h2>
-          <p className="mt-4 cgd-lead text-white/70">
+          <p className="mt-4 text-white/70">
             From emergency repairs to full installations, our licensed technicians handle it all.
           </p>
         </Reveal>

@@ -23,14 +23,13 @@ export async function Testimonials() {
   const thirdColumn = rotate(testimonials, 2);
 
   return (
-    <section className="bg-surface-muted py-20 sm:py-24">
+    <section className="bg-muted/30 py-20 sm:py-24">
       <Container>
-        <Reveal className="mx-auto flex max-w-2xl flex-col items-center text-center">
-          <span className="mb-3 cgd-eyebrow text-cta">Reviews</span>
-          <h2 className="cgd-h2 text-balance text-foreground">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <h2 className="font-heading text-3xl font-bold tracking-tight sm:text-4xl">
             What Our Customers Say
           </h2>
-          <p className="mt-4 cgd-lead text-muted-foreground">
+          <p className="mt-4 text-muted-foreground">
             Real reviews from homeowners we&apos;ve helped.
           </p>
         </Reveal>

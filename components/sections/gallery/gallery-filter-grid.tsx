@@ -23,16 +23,15 @@ export function GalleryFilterGrid({ items, categories }: GalleryFilterGridProps)
   const filteredItems = activeFilter === "All" ? items : items.filter((item) => item.category === activeFilter);
 
   return (
-    <section className="bg-background py-16 sm:py-24">
+    <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Our Portfolio</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Recent Work
           </h2>
         </Reveal>
 
-        <Reveal delay={0.05} className="mt-7 flex flex-wrap gap-2">
+        <Reveal delay={0.05} className="mt-6 flex flex-wrap gap-2">
           {(["All", ...categories] as const).map((option) => (
             <button
               key={option}
@@ -40,10 +39,10 @@ export function GalleryFilterGrid({ items, categories }: GalleryFilterGridProps)
               onClick={() => setActiveFilter(option)}
               aria-pressed={activeFilter === option}
               className={cn(
-                "rounded-full border px-4 py-1.5 text-sm font-semibold transition-all",
+                "rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors",
                 activeFilter === option
-                  ? "border-transparent bg-brand text-white shadow-card"
-                  : "border-border bg-surface-elevated text-muted-foreground shadow-card hover:-translate-y-px hover:border-brand/25 hover:text-brand",
+                  ? "border-[#0f4e9b]/35 bg-[#0f4e9b]/10 text-[#0f4e9b]"
+                  : "border-border bg-card text-muted-foreground hover:border-[#0f4e9b]/25 hover:text-[#0f4e9b]",
               )}
             >
               {option}

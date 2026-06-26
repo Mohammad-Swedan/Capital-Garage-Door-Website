@@ -149,13 +149,13 @@ export function WhyChooseUs() {
         <div className="grid gap-6 md:grid-cols-12 mb-8 md:mb-12">
           <Reveal className="md:col-span-12">
             <div className="max-w-2xl">
-              <span className="cgd-eyebrow text-cta">
+              <p className="text-sm font-bold tracking-[0.2em] text-cta uppercase">
                 Why Choose Us
-              </span>
-              <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+              </p>
+              <h2 className="mt-2 text-3xl md:text-4xl font-heading font-bold text-foreground">
                 Reasons Perth Homeowners Trust Us
               </h2>
-              <p className="mt-3 cgd-lead text-muted-foreground">
+              <p className="mt-3 text-muted-foreground text-base">
                 Four reasons to call us first when something goes wrong with
                 your garage door.
               </p>

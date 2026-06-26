@@ -32,14 +32,14 @@ export function FAQSection({
     <section className="bg-background">
       <Container className="py-12 sm:py-16">
         <SectionHeading eyebrow={eyebrow} title={title} description={description} />
-        <div className="mx-auto mt-8 max-w-3xl overflow-hidden rounded-3xl border border-border/70 bg-surface-elevated px-5 elevate-card sm:px-7">
+        <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-border bg-card px-5 shadow-sm ring-1 ring-foreground/5 sm:px-7">
           <Accordion>
             {faqs.map((faq, i) => (
               <AccordionItem key={i} value={i}>
-                <AccordionTrigger className="py-5 cgd-h3 text-base text-foreground hover:no-underline">
+                <AccordionTrigger className="py-5 text-base font-semibold text-foreground hover:no-underline">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="cgd-lead text-[0.975rem] text-muted-foreground">
+                <AccordionContent className="text-base leading-relaxed text-muted-foreground">
                   <p>{faq.answer}</p>
                 </AccordionContent>
               </AccordionItem>

@@ -22,14 +22,13 @@ export function CostGuideTable({ table }: CostGuideTableProps) {
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Pricing</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             <EditableText path="costTable.heading" placeholder="Section heading…">
               {heading}
             </EditableText>
           </h2>
           {intro && (
-            <p className="mt-3 max-w-2xl cgd-lead text-muted-foreground">
+            <p className="mt-3 max-w-2xl text-muted-foreground">
               <EditableText path="costTable.intro" placeholder="Intro…">
                 {intro}
               </EditableText>
@@ -37,10 +36,10 @@ export function CostGuideTable({ table }: CostGuideTableProps) {
           )}
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-8 overflow-x-auto rounded-2xl border border-border/70 elevate-card">
+        <Reveal delay={0.1} className="mt-8 overflow-x-auto rounded-2xl border border-border">
           <table className="w-full text-left text-sm sm:text-base">
             <thead>
-              <tr className="bg-brand-soft">
+              <tr className="bg-primary/5">
                 <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
                   Repair Type
                 </th>

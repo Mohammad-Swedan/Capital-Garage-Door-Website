@@ -23,12 +23,11 @@ export function CostGuideRelatedLinks({ heading = "Related Services", links }: C
       <Container>
         <EditableGroup label="Related links · edit in Settings → Links">
           <Reveal>
-            <span className="cgd-eyebrow text-cta">Explore More</span>
-            <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+            <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               {heading}
             </h2>
           </Reveal>
-          <div className="mt-9 grid gap-4 sm:grid-cols-2">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {links.map((link, index) => (
               <Reveal key={link.href} delay={index * 0.05}>
                 <InternalLinkCard

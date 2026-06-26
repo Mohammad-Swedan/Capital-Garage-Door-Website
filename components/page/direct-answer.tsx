@@ -19,18 +19,16 @@ export function DirectAnswer({ answer, label }: DirectAnswerProps) {
     <section aria-label="Quick answer" className="bg-background">
       <Container className="py-8 sm:py-10">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border-gradient-brand bg-surface-elevated p-6 elevate-card sm:p-8">
-            <span aria-hidden="true" className="absolute inset-y-0 start-0 w-1 bg-gradient-cta" />
-            <span aria-hidden="true" className="pointer-events-none absolute -top-16 -left-10 h-40 w-40 rounded-full bg-glow-brand blur-2xl" />
-            <div className="relative flex items-start gap-4 sm:gap-5">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-brand text-white shadow-elevated ring-1 ring-white/15 sm:h-12 sm:w-12">
+          <div className="relative overflow-hidden rounded-2xl border border-[#0f4e9b]/15 bg-gradient-to-br from-[#0f4e9b]/5 to-cta/5 p-5 sm:p-7">
+            <div className="flex items-start gap-4">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0f4e9b]/10 text-[#0f4e9b]">
                 <MapPin className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
-                <p className="cgd-eyebrow text-brand">
+                <p className="text-[11px] font-bold tracking-[0.16em] text-[#0f4e9b] uppercase">
                   {label}
                 </p>
-                <p className="mt-2.5 max-w-3xl cgd-lead text-foreground">
+                <p className="mt-1.5 text-pretty text-base font-medium leading-relaxed text-foreground sm:text-lg">
                   <EditableText path="directAnswer" placeholder="Direct answer…" aria-label="Direct answer">
                     {answer}
                   </EditableText>

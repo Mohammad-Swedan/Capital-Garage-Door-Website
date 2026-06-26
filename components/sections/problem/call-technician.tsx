@@ -16,11 +16,10 @@ export function CallTechnician({ heading = "When to Call a Technician", signs }:
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Know the Signs</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
-          <p className="mt-3 max-w-2xl cgd-lead text-muted-foreground">
+          <p className="mt-3 max-w-2xl text-muted-foreground">
             Call a technician straight away if any of the following apply:
           </p>
         </Reveal>

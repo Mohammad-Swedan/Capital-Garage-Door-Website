@@ -13,15 +13,15 @@ export function InternalLinkCard({ href, title, description, icon: Icon }: Inter
   return (
     <Link
       href={href}
-      className="group flex items-center gap-4 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:border-cta/30 hover:shadow-float"
+      className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-cta/30 hover:shadow-[0_8px_32px_rgba(13,31,69,0.08)]"
     >
       {Icon && (
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-transform duration-300 group-hover:scale-105">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
       )}
       <div className="flex-1">
-        <h3 className="cgd-h3 text-base text-foreground transition-colors group-hover:text-cta sm:text-lg">
+        <h3 className="font-heading text-base font-semibold text-foreground group-hover:text-cta sm:text-lg">
           {title}
         </h3>
         {description && <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>}

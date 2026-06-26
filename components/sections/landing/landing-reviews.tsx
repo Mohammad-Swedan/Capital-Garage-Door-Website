@@ -14,7 +14,7 @@ export function LandingReviews({ heading, reviews }: LandingReviewsProps) {
   if (reviews.length === 0) return null;
 
   return (
-    <section className="bg-surface-muted">
+    <section className="bg-muted/40">
       <Container className="py-12 sm:py-16">
         <SectionHeading eyebrow="Reviews" title={heading} />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

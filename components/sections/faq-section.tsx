@@ -1,6 +1,5 @@
 "use client";
 
-import { HelpCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import {
@@ -30,31 +29,27 @@ interface FAQSectionProps {
  */
 export function FAQSection({ faqs, heading = "Frequently Asked Questions" }: FAQSectionProps) {
   return (
-    <section className="bg-surface py-16 sm:py-24">
+    <section className="bg-background py-14 sm:py-20">
       <Container className="max-w-3xl">
-        <Reveal className="flex flex-col items-center text-center">
-          <span className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand-soft px-3.5 py-1.5 text-brand">
-            <HelpCircle className="h-3.5 w-3.5" aria-hidden="true" />
-            <span className="cgd-eyebrow">Questions &amp; Answers</span>
-          </span>
-          <h2 className="cgd-h2 text-balance text-foreground">
+        <Reveal>
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
         </Reveal>
-        <Reveal delay={0.1} className="mt-8">
+        <Reveal delay={0.1} className="mt-6">
           <Accordion
             multiple
             defaultValue={faqs.length ? ["faq-0"] : []}
-            className="overflow-hidden rounded-3xl border border-border/70 bg-surface-elevated px-5 elevate-card sm:px-7"
+            className="rounded-2xl border border-border bg-card px-5 sm:px-7"
           >
             {faqs.map((faq, index) => (
               // Key/value by index, not question text: a freshly seeded blank page
               // has empty (and therefore duplicate) questions until the editor fills them.
               <AccordionItem key={`faq-${index}`} value={`faq-${index}`}>
-                <AccordionTrigger className="cgd-h3 text-base text-foreground sm:text-lg">
+                <AccordionTrigger className="font-heading text-base font-semibold text-foreground sm:text-lg">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="cgd-lead text-[0.975rem] text-muted-foreground">
+                <AccordionContent className="text-muted-foreground">
                   <p>{faq.answer}</p>
                 </AccordionContent>
               </AccordionItem>

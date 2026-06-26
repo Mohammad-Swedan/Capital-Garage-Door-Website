@@ -1,7 +1,6 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
-import type { ReactNode } from "react";
+import { CheckCircle2, type LucideIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
@@ -9,8 +8,7 @@ import { EditableText, EditableList } from "@/components/admin/editor/editable";
 import type { CaseStudyDetailBlock } from "@/types/case-study";
 
 interface DetailSectionProps {
-  /** Rendered icon element (a ReactNode, not a component) so it serializes across the server→client boundary. */
-  icon: ReactNode;
+  icon: LucideIcon;
   heading: string;
   block: CaseStudyDetailBlock;
   /** Alternates a soft tint between the three narrative sections for visual rhythm. */
@@ -24,24 +22,24 @@ interface DetailSectionProps {
 }
 
 /** Reusable narrative block (intro paragraph + bullet list) — used for Customer Problem, Inspection/Diagnosis, and Solution. */
-export function DetailSection({ icon, heading, block, tone = "default", pathPrefix }: DetailSectionProps) {
+export function DetailSection({ icon: Icon, heading, block, tone = "default", pathPrefix }: DetailSectionProps) {
   return (
-    <section className={cn("py-14 sm:py-20", tone === "tinted" ? "bg-surface-muted" : "bg-background")}>
+    <section className={cn("py-14 sm:py-20", tone === "tinted" ? "bg-muted/30" : "bg-background")}>
       <Container>
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <div className="flex items-center gap-3.5">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-elevated ring-1 ring-white/15">
-                {icon}
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Icon className="h-5 w-5" aria-hidden="true" />
               </span>
-              <h2 className="cgd-h2 text-balance text-foreground">
+              <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                 {heading}
               </h2>
             </div>
           </Reveal>
 
           <Reveal delay={0.06} className="mt-5">
-            <p className="cgd-lead text-muted-foreground">
+            <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
               <EditableText path={`${pathPrefix}.intro`} placeholder="Intro paragraph…">
                 {block.intro}
               </EditableText>
@@ -49,7 +47,7 @@ export function DetailSection({ icon, heading, block, tone = "default", pathPref
           </Reveal>
 
           <Reveal delay={0.12} className="mt-6">
-            <ul className="grid gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-6 elevate-card sm:p-7">
+            <ul className="grid gap-3 rounded-2xl border border-border bg-card p-6 sm:p-7">
               <EditableList<string>
                 path={`${pathPrefix}.points`}
                 items={block.points}

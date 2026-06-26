@@ -14,7 +14,7 @@ export function ReviewCard({ review }: ReviewCardProps) {
   });
 
   return (
-    <div className="flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card">
+    <div className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_rgba(13,31,69,0.05)]">
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-0.5" aria-label={`${review.rating} out of 5 stars`}>
           {Array.from({ length: 5 }).map((_, starIndex) => (

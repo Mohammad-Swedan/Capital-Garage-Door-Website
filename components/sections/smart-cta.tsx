@@ -38,7 +38,7 @@ export function SmartCta() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-navy py-14 text-primary-foreground sm:py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-primary py-14 text-primary-foreground sm:py-20 lg:py-28">
       {/* Background elements for wow factor */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {/* Subtle grid pattern */}

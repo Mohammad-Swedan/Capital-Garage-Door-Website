@@ -5,6 +5,7 @@ import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { PageHero } from "@/components/sections/page-hero";
 import { DirectAnswer } from "@/components/sections/direct-answer";
+import { CTASection } from "@/components/sections/cta-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { ProcessSteps } from "@/components/sections/service/process-steps";
 import { CostGuideTable } from "@/components/sections/cost-guide/cost-guide-table";

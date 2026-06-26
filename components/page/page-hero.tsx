@@ -43,20 +43,20 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
           {/* Left — copy + CTAs */}
           <div className="flex flex-col items-start gap-5 sm:gap-6">
             <Reveal>
-              <span className="cgd-eyebrow inline-flex items-center gap-2 rounded-full bg-brand-soft px-3.5 py-1.5 text-brand">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#0f4e9b]/20 bg-[#0f4e9b]/8 px-3.5 py-1.5 text-[11px] font-bold tracking-wider text-[#0f4e9b] uppercase sm:text-xs">
                 <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
                 {eyebrow}
               </span>
             </Reveal>
 
             <Reveal delay={0.06}>
-              <h1 className="cgd-display-fluid text-balance text-foreground">
+              <h1 className="text-balance font-display text-3xl leading-[1.1] font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 {title}
               </h1>
             </Reveal>
 
             <Reveal delay={0.12}>
-              <p className="max-w-xl text-pretty cgd-lead text-muted-foreground">
+              <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
                 <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
                   {subtitle}
                 </EditableText>
@@ -99,7 +99,7 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
 
           {/* Right — map accent + floating service-area card */}
           <Reveal delay={0.1} className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-navy shadow-float ring-1 ring-white/10">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d1f60] to-[#0a1733] shadow-[0_30px_60px_rgba(13,31,69,0.25)] ring-1 ring-white/10">
               {/* Soft radial glow inside the panel */}
               <div
                 aria-hidden="true"
@@ -121,8 +121,8 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
               </span>
 
               {/* Floating glass card */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-2xl border border-white/20 bg-white/95 p-3.5 shadow-elevated backdrop-blur-sm sm:left-5 sm:right-auto sm:max-w-[16rem] dark:bg-surface-elevated/95">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
+              <div className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-2xl border border-white/20 bg-white/95 p-3.5 shadow-[0_12px_30px_rgba(0,0,0,0.25)] backdrop-blur-sm sm:left-5 sm:right-auto sm:max-w-[16rem]">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0f4e9b]/10 text-[#0f4e9b]">
                   <MapPin className="h-4.5 w-4.5" aria-hidden="true" />
                 </span>
                 <p className="text-[13px] font-bold leading-snug text-foreground">{areaLabel}</p>

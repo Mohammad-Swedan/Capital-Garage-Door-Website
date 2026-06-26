@@ -108,9 +108,9 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
 
           case "checklist":
             return (
-              <div key={index} className="rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-5 shadow-card sm:p-6">
+              <div key={index} className="rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-5 sm:p-6">
                 {block.title && (
-                  <h3 className="cgd-h3 text-base text-emerald-700">{block.title}</h3>
+                  <h3 className="font-heading text-base font-semibold text-emerald-700">{block.title}</h3>
                 )}
                 <ul className={cn("space-y-3", block.title && "mt-4")}>
                   {block.items.map((item) => (
@@ -127,14 +127,14 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
             const style = calloutStyles[block.variant];
             const Icon = style.icon;
             return (
-              <div key={index} className={cn("rounded-2xl border p-5 shadow-card sm:p-6", style.wrap)}>
+              <div key={index} className={cn("rounded-2xl border p-5 sm:p-6", style.wrap)}>
                 <div className="flex items-start gap-3">
                   <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-full", style.iconWrap)}>
                     <Icon className="h-4.5 w-4.5" aria-hidden="true" />
                   </span>
                   <div>
                     {block.title && (
-                      <h3 className={cn("cgd-h3 text-base", style.title)}>{block.title}</h3>
+                      <h3 className={cn("font-heading text-base font-semibold", style.title)}>{block.title}</h3>
                     )}
                     <p className={cn("text-sm leading-relaxed text-foreground sm:text-base", block.title && "mt-1.5")}>
                       {block.body}
@@ -161,9 +161,9 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
             return (
               <blockquote
                 key={index}
-                className="relative rounded-2xl border-l-4 border-l-cta border-y border-r border-border/70 bg-surface-muted p-6 pl-14 text-base leading-relaxed text-foreground italic shadow-card sm:text-lg"
+                className="relative rounded-2xl border border-border bg-muted/40 p-6 pl-14 text-base leading-relaxed text-foreground italic sm:text-lg"
               >
-                <Quote className="absolute top-5 left-5 h-6 w-6 text-cta/40" aria-hidden="true" />
+                <Quote className="absolute top-5 left-5 h-6 w-6 text-primary/30" aria-hidden="true" />
                 <p>{block.text}</p>
                 {block.cite && <footer className="mt-3 text-sm font-semibold text-muted-foreground not-italic">— {block.cite}</footer>}
               </blockquote>

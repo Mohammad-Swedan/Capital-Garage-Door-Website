@@ -26,35 +26,35 @@ export function CTASection({ heading, body, buttons, tone = "primary" }: CTASect
   return (
     <section
       className={cn(
-        "relative overflow-hidden py-16 text-primary-foreground sm:py-24",
-        tone === "emergency" ? "bg-gradient-cta" : "bg-gradient-navy",
+        "relative overflow-hidden py-14 text-primary-foreground sm:py-20",
+        tone === "emergency" ? "bg-[#0a1733]" : "bg-primary",
       )}
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_80%_60%_at_50%_40%,black_30%,transparent_80%)]" />
-        <div className="absolute -left-24 top-0 h-96 w-96 rounded-full bg-cta/15 blur-[100px]" />
-        <div className="absolute -right-24 bottom-0 h-96 w-96 rounded-full bg-[#0f4e9b]/30 blur-[100px]" />
+        <div className="absolute -left-20 top-0 h-96 w-96 rounded-full bg-cta/15 blur-[100px]" />
+        <div className="absolute -right-20 bottom-0 h-96 w-96 rounded-full bg-[#0f4e9b]/30 blur-[100px]" />
       </div>
 
       <Container className="relative z-10">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
-          <h2 className="cgd-h1 text-balance text-white">
+        <div className="flex flex-col items-center gap-6 text-center">
+          <h2 className="max-w-2xl font-display text-2xl font-bold leading-[1.15] tracking-tight text-white sm:text-4xl">
             {heading}
           </h2>
           {body && (
-            <p className="max-w-xl cgd-lead text-primary-foreground/85">{body}</p>
+            <p className="max-w-xl text-base text-primary-foreground/80 sm:text-lg">{body}</p>
           )}
-          <div className="mt-2 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
             {buttons.map((btn) => (
               <Button
                 key={btn.label}
                 size="lg"
-                variant={btn.variant === "outline" ? "outline" : "cta"}
                 nativeButton={false}
                 className={cn(
-                  "h-13 w-full gap-2 rounded-xl px-8 text-base sm:w-auto",
-                  btn.variant === "outline" &&
-                    "border-white/25 bg-white/10 text-white backdrop-blur-sm hover:bg-white/15 hover:text-white",
+                  "h-12 w-full gap-2 rounded-xl px-8 text-base transition-transform hover:scale-[1.03] sm:w-auto",
+                  btn.variant === "outline"
+                    ? "border-white/25 bg-white/10 text-white hover:bg-white/15"
+                    : "bg-cta text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] hover:bg-cta/90",
                 )}
                 render={
                   <a href={btn.href}>

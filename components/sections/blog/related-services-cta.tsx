@@ -13,14 +13,13 @@ interface RelatedServicesCtaProps {
 /** Internal links from an article to relevant service pages — converts educational traffic into service leads. */
 export function RelatedServicesCta({ heading = "Need a Hand With This?", services }: RelatedServicesCtaProps) {
   return (
-    <section className="bg-surface-muted py-16 sm:py-24">
+    <section className="bg-muted/30 py-14 sm:py-20">
       <Container>
         <EditableGroup label="Related services · edit in Settings → Links">
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Get Help</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">{heading}</h2>
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
         </Reveal>
-        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <Reveal key={service.href} delay={index * 0.05}>
               <InternalLinkCard

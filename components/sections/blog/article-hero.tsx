@@ -29,7 +29,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
       <Container className="relative z-10 py-10 sm:py-14 lg:py-16">
         <div className="mx-auto max-w-3xl">
           <Reveal>
-            <span className="cgd-eyebrow inline-flex items-center rounded-full bg-brand-soft px-3.5 py-1.5 text-brand">
+            <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 text-xs font-bold tracking-wide text-primary uppercase">
               <EditableText path="category" singleLine placeholder="Category…" aria-label="Category">
                 {article.category}
               </EditableText>
@@ -37,7 +37,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
           </Reveal>
 
           <Reveal delay={0.06}>
-            <h1 className="mt-4 cgd-display text-balance text-[clamp(1.875rem,4.5vw,2.875rem)] text-foreground">
+            <h1 className="mt-4 text-balance font-display text-[clamp(1.75rem,4.5vw,2.75rem)] leading-[1.1] font-black tracking-tight text-foreground">
               <EditableText path="title" placeholder="Article title…" aria-label="Article title">
                 {article.title}
               </EditableText>
@@ -45,7 +45,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="mt-4 text-pretty cgd-lead text-muted-foreground">
+            <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               <EditableText path="excerpt" placeholder="Excerpt…" aria-label="Excerpt">
                 {article.excerpt}
               </EditableText>
@@ -82,7 +82,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
         </div>
 
         <Reveal delay={0.16} className="mx-auto mt-8 max-w-4xl">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl shadow-float ring-1 ring-foreground/10">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl shadow-[0_30px_60px_rgba(13,31,69,0.18)] ring-1 ring-foreground/10">
             <Image
               src={article.featuredImage}
               alt={article.featuredImageAlt}

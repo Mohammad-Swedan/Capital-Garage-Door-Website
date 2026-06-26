@@ -21,16 +21,15 @@ export function SafetyChecklist({
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <span className="cgd-eyebrow text-cta">Safety First</span>
-          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
         </Reveal>
 
-        <div className="mt-9 grid gap-5 lg:grid-cols-2">
+        <div className="mt-8 grid gap-5 lg:grid-cols-2">
           <Reveal>
-            <div className="h-full rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-6 shadow-card">
-              <h3 className="cgd-h3 text-base text-emerald-700">
+            <div className="h-full rounded-2xl border border-emerald-600/15 bg-emerald-600/5 p-6">
+              <h3 className="font-heading text-base font-semibold text-emerald-700">
                 Safe to check yourself
               </h3>
               <ul className="mt-4 space-y-3">
@@ -54,8 +53,8 @@ export function SafetyChecklist({
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="h-full rounded-2xl border border-cta/15 bg-cta/5 p-6 shadow-card">
-              <h3 className="cgd-h3 text-base text-cta">Do not attempt</h3>
+            <div className="h-full rounded-2xl border border-cta/15 bg-cta/5 p-6">
+              <h3 className="font-heading text-base font-semibold text-cta">Do not attempt</h3>
               <ul className="mt-4 space-y-3">
                 <EditableList<string>
                   path="doNotDo"

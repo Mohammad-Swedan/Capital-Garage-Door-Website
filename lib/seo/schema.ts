@@ -68,7 +68,10 @@ export function imageObject(src: string, alt?: string) {
  * Google show ⭐ star rich snippets against the brand across the site, not just
  * on /reviews. Omit it (or pass zero reviews) and the node is left off cleanly.
  */
-export function localBusinessSchema(rating?: { ratingValue: number; reviewCount: number }) {
+export function localBusinessSchema(
+  rating?: { ratingValue: number; reviewCount: number },
+  areaServedNames?: string[],
+) {
   const { business } = siteConfig;
 
   // Only emit address fields that are actually filled in — shipping empty
@@ -99,7 +102,13 @@ export function localBusinessSchema(rating?: { ratingValue: number; reviewCount:
     priceRange: business.priceRange,
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     address,
-    areaServed: { "@type": "City", name: business.address.addressLocality },
+    // When the served-suburb list is supplied (from the CMS service-area catalog),
+    // enumerate every suburb as a City — a stronger multi-suburb local signal than a
+    // single locality. Falls back to the head-office locality when none is passed.
+    areaServed:
+      areaServedNames && areaServedNames.length > 0
+        ? areaServedNames.map((name) => ({ "@type": "City", name }))
+        : { "@type": "City", name: business.address.addressLocality },
     ...(business.geo.latitude && business.geo.longitude
       ? {
           geo: {
@@ -160,6 +169,35 @@ export function webSiteSchema() {
     url: siteConfig.url,
     inLanguage: "en-AU",
   };
+}
+
+/**
+ * Builds Organization + ContactPoint JSON-LD for the /contact page so search
+ * engines and AI assistants can read the canonical phone/email/contact method
+ * (eligibility for the local knowledge panel's contact actions).
+ */
+export function contactPointSchema() {
+  const { business } = siteConfig;
+  const sameAs = Object.values(siteConfig.social).filter(Boolean);
+  return compact({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    email: business.email,
+    telephone: business.phone,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: business.phone,
+        email: business.email,
+        contactType: "customer service",
+        areaServed: business.address.addressRegion,
+        availableLanguage: ["English"],
+      },
+    ],
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  });
 }
 
 export function serviceSchema(service: Service) {

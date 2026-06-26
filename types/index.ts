@@ -1,3 +1,5 @@
+import type { ServiceReview } from "./service-page";
+
 export interface Service {
   slug: string;
   name: string;
@@ -67,6 +69,8 @@ export interface Problem {
   callTechnicianSigns: string[];
   relatedServices: ProblemRelatedService[];
   costRows: ProblemCostRow[];
+  /** Pinned customer reviews → enables Review + AggregateRating schema on the problem page. */
+  reviews?: ServiceReview[];
   emergency: {
     heading: string;
     body: string;

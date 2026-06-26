@@ -13,6 +13,7 @@ import {
   speakableSchema,
   reviewSchemasFromServiceReviews,
   reviewSchemasFromReviews,
+  aggregateFromServiceReviews,
   localBusinessSchema,
 } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
@@ -105,12 +106,17 @@ export function PageSchema(props: PageSchemaProps) {
         icon: "Wrench",
         canonicalHref: `/problems/${problem.slug}`,
       };
+      // Attach an AggregateRating to the page's Service node when reviews are pinned,
+      // and emit each pinned review as its own Review node (star-rich-result eligible).
+      const rating = aggregateFromServiceReviews(problem.reviews);
+      const service = serviceSchema(pageAsService);
       return (
         <Nodes
           nodes={[
             articleSchema(problem),
-            serviceSchema(pageAsService),
+            rating ? { ...service, aggregateRating: rating } : service,
             howToSchema(problem),
+            ...reviewSchemasFromServiceReviews(problem.reviews, problem.name),
             problem.faqs.length ? faqSchema(problem.faqs) : null,
             speakableSchema(`/problems/${problem.slug}`),
           ]}

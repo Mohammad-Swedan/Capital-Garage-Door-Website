@@ -63,6 +63,13 @@ export function mapProblemPage(dto: PageResolveDto): Problem {
       heading: asString(emergency.heading),
       body: asString(emergency.body),
     },
+    reviews: (dto.reviews ?? []).map((r) => ({
+      name: r.customerName,
+      rating: r.rating,
+      text: r.text,
+      suburb: r.suburb ?? undefined,
+      service: r.service ?? undefined,
+    })),
     faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     updatedAt: dto.updatedAt ?? dto.publishedAt ?? "",
     heroImage: dto.heroImage?.cdnUrl ?? undefined,

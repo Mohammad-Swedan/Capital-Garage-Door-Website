@@ -8,6 +8,7 @@ import { LazyMotionProvider } from "@/components/motion/lazy-motion-provider";
 import { JsonLd } from "@/components/seo/json-ld";
 import { localBusinessSchema, organizationSchema, webSiteSchema } from "@/lib/seo/schema";
 import { getReviewsSummary } from "@/lib/data/reviews";
+import { getServiceAreaRegions } from "@/lib/data/service-area-regions";
 import { siteConfig } from "@/config/site";
 
 const heading = Poppins({
@@ -60,6 +61,9 @@ export default async function RootLayout({
 }>) {
   // Live review aggregate → embedded in the site-wide LocalBusiness for ⭐ star rich snippets.
   const summary = await getReviewsSummary();
+  // Served-suburb list → site-wide LocalBusiness areaServed (multi-suburb local signal).
+  const regions = await getServiceAreaRegions();
+  const suburbNames = Array.from(new Set(regions.flatMap((r) => r.suburbs.map((s) => s.name))));
 
   return (
     <html
@@ -69,10 +73,13 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
         <JsonLd
-          data={localBusinessSchema({
-            ratingValue: summary.averageRating,
-            reviewCount: summary.totalReviews,
-          })}
+          data={localBusinessSchema(
+            {
+              ratingValue: summary.averageRating,
+              reviewCount: summary.totalReviews,
+            },
+            suburbNames,
+          )}
         />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={webSiteSchema()} />

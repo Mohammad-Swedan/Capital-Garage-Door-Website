@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProblemPageTemplate } from "@/components/sections/problem/problem-page-template";
+import { PageSchema } from "@/components/seo/page-schema";
 import { getProblemBySlug, getProblemSlugs } from "@/lib/data/problems";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: ProblemPageProps): Promise<Me
     description: problem.metaDescription,
     path: `/problems/${problem.slug}`,
     image: problem.heroImage,
+    lastModified: problem.updatedAt || undefined,
   });
 }
 
@@ -37,5 +39,10 @@ export default async function ProblemPage({ params }: ProblemPageProps) {
     notFound();
   }
 
-  return <ProblemPageTemplate problem={problem} />;
+  return (
+    <>
+      <PageSchema kind="problem" data={problem} />
+      <ProblemPageTemplate problem={problem} />
+    </>
+  );
 }

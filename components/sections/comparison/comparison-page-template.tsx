@@ -1,7 +1,6 @@
 import { SmartCta } from "@/components/sections/smart-cta";
 import { FileText, Phone } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
-import { JsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { PageHero } from "@/components/sections/page-hero";
@@ -13,7 +12,6 @@ import { OptionSection } from "@/components/sections/comparison/option-section";
 import { DecisionCards } from "@/components/sections/comparison/decision-cards";
 import { ComparisonRelatedLinks } from "@/components/sections/comparison/related-links";
 import { ComparisonQuoteForm } from "@/components/sections/comparison/quote-form";
-import { comparisonArticleSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { ComparisonPage } from "@/types/comparison-page";
 
@@ -31,8 +29,6 @@ export function ComparisonPageTemplate({ data }: ComparisonPageTemplateProps) {
 
   return (
     <>
-      <JsonLd data={comparisonArticleSchema(data)} />
-
       <Container className="pt-6">
         <Breadcrumbs
           items={[

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LandingPageTemplate } from "@/components/sections/landing/landing-page-template";
+import { PageSchema } from "@/components/seo/page-schema";
 import { getLandingPageBySlug, getLandingPageSlugs } from "@/lib/data/landing-pages";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -41,5 +42,10 @@ export default async function LandingRoute({ params }: LandingRouteProps) {
     notFound();
   }
 
-  return <LandingPageTemplate page={page} />;
+  return (
+    <>
+      <PageSchema kind="landing" data={page} />
+      <LandingPageTemplate page={page} />
+    </>
+  );
 }

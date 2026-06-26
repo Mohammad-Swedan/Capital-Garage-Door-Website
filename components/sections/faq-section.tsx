@@ -8,8 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { JsonLd } from "@/components/seo/json-ld";
-import { faqSchema } from "@/lib/seo/schema";
 import { EditableFaqList } from "@/components/admin/editor/editable";
 import type { FAQ } from "@/types";
 
@@ -19,9 +17,11 @@ interface FAQSectionProps {
 }
 
 /**
- * FAQ accordion + matching FAQPage JSON-LD — content is real server HTML for SEO/AEO.
+ * FAQ accordion — content is real server HTML for SEO/AEO.
  *
- * FAQs are a relational pin. The accordion itself is left UNTOUCHED so its
+ * FAQPage JSON-LD is no longer emitted here: structured data is emitted at the
+ * route level via `<PageSchema>` (components/seo/page-schema.tsx) so schema and
+ * visuals never share a file. The accordion itself is left UNTOUCHED so its
  * `<button>` trigger structure stays valid and the public render is byte-identical.
  * In the in-place editor, `EditableFaqList` renders an editing-only Q/A editor
  * (with add/remove/reorder) below the accordion; it renders nothing when not
@@ -30,7 +30,6 @@ interface FAQSectionProps {
 export function FAQSection({ faqs, heading = "Frequently Asked Questions" }: FAQSectionProps) {
   return (
     <section className="bg-background py-14 sm:py-20">
-      <JsonLd data={faqSchema(faqs)} />
       <Container className="max-w-3xl">
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">

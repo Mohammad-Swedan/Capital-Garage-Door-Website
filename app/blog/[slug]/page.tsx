@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArticlePageTemplate } from "@/components/sections/blog/article-page-template";
+import { PageSchema } from "@/components/seo/page-schema";
 import { getArticleBySlug, getArticleSlugs } from "@/lib/data/articles";
 import { buildMetadata } from "@/lib/seo/metadata";
 
@@ -26,6 +27,8 @@ export async function generateMetadata({ params }: ArticlePageProps): Promise<Me
     description: article.seo.description,
     path: `/blog/${article.slug}`,
     image: article.featuredImage,
+    publishedTime: article.publishedAt || undefined,
+    lastModified: article.updatedAt || article.publishedAt || undefined,
   });
 }
 
@@ -37,5 +40,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     notFound();
   }
 
-  return <ArticlePageTemplate article={article} />;
+  return (
+    <>
+      <PageSchema kind="article" data={article} />
+      <ArticlePageTemplate article={article} />
+    </>
+  );
 }

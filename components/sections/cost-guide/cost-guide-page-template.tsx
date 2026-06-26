@@ -1,7 +1,6 @@
 import { SmartCta } from "@/components/sections/smart-cta";
 import { Camera, FileText, Phone } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
-import { JsonLd } from "@/components/seo/json-ld";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { PageHero } from "@/components/sections/page-hero";
@@ -15,7 +14,6 @@ import { ExampleScenarios } from "@/components/sections/cost-guide/example-scena
 import { RepairVsReplace } from "@/components/sections/cost-guide/repair-vs-replace";
 import { CostGuideRelatedLinks } from "@/components/sections/cost-guide/related-links";
 import { CostGuideQuoteForm } from "@/components/sections/cost-guide/quote-form";
-import { costGuideSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { CostGuidePage } from "@/types/cost-guide";
 
@@ -34,8 +32,6 @@ export function CostGuidePageTemplate({ data }: CostGuidePageTemplateProps) {
 
   return (
     <>
-      <JsonLd data={costGuideSchema(data)} />
-
       <Container className="pt-6">
         <Breadcrumbs
           items={[

@@ -1,7 +1,6 @@
 import { SmartCta } from "@/components/sections/smart-cta";
 import { Container } from "@/components/layout/container";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
-import { JsonLd } from "@/components/seo/json-ld";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { PageHero } from "@/components/page/page-hero";
 import { DirectAnswer } from "@/components/page/direct-answer";
@@ -17,8 +16,6 @@ import { FAQSection } from "@/components/page/faq-section";
 import { CTASection } from "@/components/page/cta-section";
 import { SectionHeading } from "@/components/page/section-heading";
 import { QuoteForm } from "@/components/forms/quote-form";
-import { localBusinessSchema } from "@/lib/seo/schema";
-import { siteConfig } from "@/config/site";
 import type { BreadcrumbItem, ServiceSuburbPage } from "@/types";
 
 interface ServiceSuburbPageTemplateProps {
@@ -42,32 +39,11 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
     { name: titleWithSuburb, url: `/${page.slug}` },
   ];
 
-  // Service-in-suburb JSON-LD (LocalBusiness + FAQPage + BreadcrumbList are
-  // emitted by their own components below). Built inline to keep the shared
-  // schema module untouched.
-  const serviceLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: titleWithSuburb,
-    serviceType: page.service,
-    description: page.directAnswer,
-    provider: {
-      "@type": "HomeAndConstructionBusiness",
-      name: siteConfig.name,
-      telephone: siteConfig.business.phone,
-      url: siteConfig.url,
-    },
-    areaServed: {
-      "@type": "City",
-      name: `${page.suburb}, ${page.region}`,
-    },
-  };
-
+  // JSON-LD (LocalBusiness + Service + FAQPage + speakable) is emitted at the
+  // route level via <PageSchema kind="service-suburb">. BreadcrumbList is still
+  // emitted by <Breadcrumbs> below.
   return (
     <main>
-      <JsonLd data={localBusinessSchema()} />
-      <JsonLd data={serviceLd} />
-
       <Container className="pt-6">
         <Breadcrumbs items={breadcrumbs} />
       </Container>

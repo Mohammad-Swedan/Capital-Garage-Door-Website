@@ -7,9 +7,6 @@ import { LandingReviews } from "@/components/sections/landing/landing-reviews";
 import { SuburbChips } from "@/components/sections/landing/suburb-chips";
 import { ProblemCards } from "@/components/page/problem-cards";
 import { TrustCards } from "@/components/page/trust-cards";
-import { JsonLd } from "@/components/seo/json-ld";
-import { landingPageSchema } from "@/lib/seo/schema";
-import { siteConfig } from "@/config/site";
 import type { LandingPage } from "@/types/landing-page";
 
 interface LandingPageTemplateProps {
@@ -24,9 +21,8 @@ interface LandingPageTemplateProps {
 export function LandingPageTemplate({ page }: LandingPageTemplateProps) {
   return (
     <>
-      {/* Service JSON-LD; FAQPage JSON-LD is emitted by <FAQSection> below. */}
-      <JsonLd data={landingPageSchema(page)} />
-
+      {/* JSON-LD (Service + FAQPage + Review[] + speakable) is emitted at the
+          route level via <PageSchema kind="landing"> in app/lp/[slug]/page.tsx. */}
       <LandingHero page={page} />
 
       <ProblemCards

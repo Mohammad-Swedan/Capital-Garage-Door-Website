@@ -41,9 +41,9 @@ export function SuburbChips({ heading, description, suburbs }: SuburbChipsProps)
                 <li>
                   <a
                     href="#quote"
-                    className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-surface-elevated px-3.5 py-2 text-sm font-medium text-foreground shadow-card transition-all hover:-translate-y-0.5 hover:border-brand/40 hover:text-brand"
                   >
-                    <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
+                    <MapPin className="h-3.5 w-3.5 text-brand" aria-hidden="true" />
                     <EditableText path={`serviceAreas.suburbs[${index}]`} singleLine placeholder="Suburb…">
                       {suburb}
                     </EditableText>

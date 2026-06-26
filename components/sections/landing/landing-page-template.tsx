@@ -1,6 +1,4 @@
 import { SmartCta } from "@/components/sections/smart-cta";
-import { Phone, FileText } from "lucide-react";
-import { CTASection } from "@/components/sections/cta-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { LandingHero } from "@/components/sections/landing/landing-hero";
 import { LandingReviews } from "@/components/sections/landing/landing-reviews";
@@ -50,7 +48,6 @@ export function LandingPageTemplate({ page }: LandingPageTemplateProps) {
       <FAQSection faqs={page.faqs} />
 
       <SmartCta />
-
-      </>
+    </>
   );
 }

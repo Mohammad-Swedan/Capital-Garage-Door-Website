@@ -14,9 +14,9 @@ export function RatingSummaryCard({ summary }: RatingSummaryCardProps) {
     <section className="bg-background pb-2 sm:pb-4">
       <Container>
         <Reveal>
-          <div className="flex flex-col items-center gap-5 rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-6 text-center shadow-sm ring-1 ring-foreground/5 sm:flex-row sm:justify-between sm:gap-6 sm:p-8 sm:text-left">
+          <div className="flex flex-col items-center gap-5 rounded-3xl border border-border/70 bg-gradient-to-br from-surface-elevated to-surface-muted p-6 text-center elevate-card sm:flex-row sm:justify-between sm:gap-6 sm:p-8 sm:text-left">
             <div className="flex flex-col items-center gap-2 sm:items-start">
-              <span className="font-display text-4xl font-black tracking-tight text-foreground sm:text-5xl">
+              <span className="font-display text-4xl font-black tracking-tight text-gradient-brand sm:text-5xl">
                 {summary.averageRating.toFixed(1)}
               </span>
               <div className="flex items-center gap-0.5" aria-label={`${summary.averageRating} out of 5 stars`}>
@@ -42,13 +42,14 @@ export function RatingSummaryCard({ summary }: RatingSummaryCardProps) {
                 size="lg"
                 nativeButton={false}
                 variant="outline"
-                className="h-12 w-full gap-2 rounded-xl border-[#0f4e9b]/35 bg-[#0f4e9b]/5 px-8 text-base text-[#0f4e9b] transition-transform hover:scale-[1.03] hover:bg-[#0f4e9b]/10 hover:text-[#0f4e9b] sm:w-auto"
+                className="h-12 w-full gap-2 rounded-xl border-brand/35 bg-brand-soft px-8 text-base text-brand hover:bg-[color-mix(in_oklab,var(--brand),transparent_82%)] hover:text-brand sm:w-auto"
                 render={<a href={summary.googleProfileUrl}>View on Google</a>}
               />
               <Button
                 size="lg"
                 nativeButton={false}
-                className="h-12 w-full gap-2 rounded-xl bg-cta px-8 text-base text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] transition-transform hover:scale-[1.03] hover:bg-cta/90 sm:w-auto"
+                variant="cta"
+                className="h-12 w-full gap-2 rounded-xl px-8 text-base sm:w-auto"
                 render={<a href={summary.googleWriteReviewUrl}>Leave a Review</a>}
               />
             </div>

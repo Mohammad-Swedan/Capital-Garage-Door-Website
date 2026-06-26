@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -13,6 +14,10 @@ import { ChevronDown, ChevronUp, ImageIcon, Plus, Trash2, X } from "lucide-react
 import { cn } from "@/lib/utils";
 import { iconMap, resolveIcon } from "@/lib/icons";
 import { useEditable } from "./editable-context";
+import {
+  CatalogPicker,
+  type CatalogPickerItem,
+} from "./catalog-picker";
 
 /**
  * The `<Editable*>` primitives. Written once, reused by every template.
@@ -344,16 +349,107 @@ export function EditableListControls({
  * real (display-only) FAQ accordion so the accordion's `<button>` trigger
  * structure stays valid and pristine on the public path. Renders nothing when
  * not editing.
+ *
+ * The "+ Add FAQ" affordance is a `CatalogPicker` that lets the author either:
+ *   - pick an existing FAQ from the library (DB)  → inserts a draft row carrying
+ *     `{ question, answer, faqItemId }` (prefilled, still inline-editable), or
+ *   - create a new library FAQ                     → POSTs to /admin/api/faqs,
+ *     then inserts the returned `{ question, answer, faqItemId }`, or
+ *   - add a blank free-text FAQ                    → inserts `{ question, answer }`
+ *     with NO faqItemId (the legacy behaviour, unchanged).
+ *
+ * DRAFT FAQ SHAPE (the 3↔4 contract): each `draft.faqs[i]` is
+ *   { question: string; answer: string; faqItemId?: number }
+ * i.e. the existing `FAQ` fields plus an OPTIONAL `faqItemId` provenance FK. The
+ * serializer (Agent 4) should pass `faqItemId` straight through as `faqItemId ??
+ * null` alongside `{ question, answer, sortOrder }`.
  * ------------------------------------------------------------------ */
+
+/** A draft FAQ row managed by the in-place editor (FAQ fields + optional provenance FK). */
+export interface DraftFaq {
+  question: string;
+  answer: string;
+  /** Optional library provenance. Undefined for free-text FAQs. */
+  faqItemId?: number;
+}
+
+/** Shape of a FAQ library record returned by /admin/api/faqs. */
+interface FaqLibraryRecord {
+  id: number;
+  question: string;
+  answer: string;
+  category?: string | null;
+}
+
+async function createFaqLibrary(values: Record<string, string>): Promise<FaqLibraryRecord | null> {
+  const res = await fetch("/admin/api/faqs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      question: values.question ?? "",
+      answer: values.answer ?? "",
+    }),
+  });
+  if (!res.ok) return null;
+  return (await res.json()) as FaqLibraryRecord;
+}
+
 export interface EditableFaqListProps {
   path: string;
   count: number;
+  /** The live FAQ rows (used to avoid offering already-attached library FAQs). */
+  items?: Pick<DraftFaq, "faqItemId">[];
 }
 
-export function EditableFaqList({ path, count }: EditableFaqListProps) {
+export function EditableFaqList({ path, count, items }: EditableFaqListProps) {
   const { editing, listOps } = useEditable();
+  // Cache full library records (keyed by id) fetched by the picker, so that
+  // picking inserts the FULL answer — the picker's `sub` is only a preview.
+  const recordCache = useRef<Map<number, FaqLibraryRecord>>(new Map());
+
+  const fetchFaqLibrary = useCallback(async (query: string): Promise<CatalogPickerItem[]> => {
+    const qs = new URLSearchParams();
+    if (query) qs.set("search", query);
+    qs.set("pageSize", "50");
+    const res = await fetch(`/admin/api/faqs?${qs.toString()}`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`faqs ${res.status}`);
+    const data = (await res.json()) as unknown;
+    const list = Array.isArray(data) ? (data as FaqLibraryRecord[]) : [];
+    for (const f of list) recordCache.current.set(f.id, f);
+    return list.map((f) => ({
+      id: f.id,
+      label: f.question || `FAQ #${f.id}`,
+      sub: f.answer ? f.answer.slice(0, 80) : f.category || undefined,
+    }));
+  }, []);
+
   if (!editing) return null;
   const ops = listOps(path);
+
+  const attachedIds = (items ?? [])
+    .map((f) => f.faqItemId)
+    .filter((id): id is number => typeof id === "number");
+
+  const addPicked = (item: CatalogPickerItem) => {
+    // Use the cached full record (full answer) when available; fall back to the
+    // picker's preview if the cache somehow missed.
+    const full = recordCache.current.get(item.id);
+    const row: DraftFaq = {
+      question: full?.question ?? item.label,
+      answer: full?.answer ?? item.sub ?? "",
+      faqItemId: item.id,
+    };
+    ops.add(row);
+  };
+  const addCreated = (created: FaqLibraryRecord) => {
+    const row: DraftFaq = {
+      question: created.question,
+      answer: created.answer,
+      faqItemId: created.id,
+    };
+    ops.add(row);
+  };
+  const addBlank = () => ops.add({ question: "", answer: "" } satisfies DraftFaq);
 
   return (
     <div className="mt-5 space-y-3 rounded-2xl border border-dashed border-border bg-muted/20 p-4">
@@ -394,14 +490,23 @@ export function EditableFaqList({ path, count }: EditableFaqListProps) {
           </label>
         </div>
       ))}
-      <button
-        type="button"
-        onClick={() => ops.add({ question: "", answer: "" })}
-        className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 text-xs font-medium text-foreground transition-colors hover:border-primary/40"
-      >
-        <Plus className="size-3.5" />
-        Add FAQ
-      </button>
+      <CatalogPicker<FaqLibraryRecord>
+        title="Add FAQ from library"
+        searchPlaceholder="Search questions…"
+        triggerLabel="Add FAQ"
+        multi
+        excludeIds={attachedIds}
+        fetchItems={fetchFaqLibrary}
+        onPick={addPicked}
+        createLabel="Create new FAQ"
+        createFields={[
+          { name: "question", label: "Question", placeholder: "How long does it take?", required: true },
+          { name: "answer", label: "Answer", placeholder: "Most repairs take…", multiline: true, required: true },
+        ]}
+        onCreate={createFaqLibrary}
+        onPickCreated={addCreated}
+        extraAction={{ label: "+ Add a blank free-text FAQ", onClick: addBlank }}
+      />
     </div>
   );
 }

@@ -125,3 +125,50 @@ export function unpublishPage(id: number) {
 export function deletePage(id: number) {
   return request<unknown>(`/api/admin/pages/${id}`, { method: "DELETE" });
 }
+
+// ---- FAQ library ----
+export interface AdminFaqItem {
+  id: number;
+  question: string;
+  answer: string;
+  category?: string | null;
+  updatedAt?: string | null;
+}
+
+export interface CreateFaqPayload {
+  question: string;
+  answer: string;
+  category?: string | null;
+}
+
+export interface UpdateFaqPayload extends CreateFaqPayload {
+  id: number;
+}
+
+/** List/search the FAQ library. `search` is a substring match on the question. */
+export function listFaqs(params: { search?: string; pageNumber?: number; pageSize?: number } = {}) {
+  const qs = new URLSearchParams();
+  if (params.search) qs.set("search", params.search);
+  if (params.pageNumber) qs.set("pageNumber", String(params.pageNumber));
+  qs.set("pageSize", String(params.pageSize ?? 100));
+  return request<PaginatedAdmin<AdminFaqItem>>(`/api/admin/faqs?${qs.toString()}`);
+}
+
+export function getFaq(id: number) {
+  return request<AdminFaqItem>(`/api/admin/faqs/${id}`);
+}
+
+export function createFaq(body: CreateFaqPayload) {
+  return request<AdminFaqItem>(`/api/admin/faqs`, { method: "POST", body: JSON.stringify(body) });
+}
+
+export function updateFaq(id: number, body: CreateFaqPayload) {
+  return request<AdminFaqItem>(`/api/admin/faqs/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ ...body, id }),
+  });
+}
+
+export function deleteFaq(id: number) {
+  return request<unknown>(`/api/admin/faqs/${id}`, { method: "DELETE" });
+}

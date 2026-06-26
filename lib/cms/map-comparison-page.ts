@@ -77,7 +77,7 @@ export function mapComparisonPage(dto: PageResolveDto): ComparisonPage {
       description: "",
       icon: "DoorOpen",
     })),
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     cta: {
       heading: asString(data.cta?.heading, "Get in touch"),
       subtitle: asString(data.cta?.subtitle),

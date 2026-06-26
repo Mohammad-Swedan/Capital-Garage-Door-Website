@@ -59,7 +59,7 @@ export function mapServiceSuburbPage(dto: PageResolveDto): ServiceSuburbPage {
       label: l.label,
       href: l.href,
     })),
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     localProof: asArray<any>(data.localProof).map((p) => ({
       serviceType: asString(p.serviceType),
       suburb: asString(p.suburb),

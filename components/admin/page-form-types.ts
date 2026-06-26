@@ -15,7 +15,7 @@ export interface InitialPage {
   status: string;
   heroImageAssetId: number | null;
   data: Record<string, any>;
-  faqs: { question: string; answer: string }[];
+  faqs: { question: string; answer: string; faqItemId?: number | null }[];
   relatedLinks: {
     targetPageId: number | null;
     staticHref: string | null;

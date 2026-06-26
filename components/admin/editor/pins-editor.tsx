@@ -1,14 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, Plus, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { ArrowDown, ArrowUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CatalogPicker, type CatalogPickerItem, type CatalogCreateField } from "./catalog-picker";
 
 /**
  * In-place Settings-drawer pin pickers (plan §B.3g/B.6). Manages the page's relational pins —
  * review pins, pricing rows, service links — that the backend replaces wholesale on save.
  * Catalog options are fetched via the server proxy /admin/api/pins (the admin endpoints need the
  * httpOnly JWT). Each section emits the exact payload shape the serializer/backend expect.
+ *
+ * Each section's "Add…" affordance is a reusable `CatalogPicker` that lets the author either pick
+ * an existing catalog row (search) or CREATE a new one inline (POST /admin/api/pins) and pin it in
+ * one step (Agent 4). A freshly-created row is folded into the in-memory catalog so its label shows.
  */
 
 export interface ReviewPin {
@@ -31,17 +36,44 @@ interface CatalogItem {
   sub?: string;
 }
 
+/** A raw catalog row as returned by the API (camelCase, loosely typed). */
+type RawCatalogRow = Record<string, unknown>;
+
+type PinType = "reviews" | "pricing" | "services";
+
+function str(v: unknown): string {
+  return typeof v === "string" ? v : "";
+}
+function numOrUndef(v: unknown): number | undefined {
+  return typeof v === "number" ? v : undefined;
+}
+
 const inputClass =
   "w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
-async function fetchCatalog(type: "reviews" | "pricing" | "services"): Promise<unknown[]> {
+async function fetchCatalog(type: PinType): Promise<RawCatalogRow[]> {
   try {
     const res = await fetch(`/admin/api/pins?type=${type}`, { cache: "no-store" });
     if (!res.ok) return [];
     const data = await res.json();
-    return Array.isArray(data) ? data : [];
+    return Array.isArray(data) ? (data as RawCatalogRow[]) : [];
   } catch {
     return [];
+  }
+}
+
+/** Create a catalog row inline via the server proxy; resolves the created (raw) row or null. */
+async function createCatalogRow(type: PinType, values: Record<string, string>): Promise<RawCatalogRow | null> {
+  try {
+    const res = await fetch(`/admin/api/pins`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type, ...values }),
+    });
+    if (!res.ok) return null;
+    return (await res.json()) as RawCatalogRow;
+  } catch {
+    return null;
   }
 }
 
@@ -49,6 +81,15 @@ async function fetchCatalog(type: "reviews" | "pricing" | "services"): Promise<u
 interface NormPin {
   id: number;
   note?: string;
+}
+
+/** Per-type config for the inline "Create new" form + how to normalize the created/raw rows. */
+interface CreateConfig {
+  type: PinType;
+  createLabel: string;
+  createFields: CatalogCreateField[];
+  /** Normalize a raw catalog row (from GET or POST) to a CatalogItem. */
+  normalize: (raw: RawCatalogRow) => CatalogItem;
 }
 
 function PinSection({
@@ -59,6 +100,8 @@ function PinSection({
   pins,
   hasNote,
   onChange,
+  create,
+  onCreated,
 }: {
   title: string;
   emptyHint: string;
@@ -67,10 +110,11 @@ function PinSection({
   pins: NormPin[];
   hasNote?: boolean;
   onChange: (pins: NormPin[]) => void;
+  create: CreateConfig;
+  /** Fold a freshly-created catalog row into the parent catalog so its label renders. */
+  onCreated: (item: CatalogItem) => void;
 }) {
-  const [toAdd, setToAdd] = useState<string>("");
   const byId = new Map(catalog.map((c) => [c.id, c]));
-  const available = catalog.filter((c) => !pins.some((p) => p.id === c.id));
 
   const move = (i: number, dir: -1 | 1) => {
     const j = i + dir;
@@ -80,14 +124,28 @@ function PinSection({
     onChange(next);
   };
   const remove = (i: number) => onChange(pins.filter((_, idx) => idx !== i));
-  const add = () => {
-    const id = Number(toAdd);
+  const addId = (id: number) => {
     if (!id || pins.some((p) => p.id === id)) return;
     onChange([...pins, hasNote ? { id, note: "" } : { id }]);
-    setToAdd("");
   };
   const setNote = (i: number, note: string) =>
     onChange(pins.map((p, idx) => (idx === i ? { ...p, note } : p)));
+
+  // The picker searches the already-loaded catalog client-side (no per-type search endpoint).
+  const fetchItems = useCallback(
+    async (): Promise<CatalogPickerItem[]> =>
+      catalog.map((c) => ({ id: c.id, label: c.label, sub: c.sub })),
+    [catalog],
+  );
+
+  const onCreate = useCallback(
+    async (values: Record<string, string>): Promise<CatalogItem | null> => {
+      const raw = await createCatalogRow(create.type, values);
+      if (!raw || typeof raw.id !== "number") return null;
+      return create.normalize(raw);
+    },
+    [create],
+  );
 
   return (
     <fieldset className="space-y-2 rounded-xl border border-border bg-card p-3">
@@ -126,19 +184,24 @@ function PinSection({
         );
       })}
 
-      <div className="flex items-center gap-2 pt-1">
-        <select className={inputClass} value={toAdd} onChange={(e) => setToAdd(e.target.value)} disabled={loading}>
-          <option value="">{loading ? "Loading…" : available.length ? "Add…" : "Nothing left to add"}</option>
-          {available.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label}
-              {c.sub ? ` — ${c.sub}` : ""}
-            </option>
-          ))}
-        </select>
-        <Button type="button" size="sm" variant="outline" disabled={!toAdd} onClick={add}>
-          <Plus className="size-4" /> Add
-        </Button>
+      <div className="pt-1">
+        <CatalogPicker<CatalogItem>
+          title={loading ? "Loading…" : "Add from library"}
+          searchPlaceholder="Search…"
+          triggerLabel="Add"
+          multi
+          clientFilter
+          excludeIds={pins.map((p) => p.id)}
+          fetchItems={fetchItems}
+          onPick={(item) => addId(item.id)}
+          createLabel={create.createLabel}
+          createFields={create.createFields}
+          onCreate={onCreate}
+          onPickCreated={(item) => {
+            onCreated(item);
+            addId(item.id);
+          }}
+        />
       </div>
     </fieldset>
   );
@@ -151,6 +214,24 @@ export interface PinsEditorProps {
   onPricingChange: (v: PricingPin[]) => void;
   services: ServicePin[];
   onServicesChange: (v: ServicePin[]) => void;
+}
+
+function normReview(x: RawCatalogRow): CatalogItem {
+  const id = numOrUndef(x.id) ?? 0;
+  const rating = numOrUndef(x.rating);
+  return {
+    id,
+    label: str(x.customerName) || `Review #${id}`,
+    sub: [rating ? `${rating}★` : "", str(x.text).slice(0, 40)].filter(Boolean).join(" "),
+  };
+}
+function normPricing(x: RawCatalogRow): CatalogItem {
+  const id = numOrUndef(x.id) ?? 0;
+  return { id, label: str(x.scenario) || `Item #${id}`, sub: str(x.priceLabel) };
+}
+function normService(x: RawCatalogRow): CatalogItem {
+  const id = numOrUndef(x.id) ?? 0;
+  return { id, label: str(x.name) || `Service #${id}`, sub: str(x.slug) };
 }
 
 export function PinsEditor({
@@ -171,21 +252,20 @@ export function PinsEditor({
     (async () => {
       const [r, p, s] = await Promise.all([fetchCatalog("reviews"), fetchCatalog("pricing"), fetchCatalog("services")]);
       if (!active) return;
-      setReviewCat(
-        r.map((x: any) => ({
-          id: x.id,
-          label: x.customerName ?? `Review #${x.id}`,
-          sub: [x.rating ? `${x.rating}★` : "", (x.text ?? "").slice(0, 40)].filter(Boolean).join(" "),
-        })),
-      );
-      setPricingCat(p.map((x: any) => ({ id: x.id, label: x.scenario ?? `Item #${x.id}`, sub: x.priceLabel ?? "" })));
-      setServiceCat(s.map((x: any) => ({ id: x.id, label: x.name ?? `Service #${x.id}`, sub: x.slug ?? "" })));
+      setReviewCat(r.map(normReview));
+      setPricingCat(p.map(normPricing));
+      setServiceCat(s.map(normService));
       setLoading(false);
     })();
     return () => {
       active = false;
     };
   }, []);
+
+  /** Append a created row to a catalog list (dedupe by id) so its label renders on the pinned row. */
+  const foldInto =
+    (setter: React.Dispatch<React.SetStateAction<CatalogItem[]>>) => (item: CatalogItem) =>
+      setter((list) => (list.some((c) => c.id === item.id) ? list : [...list, item]));
 
   return (
     <div className="space-y-4">
@@ -200,6 +280,19 @@ export function PinsEditor({
         loading={loading}
         pins={reviews.map((r) => ({ id: r.reviewId }))}
         onChange={(np) => onReviewsChange(np.map((p, i) => ({ reviewId: p.id, sortOrder: i })))}
+        create={{
+          type: "reviews",
+          createLabel: "Create new review",
+          createFields: [
+            { name: "customerName", label: "Customer name", placeholder: "Jane D.", required: true },
+            { name: "rating", label: "Rating (1–5)", placeholder: "5", required: true },
+            { name: "text", label: "Review text", placeholder: "Great service…", multiline: true, required: true },
+            { name: "suburb", label: "Suburb", placeholder: "Joondalup" },
+            { name: "service", label: "Service", placeholder: "Repairs" },
+          ],
+          normalize: normReview,
+        }}
+        onCreated={foldInto(setReviewCat)}
       />
 
       <PinSection
@@ -212,6 +305,19 @@ export function PinsEditor({
         onChange={(np) =>
           onPricingChange(np.map((p, i) => ({ pricingItemId: p.id, sortOrder: i, noteOverride: p.note ? p.note : null })))
         }
+        create={{
+          type: "pricing",
+          createLabel: "Create new pricing item",
+          createFields: [
+            { name: "scenario", label: "Scenario", placeholder: "Spring replacement", required: true },
+            { name: "priceLabel", label: "Price label", placeholder: "From $250" },
+            { name: "priceMin", label: "Price min", placeholder: "250" },
+            { name: "priceMax", label: "Price max", placeholder: "450" },
+            { name: "category", label: "Category", placeholder: "Repairs" },
+          ],
+          normalize: normPricing,
+        }}
+        onCreated={foldInto(setPricingCat)}
       />
 
       <PinSection
@@ -221,6 +327,18 @@ export function PinsEditor({
         loading={loading}
         pins={services.map((r) => ({ id: r.serviceId }))}
         onChange={(np) => onServicesChange(np.map((p, i) => ({ serviceId: p.id, sortOrder: i })))}
+        create={{
+          type: "services",
+          createLabel: "Create new service",
+          createFields: [
+            { name: "name", label: "Name", placeholder: "Garage Door Repairs", required: true },
+            { name: "slug", label: "Slug", placeholder: "garage-door-repairs", required: true },
+            { name: "shortDescription", label: "Short description", placeholder: "Fast, reliable repairs…", multiline: true, required: true },
+            { name: "iconName", label: "Icon name", placeholder: "Wrench" },
+          ],
+          normalize: normService,
+        }}
+        onCreated={foldInto(setServiceCat)}
       />
     </div>
   );

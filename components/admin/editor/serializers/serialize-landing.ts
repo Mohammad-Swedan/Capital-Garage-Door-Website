@@ -182,6 +182,8 @@ function serializeLandingPage(input: SerializerInput<LandingPage>): CreatePageCo
       question: str(f.question),
       answer: str(f.answer),
       sortOrder: i,
+      // Carry library provenance through (null for free-text FAQs).
+      faqItemId: f.faqItemId ?? null,
     })),
     relatedLinks: serializeRelatedLinks(relatedLinks),
     // Pins this editor does NOT manage → echo untouched so they aren't deleted.

@@ -61,6 +61,8 @@ export function serializeProblemPage(
       question: str(f.question),
       answer: str(f.answer),
       sortOrder: i,
+      // Carry library provenance through (null for free-text FAQs).
+      faqItemId: f.faqItemId ?? null,
     })),
     // Related services are canonical in the Settings drawer.
     relatedLinks: serializeRelatedLinks(relatedLinks),

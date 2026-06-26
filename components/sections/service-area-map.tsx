@@ -160,8 +160,9 @@ export function ServiceAreaMap() {
               />
               <Button
                 size="lg"
+                variant="gradient"
                 onClick={() => setBookingOpen(true)}
-                className="h-11 w-full cursor-pointer gap-2 rounded-xl bg-cta px-6 text-sm font-semibold text-cta-foreground shadow-[0_8px_32px_rgba(200,34,42,0.3)] transition-all hover:scale-[1.03] hover:bg-cta/90 sm:h-12 sm:w-auto sm:px-8 sm:text-base"
+                className="h-11 w-full cursor-pointer gap-2 rounded-xl px-6 text-sm font-semibold sm:h-12 sm:w-auto sm:px-8 sm:text-base"
               >
                 <CalendarClock className="h-4 w-4" aria-hidden="true" />
                 Book a Technician

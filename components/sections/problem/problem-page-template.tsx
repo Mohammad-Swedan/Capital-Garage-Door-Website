@@ -79,7 +79,7 @@ export function ProblemPageTemplate({ problem }: ProblemPageTemplateProps) {
 
       <FAQSection faqs={problem.faqs} />
 
-            <SmartCta />
+      <SmartCta />
 
       <StickyMobileCta />
     </>

@@ -41,7 +41,7 @@ export function PageHero({ eyebrow, title, subtitle, ctas, tone = "default" }: P
           {eyebrow && (
             <span
               className={cn(
-                "inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-bold tracking-wide uppercase",
+                "cgd-eyebrow inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5",
                 tone === "warning"
                   ? "border-amber-500/25 bg-amber-500/10 text-amber-700"
                   : "border-emerald-600/20 bg-emerald-600/10 text-emerald-700",
@@ -52,11 +52,11 @@ export function PageHero({ eyebrow, title, subtitle, ctas, tone = "default" }: P
             </span>
           )}
 
-          <h1 className="text-balance font-display text-[clamp(1.75rem,5vw,3rem)] leading-[1.08] font-black tracking-tight text-foreground">
+          <h1 className="cgd-display-fluid text-balance text-foreground">
             {title}
           </h1>
 
-          <p className="text-pretty max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="text-pretty max-w-2xl cgd-lead text-muted-foreground">
             {subtitle}
           </p>
 
@@ -66,12 +66,11 @@ export function PageHero({ eyebrow, title, subtitle, ctas, tone = "default" }: P
                 key={cta.label}
                 size="lg"
                 nativeButton={false}
-                variant={cta.variant === "outline" ? "outline" : "default"}
+                variant={cta.variant === "outline" ? "outline" : "cta"}
                 className={cn(
-                  "h-12 w-full gap-2 rounded-xl px-8 text-base transition-transform hover:scale-[1.03] sm:w-auto",
-                  cta.variant === "outline"
-                    ? "border-[#0f4e9b]/35 bg-[#0f4e9b]/5 text-[#0f4e9b] hover:bg-[#0f4e9b]/10 hover:text-[#0f4e9b]"
-                    : "bg-cta text-cta-foreground shadow-[0_3px_10px_rgba(200,34,42,0.25)] hover:bg-cta/90",
+                  "h-12 w-full gap-2 rounded-xl px-8 text-base sm:w-auto",
+                  cta.variant === "outline" &&
+                    "border-brand/35 bg-brand-soft text-brand hover:bg-[color-mix(in_oklab,var(--brand),transparent_82%)] hover:text-brand",
                 )}
                 render={
                   <a href={cta.href}>

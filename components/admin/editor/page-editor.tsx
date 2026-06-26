@@ -11,6 +11,8 @@ import { EditorToolbar } from "./editor-toolbar";
 import { SettingsDrawer, type PageMeta } from "./settings-drawer";
 import type { ReviewPin, PricingPin, ServicePin } from "./pins-editor";
 import { editorRegistry } from "./registry";
+import { useAutosave } from "./use-autosave";
+import { slugify } from "./editor-helpers";
 import "./editor.css";
 
 /**
@@ -99,6 +101,14 @@ function EditorChrome({
   const [services, setServices] = useState<ServicePin[]>(() => initial?.services ?? []);
   const [serverErrors, setServerErrors] = useState<{ code: string; description: string }[]>([]);
 
+  const isNewPage = !initial;
+  // After autosave CREATEs a brand-new page, remember the id the backend assigned
+  // so the NEXT save UPDATEs that same page instead of creating a duplicate.
+  const [createdId, setCreatedId] = useState<number | null>(null);
+  // The slug auto-derives from the title for new pages until the author edits it
+  // by hand (then we stop overriding). Never auto-touch an existing page's slug.
+  const slugTouchedRef = useRef(!isNewPage);
+
   const entry = editorRegistry[templateType];
 
   const seedSnapshot = useRef(
@@ -113,19 +123,13 @@ function EditorChrome({
       },
     }),
   );
-  const dirty =
-    JSON.stringify({ draft, meta, relatedLinks, pins: { pricingRows, reviews, services } }) !== seedSnapshot.current;
-
-  // Dirty-nav guard: warn before a full unload (close/refresh/external link) with unsaved edits.
-  useEffect(() => {
-    if (!dirty) return;
-    const handler = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue = "";
-    };
-    window.addEventListener("beforeunload", handler);
-    return () => window.removeEventListener("beforeunload", handler);
-  }, [dirty]);
+  // Single source of truth for "what does the editor state currently look like" —
+  // used both for the dirty check and as the autosave trigger signature.
+  const signature = useMemo(
+    () => JSON.stringify({ draft, meta, relatedLinks, pins: { pricingRows, reviews, services } }),
+    [draft, meta, relatedLinks, pricingRows, reviews, services],
+  );
+  const dirty = signature !== seedSnapshot.current;
 
   // selectAsset writes `hero.imageAssetId` into the draft; prefer it over the loaded value.
   const effectiveHeroAssetId = useMemo(() => {
@@ -133,7 +137,21 @@ function EditorChrome({
     return typeof fromDraft === "number" ? fromDraft : heroAssetId;
   }, [draft, heroAssetId]);
 
-  const updateMeta = useCallback((patch: Partial<PageMeta>) => setMeta((m) => ({ ...m, ...patch })), []);
+  // Meta updates with two niceties: (1) record a manual slug edit so auto-derive
+  // backs off, (2) auto-derive the slug from the title for untouched new pages.
+  const updateMeta = useCallback(
+    (patch: Partial<PageMeta>) => {
+      if (patch.slug !== undefined) slugTouchedRef.current = true;
+      setMeta((m) => {
+        const next = { ...m, ...patch };
+        if (patch.title !== undefined && !slugTouchedRef.current) {
+          next.slug = slugify(patch.title);
+        }
+        return next;
+      });
+    },
+    [],
+  );
 
   const issues = useMemo(() => {
     const list: { path: string; label: string; message: string }[] = [];
@@ -149,24 +167,48 @@ function EditorChrome({
     // them here so the editor doesn't report "ready to publish" only to be rejected.
     if (!meta.seoTitle.trim())
       list.push({ path: "__seoTitle", label: "SEO title", message: "An SEO title is required (the <title> tag)." });
+    else if (meta.seoTitle.length > 65)
+      list.push({ path: "__seoTitle", label: "SEO title", message: `A little long (${meta.seoTitle.length} chars) — aim for ≤ 60 so it isn't truncated in search.` });
     if (!meta.seoDescription.trim())
       list.push({ path: "__seoDescription", label: "SEO description", message: "An SEO description is required (the meta description)." });
+    else if (meta.seoDescription.length > 165)
+      list.push({ path: "__seoDescription", label: "SEO description", message: `A little long (${meta.seoDescription.length} chars) — aim for 120–160.` });
     return list;
   }, [draft, meta.slug, meta.title, meta.seoTitle, meta.seoDescription]);
 
+  // Hard issues that should BLOCK an autosave/publish (length-only warnings don't).
+  const hasBlockingIssues = useMemo(() => {
+    if (!meta.title.trim() || !meta.slug.trim() || !/^[a-z0-9-]+$/.test(meta.slug)) return true;
+    if (!meta.seoTitle.trim() || !meta.seoDescription.trim()) return true;
+    const heroH1 = (draft?.hero as { h1?: string } | undefined)?.h1;
+    if (typeof heroH1 === "string" && !heroH1.trim()) return true;
+    return false;
+  }, [draft, meta.slug, meta.title, meta.seoTitle, meta.seoDescription]);
+
+  // Forward-declare the autosave handle so `save` can mark its result; the hook
+  // is created just below and only calls `save` via a ref, so order is fine.
+  const autosaveRef = useRef<{ markSaved: (at?: Date) => void; markError: () => void; cancelPending: () => void } | null>(null);
+
   const save = useCallback(
-    (publish: boolean) => {
+    (publish: boolean, opts?: { silent?: boolean }) => {
+      const silent = opts?.silent ?? false;
+      // A manual save/publish supersedes any queued autosave.
+      if (!silent) autosaveRef.current?.cancelPending();
       setServerErrors([]);
       if (!entry) {
         setServerErrors([{ code: "Editor", description: `No editor registered for ${templateType}.` }]);
+        if (silent) autosaveRef.current?.markError();
         return;
       }
+      // The effective id: a loaded page's id, else the id a prior autosave created.
+      const effectiveId = initial?.id ?? createdId ?? 0;
       // Merge the live pin state into `initial` so the (unchanged) serializers emit the edited pins
-      // (they read pins off `initial`). For a new page, synthesize a minimal initial (id:0 → create).
+      // (they read pins off `initial`). For a new page, synthesize a minimal initial. Once a prior
+      // autosave has created the page, carry its id so we UPDATE rather than create a duplicate.
       const serializerInitial: InitialPage = initial
-        ? { ...initial, pricingRows, reviews, services }
+        ? { ...initial, id: effectiveId, pricingRows, reviews, services }
         : {
-            id: 0,
+            id: effectiveId,
             slug: meta.slug,
             title: meta.title,
             seoTitle: meta.seoTitle,
@@ -181,38 +223,115 @@ function EditorChrome({
             reviews,
             services,
           };
+      // A new page that has never been saved must serialize WITHOUT an id (id 0 →
+      // create); only pass `initial` to the serializer once we truly have one.
+      const useInitial = initial || effectiveId > 0 ? serializerInitial : undefined;
       const payload = entry.serialize({
         draft,
-        initial: serializerInitial,
+        initial: useInitial,
         meta,
         relatedLinks,
         heroImageAssetId: effectiveHeroAssetId,
       });
+      // Snapshot the state we're about to persist so a successful SILENT save can
+      // reset the dirty baseline to exactly this (edits made mid-flight stay dirty).
+      const savedSignature = signature;
       startTransition(async () => {
         const result = await savePageAction(
           payload as unknown as Record<string, unknown> & { id?: number },
           publish,
         );
         if (result.ok) {
-          router.push("/admin/pages");
-          router.refresh();
+          if (silent) {
+            // Autosave: stay on the page. Reset the dirty baseline, remember any
+            // newly-created id, and flag the chip as saved.
+            seedSnapshot.current = savedSignature;
+            if (result.id && !initial) setCreatedId(result.id);
+            autosaveRef.current?.markSaved(new Date());
+          } else {
+            // Manual save/publish: clear dirty so the unload guard won't fire, then
+            // return to the list (unchanged behaviour).
+            seedSnapshot.current = savedSignature;
+            router.push("/admin/pages");
+            router.refresh();
+          }
         } else {
           setServerErrors(result.errors ?? [{ code: "Error", description: "Save failed." }]);
-          setSettingsOpen(true);
+          if (silent) {
+            autosaveRef.current?.markError();
+          } else {
+            setSettingsOpen(true);
+          }
         }
       });
     },
-    [entry, draft, initial, meta, relatedLinks, pricingRows, reviews, services, effectiveHeroAssetId, router, templateType],
+    [entry, draft, initial, createdId, meta, relatedLinks, pricingRows, reviews, services, effectiveHeroAssetId, signature, router, templateType],
   );
 
+  // Debounced draft autosave (never publishes; backs off while invalid).
+  const autosave = useAutosave({
+    enabled: !advanced,
+    dirty,
+    blocked: hasBlockingIssues,
+    saving: pending,
+    signature,
+    onSave: useCallback(() => save(false, { silent: true }), [save]),
+  });
+  // Keep the handle current for `save`'s async callbacks (assigned post-render so
+  // we never write a ref during render).
+  useEffect(() => {
+    autosaveRef.current = autosave;
+  });
+
+  // Keyboard shortcuts: Ctrl/⌘+S = save draft, Ctrl/⌘+⇧+P = publish.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const mod = e.metaKey || e.ctrlKey;
+      if (!mod) return;
+      const key = e.key.toLowerCase();
+      if (key === "s" && !e.shiftKey) {
+        e.preventDefault();
+        if (!pending) save(false);
+      } else if (key === "p" && e.shiftKey) {
+        e.preventDefault();
+        if (!pending && !hasBlockingIssues) save(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [save, pending, hasBlockingIssues]);
+
+  // Dirty-nav guard: warn before a full unload (close/refresh/external link) ONLY
+  // while there are genuinely unsaved edits and nothing is mid-save. A successful
+  // save/autosave resets `dirty`, so this detaches itself and won't fire after.
+  useEffect(() => {
+    if (!dirty || pending) return;
+    const handler = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [dirty, pending]);
+
   const discard = useCallback(() => {
-    if (typeof window !== "undefined" && window.confirm("Discard all unsaved changes?")) router.refresh();
+    if (typeof window !== "undefined" && window.confirm("Discard all unsaved changes? This can't be undone.")) {
+      autosaveRef.current?.cancelPending();
+      router.refresh();
+    }
   }, [router]);
 
+  // Jump to an issue: on-canvas fields scroll into view + focus; meta-only issues
+  // (slug/title/SEO) open the Settings drawer where those fields live.
   const jumpToIssue = useCallback((path: string) => {
-    if (path.startsWith("__")) return;
+    if (path.startsWith("__")) {
+      setSettingsOpen(true);
+      return;
+    }
     setSettingsOpen(false);
-    document.querySelector<HTMLElement>(`[data-issue-path="${path}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    const el = document.querySelector<HTMLElement>(`[data-issue-path="${path}"]`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.querySelector<HTMLElement>("[contenteditable], input, textarea")?.focus();
   }, []);
 
   const drawer = (
@@ -243,6 +362,10 @@ function EditorChrome({
       dirty={dirty}
       advanced={advanced}
       device={device}
+      saveStatus={autosave.status}
+      lastSavedAt={autosave.lastSavedAt}
+      issues={issues}
+      onJumpToIssue={jumpToIssue}
       onToggleDevice={() => setDevice((d) => (d === "mobile" ? "desktop" : "mobile"))}
       onToggleEditing={() => setEditing((v) => !v)}
       onToggleAdvanced={() => setAdvanced((v) => !v)}

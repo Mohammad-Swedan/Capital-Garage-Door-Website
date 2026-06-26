@@ -37,11 +37,11 @@ export function CaseStudyPageTemplate({ data }: CaseStudyPageTemplateProps) {
 
       <JobSummaryCards data={data} />
 
-      <DetailSection icon={AlertTriangle} heading="Customer Problem" block={data.problem} tone="default" pathPrefix="problem" />
+      <DetailSection icon={<AlertTriangle className="h-5.5 w-5.5" aria-hidden="true" />} heading="Customer Problem" block={data.problem} tone="default" pathPrefix="problem" />
 
-      <DetailSection icon={Search} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" pathPrefix="diagnosis" />
+      <DetailSection icon={<Search className="h-5.5 w-5.5" aria-hidden="true" />} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" pathPrefix="diagnosis" />
 
-      <DetailSection icon={Wrench} heading="Solution" block={data.solution} tone="default" pathPrefix="solution" />
+      <DetailSection icon={<Wrench className="h-5.5 w-5.5" aria-hidden="true" />} heading="Solution" block={data.solution} tone="default" pathPrefix="solution" />
 
       <BeforeAfterGallery images={data.images} />
 

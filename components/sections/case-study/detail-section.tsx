@@ -1,6 +1,7 @@
 "use client";
 
-import { CheckCircle2, type LucideIcon } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import type { ReactNode } from "react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
@@ -8,7 +9,8 @@ import { EditableText, EditableList } from "@/components/admin/editor/editable";
 import type { CaseStudyDetailBlock } from "@/types/case-study";
 
 interface DetailSectionProps {
-  icon: LucideIcon;
+  /** Rendered icon element (a ReactNode, not a component) so it serializes across the server→client boundary. */
+  icon: ReactNode;
   heading: string;
   block: CaseStudyDetailBlock;
   /** Alternates a soft tint between the three narrative sections for visual rhythm. */
@@ -22,7 +24,7 @@ interface DetailSectionProps {
 }
 
 /** Reusable narrative block (intro paragraph + bullet list) — used for Customer Problem, Inspection/Diagnosis, and Solution. */
-export function DetailSection({ icon: Icon, heading, block, tone = "default", pathPrefix }: DetailSectionProps) {
+export function DetailSection({ icon, heading, block, tone = "default", pathPrefix }: DetailSectionProps) {
   return (
     <section className={cn("py-14 sm:py-20", tone === "tinted" ? "bg-surface-muted" : "bg-background")}>
       <Container>
@@ -30,7 +32,7 @@ export function DetailSection({ icon: Icon, heading, block, tone = "default", pa
           <Reveal>
             <div className="flex items-center gap-3.5">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-brand text-white shadow-elevated ring-1 ring-white/15">
-                <Icon className="h-5.5 w-5.5" aria-hidden="true" />
+                {icon}
               </span>
               <h2 className="cgd-h2 text-balance text-foreground">
                 {heading}

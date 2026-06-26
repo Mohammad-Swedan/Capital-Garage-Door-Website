@@ -49,6 +49,94 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ── Supporting brand surfaces (Agent 6 design foundation) ───────────────────
+     Exposed as color utilities (e.g. `bg-surface`, `text-brand`, `bg-cta-soft`)
+     so templates can reach richer brand tones without inline hex. All resolve
+     to CSS custom properties defined under :root / .dark so they flip in dark
+     mode automatically. */
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
+  --color-cta-soft: var(--cta-soft);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-highlight: var(--highlight);
+
+  /* ── Layered elevation system ────────────────────────────────────────────────
+     Tuned for both light and dark (the raw values live under :root / .dark).
+     Use via Tailwind's shadow utilities: `shadow-card`, `shadow-elevated`,
+     `shadow-float`, `shadow-glow`, `shadow-inner-highlight`. */
+  --shadow-card: var(--elevation-card);
+  --shadow-elevated: var(--elevation-elevated);
+  --shadow-float: var(--elevation-float);
+  --shadow-glow: var(--elevation-glow);
+  --shadow-inner-highlight: var(--elevation-inner-highlight);
+
+  /* ── Typography scale (optical) ─────────────────────────────────────────────
+     Paired font-size + line-height tokens so the rhythm is consistent whether
+     consumed via the `.text-display … .text-small` utility classes below or the
+     `text-*` size utilities. */
+  --text-display: 3.5rem;
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.02em;
+  --text-h1: 2.5rem;
+  --text-h1--line-height: 1.1;
+  --text-h1--letter-spacing: -0.018em;
+  --text-h2: 1.875rem;
+  --text-h2--line-height: 1.18;
+  --text-h2--letter-spacing: -0.012em;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.006em;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: 0em;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.5;
+  --text-small--letter-spacing: 0.005em;
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.08em;
+
+  /* ── Gradient-accent tokens (navy ↔ red brand blends) ───────────────────────
+     Reusable image tokens. Consume with bracket utilities, e.g.
+     `bg-[image:var(--gradient-brand)]`, or via the `.bg-gradient-*` helpers. */
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--brand) 0%,
+    color-mix(in oklab, var(--brand), var(--cta) 55%) 100%
+  );
+  --gradient-brand-soft: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--brand), transparent 88%) 0%,
+    color-mix(in oklab, var(--cta), transparent 90%) 100%
+  );
+  --gradient-cta: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--cta), white 6%) 0%,
+    var(--cta) 55%,
+    color-mix(in oklab, var(--cta), var(--brand) 35%) 100%
+  );
+  --gradient-navy: linear-gradient(
+    160deg,
+    color-mix(in oklab, var(--brand), white 4%) 0%,
+    var(--brand) 60%,
+    color-mix(in oklab, var(--brand), black 32%) 100%
+  );
+  --gradient-sheen: linear-gradient(
+    105deg,
+    transparent 0%,
+    color-mix(in oklab, white, transparent 78%) 45%,
+    transparent 70%
+  );
+  --gradient-border: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--brand), transparent 55%),
+    color-mix(in oklab, var(--cta), transparent 55%)
+  );
 }
 
 :root {
@@ -77,6 +165,31 @@
   --chart-3: oklch(0.6 0.18 260);
   --chart-4: oklch(0.439 0 0);
   --chart-5: oklch(0.269 0 0);
+
+  /* Supporting brand tones (Agent 6). Mirror the identity — navy primary + red
+     CTA — but give templates softer fills and a layered-surface vocabulary. */
+  --brand: #1b3b8c;
+  --brand-foreground: #ffffff;
+  --brand-soft: oklch(0.94 0.03 252);
+  --cta-soft: oklch(0.95 0.045 25);
+  --surface: oklch(0.985 0.006 245);
+  --surface-foreground: #0d1f45;
+  --surface-elevated: oklch(1 0 0);
+  --surface-muted: oklch(0.965 0.012 245);
+  --highlight: oklch(1 0 0 / 70%);
+
+  /* Layered elevation — soft, tinted with the brand navy rather than flat black
+     so shadows feel cohesive with the palette. Subtle by design. */
+  --elevation-card:
+    0 1px 2px oklch(0.18 0.06 258 / 0.06), 0 2px 6px oklch(0.18 0.06 258 / 0.06);
+  --elevation-elevated:
+    0 2px 4px oklch(0.18 0.06 258 / 0.06), 0 8px 20px oklch(0.18 0.06 258 / 0.1);
+  --elevation-float:
+    0 6px 14px oklch(0.18 0.06 258 / 0.1),
+    0 18px 40px oklch(0.18 0.06 258 / 0.14);
+  --elevation-glow: 0 10px 36px color-mix(in oklab, var(--brand), transparent 78%);
+  --elevation-inner-highlight: inset 0 1px 0 oklch(1 0 0 / 0.6);
+
   --radius: 0.625rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
@@ -89,39 +202,68 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: #3a5bb0;
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Premium dark mode (Agent 6): a deep navy-tinted base instead of a flat
+     neutral inversion, so the brand identity carries into dark. Surfaces step
+     up in lightness for a sense of depth; the chroma stays low so it reads as
+     "ink", not blue. Token NAMES are unchanged for backward compatibility. */
+  --background: oklch(0.17 0.018 258);
+  --foreground: oklch(0.97 0.006 250);
+  --card: oklch(0.215 0.022 258);
+  --card-foreground: oklch(0.97 0.006 250);
+  --popover: oklch(0.225 0.024 258);
+  --popover-foreground: oklch(0.97 0.006 250);
+  --primary: #4f72c8;
+  --primary-foreground: oklch(0.16 0.02 258);
+  --secondary: oklch(0.27 0.022 258);
+  --secondary-foreground: oklch(0.97 0.006 250);
+  --muted: oklch(0.27 0.02 258);
+  --muted-foreground: oklch(0.72 0.018 252);
+  --accent: oklch(0.31 0.03 258);
+  --accent-foreground: oklch(0.97 0.006 250);
   --cta: #e0444b;
-  --cta-foreground: oklch(0.145 0.02 41);
+  --cta-foreground: oklch(0.16 0.02 25);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --border: oklch(0.99 0.01 255 / 12%);
+  --input: oklch(0.99 0.01 255 / 16%);
+  --ring: #5f82d2;
+  --chart-1: #6d8fdb;
+  --chart-2: #e0444b;
+  --chart-3: oklch(0.7 0.14 262);
+  --chart-4: oklch(0.55 0.04 258);
+  --chart-5: oklch(0.4 0.03 258);
+  --sidebar: oklch(0.2 0.02 258);
+  --sidebar-foreground: oklch(0.97 0.006 250);
+  --sidebar-primary: oklch(0.55 0.16 264);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --sidebar-accent: oklch(0.27 0.022 258);
+  --sidebar-accent-foreground: oklch(0.97 0.006 250);
+  --sidebar-border: oklch(0.99 0.01 255 / 10%);
+  --sidebar-ring: oklch(0.55 0.05 258);
+
+  /* Supporting brand tones — dark variants. */
+  --brand: #4f72c8;
+  --brand-foreground: oklch(0.16 0.02 258);
+  --brand-soft: oklch(0.32 0.05 258);
+  --cta-soft: oklch(0.36 0.08 25);
+  --surface: oklch(0.205 0.02 258);
+  --surface-foreground: oklch(0.97 0.006 250);
+  --surface-elevated: oklch(0.25 0.026 258);
+  --surface-muted: oklch(0.235 0.022 258);
+  --highlight: oklch(1 0 0 / 8%);
+
+  /* Elevation — deeper, darker shadows for contrast on the dark base, paired
+     with a faint inner top-highlight so elevated surfaces feel lit from above
+     ("not just inverted"). */
+  --elevation-card:
+    0 1px 2px oklch(0 0 0 / 0.4), 0 2px 8px oklch(0 0 0 / 0.36);
+  --elevation-elevated:
+    0 3px 8px oklch(0 0 0 / 0.45), 0 12px 28px oklch(0 0 0 / 0.5);
+  --elevation-float:
+    0 8px 18px oklch(0 0 0 / 0.5), 0 24px 56px oklch(0 0 0 / 0.6);
+  --elevation-glow:
+    0 0 0 1px oklch(1 0 0 / 0.04),
+    0 14px 48px color-mix(in oklab, var(--brand), transparent 62%);
+  --elevation-inner-highlight: inset 0 1px 0 oklch(1 0 0 / 0.07);
 }
 
 @layer base {
@@ -133,6 +275,178 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Agent 6 — Design system utilities (typography rhythm, gradients, surfaces).
+   These are the public contract other agents apply to templates/admin. All are
+   additive; nothing here changes default rendering unless a class is opted into.
+   ════════════════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  /* ── Typographic rhythm ───────────────────────────────────────────────────
+     A tasteful display → h1 → h2 → h3 → lead → body → small → eyebrow scale
+     with optical tracking/leading tuned per family. Each utility sets size +
+     line-height + tracking + the right family/weight, so a heading needs just
+     one class. Colour is intentionally NOT set — inherit or layer `text-*`.
+     Prefixed `cgd-` (matching this codebase's convention) so they don't shadow
+     the size-only `text-display/text-h1/text-h2/text-h3` utilities that the
+     @theme tokens above also generate. */
+  .cgd-display {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 400;
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    letter-spacing: var(--text-display--letter-spacing);
+  }
+  .cgd-h1 {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 700;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    letter-spacing: var(--text-h1--letter-spacing);
+  }
+  .cgd-h2 {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    letter-spacing: var(--text-h2--letter-spacing);
+  }
+  .cgd-h3 {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+  }
+  .cgd-lead {
+    font-family: var(--font-body), sans-serif;
+    font-weight: 400;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
+    letter-spacing: var(--text-lead--letter-spacing);
+  }
+  .cgd-small {
+    font-family: var(--font-body), sans-serif;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+    letter-spacing: var(--text-small--letter-spacing);
+  }
+  /* Uppercase label that sits above a heading. Pair with a colour utility. */
+  .cgd-eyebrow {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    font-size: var(--text-eyebrow);
+    line-height: var(--text-eyebrow--line-height);
+    letter-spacing: var(--text-eyebrow--letter-spacing);
+    text-transform: uppercase;
+  }
+  /* Fluid display for hero headlines — scales smoothly from mobile to desktop
+     without breakpoint jumps. */
+  .cgd-display-fluid {
+    font-family: var(--font-display), sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.25rem, 1.4rem + 4.2vw, 4.5rem);
+    line-height: 1.04;
+    letter-spacing: var(--text-display--letter-spacing);
+  }
+
+  /* ── Gradient surfaces & text ─────────────────────────────────────────────
+     Named helpers over the gradient tokens, so callers don't repeat the
+     bracket syntax. */
+  .bg-gradient-brand {
+    background-image: var(--gradient-brand);
+  }
+  .bg-gradient-brand-soft {
+    background-image: var(--gradient-brand-soft);
+  }
+  .bg-gradient-cta {
+    background-image: var(--gradient-cta);
+  }
+  .bg-gradient-navy {
+    background-image: var(--gradient-navy);
+  }
+  /* Navy→red gradient clipped to text. Provide your own font sizing/weight. */
+  .text-gradient-brand {
+    background-image: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ── Elevation shorthands ─────────────────────────────────────────────────
+     `shadow-card/elevated/float/glow` already exist via @theme; these add the
+     "lit from above" inner highlight commonly paired with a premium surface. */
+  .elevate-card {
+    box-shadow: var(--shadow-inner-highlight), var(--shadow-card);
+  }
+  .elevate-elevated {
+    box-shadow: var(--shadow-inner-highlight), var(--shadow-elevated);
+  }
+  .elevate-float {
+    box-shadow: var(--shadow-inner-highlight), var(--shadow-float);
+  }
+
+  /* ── Gradient border (1px) ────────────────────────────────────────────────
+     A navy↔red hairline border that works on any background, light or dark.
+     Uses the padding-box/border-box mask trick. */
+  .border-gradient-brand {
+    border: 1px solid transparent;
+    background:
+      linear-gradient(var(--card), var(--card)) padding-box,
+      var(--gradient-border) border-box;
+  }
+
+  /* ── Ambient glow ─────────────────────────────────────────────────────────
+     A soft radial brand glow for section backdrops / premium dark mode. Apply
+     to a positioned, overflow-hidden parent's ::before via this class on a
+     child, or directly as a decorative layer. */
+  .bg-glow-brand {
+    background:
+      radial-gradient(
+        60% 60% at 50% 0%,
+        color-mix(in oklab, var(--brand), transparent 80%) 0%,
+        transparent 70%
+      );
+  }
+  .bg-glow-cta {
+    background:
+      radial-gradient(
+        60% 60% at 50% 100%,
+        color-mix(in oklab, var(--cta), transparent 82%) 0%,
+        transparent 70%
+      );
+  }
+
+  /* ── Shimmer (opt-in skeleton loading) ────────────────────────────────────
+     A light sweep across a muted base. Used by <Skeleton shimmer />. Runs on
+     the compositor (background-position) and is disabled for reduced motion. */
+  .cgd-shimmer {
+    background-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      color-mix(in oklab, var(--foreground), transparent 92%) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    background-repeat: no-repeat;
+    animation: cgd-shimmer 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes cgd-shimmer {
+  from {
+    background-position: -150% 0;
+  }
+  to {
+    background-position: 150% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-shimmer {
+    animation: none;
   }
 }
 

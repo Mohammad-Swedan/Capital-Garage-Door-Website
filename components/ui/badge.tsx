@@ -19,6 +19,19 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // ── Agent 6 tonal variants ─────────────────────────────────────────
+        // Soft, low-chroma fills for status/labelling. Tinted in dark mode.
+        brand:
+          "bg-brand-soft text-primary [a]:hover:bg-[color-mix(in_oklab,var(--brand),transparent_82%)] dark:text-foreground",
+        cta: "bg-cta-soft text-cta [a]:hover:bg-[color-mix(in_oklab,var(--cta),transparent_82%)] dark:text-foreground",
+        success:
+          "bg-[color-mix(in_oklab,oklch(0.62_0.17_150),transparent_88%)] text-[oklch(0.46_0.15_150)] dark:text-[oklch(0.8_0.16_150)]",
+        warning:
+          "bg-[color-mix(in_oklab,oklch(0.78_0.16_75),transparent_85%)] text-[oklch(0.5_0.13_70)] dark:text-[oklch(0.85_0.15_80)]",
+        info: "bg-[color-mix(in_oklab,oklch(0.6_0.16_240),transparent_88%)] text-[oklch(0.45_0.16_250)] dark:text-[oklch(0.8_0.13_245)]",
+        // Solid red CTA pill.
+        solid:
+          "bg-cta text-cta-foreground [a]:hover:bg-[color-mix(in_oklab,var(--cta),black_8%)]",
       },
     },
     defaultVariants: {

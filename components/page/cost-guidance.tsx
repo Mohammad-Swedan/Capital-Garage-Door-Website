@@ -19,14 +19,14 @@ interface CostGuidanceProps {
 /** Cost-guidance section: explains what price depends on, with a clear CTA. */
 export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProps) {
   return (
-    <section className="bg-muted/40">
+    <section className="bg-surface-muted">
       <Container className="py-12 sm:py-16">
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
           <div>
             <SectionHeading eyebrow={eyebrow} title={title} description={data.intro} />
             {data.note && (
               <Reveal delay={0.1}>
-                <p className="mt-5 inline-flex items-center gap-2 rounded-xl border border-[#0f4e9b]/15 bg-[#0f4e9b]/5 px-4 py-2.5 text-sm font-semibold text-[#0f4e9b]">
+                <p className="mt-5 inline-flex items-center gap-2 rounded-xl border border-brand/15 bg-brand-soft px-4 py-2.5 text-sm font-semibold text-brand shadow-card">
                   <Camera className="h-4 w-4" aria-hidden="true" />
                   <EditableText path="costGuidance.note" placeholder="Cost note…">
                     {data.note}
@@ -37,8 +37,8 @@ export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProp
           </div>
 
           <Reveal delay={0.08}>
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm ring-1 ring-foreground/5 sm:p-7">
-              <p className="text-sm font-bold tracking-wide text-foreground/70 uppercase">
+            <div className="rounded-3xl border border-border/70 bg-surface-elevated p-6 elevate-card sm:p-7">
+              <p className="cgd-eyebrow text-muted-foreground">
                 Your quote depends on
               </p>
               <ul className="mt-4 flex flex-col gap-3">

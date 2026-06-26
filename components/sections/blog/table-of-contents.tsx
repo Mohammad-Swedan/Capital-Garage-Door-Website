@@ -19,9 +19,9 @@ export function TableOfContents({ items }: TableOfContentsProps) {
         <li key={item.id}>
           <a
             href={`#${item.id}`}
-            className="group flex items-start gap-2.5 text-sm text-muted-foreground transition-colors hover:text-primary"
+            className="group flex items-start gap-2.5 text-sm text-muted-foreground transition-colors hover:text-brand"
           >
-            <span className="mt-0.5 text-xs font-bold text-primary/50 group-hover:text-primary">
+            <span className="mt-0.5 text-xs font-bold text-brand/50 group-hover:text-brand">
               {String(index + 1).padStart(2, "0")}
             </span>
             <span>{item.label}</span>
@@ -35,9 +35,9 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     <>
       {/* Desktop: sticky sidebar */}
       <aside className="hidden lg:block">
-        <nav aria-label="Table of contents" className="sticky top-24 rounded-2xl border border-border bg-card p-5">
-          <p className="flex items-center gap-2 font-heading text-sm font-bold tracking-wide text-foreground uppercase">
-            <List className="h-4 w-4 text-primary" aria-hidden="true" />
+        <nav aria-label="Table of contents" className="sticky top-24 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card">
+          <p className="flex items-center gap-2 cgd-eyebrow text-foreground">
+            <List className="h-4 w-4 text-brand" aria-hidden="true" />
             On this page
           </p>
           <div className="mt-4">{links}</div>
@@ -45,8 +45,8 @@ export function TableOfContents({ items }: TableOfContentsProps) {
       </aside>
 
       {/* Mobile/tablet: collapsible */}
-      <details className="group rounded-2xl border border-border bg-card lg:hidden">
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4 font-heading text-sm font-bold tracking-wide text-foreground uppercase">
+      <details className="group rounded-2xl border border-border/70 bg-surface-elevated elevate-card lg:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-2 p-4 cgd-eyebrow text-foreground">
           <span className="flex items-center gap-2">
             <List className="h-4 w-4 text-primary" aria-hidden="true" />
             On this page

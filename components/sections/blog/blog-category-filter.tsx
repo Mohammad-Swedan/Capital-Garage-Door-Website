@@ -29,12 +29,13 @@ export function BlogCategoryFilter({ articles, teasers, categories }: BlogCatego
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="cgd-h2 text-balance text-foreground">
+          <span className="cgd-eyebrow text-cta">The Blog</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             All Articles
           </h2>
         </Reveal>
 
-        <Reveal delay={0.05} className="mt-6 flex flex-wrap gap-2">
+        <Reveal delay={0.05} className="mt-7 flex flex-wrap gap-2">
           {["All", ...categories].map((option) => (
             <button
               key={option}
@@ -42,10 +43,10 @@ export function BlogCategoryFilter({ articles, teasers, categories }: BlogCatego
               onClick={() => setActiveFilter(option)}
               aria-pressed={activeFilter === option}
               className={cn(
-                "rounded-full border px-4 py-1.5 text-sm font-semibold transition-colors",
+                "rounded-full border px-4 py-1.5 text-sm font-semibold transition-all",
                 activeFilter === option
-                  ? "border-[#0f4e9b]/35 bg-[#0f4e9b]/10 text-[#0f4e9b]"
-                  : "border-border bg-card text-muted-foreground hover:border-[#0f4e9b]/25 hover:text-[#0f4e9b]",
+                  ? "border-transparent bg-brand text-white shadow-card"
+                  : "border-border bg-surface-elevated text-muted-foreground shadow-card hover:-translate-y-px hover:border-brand/25 hover:text-brand",
               )}
             >
               {option}

@@ -25,9 +25,10 @@ export function ExpertTipCards({ heading = "Expert Tips", tips }: ExpertTipCards
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="cgd-h2 text-balance text-foreground">{heading}</h2>
+          <span className="cgd-eyebrow text-cta">Pro Advice</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">{heading}</h2>
         </Reveal>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-9 grid gap-4 sm:grid-cols-2">
           <EditableList<ExpertTip>
             path="expertTips"
             items={tips}
@@ -39,11 +40,11 @@ export function ExpertTipCards({ heading = "Expert Tips", tips }: ExpertTipCards
               const Icon = style.icon;
               return (
                 <Reveal delay={index * 0.05} className="h-full">
-                  <article className="flex h-full flex-col rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-5 shadow-sm ring-1 ring-foreground/5 sm:p-6">
-                    <span className={cn("flex h-11 w-11 items-center justify-center rounded-xl", style.iconWrap)}>
+                  <article className="group flex h-full flex-col rounded-2xl border border-border/70 bg-gradient-to-br from-surface-elevated to-surface-muted p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-float sm:p-6">
+                    <span className={cn("flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-105", style.iconWrap)}>
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <p className="mt-4 text-xs font-bold tracking-wide text-muted-foreground uppercase">{style.label}</p>
+                    <p className="mt-4 cgd-eyebrow text-[11px] text-muted-foreground">{style.label}</p>
                     <h3 className="mt-1 cgd-h3 text-base text-foreground">
                       <EditableText path={`expertTips[${index}].title`} placeholder="Tip title…">
                         {tip.title}

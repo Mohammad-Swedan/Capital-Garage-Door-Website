@@ -8,7 +8,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default:
+          "bg-primary text-primary-foreground shadow-card hover:bg-primary/90 hover:shadow-elevated active:shadow-card",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
@@ -18,6 +19,15 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-4 hover:underline",
+        // ── Agent 6 premium additions ──────────────────────────────────────
+        // Solid red CTA with brand-tinted lift on hover. The marketing call.
+        cta: "bg-cta text-cta-foreground shadow-card hover:-translate-y-px hover:bg-[color-mix(in_oklab,var(--cta),white_8%)] hover:shadow-[0_8px_24px_color-mix(in_oklab,var(--cta),transparent_70%)] active:translate-y-0 active:shadow-card",
+        // Navy→red gradient with a sheen sweep on hover. The hero/feature CTA.
+        gradient:
+          "relative isolate overflow-hidden bg-[image:var(--gradient-cta)] text-cta-foreground shadow-elevated hover:-translate-y-px hover:shadow-float active:translate-y-0 before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:bg-[image:var(--gradient-sheen)] before:opacity-0 before:[transform:translateX(-120%)] before:transition-[transform,opacity] before:duration-700 hover:before:opacity-100 hover:before:[transform:translateX(120%)] motion-reduce:before:hidden motion-reduce:hover:translate-y-0",
+        // Navy gradient with a subtle inner top-highlight — premium, calmer.
+        premium:
+          "bg-[image:var(--gradient-navy)] text-primary-foreground shadow-[var(--shadow-inner-highlight),var(--shadow-elevated)] hover:-translate-y-px hover:shadow-[var(--shadow-inner-highlight),var(--shadow-float)] active:translate-y-0 motion-reduce:hover:translate-y-0",
       },
       size: {
         default:

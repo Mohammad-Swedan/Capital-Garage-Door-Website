@@ -1,20 +1,47 @@
 import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+
+// Base structural classes are unchanged from the original card so every existing
+// usage renders identically; `cva` only layers an optional, opt-in `variant`.
+const cardVariants = cva(
+  "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+  {
+    variants: {
+      variant: {
+        // Default — visually identical to the original (bg-card + hairline ring).
+        default: "bg-card ring-1 ring-foreground/10",
+        // Elevated white surface with the layered card shadow + lit top edge.
+        elevated:
+          "bg-card ring-1 ring-foreground/5 shadow-[var(--shadow-inner-highlight),var(--shadow-card)]",
+        // Featured — accent CTA stripe down the inline-start edge + elevation.
+        featured:
+          "bg-card ring-1 ring-foreground/10 shadow-[var(--shadow-inner-highlight),var(--shadow-elevated)] relative before:absolute before:inset-y-0 before:start-0 before:w-1 before:bg-[image:var(--gradient-cta)]",
+        // Premium — navy↔red gradient hairline border + float elevation + glow.
+        premium:
+          "relative bg-card ring-0 shadow-[var(--shadow-inner-highlight),var(--shadow-float)] before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:p-px before:[background:var(--gradient-border)] before:[mask:linear-gradient(#fff_0_0)_content-box,linear-gradient(#fff_0_0)] before:[mask-composite:exclude]",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
 function Card({
   className,
   size = "default",
+  variant = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: React.ComponentProps<"div"> &
+  VariantProps<typeof cardVariants> & { size?: "default" | "sm" }) {
   return (
     <div
       data-slot="card"
       data-size={size}
-      className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
-        className
-      )}
+      data-variant={variant}
+      className={cn(cardVariants({ variant }), className)}
       {...props}
     />
   )
@@ -100,4 +127,5 @@ export {
   CardAction,
   CardDescription,
   CardContent,
+  cardVariants,
 }

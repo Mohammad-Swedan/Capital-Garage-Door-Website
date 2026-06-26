@@ -24,14 +24,15 @@ export function ReviewCards({ heading = "What Perth Homeowners Say", reviews }: 
       <Container>
         <EditableGroup label="Review pins · managed in Settings → Pins">
           <Reveal>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            <span className="cgd-eyebrow text-cta">Testimonials</span>
+            <h2 className="mt-3 cgd-h2 text-balance text-foreground">
               {heading}
             </h2>
           </Reveal>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.map((review, index) => (
               <Reveal key={review.name} delay={index * 0.06}>
-                <div className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_rgba(13,31,69,0.05)]">
+                <div className="group flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated">
                   <div className="flex items-center gap-0.5" aria-label={`${review.rating} out of 5 stars`}>
                     {Array.from({ length: 5 }).map((_, starIndex) => (
                       <Star

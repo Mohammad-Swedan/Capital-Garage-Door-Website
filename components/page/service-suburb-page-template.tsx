@@ -13,7 +13,6 @@ import { TrustCards } from "@/components/page/trust-cards";
 import { LocalProof } from "@/components/page/local-proof";
 import { RelatedServices } from "@/components/page/related-services";
 import { FAQSection } from "@/components/page/faq-section";
-import { CTASection } from "@/components/page/cta-section";
 import { SectionHeading } from "@/components/page/section-heading";
 import { QuoteForm } from "@/components/forms/quote-form";
 import type { BreadcrumbItem, ServiceSuburbPage } from "@/types";
@@ -118,7 +117,7 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
       />
 
       {/* Quote form */}
-      <section id="quote" className="scroll-mt-24 bg-muted/40">
+      <section id="quote" className="scroll-mt-24 bg-surface-muted">
         <Container className="py-12 sm:py-16">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-12">
             <SectionHeading
@@ -126,7 +125,7 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
               title={`Request a Quote in ${page.suburb}`}
               description={`Tell us what's going on and we'll get back to you fast. Prefilled for ${page.service.toLowerCase()} in ${page.suburb} — add a photo for an even quicker estimate.`}
             />
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm ring-1 ring-foreground/5 sm:p-8">
+            <div className="rounded-3xl border border-border/70 bg-surface-elevated p-6 elevate-elevated sm:p-8">
               <QuoteForm service={page.service} suburb={page.suburb} />
             </div>
           </div>

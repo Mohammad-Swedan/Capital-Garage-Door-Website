@@ -25,14 +25,14 @@ export function ServiceAreaGrid({ eyebrow, title, description, suburbs }: Servic
                 <li>
                   <Link
                     href={suburb.href}
-                    className="group flex items-center justify-between gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#0f4e9b]/30 hover:text-[#0f4e9b] hover:shadow-md"
+                    className="group flex items-center justify-between gap-2 rounded-xl border border-border/70 bg-surface-elevated px-4 py-3 text-sm font-semibold text-foreground shadow-card transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:text-brand hover:shadow-elevated"
                   >
                     <span className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4 text-[#0f4e9b]" aria-hidden="true" />
+                      <MapPin className="h-4 w-4 text-brand" aria-hidden="true" />
                       {suburb.label}
                     </span>
                     <ArrowUpRight
-                      className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-[#0f4e9b]"
+                      className="h-4 w-4 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand"
                       aria-hidden="true"
                     />
                   </Link>

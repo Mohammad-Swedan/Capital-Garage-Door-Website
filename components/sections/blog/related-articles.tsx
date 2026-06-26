@@ -17,21 +17,22 @@ export function RelatedArticles({ heading = "Related Articles", articles }: Rela
       <Container>
         <EditableGroup label="Related articles · edit in Settings → Links">
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
+          <span className="cgd-eyebrow text-cta">Keep Reading</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">{heading}</h2>
         </Reveal>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article, index) => (
             <Reveal key={article.slug} delay={index * 0.05} className="h-full">
               <Link
                 href={`/blog/${article.slug}`}
-                className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-colors hover:border-cta/30 hover:shadow-[0_8px_32px_rgba(13,31,69,0.08)]"
+                className="group flex h-full flex-col rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:border-cta/30 hover:shadow-float"
               >
                 {article.category && (
-                  <span className="inline-flex w-fit items-center rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-[11px] font-bold tracking-wide text-primary uppercase">
+                  <span className="cgd-eyebrow inline-flex w-fit items-center rounded-full bg-brand-soft px-2.5 py-1 text-[11px] text-brand">
                     {article.category}
                   </span>
                 )}
-                <h3 className="mt-3 font-heading text-base font-semibold text-foreground group-hover:text-cta sm:text-lg">
+                <h3 className="mt-3 cgd-h3 text-base text-foreground group-hover:text-cta sm:text-lg">
                   {article.title}
                 </h3>
                 {article.excerpt && (

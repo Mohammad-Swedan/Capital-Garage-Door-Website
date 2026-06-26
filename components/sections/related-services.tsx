@@ -18,11 +18,12 @@ export async function RelatedServices({ heading = "Recommended Services", servic
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Explore More</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
         </Reveal>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="mt-9 grid gap-4 sm:grid-cols-2">
           {services.map((service, index) => {
             const match = allServices.find((s) => s.slug === service.slug);
             return (

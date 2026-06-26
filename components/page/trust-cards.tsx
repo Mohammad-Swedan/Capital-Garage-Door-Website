@@ -22,11 +22,11 @@ export function TrustCards({ eyebrow, title, description, reasons }: TrustCardsP
             const Icon = resolvePageIcon(reason.icon);
             return (
               <Reveal key={reason.title} delay={0.04 * i} className="h-full">
-                <article className="flex h-full flex-col rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-5 shadow-sm ring-1 ring-foreground/5">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <article className="group flex h-full flex-col rounded-2xl border border-border/70 bg-gradient-to-br from-surface-elevated to-surface-muted p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:shadow-float">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-transform duration-300 group-hover:scale-105">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
-                  <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
+                  <h3 className="mt-4 cgd-h3 text-base text-foreground">
                     {reason.title}
                   </h3>
                   <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">

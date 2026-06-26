@@ -5,7 +5,6 @@ import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { PageHero } from "@/components/sections/page-hero";
 import { DirectAnswer } from "@/components/sections/direct-answer";
-import { CTASection } from "@/components/sections/cta-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { ComparisonTable } from "@/components/sections/comparison/comparison-table";
 import { OptionSection } from "@/components/sections/comparison/option-section";

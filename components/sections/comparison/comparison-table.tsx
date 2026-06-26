@@ -27,16 +27,17 @@ export function ComparisonTable({ heading = "Side-by-Side Comparison", table }: 
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Compare</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-8 overflow-hidden rounded-2xl border border-border">
+        <Reveal delay={0.1} className="mt-8 overflow-hidden rounded-2xl border border-border/70 elevate-card">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm sm:text-base">
               <thead>
-                <tr className="bg-primary/5">
+                <tr className="bg-brand-soft">
                   <th
                     scope="col"
                     className="sticky left-0 z-10 border-r border-border bg-card px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4"

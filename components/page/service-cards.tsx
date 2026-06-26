@@ -36,19 +36,19 @@ export function ServiceCards({ eyebrow, title, description, services }: ServiceC
             renderItem={(service, i) => {
               const Icon = resolvePageIcon(service.icon);
               const inner = (
-                <article className="group h-full rounded-2xl border border-border bg-card p-5 shadow-sm ring-1 ring-foreground/5 transition-all hover:-translate-y-0.5 hover:border-[#0f4e9b]/30 hover:shadow-[0_14px_30px_rgba(13,31,69,0.1)]">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0f4e9b]/10 text-[#0f4e9b] transition-colors group-hover:bg-[#0f4e9b] group-hover:text-white">
+                <article className="group h-full rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-float">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-colors group-hover:bg-brand group-hover:text-white">
                     <EditableIcon path={`availableServices[${i}].icon`}>
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </EditableIcon>
                   </span>
-                  <h3 className="mt-4 flex items-center gap-1.5 font-heading text-base font-semibold text-foreground">
+                  <h3 className="mt-4 flex items-center gap-1.5 cgd-h3 text-base text-foreground">
                     <EditableText path={`availableServices[${i}].title`} singleLine placeholder="Service title…">
                       {service.title}
                     </EditableText>
                     {service.href && (
                       <ArrowRight
-                        className="h-4 w-4 text-[#0f4e9b] opacity-0 transition-opacity group-hover:opacity-100"
+                        className="h-4 w-4 text-brand opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
                         aria-hidden="true"
                       />
                     )}

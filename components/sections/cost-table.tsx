@@ -20,16 +20,17 @@ export function CostTable({
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Pricing</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
-          {intro && <p className="mt-3 max-w-2xl text-muted-foreground">{intro}</p>}
+          {intro && <p className="mt-3 max-w-2xl cgd-lead text-muted-foreground">{intro}</p>}
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-8 overflow-hidden rounded-2xl border border-border">
+        <Reveal delay={0.1} className="mt-8 overflow-hidden rounded-2xl border border-border/70 elevate-card">
           <table className="w-full text-left text-sm sm:text-base">
             <thead>
-              <tr className="bg-primary/5">
+              <tr className="bg-brand-soft">
                 <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
                   Scenario
                 </th>

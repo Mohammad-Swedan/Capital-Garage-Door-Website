@@ -26,20 +26,20 @@ export function ContactInfoCards({ cards }: ContactInfoCardsProps) {
             const content = (
               <div
                 className={cn(
-                  "group relative flex h-full flex-col gap-3 rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-5 shadow-sm ring-1 ring-foreground/5 transition-all",
-                  card.href && "hover:-translate-y-0.5 hover:border-cta/30 hover:shadow-md",
+                  "group relative flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-gradient-to-br from-surface-elevated to-surface-muted p-5 elevate-card transition-all duration-300",
+                  card.href && "hover:-translate-y-1 hover:border-cta/30 hover:shadow-float",
                 )}
               >
                 {card.badge && (
-                  <span className="absolute top-4 right-4 rounded-full bg-cta/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-cta uppercase">
+                  <span className="cgd-eyebrow absolute top-4 right-4 rounded-full bg-cta-soft px-2 py-0.5 text-[10px] text-cta">
                     {card.badge}
                   </span>
                 )}
-                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-soft text-brand ring-1 ring-brand/10 transition-transform duration-300 group-hover:scale-105">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-xs font-bold tracking-wide text-muted-foreground uppercase">{card.label}</p>
+                  <p className="cgd-eyebrow text-xs text-muted-foreground">{card.label}</p>
                   <p
                     className={cn(
                       "mt-1 font-display text-base leading-snug font-bold text-foreground",

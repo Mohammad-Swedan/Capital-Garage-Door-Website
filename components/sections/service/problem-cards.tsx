@@ -20,11 +20,12 @@ export function ServiceProblemCards({ heading = "Common Problems We Fix", proble
     <section className="bg-background py-14 sm:py-20">
       <Container>
         <Reveal>
-          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+          <span className="cgd-eyebrow text-cta">Common Faults</span>
+          <h2 className="mt-3 cgd-h2 text-balance text-foreground">
             {heading}
           </h2>
         </Reveal>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <EditableList<ServiceProblem>
             path="problems"
             items={problems}
@@ -35,12 +36,12 @@ export function ServiceProblemCards({ heading = "Common Problems We Fix", proble
               const Icon = resolveIcon(problem.icon);
               const content = (
                 <>
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-cta/10 text-cta">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-cta-soft text-cta ring-1 ring-cta/10 transition-transform duration-300 group-hover:scale-105">
                     <EditableIcon path={`problems[${index}].icon`}>
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </EditableIcon>
                   </span>
-                  <span className="font-heading text-base font-semibold text-foreground group-hover:text-cta">
+                  <span className="cgd-h3 text-base text-foreground transition-colors group-hover:text-cta">
                     <EditableText path={`problems[${index}].label`} placeholder="Problem…">
                       {problem.label}
                     </EditableText>
@@ -59,12 +60,12 @@ export function ServiceProblemCards({ heading = "Common Problems We Fix", proble
                   {problem.slug ? (
                     <Link
                       href={`/problems/${problem.slug}`}
-                      className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_rgba(13,31,69,0.05)] transition-shadow hover:shadow-[0_8px_32px_rgba(13,31,69,0.1)]"
+                      className="group flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card transition-all duration-300 hover:-translate-y-1 hover:border-cta/30 hover:shadow-float"
                     >
                       {content}
                     </Link>
                   ) : (
-                    <div className="group flex h-full flex-col gap-3 rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_rgba(13,31,69,0.05)]">
+                    <div className="group flex h-full flex-col gap-3 rounded-2xl border border-border/70 bg-surface-elevated p-5 elevate-card">
                       {content}
                     </div>
                   )}

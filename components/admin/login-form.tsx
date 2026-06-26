@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Lock } from "lucide-react";
 import { loginAction, type LoginState } from "@/app/admin/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,10 +18,16 @@ export function LoginForm() {
   const [state, formAction, pending] = useActionState<LoginState, FormData>(loginAction, {});
 
   return (
-    <Card className="w-full max-w-sm gap-0 shadow-xl shadow-primary/5">
-      <CardHeader className="gap-1 pb-2 text-center">
-        <div className="mx-auto mb-2 flex items-center gap-2">
-          <span className="font-heading text-base font-semibold text-primary">
+    <Card
+      variant="premium"
+      className="w-full max-w-sm gap-0 overflow-visible"
+    >
+      <CardHeader className="gap-2 pb-3 pt-7 text-center">
+        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-gradient-brand text-base font-bold text-brand-foreground shadow-elevated ring-1 ring-inset ring-white/15">
+          C
+        </div>
+        <div className="mx-auto mt-1 flex items-center gap-2">
+          <span className="font-heading text-base font-semibold text-foreground">
             Capital Garage Door
           </span>
           <span className="rounded-md bg-cta px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-cta-foreground uppercase">
@@ -29,13 +35,22 @@ export function LoginForm() {
           </span>
         </div>
         <CardTitle className="text-lg">Sign in</CardTitle>
-        <CardDescription>Sign in to manage pages.</CardDescription>
+        <CardDescription>Sign in to manage your site content.</CardDescription>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent className="px-6 pb-7 pt-4">
         <form action={formAction} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" autoComplete="username" required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="username"
+              inputSize="lg"
+              variant="filled"
+              placeholder="you@example.com"
+              required
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="password">Password</Label>
@@ -44,6 +59,9 @@ export function LoginForm() {
               name="password"
               type="password"
               autoComplete="current-password"
+              inputSize="lg"
+              variant="filled"
+              placeholder="••••••••"
               required
             />
           </div>
@@ -56,8 +74,21 @@ export function LoginForm() {
               <span>{state.error}</span>
             </div>
           )}
-          <Button type="submit" size="lg" className="w-full" disabled={pending}>
-            {pending ? "Signing in…" : "Sign in"}
+          <Button
+            type="submit"
+            variant="premium"
+            size="lg"
+            className="h-11 w-full rounded-xl"
+            disabled={pending}
+          >
+            {pending ? (
+              "Signing in…"
+            ) : (
+              <>
+                <Lock className="size-4" />
+                Sign in
+              </>
+            )}
           </Button>
         </form>
       </CardContent>

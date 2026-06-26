@@ -8,27 +8,31 @@ import { cn } from "@/lib/utils";
 export function AdminPageHeader({
   title,
   description,
+  eyebrow,
   actions,
   className,
 }: {
   title: string;
   description?: React.ReactNode;
+  /** Optional small uppercase label above the title (e.g. section name). */
+  eyebrow?: React.ReactNode;
   actions?: React.ReactNode;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
+        "flex flex-col gap-4 border-b border-border/70 pb-5 sm:flex-row sm:items-end sm:justify-between",
         className,
       )}
     >
-      <div className="space-y-1">
-        <h1 className="font-heading text-2xl font-semibold text-foreground">
-          {title}
-        </h1>
+      <div className="space-y-1.5">
+        {eyebrow && (
+          <p className="cgd-eyebrow text-brand">{eyebrow}</p>
+        )}
+        <h1 className="cgd-h2 text-foreground">{title}</h1>
         {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
+          <p className="cgd-small text-muted-foreground">{description}</p>
         )}
       </div>
       {actions && (

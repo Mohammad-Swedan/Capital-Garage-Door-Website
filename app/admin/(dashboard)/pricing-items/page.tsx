@@ -1,9 +1,15 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, DollarSign } from "lucide-react";
 import { adminRequest } from "@/lib/cms/admin";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { AdminPageHeader } from "@/components/admin/ui/admin-page-header";
+import {
+  AdminTableCard,
+  AdminTableEmpty,
+  AdminLoadError,
+  adminRowClass,
+} from "@/components/admin/ui/admin-table";
 import { PricingItemRowActions } from "@/components/admin/pricing-item-row-actions";
 
 export const dynamic = "force-dynamic";
@@ -47,51 +53,50 @@ export default async function PricingItemsGrid() {
         }
       />
 
-      {!res.ok && (
-        <Card className="border-destructive/30 bg-destructive/10 py-4 text-destructive ring-destructive/20">
-          <p className="px-4 text-sm">
-            Could not load pricing items (status {res.status}). Is the CMS API running?
-          </p>
-        </Card>
-      )}
-
-      {res.ok && items.length === 0 ? (
-        <Card className="items-center justify-center py-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            No pricing items yet. Create your first one.
-          </p>
-        </Card>
+      {!res.ok ? (
+        <AdminLoadError label="pricing items" status={res.status} />
+      ) : items.length === 0 ? (
+        <AdminTableEmpty
+          icon={<DollarSign className="size-5" />}
+          title="No pricing items yet"
+          description="Add pricing scenarios to power cost guides and pricing tables."
+        />
       ) : (
-        <Card className="overflow-hidden p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50 text-left text-xs tracking-wide text-muted-foreground uppercase">
-                <tr>
-                  <th className="px-4 py-2.5 font-medium">Scenario</th>
-                  <th className="px-4 py-2.5 font-medium">Category</th>
-                  <th className="px-4 py-2.5 font-medium">Price</th>
-                  <th className="px-4 py-2.5 font-medium">Note</th>
-                  <th className="px-4 py-2.5 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {items.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-muted/40">
-                    <td className="px-4 py-3 font-medium text-foreground">{p.scenario}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{p.category ?? "—"}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{priceDisplay(p)}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{p.note ?? "—"}</td>
-                    <td className="px-4 py-3">
-                      <div className="flex justify-end">
-                        <PricingItemRowActions id={p.id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+        <AdminTableCard
+          head={
+            <tr>
+              <th className="px-4 py-3 font-medium">Scenario</th>
+              <th className="px-4 py-3 font-medium">Category</th>
+              <th className="px-4 py-3 font-medium">Price</th>
+              <th className="px-4 py-3 font-medium">Note</th>
+              <th className="px-4 py-3 text-right font-medium">Actions</th>
+            </tr>
+          }
+        >
+          {items.map((p) => (
+            <tr key={p.id} className={adminRowClass}>
+              <td className="px-4 py-3 font-medium text-foreground">{p.scenario}</td>
+              <td className="px-4 py-3">
+                {p.category ? (
+                  <Badge variant="secondary">{p.category}</Badge>
+                ) : (
+                  <span className="text-muted-foreground">—</span>
+                )}
+              </td>
+              <td className="px-4 py-3 font-medium tabular-nums text-foreground">
+                {priceDisplay(p)}
+              </td>
+              <td className="max-w-xs truncate px-4 py-3 text-muted-foreground">
+                {p.note ?? "—"}
+              </td>
+              <td className="px-4 py-3">
+                <div className="flex justify-end">
+                  <PricingItemRowActions id={p.id} />
+                </div>
+              </td>
+            </tr>
+          ))}
+        </AdminTableCard>
       )}
     </div>
   );

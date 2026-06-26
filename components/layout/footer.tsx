@@ -55,7 +55,7 @@ export function Footer() {
             <div className="mt-6 flex flex-col gap-3">
               <a
                 href={`tel:${business.phone}`}
-                className="group flex items-center gap-3 text-sm font-semibold text-white transition-colors hover:text-sky-300"
+                className="group flex items-center gap-3 rounded-md text-sm font-semibold text-white outline-none transition-colors hover:text-sky-300 focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors group-hover:border-cta/40 group-hover:bg-cta/15">
                   <Phone className="h-4 w-4 text-sky-300" aria-hidden="true" />
@@ -64,7 +64,7 @@ export function Footer() {
               </a>
               <a
                 href={`mailto:${business.email}`}
-                className="group flex items-center gap-3 text-sm text-white/70 transition-colors hover:text-white"
+                className="group flex items-center gap-3 rounded-md text-sm text-white/70 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors group-hover:border-white/30 group-hover:bg-white/10">
                   <Mail className="h-4 w-4 text-sky-300" aria-hidden="true" />
@@ -99,10 +99,10 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group inline-flex items-center gap-1.5 text-sm text-white/70 transition-colors hover:text-white"
+                      className="group inline-flex items-center gap-1.5 rounded-sm text-sm text-white/70 outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/40"
                     >
                       {link.label}
-                      <ArrowRight className="h-3 w-3 -translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
+                      <ArrowRight className="h-3 w-3 -translate-x-1 text-sky-300 opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100 motion-reduce:transition-none" />
                     </Link>
                   </li>
                 ))}
@@ -149,7 +149,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors hover:border-white/30 hover:bg-white/10"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5 outline-none transition-colors hover:border-white/30 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <img src="/images/social/facebook.svg" alt="" width={16} height={16} className="opacity-80" />
               </a>
@@ -158,7 +158,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors hover:border-white/30 hover:bg-white/10"
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5 outline-none transition-colors hover:border-white/30 hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/40"
               >
                 <img src="/images/social/instagram.svg" alt="" width={16} height={16} className="opacity-80" />
               </a>
@@ -174,7 +174,11 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-6">
             {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="transition-colors hover:text-white">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-sm outline-none transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-white/40"
+              >
                 {link.label}
               </Link>
             ))}

@@ -1,11 +1,20 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import type { ComparisonTable as ComparisonTableData } from "@/types/comparison-page";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
+import type {
+  ComparisonTable as ComparisonTableData,
+  ComparisonTableRow,
+} from "@/types/comparison-page";
 
 interface ComparisonTableProps {
   heading?: string;
   table: ComparisonTableData;
 }
+
+/** Blank comparison row produced by the "+ Add" affordance. */
+const blankRow = (): ComparisonTableRow => ({ feature: "", optionA: "", optionB: "" });
 
 /**
  * Real `<table>` markup (crawlable, AEO-friendly) comparing two options
@@ -35,23 +44,44 @@ export function ComparisonTable({ heading = "Side-by-Side Comparison", table }: 
                     Feature
                   </th>
                   <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
-                    {table.optionALabel}
+                    <EditableText path="comparisonTable.optionALabel" singleLine placeholder="Option A label…">
+                      {table.optionALabel}
+                    </EditableText>
                   </th>
                   <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
-                    {table.optionBLabel}
+                    <EditableText path="comparisonTable.optionBLabel" singleLine placeholder="Option B label…">
+                      {table.optionBLabel}
+                    </EditableText>
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {table.rows.map((row) => (
-                  <tr key={row.feature} className="border-t border-border">
-                    <td className="sticky left-0 z-10 border-r border-border bg-card px-4 py-3 font-semibold text-foreground sm:px-6 sm:py-4">
-                      {row.feature}
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground sm:px-6 sm:py-4">{row.optionA}</td>
-                    <td className="px-4 py-3 text-muted-foreground sm:px-6 sm:py-4">{row.optionB}</td>
-                  </tr>
-                ))}
+                <EditableList<ComparisonTableRow>
+                  path="comparisonTable.rows"
+                  items={table.rows}
+                  itemTemplate={blankRow}
+                  addLabel="Add row"
+                  getKey={(r, i) => r.feature || i}
+                  renderItem={(row, index) => (
+                    <tr className="border-t border-border">
+                      <td className="sticky left-0 z-10 border-r border-border bg-card px-4 py-3 font-semibold text-foreground sm:px-6 sm:py-4">
+                        <EditableText path={`comparisonTable.rows[${index}].feature`} placeholder="Feature…">
+                          {row.feature}
+                        </EditableText>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground sm:px-6 sm:py-4">
+                        <EditableText path={`comparisonTable.rows[${index}].optionA`} placeholder="Option A…">
+                          {row.optionA}
+                        </EditableText>
+                      </td>
+                      <td className="px-4 py-3 text-muted-foreground sm:px-6 sm:py-4">
+                        <EditableText path={`comparisonTable.rows[${index}].optionB`} placeholder="Option B…">
+                          {row.optionB}
+                        </EditableText>
+                      </td>
+                    </tr>
+                  )}
+                />
               </tbody>
             </table>
           </div>

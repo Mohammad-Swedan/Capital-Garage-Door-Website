@@ -1,13 +1,23 @@
+"use client";
+
 import { Phone, FileText, Lightbulb } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { LandingQuoteForm } from "@/components/forms/landing-quote-form";
 import { resolvePageIcon } from "@/components/page/icons";
 import { siteConfig } from "@/config/site";
-import type { LandingPage } from "@/types/landing-page";
+import {
+  EditableText,
+  EditableList,
+  EditableIcon,
+} from "@/components/admin/editor/editable";
+import type { LandingPage, LandingBadge } from "@/types/landing-page";
 
 interface LandingHeroProps {
   page: LandingPage;
 }
+
+/** Blank badge produced by the hero's "+ Add badge" affordance. */
+const blankLandingBadge = (): LandingBadge => ({ icon: "ShieldCheck", label: "" });
 
 /**
  * Above-the-fold hero for paid landing pages. Mirrors the inner PageHero's
@@ -34,16 +44,22 @@ export function LandingHero({ page }: LandingHeroProps) {
           <div className="flex flex-col items-start gap-5 sm:gap-6">
             {page.hero.eyebrow && (
               <span className="inline-flex items-center gap-2 rounded-full border border-cta/20 bg-cta/10 px-3.5 py-1.5 text-xs font-bold tracking-wide text-cta uppercase">
-                {page.hero.eyebrow}
+                <EditableText path="hero.eyebrow" singleLine placeholder="Eyebrow…" aria-label="Hero eyebrow">
+                  {page.hero.eyebrow}
+                </EditableText>
               </span>
             )}
 
             <h1 className="text-balance font-display text-[clamp(1.75rem,5vw,3rem)] leading-[1.08] font-black tracking-tight text-foreground">
-              {page.hero.h1}
+              <EditableText path="hero.h1" placeholder="Hero heading…" aria-label="Hero heading">
+                {page.hero.h1}
+              </EditableText>
             </h1>
 
             <p className="text-pretty max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {page.hero.subtitle}
+              <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
+                {page.hero.subtitle}
+              </EditableText>
             </p>
 
             <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
@@ -65,26 +81,42 @@ export function LandingHero({ page }: LandingHeroProps) {
 
             {/* Trust badges */}
             <ul className="flex flex-wrap gap-x-5 gap-y-2.5 pt-1">
-              {page.hero.badges.map((badge) => {
-                const Icon = resolvePageIcon(badge.icon);
-                return (
-                  <li
-                    key={badge.label}
-                    className="flex items-center gap-2 text-sm font-semibold text-foreground"
-                  >
-                    <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600/10 text-emerald-700">
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    {badge.label}
-                  </li>
-                );
-              })}
+              <EditableList<LandingBadge>
+                path="hero.badges"
+                items={page.hero.badges}
+                itemTemplate={blankLandingBadge}
+                addLabel="Add badge"
+                getKey={(_b, i) => i}
+                renderItem={(badge, index) => {
+                  const Icon = resolvePageIcon(badge.icon);
+                  return (
+                    <li className="flex items-center gap-2 text-sm font-semibold text-foreground">
+                      <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-600/10 text-emerald-700">
+                        <EditableIcon path={`hero.badges[${index}].icon`}>
+                          <Icon className="h-4 w-4" aria-hidden="true" />
+                        </EditableIcon>
+                      </span>
+                      <EditableText
+                        path={`hero.badges[${index}].label`}
+                        singleLine
+                        placeholder="Badge…"
+                      >
+                        {badge.label}
+                      </EditableText>
+                    </li>
+                  );
+                }}
+              />
             </ul>
 
             {page.directAnswer && (
               <div className="mt-1 flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/5 p-4 text-sm leading-relaxed text-foreground sm:text-base">
                 <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
-                <p>{page.directAnswer}</p>
+                <p>
+                  <EditableText path="directAnswer" placeholder="Direct answer…" aria-label="Direct answer">
+                    {page.directAnswer}
+                  </EditableText>
+                </p>
               </div>
             )}
           </div>
@@ -95,10 +127,16 @@ export function LandingHero({ page }: LandingHeroProps) {
             className="scroll-mt-24 rounded-3xl border border-border bg-card p-6 shadow-[0_18px_50px_rgba(13,31,69,0.12)] ring-1 ring-foreground/5 sm:p-7"
           >
             <h2 className="font-heading text-xl font-bold tracking-tight text-foreground sm:text-2xl">
-              {page.form.heading}
+              <EditableText path="form.heading" placeholder="Form heading…" aria-label="Form heading">
+                {page.form.heading}
+              </EditableText>
             </h2>
             {page.form.subheading && (
-              <p className="mt-1.5 text-sm text-muted-foreground">{page.form.subheading}</p>
+              <p className="mt-1.5 text-sm text-muted-foreground">
+                <EditableText path="form.subheading" placeholder="Form subheading…" aria-label="Form subheading">
+                  {page.form.subheading}
+                </EditableText>
+              </p>
             )}
             <div className="mt-5">
               <LandingQuoteForm

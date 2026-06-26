@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText } from "@/components/admin/editor/editable";
 import type { CostGuideTableData } from "@/types/cost-guide";
 
 interface CostGuideTableProps {
@@ -22,9 +23,17 @@ export function CostGuideTable({ table }: CostGuideTableProps) {
       <Container>
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {heading}
+            <EditableText path="costTable.heading" placeholder="Section heading…">
+              {heading}
+            </EditableText>
           </h2>
-          {intro && <p className="mt-3 max-w-2xl text-muted-foreground">{intro}</p>}
+          {intro && (
+            <p className="mt-3 max-w-2xl text-muted-foreground">
+              <EditableText path="costTable.intro" placeholder="Intro…">
+                {intro}
+              </EditableText>
+            </p>
+          )}
         </Reveal>
 
         <Reveal delay={0.1} className="mt-8 overflow-x-auto rounded-2xl border border-border">
@@ -70,7 +79,13 @@ export function CostGuideTable({ table }: CostGuideTableProps) {
           </table>
         </Reveal>
 
-        {disclaimer && <p className="mt-4 text-xs text-muted-foreground sm:text-sm">{disclaimer}</p>}
+        {disclaimer && (
+          <p className="mt-4 text-xs text-muted-foreground sm:text-sm">
+            <EditableText path="costTable.disclaimer" placeholder="Disclaimer…">
+              {disclaimer}
+            </EditableText>
+          </p>
+        )}
       </Container>
     </section>
   );

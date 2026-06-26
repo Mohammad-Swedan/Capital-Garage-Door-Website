@@ -4,7 +4,7 @@ export const siteConfig = {
   tagline: "Trusted Garage Door Repair & Installation",
   description:
     "Capital Garage Door provides professional garage door repair, installation, and maintenance services. Licensed, insured, and available for same-day service.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.capitalgaragedoor.com",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://capitalgaragedoors.com.au",
   ogImage: "/images/og/default.jpg",
   locale: "en_AU",
 
@@ -12,17 +12,18 @@ export const siteConfig = {
     legalName: "Capital Garage Door LLC",
     phone: "+61475333335",
     phoneDisplay: "0475 333 335",
-    email: "info@capitalgaragedoor.com",
+    email: "info@capitalgaragedoors.com.au",
     address: {
-      streetAddress: "", // TODO: real street address
-      addressLocality: "Perth",
+      streetAddress: "6 Carnegie Parade", // confirm exact street number/name matches the Google Business Profile
+      addressLocality: "Southern River",
       addressRegion: "WA",
-      postalCode: "", // TODO: real postcode
+      postalCode: "6110",
       addressCountry: "AU",
     },
     geo: {
-      latitude: -31.9523, // TODO: exact business location
-      longitude: 115.8613,
+      // Exact pin from the Capital Garage Doors Google Business listing (Southern River, WA 6110).
+      latitude: -32.1285079,
+      longitude: 115.9323079,
     },
     priceRange: "$$",
     hours: [
@@ -39,7 +40,7 @@ export const siteConfig = {
   social: {
     facebook: "",
     instagram: "",
-    google: "",
+    google: "https://g.page/r/CRXCwS1W-cvEEAE",
     yelp: "",
   },
 

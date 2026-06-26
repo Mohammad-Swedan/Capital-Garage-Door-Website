@@ -2,6 +2,7 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { InternalLinkCard } from "@/components/sections/internal-link-card";
 import { resolveIcon } from "@/lib/icons";
+import { EditableGroup } from "@/components/admin/editor/editable";
 import type { ArticleServiceLink } from "@/types/article";
 
 interface RelatedServicesCtaProps {
@@ -14,6 +15,7 @@ export function RelatedServicesCta({ heading = "Need a Hand With This?", service
   return (
     <section className="bg-muted/30 py-14 sm:py-20">
       <Container>
+        <EditableGroup label="Related services · edit in Settings → Links">
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
         </Reveal>
@@ -29,6 +31,7 @@ export function RelatedServicesCta({ heading = "Need a Hand With This?", service
             </Reveal>
           ))}
         </div>
+        </EditableGroup>
       </Container>
     </section>
   );

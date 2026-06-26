@@ -25,7 +25,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
           {items.map((item, index) => {
             const isLast = index === items.length - 1;
             return (
-              <span key={item.url} className="contents">
+              <span key={`${item.url}-${index}`} className="contents">
                 <BreadcrumbItem>
                   {isLast ? (
                     <BreadcrumbPage>{item.name}</BreadcrumbPage>

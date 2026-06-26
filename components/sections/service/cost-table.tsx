@@ -1,5 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText } from "@/components/admin/editor/editable";
 import type { ServiceCostGuidance } from "@/types/service-page";
 
 interface ServiceCostTableProps {
@@ -21,7 +22,13 @@ export function ServiceCostTable({
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             {heading}
           </h2>
-          <p className="mt-3 max-w-2xl text-muted-foreground">{costGuidance.intro}</p>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            {/* Intro is bespoke `data.costGuidanceIntro`; rows are catalog-driven
+                pricing pins (PagePricingRows) managed in the Settings drawer. */}
+            <EditableText path="costGuidance.intro" placeholder="Cost guidance intro…">
+              {costGuidance.intro}
+            </EditableText>
+          </p>
         </Reveal>
 
         <Reveal delay={0.1} className="mt-8 overflow-hidden rounded-2xl border border-border">

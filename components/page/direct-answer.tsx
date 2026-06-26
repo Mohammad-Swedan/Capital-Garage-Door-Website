@@ -1,6 +1,7 @@
 import { MapPin } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText } from "@/components/admin/editor/editable";
 
 interface DirectAnswerProps {
   /** Concise, AEO-friendly answer rendered as real HTML near the top of the page. */
@@ -28,7 +29,9 @@ export function DirectAnswer({ answer, label }: DirectAnswerProps) {
                   {label}
                 </p>
                 <p className="mt-1.5 text-pretty text-base font-medium leading-relaxed text-foreground sm:text-lg">
-                  {answer}
+                  <EditableText path="directAnswer" placeholder="Direct answer…" aria-label="Direct answer">
+                    {answer}
+                  </EditableText>
                 </p>
               </div>
             </div>

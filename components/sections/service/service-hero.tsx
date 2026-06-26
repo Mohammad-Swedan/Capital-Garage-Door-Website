@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 import { Container } from "@/components/layout/container";
@@ -9,7 +11,14 @@ import {
   UploadPhotoButton,
 } from "@/components/page/cta-buttons";
 import { resolveIcon } from "@/lib/icons";
-import type { ServicePageHero } from "@/types/service-page";
+import {
+  EditableText,
+  EditableImage,
+  EditableList,
+  EditableIcon,
+} from "@/components/admin/editor/editable";
+import { serviceItemTemplates } from "@/components/admin/editor/item-templates";
+import type { ServicePageHero, ServicePageBadge } from "@/types/service-page";
 
 interface ServiceHeroProps {
   hero: ServicePageHero;
@@ -35,13 +44,17 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
           <div className="flex flex-col items-start gap-5 sm:gap-6">
             <Reveal>
               <h1 className="text-balance font-display text-3xl leading-[1.1] font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                {hero.h1}
+                <EditableText path="hero.h1" placeholder="Hero heading…" aria-label="Hero heading">
+                  {hero.h1}
+                </EditableText>
               </h1>
             </Reveal>
 
             <Reveal delay={0.06}>
               <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {hero.subtitle}
+                <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
+                  {hero.subtitle}
+                </EditableText>
               </p>
             </Reveal>
 
@@ -56,25 +69,38 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
 
             <Reveal delay={0.18}>
               <ul className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
-                {hero.badges.map((badge) => {
-                  const Icon = resolveIcon(badge.icon);
-                  return (
-                    <li
-                      key={badge.label}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-foreground/70 sm:text-sm"
-                    >
-                      <Icon className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
-                      {badge.label}
-                    </li>
-                  );
-                })}
+                <EditableList<ServicePageBadge>
+                  path="hero.badges"
+                  items={hero.badges}
+                  itemTemplate={serviceItemTemplates.badge}
+                  addLabel="Add badge"
+                  getKey={(_b, i) => i}
+                  renderItem={(badge, index) => {
+                    const Icon = resolveIcon(badge.icon);
+                    return (
+                      <li className="flex items-center gap-1.5 text-xs font-semibold text-foreground/70 sm:text-sm">
+                        <EditableIcon path={`hero.badges[${index}].icon`}>
+                          <Icon className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
+                        </EditableIcon>
+                        <EditableText
+                          path={`hero.badges[${index}].label`}
+                          singleLine
+                          placeholder="Badge…"
+                        >
+                          {badge.label}
+                        </EditableText>
+                      </li>
+                    );
+                  }}
+                />
               </ul>
             </Reveal>
           </div>
 
           <Reveal delay={0.1} className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
             <div className="relative aspect-[4/3] overflow-hidden rounded-3xl bg-gradient-to-br from-[#0d1f60] to-[#0a1733] shadow-[0_30px_60px_rgba(13,31,69,0.25)] ring-1 ring-white/10">
-              <Image
+              <EditableImage
+                path="hero.image"
                 src={hero.image}
                 alt={hero.imageAlt}
                 fill
@@ -91,7 +117,15 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#0f4e9b]/10 text-[#0f4e9b]">
                   <Sparkles className="h-4.5 w-4.5" aria-hidden="true" />
                 </span>
-                <p className="text-[13px] font-bold leading-snug text-foreground">{hero.floatingCardLabel}</p>
+                <p className="text-[13px] font-bold leading-snug text-foreground">
+                  <EditableText
+                    path="hero.floatingCardLabel"
+                    singleLine
+                    placeholder="Floating card label…"
+                  >
+                    {hero.floatingCardLabel}
+                  </EditableText>
+                </p>
               </div>
             </div>
           </Reveal>

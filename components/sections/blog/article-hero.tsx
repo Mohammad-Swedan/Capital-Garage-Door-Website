@@ -2,6 +2,7 @@ import Image from "next/image";
 import { CalendarDays, Clock3, UserRound } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText } from "@/components/admin/editor/editable";
 import type { Article } from "@/types/article";
 
 interface ArticleHeroProps {
@@ -29,19 +30,25 @@ export function ArticleHero({ article }: ArticleHeroProps) {
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 text-xs font-bold tracking-wide text-primary uppercase">
-              {article.category}
+              <EditableText path="category" singleLine placeholder="Category…" aria-label="Category">
+                {article.category}
+              </EditableText>
             </span>
           </Reveal>
 
           <Reveal delay={0.06}>
             <h1 className="mt-4 text-balance font-display text-[clamp(1.75rem,4.5vw,2.75rem)] leading-[1.1] font-black tracking-tight text-foreground">
-              {article.title}
+              <EditableText path="title" placeholder="Article title…" aria-label="Article title">
+                {article.title}
+              </EditableText>
             </h1>
           </Reveal>
 
           <Reveal delay={0.1}>
             <p className="mt-4 text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {article.excerpt}
+              <EditableText path="excerpt" placeholder="Excerpt…" aria-label="Excerpt">
+                {article.excerpt}
+              </EditableText>
             </p>
           </Reveal>
 
@@ -50,7 +57,11 @@ export function ArticleHero({ article }: ArticleHeroProps) {
               <div className="flex items-center gap-1.5">
                 <UserRound className="h-4 w-4 text-primary" aria-hidden="true" />
                 <dt className="sr-only">Author</dt>
-                <dd className="font-semibold text-foreground">{article.author}</dd>
+                <dd className="font-semibold text-foreground">
+                  <EditableText path="author" singleLine placeholder="Author…" aria-label="Author">
+                    {article.author}
+                  </EditableText>
+                </dd>
               </div>
               <div className="flex items-center gap-1.5">
                 <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />

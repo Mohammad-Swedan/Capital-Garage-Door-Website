@@ -62,8 +62,8 @@ export function ComparisonPageTemplate({ data }: ComparisonPageTemplateProps) {
 
       <ComparisonTable table={data.comparisonTable} />
 
-      <OptionSection option={data.optionA} />
-      <OptionSection option={data.optionB} tone="subtle" />
+      <OptionSection option={data.optionA} pathPrefix="optionA" />
+      <OptionSection option={data.optionB} tone="subtle" pathPrefix="optionB" />
 
       <DecisionCards cards={data.decisionCards} />
 

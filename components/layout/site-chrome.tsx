@@ -26,9 +26,11 @@ interface SiteChromeProps {
 export function SiteChrome({ header, footer, children }: SiteChromeProps) {
   const pathname = usePathname();
   const isLanding = pathname?.startsWith("/lp");
+  // The CMS admin (/admin) is an internal tool — no marketing header/footer/intro/smooth-scroll.
+  const isAdmin = pathname?.startsWith("/admin");
 
-  if (isLanding) {
-    // app/lp/layout.tsx provides its own header / <main> / footer.
+  if (isLanding || isAdmin) {
+    // /lp and /admin provide their own chrome from their own layouts.
     return <>{children}</>;
   }
 

@@ -18,6 +18,12 @@ const nextConfig: NextConfig = {
     // compression; 75 stays available for everything else. Next 16 requires
     // every `quality` prop value to be allow-listed here.
     qualities: [60, 75],
+    // CMS-hosted images: the API serves uploads locally now; the Bunny.net CDN
+    // pull-zone host is added here in Milestone 4.
+    remotePatterns: [
+      { protocol: "http", hostname: "localhost", port: "5179" },
+      { protocol: "https", hostname: "jadara-hub.b-cdn.net" }, // Bunny.net CDN pull-zone
+    ],
   },
   async redirects() {
     return [

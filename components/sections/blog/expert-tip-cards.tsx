@@ -1,7 +1,10 @@
+"use client";
+
 import { DollarSign, PhoneCall, ShieldCheck, Wrench } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
 import type { ExpertTip, ExpertTipKind } from "@/types/article";
 
 interface ExpertTipCardsProps {
@@ -25,22 +28,37 @@ export function ExpertTipCards({ heading = "Expert Tips", tips }: ExpertTipCards
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
         </Reveal>
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
-          {tips.map((tip, index) => {
-            const style = kindStyles[tip.kind];
-            const Icon = style.icon;
-            return (
-              <Reveal key={tip.title} delay={index * 0.05} className="h-full">
-                <article className="flex h-full flex-col rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-5 shadow-sm ring-1 ring-foreground/5 sm:p-6">
-                  <span className={cn("flex h-11 w-11 items-center justify-center rounded-xl", style.iconWrap)}>
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <p className="mt-4 text-xs font-bold tracking-wide text-muted-foreground uppercase">{style.label}</p>
-                  <h3 className="mt-1 font-heading text-base font-semibold text-foreground">{tip.title}</h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{tip.body}</p>
-                </article>
-              </Reveal>
-            );
-          })}
+          <EditableList<ExpertTip>
+            path="expertTips"
+            items={tips}
+            itemTemplate={(): ExpertTip => ({ kind: "maintenance", title: "", body: "" })}
+            addLabel="Add tip"
+            getKey={(t, i) => t.title || i}
+            renderItem={(tip, index) => {
+              const style = kindStyles[tip.kind];
+              const Icon = style.icon;
+              return (
+                <Reveal delay={index * 0.05} className="h-full">
+                  <article className="flex h-full flex-col rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-5 shadow-sm ring-1 ring-foreground/5 sm:p-6">
+                    <span className={cn("flex h-11 w-11 items-center justify-center rounded-xl", style.iconWrap)}>
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <p className="mt-4 text-xs font-bold tracking-wide text-muted-foreground uppercase">{style.label}</p>
+                    <h3 className="mt-1 font-heading text-base font-semibold text-foreground">
+                      <EditableText path={`expertTips[${index}].title`} placeholder="Tip title…">
+                        {tip.title}
+                      </EditableText>
+                    </h3>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                      <EditableText path={`expertTips[${index}].body`} placeholder="Tip body…">
+                        {tip.body}
+                      </EditableText>
+                    </p>
+                  </article>
+                </Reveal>
+              );
+            }}
+          />
         </div>
       </Container>
     </section>

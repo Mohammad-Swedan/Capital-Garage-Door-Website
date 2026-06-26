@@ -1,6 +1,9 @@
+"use client";
+
 import { CheckCircle2, XCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
 
 interface SafetyChecklistProps {
   heading?: string;
@@ -30,12 +33,21 @@ export function SafetyChecklist({
                 Safe to check yourself
               </h3>
               <ul className="mt-4 space-y-3">
-                {safeChecks.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
-                    <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-emerald-600" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
+                <EditableList<string>
+                  path="safeChecks"
+                  items={safeChecks}
+                  itemTemplate={() => ""}
+                  addLabel="Add safe check"
+                  getKey={(_s, i) => i}
+                  renderItem={(item, i) => (
+                    <li className="flex items-start gap-2.5 text-sm text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-emerald-600" aria-hidden="true" />
+                      <EditableText path={`safeChecks[${i}]`} placeholder="Safe check…">
+                        {item}
+                      </EditableText>
+                    </li>
+                  )}
+                />
               </ul>
             </div>
           </Reveal>
@@ -44,12 +56,21 @@ export function SafetyChecklist({
             <div className="h-full rounded-2xl border border-cta/15 bg-cta/5 p-6">
               <h3 className="font-heading text-base font-semibold text-cta">Do not attempt</h3>
               <ul className="mt-4 space-y-3">
-                {doNotDo.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
-                    <XCircle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-cta" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
+                <EditableList<string>
+                  path="doNotDo"
+                  items={doNotDo}
+                  itemTemplate={() => ""}
+                  addLabel="Add item"
+                  getKey={(_s, i) => i}
+                  renderItem={(item, i) => (
+                    <li className="flex items-start gap-2.5 text-sm text-foreground">
+                      <XCircle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-cta" aria-hidden="true" />
+                      <EditableText path={`doNotDo[${i}]`} placeholder="Do not attempt…">
+                        {item}
+                      </EditableText>
+                    </li>
+                  )}
+                />
               </ul>
             </div>
           </Reveal>

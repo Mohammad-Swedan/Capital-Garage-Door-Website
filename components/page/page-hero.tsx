@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { MapPin, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/layout/container";
@@ -8,6 +10,7 @@ import {
   RequestQuoteButton,
   UploadPhotoButton,
 } from "@/components/page/cta-buttons";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
 
 interface PageHeroProps {
   /** Small kicker above the title, e.g. "Garage Door Repairs · Perth, WA". */
@@ -54,7 +57,9 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
 
             <Reveal delay={0.12}>
               <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {subtitle}
+                <EditableText path="hero.subtitle" placeholder="Hero subtitle…" aria-label="Hero subtitle">
+                  {subtitle}
+                </EditableText>
               </p>
             </Reveal>
 
@@ -69,15 +74,25 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
 
             <Reveal delay={0.24}>
               <ul className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
-                {trustBadges.map((badge) => (
-                  <li
-                    key={badge}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-foreground/70 sm:text-sm"
-                  >
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
-                    {badge}
-                  </li>
-                ))}
+                <EditableList<string>
+                  path="hero.trustBadges"
+                  items={trustBadges}
+                  itemTemplate={() => ""}
+                  addLabel="Add badge"
+                  getKey={(_b, i) => i}
+                  renderItem={(badge, index) => (
+                    <li className="flex items-center gap-1.5 text-xs font-semibold text-foreground/70 sm:text-sm">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden="true" />
+                      <EditableText
+                        path={`hero.trustBadges[${index}]`}
+                        singleLine
+                        placeholder="Badge…"
+                      >
+                        {badge}
+                      </EditableText>
+                    </li>
+                  )}
+                />
               </ul>
             </Reveal>
           </div>

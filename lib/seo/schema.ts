@@ -9,8 +9,14 @@ import type { LandingPage } from "@/types/landing-page";
 import type { Review, ReviewsSummary } from "@/types/review";
 import type { CoverageRegion } from "@/types/coverage-area";
 
-/** Builds the site-wide LocalBusiness JSON-LD schema (NAP, hours, geo). */
-export function localBusinessSchema() {
+/**
+ * Builds the site-wide LocalBusiness JSON-LD schema (NAP, hours, geo).
+ *
+ * Pass the live reviews summary to embed `aggregateRating` — this is what makes
+ * Google show ⭐ star rich snippets against the brand across the site, not just
+ * on /reviews. Omit it (or pass zero reviews) and the node is left off cleanly.
+ */
+export function localBusinessSchema(rating?: { ratingValue: number; reviewCount: number }) {
   const { business } = siteConfig;
 
   // Only emit address fields that are actually filled in — shipping empty
@@ -52,6 +58,17 @@ export function localBusinessSchema() {
         }
       : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
+    ...(rating && rating.reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: rating.ratingValue,
+            reviewCount: rating.reviewCount,
+            bestRating: 5,
+            worstRating: 1,
+          },
+        }
+      : {}),
     openingHoursSpecification: business.hours
       .filter((h) => h.opens && h.closes)
       .map((h) => ({
@@ -60,6 +77,36 @@ export function localBusinessSchema() {
         opens: h.opens,
         closes: h.closes,
       })),
+  };
+}
+
+/** Site-wide Organization JSON-LD (brand entity; sameAs links the Google/social profiles). */
+export function organizationSchema() {
+  const { business } = siteConfig;
+  const sameAs = Object.values(siteConfig.social).filter(Boolean);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.name,
+    legalName: business.legalName,
+    url: siteConfig.url,
+    logo: new URL("/images/CGD-logo-with-text.png", siteConfig.url).toString(),
+    image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
+    telephone: business.phone,
+    email: business.email,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  };
+}
+
+/** Site-wide WebSite JSON-LD. */
+export function webSiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteConfig.name,
+    url: siteConfig.url,
+    inLanguage: "en-AU",
   };
 }
 

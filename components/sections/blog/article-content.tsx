@@ -1,7 +1,16 @@
+"use client";
+
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { AlertTriangle, CheckCircle2, Info, Lightbulb, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ContentBlock } from "@/types/article";
+import { useEditable } from "@/components/admin/editor/editable-context";
+
+// Lazy: only loaded in the in-place editor, never in the public article bundle.
+const ArticleBlocksEditor = dynamic(() =>
+  import("@/components/admin/editor/article-blocks-editor").then((m) => m.ArticleBlocksEditor),
+);
 
 interface ArticleContentProps {
   blocks: ContentBlock[];
@@ -40,6 +49,18 @@ const calloutStyles = {
  * checklists, and image placeholders matching the homepage's design language.
  */
 export function ArticleContent({ blocks }: ArticleContentProps) {
+  const { editing } = useEditable();
+
+  // In-place editor: per-block type switch / add / reorder / inline fields.
+  if (editing) {
+    return (
+      <div className="max-w-none">
+        <ArticleBlocksEditor blocks={blocks} path="contentBlocks" />
+      </div>
+    );
+  }
+
+  // Public / preview render — unchanged semantic HTML.
   return (
     <div className="max-w-none space-y-6">
       {blocks.map((block, index) => {

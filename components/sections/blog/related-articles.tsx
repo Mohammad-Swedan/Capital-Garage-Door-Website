@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableGroup } from "@/components/admin/editor/editable";
 import type { ArticleLink } from "@/types/article";
 
 interface RelatedArticlesProps {
@@ -14,6 +15,7 @@ export function RelatedArticles({ heading = "Related Articles", articles }: Rela
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>
+        <EditableGroup label="Related articles · edit in Settings → Links">
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">{heading}</h2>
         </Reveal>
@@ -43,6 +45,7 @@ export function RelatedArticles({ heading = "Related Articles", articles }: Rela
             </Reveal>
           ))}
         </div>
+        </EditableGroup>
       </Container>
     </section>
   );

@@ -1,11 +1,16 @@
+"use client";
+
 import { CheckCircle2, RefreshCw } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
 import type { RepairVsReplaceData } from "@/types/cost-guide";
 
 interface RepairVsReplaceProps {
   data: RepairVsReplaceData;
 }
+
+const blankString = (): string => "";
 
 /** Two-column guidance: when a repair makes sense vs. when replacement is the better call. */
 export function RepairVsReplace({ data }: RepairVsReplaceProps) {
@@ -16,9 +21,15 @@ export function RepairVsReplace({ data }: RepairVsReplaceProps) {
       <Container>
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {heading}
+            <EditableText path="repairVsReplace.heading" placeholder="Section heading…">
+              {heading}
+            </EditableText>
           </h2>
-          <p className="mt-3 max-w-2xl text-muted-foreground">{intro}</p>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            <EditableText path="repairVsReplace.intro" placeholder="Intro…">
+              {intro}
+            </EditableText>
+          </p>
         </Reveal>
 
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
@@ -29,12 +40,21 @@ export function RepairVsReplace({ data }: RepairVsReplaceProps) {
                 Repair is usually better when
               </h3>
               <ul className="mt-4 space-y-3">
-                {repairWhen.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
-                    <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-emerald-600" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
+                <EditableList<string>
+                  path="repairVsReplace.repairWhen"
+                  items={repairWhen}
+                  itemTemplate={blankString}
+                  addLabel="Add reason"
+                  getKey={(_item, i) => i}
+                  renderItem={(item, index) => (
+                    <li className="flex items-start gap-2.5 text-sm text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-emerald-600" aria-hidden="true" />
+                      <EditableText path={`repairVsReplace.repairWhen[${index}]`} placeholder="Reason…">
+                        {item}
+                      </EditableText>
+                    </li>
+                  )}
+                />
               </ul>
             </div>
           </Reveal>
@@ -46,12 +66,21 @@ export function RepairVsReplace({ data }: RepairVsReplaceProps) {
                 Replacement may be better when
               </h3>
               <ul className="mt-4 space-y-3">
-                {replaceWhen.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-foreground">
-                    <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-primary" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
+                <EditableList<string>
+                  path="repairVsReplace.replaceWhen"
+                  items={replaceWhen}
+                  itemTemplate={blankString}
+                  addLabel="Add reason"
+                  getKey={(_item, i) => i}
+                  renderItem={(item, index) => (
+                    <li className="flex items-start gap-2.5 text-sm text-foreground">
+                      <CheckCircle2 className="mt-0.5 h-4.5 w-4.5 shrink-0 text-primary" aria-hidden="true" />
+                      <EditableText path={`repairVsReplace.replaceWhen[${index}]`} placeholder="Reason…">
+                        {item}
+                      </EditableText>
+                    </li>
+                  )}
+                />
               </ul>
             </div>
           </Reveal>

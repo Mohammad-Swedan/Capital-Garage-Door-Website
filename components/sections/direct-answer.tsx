@@ -1,9 +1,17 @@
 import { Lightbulb } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { EditableText } from "@/components/admin/editor/editable";
 
 interface DirectAnswerProps {
   heading?: string;
   answer: string;
+  /**
+   * Draft path the answer binds to in the in-place editor. Defaults to
+   * "directAnswer" (Service/Comparison/CostGuide/Problem); Article passes
+   * "shortAnswer". Public render is unaffected — EditableText passes the value
+   * through verbatim when no editor is mounted.
+   */
+  path?: string;
 }
 
 /**
@@ -11,7 +19,7 @@ interface DirectAnswerProps {
  * surfacing (AI assistants and "People also ask" style answers), and for
  * users who just want the short version before reading on.
  */
-export function DirectAnswer({ heading = "Quick Answer", answer }: DirectAnswerProps) {
+export function DirectAnswer({ heading = "Quick Answer", answer, path = "directAnswer" }: DirectAnswerProps) {
   return (
     <section className="bg-background pb-2 sm:pb-4">
       <Container>
@@ -25,7 +33,9 @@ export function DirectAnswer({ heading = "Quick Answer", answer }: DirectAnswerP
                 {heading}
               </h2>
               <p className="mt-2 max-w-3xl text-base leading-relaxed text-foreground sm:text-lg">
-                {answer}
+                <EditableText path={path} placeholder="Write the short, quotable answer…" aria-label="Direct answer">
+                  {answer}
+                </EditableText>
               </p>
             </div>
           </div>

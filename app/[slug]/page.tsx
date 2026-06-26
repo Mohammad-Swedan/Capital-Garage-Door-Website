@@ -29,7 +29,10 @@ interface FlatLandingPageProps {
  * differently-named dynamic segments at the same path level as ambiguous).
  * Add a new registry here following the same pattern for future page types.
  */
-export const dynamicParams = false;
+// Allow on-demand rendering so pages published in the CMS admin resolve without a rebuild. Pages in
+// generateStaticParams still render statically; unknown slugs fall through to notFound() (404) as
+// before. (Next requires this to be a statically-parseable boolean, so it can't be env-gated.)
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const [serviceSlugs, comparisonSlugs, costGuideSlugs, suburbSlugs] = await Promise.all([

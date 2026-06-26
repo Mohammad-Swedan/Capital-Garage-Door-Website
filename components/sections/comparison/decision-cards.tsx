@@ -1,7 +1,14 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { resolveIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import {
+  EditableText,
+  EditableList,
+  EditableIcon,
+} from "@/components/admin/editor/editable";
 import type { ComparisonDecisionCard } from "@/types/comparison-page";
 
 interface DecisionCardsProps {
@@ -15,6 +22,16 @@ const TONE_STYLES: Record<ComparisonDecisionCard["tone"], { border: string; bg: 
   uncertain: { border: "border-amber-500/25", bg: "bg-amber-500/10", text: "text-amber-700" },
 };
 
+/** Blank decision card produced by the "+ Add" affordance. */
+const blankCard = (): ComparisonDecisionCard => ({
+  heading: "",
+  icon: "HelpCircle",
+  tone: "uncertain",
+  points: [""],
+});
+
+const blankPoint = (): string => "";
+
 /** "Which one should you choose?" — three decision-aid cards, tinted per option/uncertain via each card's own `tone` field. */
 export function DecisionCards({ heading = "Which One Should You Choose?", cards }: DecisionCardsProps) {
   return (
@@ -26,33 +43,58 @@ export function DecisionCards({ heading = "Which One Should You Choose?", cards 
           </h2>
         </Reveal>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card, index) => {
-            const Icon = resolveIcon(card.icon);
-            const tone = TONE_STYLES[card.tone];
-            return (
-              <Reveal key={card.heading} delay={index * 0.05}>
-                <div className={cn("h-full rounded-2xl border p-5", tone.border, tone.bg)}>
-                  <span
-                    className={cn(
-                      "flex h-10 w-10 items-center justify-center rounded-xl bg-card",
-                      tone.text,
-                    )}
-                  >
-                    <Icon className="h-5 w-5" aria-hidden="true" />
-                  </span>
-                  <h3 className={cn("mt-4 font-heading text-base font-semibold", tone.text)}>{card.heading}</h3>
-                  <ul className="mt-3 space-y-2">
-                    {card.points.map((point) => (
-                      <li key={point} className="flex items-start gap-2 text-sm text-foreground">
-                        <span className={cn("mt-2 h-1.5 w-1.5 shrink-0 rounded-full", tone.text, "bg-current")} />
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            );
-          })}
+          <EditableList<ComparisonDecisionCard>
+            path="decisionCards"
+            items={cards}
+            itemTemplate={blankCard}
+            addLabel="Add card"
+            getKey={(c, i) => c.heading || i}
+            renderItem={(card, index) => {
+              const Icon = resolveIcon(card.icon);
+              const tone = TONE_STYLES[card.tone];
+              return (
+                <Reveal delay={index * 0.05}>
+                  <div className={cn("h-full rounded-2xl border p-5", tone.border, tone.bg)}>
+                    <span
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-xl bg-card",
+                        tone.text,
+                      )}
+                    >
+                      <EditableIcon path={`decisionCards[${index}].icon`}>
+                        <Icon className="h-5 w-5" aria-hidden="true" />
+                      </EditableIcon>
+                    </span>
+                    <h3 className={cn("mt-4 font-heading text-base font-semibold", tone.text)}>
+                      <EditableText path={`decisionCards[${index}].heading`} placeholder="Card heading…">
+                        {card.heading}
+                      </EditableText>
+                    </h3>
+                    <ul className="mt-3 space-y-2">
+                      <EditableList<string>
+                        path={`decisionCards[${index}].points`}
+                        items={card.points}
+                        itemTemplate={blankPoint}
+                        addLabel="Add point"
+                        getKey={(_p, i) => i}
+                        renderItem={(point, pointIndex) => (
+                          <li className="flex items-start gap-2 text-sm text-foreground">
+                            <span className={cn("mt-2 h-1.5 w-1.5 shrink-0 rounded-full", tone.text, "bg-current")} />
+                            <EditableText
+                              path={`decisionCards[${index}].points[${pointIndex}]`}
+                              placeholder="Point…"
+                            >
+                              {point}
+                            </EditableText>
+                          </li>
+                        )}
+                      />
+                    </ul>
+                  </div>
+                </Reveal>
+              );
+            }}
+          />
         </div>
       </Container>
     </section>

@@ -1,3 +1,5 @@
+"use client";
+
 import { SmartCta } from "@/components/sections/smart-cta";
 import { AlertTriangle, Search, Wrench, Phone, FileText } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
@@ -49,11 +51,11 @@ export function CaseStudyPageTemplate({ data }: CaseStudyPageTemplateProps) {
 
       <JobSummaryCards data={data} />
 
-      <DetailSection icon={AlertTriangle} heading="Customer Problem" block={data.problem} tone="default" />
+      <DetailSection icon={AlertTriangle} heading="Customer Problem" block={data.problem} tone="default" pathPrefix="problem" />
 
-      <DetailSection icon={Search} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" />
+      <DetailSection icon={Search} heading="Inspection & Diagnosis" block={data.diagnosis} tone="tinted" pathPrefix="diagnosis" />
 
-      <DetailSection icon={Wrench} heading="Solution" block={data.solution} tone="default" />
+      <DetailSection icon={Wrench} heading="Solution" block={data.solution} tone="default" pathPrefix="solution" />
 
       <BeforeAfterGallery images={data.images} />
 

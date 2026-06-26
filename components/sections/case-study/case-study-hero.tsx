@@ -7,6 +7,7 @@ import {
   UploadPhotoButton,
   BookNowButton,
 } from "@/components/page/cta-buttons";
+import { EditableText } from "@/components/admin/editor/editable";
 import type { CaseStudyPage } from "@/types/case-study";
 
 interface CaseStudyHeroProps {
@@ -19,11 +20,11 @@ interface CaseStudyHeroProps {
  */
 export function CaseStudyHero({ data }: CaseStudyHeroProps) {
   const stats = [
-    { icon: Wrench, label: "Service", value: data.service },
-    { icon: MapPin, label: "Suburb", value: data.suburb },
-    { icon: DoorOpen, label: "Door Type", value: data.doorType },
-    { icon: Building2, label: "Job Type", value: data.jobType },
-    { icon: CheckCircle2, label: "Result", value: data.result },
+    { icon: Wrench, label: "Service", value: data.service, path: "service" },
+    { icon: MapPin, label: "Suburb", value: data.suburb, path: "suburb" },
+    { icon: DoorOpen, label: "Door Type", value: data.doorType, path: "doorType" },
+    { icon: Building2, label: "Job Type", value: data.jobType, path: "jobType" },
+    { icon: CheckCircle2, label: "Result", value: data.result, path: "result" },
   ];
 
   return (
@@ -45,13 +46,17 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
 
           <Reveal delay={0.06}>
             <h1 className="text-balance font-display text-3xl leading-[1.1] font-black tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              {data.title}
+              <EditableText path="title" placeholder="Case study title…" aria-label="Case study title">
+                {data.title}
+              </EditableText>
             </h1>
           </Reveal>
 
           <Reveal delay={0.12}>
             <p className="max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
-              {data.subtitle}
+              <EditableText path="subtitle" placeholder="Subtitle…" aria-label="Subtitle">
+                {data.subtitle}
+              </EditableText>
             </p>
           </Reveal>
 
@@ -76,7 +81,11 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
                   <stat.icon className="h-4.5 w-4.5" aria-hidden="true" />
                 </span>
                 <p className="text-[11px] font-bold tracking-wide text-muted-foreground uppercase">{stat.label}</p>
-                <p className="font-heading text-sm font-semibold text-foreground sm:text-base">{stat.value}</p>
+                <p className="font-heading text-sm font-semibold text-foreground sm:text-base">
+                  <EditableText path={stat.path} singleLine placeholder={`${stat.label}…`} aria-label={stat.label}>
+                    {stat.value}
+                  </EditableText>
+                </p>
               </div>
             ))}
           </div>

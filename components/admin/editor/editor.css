@@ -1,0 +1,34 @@
+/* In-place editor overrides — scoped to a [data-editing] ancestor so they only
+   apply while editing and NEVER leak onto the public render path. */
+
+/* Neutralize the scroll/entry animations so motion doesn't fight editing: the
+   IntersectionObserver-driven Reveal (`cgd-reveal`) and the keyframe rises
+   (`cgd-rise`) are forced to their final, fully-visible state immediately. */
+[data-editing="true"] .cgd-reveal,
+[data-editing="true"] .cgd-reveal-in {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-editing="true"] .cgd-rise,
+[data-editing="true"] .cgd-rise-right {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Hide the public sticky mobile CTA while editing so it can't collide with the
+   editor toolbar / obscure content (plan §B.5 "fixed/overlapping chrome"). The
+   bar is `lg:hidden` on the public site; this also hides it on the (mobile-width)
+   preview canvas. Targeted by its layout signature since the component carries no
+   data-slot and may not be edited. */
+[data-editing="true"] .fixed.bottom-\[calc\(1rem\+env\(safe-area-inset-bottom\)\)\] {
+  display: none !important;
+}
+
+/* Give editable leaves a comfortable hit target without shifting layout: the
+   dashed hover ring lives on the element itself (outline, not border-box). */
+[data-editing="true"] [data-editable-hover] {
+  cursor: text;
+}

@@ -1,5 +1,9 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
+import { serviceItemTemplates } from "@/components/admin/editor/item-templates";
 
 interface IntroSectionProps {
   heading: string;
@@ -13,14 +17,25 @@ export function IntroSection({ heading, paragraphs }: IntroSectionProps) {
       <Container className="max-w-3xl">
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {heading}
+            <EditableText path="intro.heading" placeholder="Section heading…">
+              {heading}
+            </EditableText>
           </h2>
           <div className="mt-5 space-y-4">
-            {paragraphs.map((paragraph) => (
-              <p key={paragraph} className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {paragraph}
-              </p>
-            ))}
+            <EditableList<string>
+              path="intro.paragraphs"
+              items={paragraphs}
+              itemTemplate={serviceItemTemplates.paragraph}
+              addLabel="Add paragraph"
+              getKey={(_p, i) => i}
+              renderItem={(paragraph, index) => (
+                <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
+                  <EditableText path={`intro.paragraphs[${index}]`} placeholder="Paragraph…">
+                    {paragraph}
+                  </EditableText>
+                </p>
+              )}
+            />
           </div>
         </Reveal>
       </Container>

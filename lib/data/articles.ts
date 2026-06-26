@@ -1,7 +1,19 @@
 import { articles } from "@/content/articles";
 import type { Article, ContentBlock, TocItem } from "@/types/article";
+import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { mapArticle } from "@/lib/cms/map-article";
 
 const WORDS_PER_MINUTE = 200;
+
+/**
+ * Data-access layer for blog/guide articles.
+ *
+ * When `CMS_ARTICLES === "on"` this reads from the ASP.NET CMS API (route key "blog"); otherwise it
+ * falls back to the local `content/articles` files (the current source of truth). This flag-guarded
+ * seam is how the site cuts over to the CMS one template type at a time without ever breaking the
+ * live site (docs/cms-architecture.md §8). Call sites (templates, app/sitemap.ts) do not change.
+ */
+const CMS_ON = process.env.CMS_ARTICLES === "on";
 
 function blockWordCount(block: ContentBlock): number {
   switch (block.type) {
@@ -44,21 +56,32 @@ function withDerivedFields(article: Article): Article {
   };
 }
 
-/**
- * Data-access layer for blog/guide articles. Reads from local content now;
- * swap the implementation for an API/CMS call later without changing call sites.
- */
 export async function getArticles(): Promise<Article[]> {
+  if (CMS_ON) {
+    const slugs = await getArticleSlugs();
+    const pages = await Promise.all(slugs.map((slug) => getArticleBySlug(slug)));
+    return pages
+      .filter((p): p is Article => p !== undefined)
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+  }
   return [...articles]
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
     .map(withDerivedFields);
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
+  if (CMS_ON) {
+    const dto = await cmsResolve("blog", slug);
+    return dto ? withDerivedFields(mapArticle(dto)) : undefined;
+  }
   const article = articles.find((entry) => entry.slug === slug);
   return article ? withDerivedFields(article) : undefined;
 }
 
 export async function getArticleSlugs(): Promise<string[]> {
+  if (CMS_ON) {
+    const feed = await cmsSitemap();
+    return feed.filter((p) => p.templateType === "Article" && !p.noIndex).map((p) => p.slug);
+  }
   return articles.map((article) => article.slug);
 }

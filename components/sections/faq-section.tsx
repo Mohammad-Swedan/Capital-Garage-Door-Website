@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import {
@@ -8,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { JsonLd } from "@/components/seo/json-ld";
 import { faqSchema } from "@/lib/seo/schema";
+import { EditableFaqList } from "@/components/admin/editor/editable";
 import type { FAQ } from "@/types";
 
 interface FAQSectionProps {
@@ -15,7 +18,15 @@ interface FAQSectionProps {
   heading?: string;
 }
 
-/** FAQ accordion + matching FAQPage JSON-LD — content is real server HTML for SEO/AEO. */
+/**
+ * FAQ accordion + matching FAQPage JSON-LD — content is real server HTML for SEO/AEO.
+ *
+ * FAQs are a relational pin. The accordion itself is left UNTOUCHED so its
+ * `<button>` trigger structure stays valid and the public render is byte-identical.
+ * In the in-place editor, `EditableFaqList` renders an editing-only Q/A editor
+ * (with add/remove/reorder) below the accordion; it renders nothing when not
+ * editing. The list serializes to the editor's `faqs` array, not to `data`.
+ */
 export function FAQSection({ faqs, heading = "Frequently Asked Questions" }: FAQSectionProps) {
   return (
     <section className="bg-background py-14 sm:py-20">
@@ -29,11 +40,13 @@ export function FAQSection({ faqs, heading = "Frequently Asked Questions" }: FAQ
         <Reveal delay={0.1} className="mt-6">
           <Accordion
             multiple
-            defaultValue={[faqs[0]?.question]}
+            defaultValue={faqs.length ? ["faq-0"] : []}
             className="rounded-2xl border border-border bg-card px-5 sm:px-7"
           >
-            {faqs.map((faq) => (
-              <AccordionItem key={faq.question} value={faq.question}>
+            {faqs.map((faq, index) => (
+              // Key/value by index, not question text: a freshly seeded blank page
+              // has empty (and therefore duplicate) questions until the editor fills them.
+              <AccordionItem key={`faq-${index}`} value={`faq-${index}`}>
                 <AccordionTrigger className="font-heading text-base font-semibold text-foreground sm:text-lg">
                   {faq.question}
                 </AccordionTrigger>
@@ -43,6 +56,7 @@ export function FAQSection({ faqs, heading = "Frequently Asked Questions" }: FAQ
               </AccordionItem>
             ))}
           </Accordion>
+          <EditableFaqList path="faqs" count={faqs.length} />
         </Reveal>
       </Container>
     </section>

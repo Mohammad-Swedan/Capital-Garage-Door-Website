@@ -46,7 +46,7 @@ export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
 
       <ArticleHero article={article} />
 
-      <DirectAnswer heading="Short Answer" answer={article.shortAnswer} />
+      <DirectAnswer heading="Short Answer" answer={article.shortAnswer} path="shortAnswer" />
 
       <section className="bg-background py-10 sm:py-14">
         <Container>

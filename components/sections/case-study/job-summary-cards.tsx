@@ -1,6 +1,7 @@
 import { AlertTriangle, Search, Wrench, CheckCircle2 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText } from "@/components/admin/editor/editable";
 import type { CaseStudyPage } from "@/types/case-study";
 
 interface JobSummaryCardsProps {
@@ -10,10 +11,10 @@ interface JobSummaryCardsProps {
 /** Quick-glance Problem / Diagnosis / Solution / Result overview before the full narrative sections. */
 export function JobSummaryCards({ data }: JobSummaryCardsProps) {
   const cards = [
-    { icon: AlertTriangle, title: "Problem", description: data.summary.problem },
-    { icon: Search, title: "Diagnosis", description: data.summary.diagnosis },
-    { icon: Wrench, title: "Solution", description: data.summary.solution },
-    { icon: CheckCircle2, title: "Result", description: data.result },
+    { icon: AlertTriangle, title: "Problem", description: data.summary.problem, path: "summary.problem" },
+    { icon: Search, title: "Diagnosis", description: data.summary.diagnosis, path: "summary.diagnosis" },
+    { icon: Wrench, title: "Solution", description: data.summary.solution, path: "summary.solution" },
+    { icon: CheckCircle2, title: "Result", description: data.result, path: "result" },
   ];
 
   return (
@@ -32,7 +33,11 @@ export function JobSummaryCards({ data }: JobSummaryCardsProps) {
                   <card.icon className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="font-heading text-base font-semibold text-foreground">{card.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{card.description}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  <EditableText path={card.path} placeholder={`${card.title}…`} aria-label={card.title}>
+                    {card.description}
+                  </EditableText>
+                </p>
               </div>
             </Reveal>
           ))}

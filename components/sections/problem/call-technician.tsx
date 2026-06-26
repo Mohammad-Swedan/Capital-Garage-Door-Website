@@ -1,6 +1,9 @@
+"use client";
+
 import { AlertTriangle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { EditableText, EditableList } from "@/components/admin/editor/editable";
 
 interface CallTechnicianProps {
   heading?: string;
@@ -23,15 +26,21 @@ export function CallTechnician({ heading = "When to Call a Technician", signs }:
 
         <Reveal delay={0.1} className="mt-8">
           <ul className="grid gap-3 sm:grid-cols-2">
-            {signs.map((sign) => (
-              <li
-                key={sign}
-                className="flex items-start gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-foreground"
-              >
-                <AlertTriangle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-amber-600" aria-hidden="true" />
-                {sign}
-              </li>
-            ))}
+            <EditableList<string>
+              path="callTechnicianSigns"
+              items={signs}
+              itemTemplate={() => ""}
+              addLabel="Add sign"
+              getKey={(_s, i) => i}
+              renderItem={(sign, i) => (
+                <li className="flex items-start gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 text-sm text-foreground">
+                  <AlertTriangle className="mt-0.5 h-4.5 w-4.5 shrink-0 text-amber-600" aria-hidden="true" />
+                  <EditableText path={`callTechnicianSigns[${i}]`} placeholder="Warning sign…">
+                    {sign}
+                  </EditableText>
+                </li>
+              )}
+            />
           </ul>
         </Reveal>
       </Container>

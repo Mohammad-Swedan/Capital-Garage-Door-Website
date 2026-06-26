@@ -6,7 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LazyMotionProvider } from "@/components/motion/lazy-motion-provider";
 import { JsonLd } from "@/components/seo/json-ld";
-import { localBusinessSchema } from "@/lib/seo/schema";
+import { localBusinessSchema, organizationSchema, webSiteSchema } from "@/lib/seo/schema";
+import { getReviewsSummary } from "@/lib/data/reviews";
 import { siteConfig } from "@/config/site";
 
 const heading = Poppins({
@@ -52,11 +53,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Live review aggregate → embedded in the site-wide LocalBusiness for ⭐ star rich snippets.
+  const summary = await getReviewsSummary();
+
   return (
     <html
       lang="en"
@@ -64,7 +68,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
-        <JsonLd data={localBusinessSchema()} />
+        <JsonLd
+          data={localBusinessSchema({
+            ratingValue: summary.averageRating,
+            reviewCount: summary.totalReviews,
+          })}
+        />
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={webSiteSchema()} />
         {/* Hide the welcome intro before first paint if it has already played this session. */}
         <script
           dangerouslySetInnerHTML={{

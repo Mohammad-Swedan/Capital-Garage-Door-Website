@@ -6,11 +6,11 @@ export default async function AdminLoginPage() {
   if (await isAuthenticated()) redirect("/admin/pages");
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-muted/30 px-4">
-      {/* Subtle branded backdrop: navy radial glow + faint grid lines. */}
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-surface-muted px-4">
+      {/* Subtle branded backdrop: navy brand glow + faint grid lines. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-primary/10 blur-3xl"
+        className="pointer-events-none absolute -top-48 left-1/2 size-[40rem] -translate-x-1/2 bg-glow-brand"
       />
       <div
         aria-hidden

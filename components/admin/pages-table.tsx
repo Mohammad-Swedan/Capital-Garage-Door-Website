@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Search } from "lucide-react";
+import { FileText, Search } from "lucide-react";
 
 import type { AdminPageListItem } from "@/lib/cms/admin";
-import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,8 +13,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card } from "@/components/ui/card";
 import { PageRowActions } from "@/components/admin/page-row-actions";
+import {
+  AdminTableCard,
+  AdminTableEmpty,
+  adminRowClass,
+} from "@/components/admin/ui/admin-table";
 
 const TEMPLATE_TYPES: { value: string; label: string }[] = [
   { value: "ServicePage", label: "Service page" },
@@ -30,22 +33,12 @@ const TEMPLATE_TYPES: { value: string; label: string }[] = [
 
 const TYPE_LABELS = Object.fromEntries(TEMPLATE_TYPES.map((t) => [t.value, t.label]));
 
-/** Status pill: published = emerald, draft = amber, with a muted noindex tag. */
+/** Status pill: published = success, draft = warning, with a muted noindex tag. */
 function StatusBadge({ status, noIndex }: { status: string; noIndex: boolean }) {
   const published = status === "Published";
   return (
     <span className="inline-flex items-center gap-1.5">
-      <Badge
-        variant="outline"
-        className={cn(
-          "border-transparent",
-          published
-            ? "bg-emerald-500/12 text-emerald-700 dark:text-emerald-400"
-            : "bg-amber-500/12 text-amber-700 dark:text-amber-400",
-        )}
-      >
-        {status}
-      </Badge>
+      <Badge variant={published ? "success" : "warning"}>{status}</Badge>
       {noIndex && (
         <Badge variant="outline" className="text-muted-foreground">
           noindex
@@ -118,46 +111,43 @@ export function PagesTable({ items }: { items: AdminPageListItem[] }) {
       </div>
 
       {filtered.length === 0 ? (
-        <Card className="items-center justify-center py-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            {items.length === 0
-              ? "No pages yet. Create your first one."
-              : "No pages match your filters."}
-          </p>
-        </Card>
+        <AdminTableEmpty
+          icon={<FileText className="size-5" />}
+          title={items.length === 0 ? "No pages yet" : "No matching pages"}
+          description={
+            items.length === 0
+              ? "Create your first page to start publishing content."
+              : "Try adjusting your search or filters."
+          }
+        />
       ) : (
-        <Card className="overflow-hidden p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50 text-left text-xs tracking-wide text-muted-foreground uppercase">
-                <tr>
-                  <th className="px-4 py-2.5 font-medium">Title</th>
-                  <th className="px-4 py-2.5 font-medium">Type</th>
-                  <th className="px-4 py-2.5 font-medium">URL</th>
-                  <th className="px-4 py-2.5 font-medium">Status</th>
-                  <th className="px-4 py-2.5 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {filtered.map((p) => (
-                  <tr key={p.id} className="transition-colors hover:bg-muted/40">
-                    <td className="px-4 py-3 font-medium text-foreground">{p.title}</td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {TYPE_LABELS[p.templateType] ?? p.templateType}
-                    </td>
-                    <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{p.href}</td>
-                    <td className="px-4 py-3">
-                      <StatusBadge status={p.status} noIndex={p.noIndex} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <PageRowActions id={p.id} status={p.status} href={p.href} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+        <AdminTableCard
+          head={
+            <tr>
+              <th className="px-4 py-3 font-medium">Title</th>
+              <th className="px-4 py-3 font-medium">Type</th>
+              <th className="px-4 py-3 font-medium">URL</th>
+              <th className="px-4 py-3 font-medium">Status</th>
+              <th className="px-4 py-3 text-right font-medium">Actions</th>
+            </tr>
+          }
+        >
+          {filtered.map((p) => (
+            <tr key={p.id} className={adminRowClass}>
+              <td className="px-4 py-3 font-medium text-foreground">{p.title}</td>
+              <td className="px-4 py-3 text-muted-foreground">
+                {TYPE_LABELS[p.templateType] ?? p.templateType}
+              </td>
+              <td className="px-4 py-3 font-mono text-xs text-muted-foreground">{p.href}</td>
+              <td className="px-4 py-3">
+                <StatusBadge status={p.status} noIndex={p.noIndex} />
+              </td>
+              <td className="px-4 py-3">
+                <PageRowActions id={p.id} status={p.status} href={p.href} />
+              </td>
+            </tr>
+          ))}
+        </AdminTableCard>
       )}
     </div>
   );

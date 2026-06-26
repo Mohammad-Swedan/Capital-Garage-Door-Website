@@ -115,7 +115,7 @@ export function AdminShell({
       href={siteConfig.url}
       target="_blank"
       rel="noreferrer"
-      className="hidden items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground sm:inline-flex"
+      className="hidden items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 sm:inline-flex"
     >
       <ExternalLink className="size-4" />
       View site
@@ -123,23 +123,26 @@ export function AdminShell({
   );
 
   return (
-    <div className="flex min-h-screen bg-muted/30">
+    <div className="flex min-h-screen bg-surface-muted">
       {/* Desktop sidebar */}
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar lg:flex">
-        <div className="flex h-14 items-center border-b border-sidebar-border px-5">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-r border-sidebar-border bg-sidebar shadow-elevated lg:flex">
+        <div className="flex h-16 items-center border-b border-sidebar-border px-5">
           <AdminBrandLockup />
         </div>
         <div className="flex-1 overflow-y-auto">
           <SidebarNav />
         </div>
-        <div className="border-t border-sidebar-border px-5 py-3 text-xs text-sidebar-foreground/55">
-          Internal tool · noindex
+        <div className="border-t border-sidebar-border px-5 py-3.5">
+          <p className="flex items-center gap-2 text-xs text-sidebar-foreground/45">
+            <span className="size-1.5 rounded-full bg-emerald-400/80" aria-hidden />
+            Internal tool · noindex
+          </p>
         </div>
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Top bar */}
-        <header className="sticky top-0 z-20 flex h-14 items-center gap-3 border-b border-border bg-background/95 px-4 backdrop-blur sm:px-6">
+        <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-border/80 bg-background/80 px-4 backdrop-blur-md sm:px-6">
           {/* Mobile menu trigger + drawer */}
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger
@@ -150,8 +153,8 @@ export function AdminShell({
               <Menu className="size-4" />
               <span className="sr-only">Open navigation</span>
             </SheetTrigger>
-            <SheetContent side="left" className="w-72 p-0">
-              <SheetHeader className="h-14 justify-center border-b border-sidebar-border">
+            <SheetContent side="left" className="w-72 border-sidebar-border bg-sidebar p-0">
+              <SheetHeader className="h-16 justify-center border-b border-sidebar-border">
                 <SheetTitle className="p-0">
                   <AdminBrandLockup />
                 </SheetTitle>
@@ -171,7 +174,7 @@ export function AdminShell({
           </div>
         </header>
 
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+        <main className="flex-1 px-4 py-7 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-6xl">{children}</div>
         </main>
       </div>

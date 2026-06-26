@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, MapPin } from "lucide-react";
 import { adminRequest } from "@/lib/cms/admin";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { AdminPageHeader } from "@/components/admin/ui/admin-page-header";
+import {
+  AdminTableEmpty,
+  AdminLoadError,
+  adminRowClass,
+} from "@/components/admin/ui/admin-table";
 import { RegionRowActions, SuburbRowActions } from "@/components/admin/service-area-row-actions";
 
 export const dynamic = "force-dynamic";
@@ -50,66 +55,60 @@ export default async function ServiceAreasPage() {
         }
       />
 
-      {!res.ok && (
-        <Card className="border-destructive/30 bg-destructive/10 py-4 text-destructive ring-destructive/20">
-          <p className="px-4 text-sm">
-            Could not load service areas (status {res.status}). Is the CMS API running?
-          </p>
-        </Card>
-      )}
+      {!res.ok && <AdminLoadError label="service areas" status={res.status} />}
 
       {res.ok && regions.length === 0 && (
-        <Card className="items-center justify-center py-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            No regions yet. Create your first region to start grouping suburbs.
-          </p>
-        </Card>
+        <AdminTableEmpty
+          icon={<MapPin className="size-5" />}
+          title="No regions yet"
+          description="Create your first region to start grouping the suburbs you service."
+        />
       )}
 
       <div className="space-y-4">
         {regions.map((region) => (
-          <Card key={region.id} className="overflow-hidden p-0">
-            <header className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-4 py-3">
-              <div>
-                <h2 className="font-heading font-semibold text-foreground">{region.name}</h2>
-                <p className="text-xs text-muted-foreground">
-                  Sort {region.sortOrder} · {region.suburbs.length} suburb
-                  {region.suburbs.length === 1 ? "" : "s"}
-                </p>
+          <Card key={region.id} variant="elevated" className="overflow-hidden p-0">
+            <header className="flex items-center justify-between gap-3 border-b border-border bg-muted/40 px-4 py-3.5">
+              <div className="flex items-center gap-3">
+                <span className="flex size-9 items-center justify-center rounded-lg bg-brand-soft text-brand ring-1 ring-inset ring-foreground/5">
+                  <MapPin className="size-4" />
+                </span>
+                <div>
+                  <h2 className="font-heading font-semibold text-foreground">{region.name}</h2>
+                  <p className="text-xs text-muted-foreground">
+                    Sort {region.sortOrder} · {region.suburbs.length} suburb
+                    {region.suburbs.length === 1 ? "" : "s"}
+                  </p>
+                </div>
               </div>
               <RegionRowActions id={region.id} />
             </header>
 
             {region.suburbs.length === 0 ? (
-              <p className="px-4 py-4 text-sm text-muted-foreground">
+              <p className="px-4 py-5 text-sm text-muted-foreground">
                 No suburbs in this region yet.
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-muted/20 text-left text-xs tracking-wide text-muted-foreground uppercase">
+                <table className="w-full border-collapse text-sm">
+                  <thead className="border-b border-border bg-muted/30 text-left text-xs font-medium tracking-wide text-muted-foreground uppercase">
                     <tr>
-                      <th className="px-4 py-2 font-medium">Suburb</th>
-                      <th className="px-4 py-2 font-medium">Slug</th>
-                      <th className="px-4 py-2 font-medium">Linked page</th>
-                      <th className="px-4 py-2 text-right font-medium">Actions</th>
+                      <th className="px-4 py-2.5 font-medium">Suburb</th>
+                      <th className="px-4 py-2.5 font-medium">Slug</th>
+                      <th className="px-4 py-2.5 font-medium">Linked page</th>
+                      <th className="px-4 py-2.5 text-right font-medium">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border">
+                  <tbody>
                     {region.suburbs.map((s) => (
-                      <tr key={s.id} className="transition-colors hover:bg-muted/30">
+                      <tr key={s.id} className={adminRowClass}>
                         <td className="px-4 py-2.5 font-medium text-foreground">{s.name}</td>
                         <td className="px-4 py-2.5 font-mono text-xs text-muted-foreground">
                           {s.slug ?? "—"}
                         </td>
                         <td className="px-4 py-2.5">
                           {s.pageId != null ? (
-                            <Badge
-                              variant="outline"
-                              className="border-transparent bg-emerald-500/12 text-emerald-700 dark:text-emerald-400"
-                            >
-                              Page #{s.pageId}
-                            </Badge>
+                            <Badge variant="success">Page #{s.pageId}</Badge>
                           ) : (
                             <span className="text-xs text-muted-foreground">No page</span>
                           )}

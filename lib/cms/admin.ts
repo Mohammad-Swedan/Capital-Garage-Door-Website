@@ -172,3 +172,90 @@ export function updateFaq(id: number, body: CreateFaqPayload) {
 export function deleteFaq(id: number) {
   return request<unknown>(`/api/admin/faqs/${id}`, { method: "DELETE" });
 }
+
+// ---- Catalog create (Reviews / Services / PricingItems) ----
+// Minimal create helpers used by the in-place editor's pin pickers ("Create new …").
+// They attach the JWT cookie via `request` and return the created row (camelCase DTO).
+
+export interface AdminReview {
+  id: number;
+  customerName: string;
+  rating: number;
+  text: string;
+  reviewDate: string;
+  service?: string | null;
+  suburb?: string | null;
+  sourcePlatform?: string | null;
+  isFeatured: boolean;
+}
+
+export interface CreateReviewPayload {
+  customerName: string;
+  rating: number;
+  text: string;
+  /** ISO date "YYYY-MM-DD" (maps to the backend DateOnly). Required by the backend. */
+  reviewDate: string;
+  service?: string | null;
+  suburb?: string | null;
+  /** "Google" | "Facebook" | "Website" (enum name) — omitted when unknown. */
+  sourcePlatform?: string | null;
+  isFeatured?: boolean;
+}
+
+export function createReview(body: CreateReviewPayload) {
+  return request<AdminReview>(`/api/admin/reviews`, { method: "POST", body: JSON.stringify(body) });
+}
+
+export interface AdminService {
+  id: number;
+  slug: string;
+  name: string;
+  shortDescription: string;
+  iconName: string;
+  assetId?: number | null;
+  canonicalPageId?: number | null;
+  sortOrder: number;
+}
+
+export interface CreateServicePayload {
+  slug: string;
+  name: string;
+  shortDescription: string;
+  iconName: string;
+  assetId?: number | null;
+  canonicalPageId?: number | null;
+  sortOrder?: number;
+}
+
+export function createService(body: CreateServicePayload) {
+  return request<AdminService>(`/api/admin/services`, { method: "POST", body: JSON.stringify(body) });
+}
+
+export interface AdminPricingItem {
+  id: number;
+  scenario: string;
+  priceMin?: number | null;
+  priceMax?: number | null;
+  priceLabel?: string | null;
+  note?: string | null;
+  category?: string | null;
+  includes?: string | null;
+  costFactors?: string | null;
+  nextStep?: string | null;
+}
+
+export interface CreatePricingItemPayload {
+  scenario: string;
+  priceMin?: number | null;
+  priceMax?: number | null;
+  priceLabel?: string | null;
+  note?: string | null;
+  category?: string | null;
+  includes?: string | null;
+  costFactors?: string | null;
+  nextStep?: string | null;
+}
+
+export function createPricingItem(body: CreatePricingItemPayload) {
+  return request<AdminPricingItem>(`/api/admin/pricing-items`, { method: "POST", body: JSON.stringify(body) });
+}

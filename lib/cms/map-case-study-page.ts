@@ -60,7 +60,7 @@ export function mapCaseStudyPage(dto: PageResolveDto): CaseStudyPage {
       label: l.label,
       href: l.href,
     })),
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     seo: {
       title: dto.seoTitle,
       description: dto.seoDescription,

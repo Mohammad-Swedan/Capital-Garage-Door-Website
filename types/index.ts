@@ -23,6 +23,12 @@ export interface Testimonial {
 export interface FAQ {
   question: string;
   answer: string;
+  /**
+   * Optional provenance link to a library FAQ (FaqItem) when this row was picked
+   * from / created in the FAQ library via the in-place editor. Undefined/null for
+   * free-text FAQs. Carried end-to-end so editing a page preserves the link.
+   */
+  faqItemId?: number | null;
 }
 
 export interface BreadcrumbItem {

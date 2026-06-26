@@ -31,7 +31,7 @@ export interface CreatePageCommand {
   status: string;
   heroImageAssetId: number | null;
   data: Record<string, unknown>;
-  faqs: { question: string; answer: string; sortOrder: number }[];
+  faqs: { question: string; answer: string; sortOrder: number; faqItemId?: number | null }[];
   relatedLinks: {
     targetPageId: number | null;
     staticHref: string | null;

@@ -63,7 +63,7 @@ export function mapProblemPage(dto: PageResolveDto): Problem {
       heading: asString(emergency.heading),
       body: asString(emergency.body),
     },
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     updatedAt: dto.updatedAt ?? dto.publishedAt ?? "",
     heroImage: dto.heroImage?.cdnUrl ?? undefined,
   };

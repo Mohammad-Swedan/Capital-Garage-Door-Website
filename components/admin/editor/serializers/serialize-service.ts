@@ -44,7 +44,7 @@ export interface CreatePageCommand {
   status: string;
   heroImageAssetId: number | null;
   data: Record<string, unknown>;
-  faqs: { question: string; answer: string; sortOrder: number }[];
+  faqs: { question: string; answer: string; sortOrder: number; faqItemId?: number | null }[];
   relatedLinks: {
     targetPageId: number | null;
     staticHref: string | null;
@@ -124,6 +124,8 @@ export function serializeServicePage(
       question: str(f.question),
       answer: str(f.answer),
       sortOrder: i,
+      // Carry library provenance through (undefined for free-text FAQs).
+      faqItemId: f.faqItemId ?? null,
     })),
     // Related links — canonical management in the Settings drawer (mirrors buildPayload).
     relatedLinks: relatedLinks.map((l, i) => {

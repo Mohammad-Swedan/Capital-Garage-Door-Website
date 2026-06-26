@@ -110,7 +110,7 @@ export function mapArticle(dto: PageResolveDto): Article {
       slug: l.href.replace(/^\/?blog\//, "").replace(/^\//, ""),
       title: l.label,
     })),
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     seo: {
       title: dto.seoTitle,
       description: dto.seoDescription,

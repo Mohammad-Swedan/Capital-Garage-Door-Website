@@ -23,6 +23,8 @@ export interface CmsHeroImage {
 export interface CmsResolvedFaq {
   question: string;
   answer: string;
+  /** Provenance FK to the FAQ library (FaqItem), when this row came from the library. */
+  faqItemId?: number | null;
 }
 
 export interface CmsPricingRow {

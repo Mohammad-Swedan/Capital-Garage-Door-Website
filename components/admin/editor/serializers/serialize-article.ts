@@ -71,6 +71,8 @@ export function serializeArticle(
         question: str(f.question),
         answer: str(f.answer),
         sortOrder: i,
+        // Carry library provenance through (null for free-text FAQs).
+        faqItemId: f.faqItemId ?? null,
       })),
     // Related links — canonical management in the Settings drawer.
     relatedLinks: serializeRelatedLinks(relatedLinks),

@@ -81,7 +81,7 @@ export function mapLandingPage(dto: PageResolveDto): LandingPage {
       description: asString(serviceAreas.description) || undefined,
       suburbs: asArray<string>(serviceAreas.suburbs),
     },
-    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer })),
+    faqs: dto.faqs.map((f) => ({ question: f.question, answer: f.answer, faqItemId: f.faqItemId ?? null })),
     finalCta: {
       heading: asString(finalCta.heading),
       body: asString(finalCta.body) || undefined,

@@ -83,6 +83,8 @@ export function serializeServiceSuburbPage(
       question: str(f.question),
       answer: str(f.answer),
       sortOrder: i,
+      // Carry library provenance through (null for free-text FAQs).
+      faqItemId: f.faqItemId ?? null,
     })),
     // Nearby suburbs + related pages are canonical in the Settings drawer.
     relatedLinks: serializeRelatedLinks(relatedLinks),

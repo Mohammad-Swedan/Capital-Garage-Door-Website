@@ -25,7 +25,16 @@ export async function loginAction(_prev: LoginState, formData: FormData): Promis
   const password = String(formData.get("password") ?? "").trim();
   if (!email || !password) return { error: "Email and password are required." };
 
-  const result = await login(email, password);
+  let result: { token: string } | null;
+  try {
+    result = await login(email, password);
+  } catch {
+    // `fetch` throws (rather than returning a response) when the API is
+    // unreachable — backend down, wrong URL, network blip. Surface a clear,
+    // distinct message instead of letting the server action crash with an
+    // unhandled "fetch failed" (which renders the dev error overlay).
+    return { error: "Can't reach the server right now. Please try again in a moment." };
+  }
   if (!result) return { error: "Invalid email or password." };
 
   (await cookies()).set(CMS_TOKEN_COOKIE, result.token, {

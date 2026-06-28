@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { siteConfig } from "@/config/site";
+import { markIntroReady } from "@/lib/intro-ready";
 
 /** sessionStorage key — the intro plays only on the first visit of a session. */
 const SEEN_KEY = "cgd:welcomed";
@@ -78,6 +79,7 @@ export function GarageDoorLoader() {
     // Already welcomed this session → remove immediately (the inline guard in
     // app/layout.tsx has already hidden it before paint, so no flash).
     if (alreadySeen) {
+      markIntroReady();
       setDone(true);
       return;
     }
@@ -106,6 +108,7 @@ export function GarageDoorLoader() {
       if (finished) return;
       finished = true;
       release();
+      markIntroReady();
       setDone(true);
     };
 

@@ -127,6 +127,9 @@ function buildCreatePayload(
           priceMin,
           priceMax,
           category: str(body.category) || null,
+          note: str(body.note) || null,
+          // Admin-only note for the AI assistant — never rendered on the public site.
+          internalNote: str(body.internalNote) || null,
         },
       };
     }

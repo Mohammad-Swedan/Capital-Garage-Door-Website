@@ -22,7 +22,22 @@ export interface InitialPage {
     labelOverride: string | null;
     linkGroup: string;
   }[];
-  pricingRows?: { pricingItemId: number; sortOrder: number; noteOverride: string | null }[];
+  pricingRows?: {
+    pricingItemId: number;
+    sortOrder: number;
+    noteOverride: string | null;
+    // Resolved catalog fields from GET /api/admin/pages/{id} (so the cost-row editor can render
+    // without a second lookup). Optional: synthesized/new pages may not carry them.
+    scenario?: string;
+    priceMin?: number | null;
+    priceMax?: number | null;
+    priceLabel?: string | null;
+    effectiveNote?: string | null;
+    internalNote?: string | null;
+    includes?: string | null;
+    costFactors?: string | null;
+    nextStep?: string | null;
+  }[];
   reviews?: { reviewId: number; sortOrder: number }[];
   services?: { serviceId: number; sortOrder: number }[];
 }

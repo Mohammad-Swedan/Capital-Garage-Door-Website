@@ -1,6 +1,7 @@
 import type { ServicePage } from "@/types/service-page";
 import type { InitialPage } from "@/components/admin/page-form-types";
 import type { RelatedLinkItem } from "@/components/admin/fields";
+import { pricingPinsFromDraftRows } from "./types";
 
 /**
  * Inverse of `lib/cms/map-service-page.ts`: turns the in-place editor's draft
@@ -138,8 +139,10 @@ export function serializeServicePage(
         sortOrder: i,
       };
     }),
+    // Cost rows are managed INLINE under the cost table (catalog-backed pins). Derive the pin
+    // payload from the draft rows so adds/removes/reorders/note-overrides round-trip on save.
+    pricingRows: pricingPinsFromDraftRows(draft.costGuidance?.rows),
     // Pins this editor does NOT manage → echo untouched so they aren't deleted.
-    pricingRows: initial?.pricingRows ?? [],
     reviews: initial?.reviews ?? [],
     services: initial?.services ?? [],
   };

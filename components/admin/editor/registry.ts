@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 import { createElement, type ComponentType } from "react";
 import type { InitialPage } from "@/components/admin/page-form-types";
 import type { PageResolveDto } from "@/lib/cms/client";
-import type { SerializerInput, CreatePageCommand } from "./serializers/types";
+import { pricingRowsToDto, type SerializerInput, type CreatePageCommand } from "./serializers/types";
 import { serviceItemTemplates } from "./item-templates";
 
 // --- ServicePage (Phase 3) ---
@@ -101,7 +101,11 @@ export function buildServiceDraft(initial: InitialPage, heroImageUrl?: string | 
     data: initial.data ?? {},
     faqs: initial.faqs ?? [],
     relatedLinks: {},
-    pricingRows: [],
+    // Map the page's pinned pricing rows (resolved by the admin API) into the resolve-DTO shape so
+    // the cost table renders the existing rows on the canvas. Previously hardcoded `[]`, which made
+    // the cost table look empty in the editor. `pricingItemId`/`internalNote` ride along for the
+    // inline editor + serializer round-trip.
+    pricingRows: pricingRowsToDto(initial.pricingRows),
     reviews: [],
   };
   return mapServicePage(dto);

@@ -43,6 +43,8 @@ export interface SettingsDrawerProps {
   onPricingChange: (v: PricingPin[]) => void;
   services: ServicePin[];
   onServicesChange: (v: ServicePin[]) => void;
+  /** Hide the drawer's pricing section for templates that edit cost rows inline (e.g. ServicePage). */
+  showPricingPins?: boolean;
   issues: { path: string; label: string; message: string }[];
   /** Jump to / focus the offending field on the canvas. */
   onJumpToIssue?: (path: string) => void;
@@ -82,6 +84,7 @@ export function SettingsDrawer({
   onPricingChange,
   services,
   onServicesChange,
+  showPricingPins = true,
   issues,
   onJumpToIssue,
 }: SettingsDrawerProps) {
@@ -199,6 +202,7 @@ export function SettingsDrawer({
                 onPricingChange={onPricingChange}
                 services={services}
                 onServicesChange={onServicesChange}
+                showPricing={showPricingPins}
               />
             </TabsContent>
 

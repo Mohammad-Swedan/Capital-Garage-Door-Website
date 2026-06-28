@@ -12,6 +12,7 @@ interface AdminPricingItem {
   priceMax: number | null;
   priceLabel: string | null;
   note: string | null;
+  internalNote: string | null;
   category: string | null;
   includes: string | null;
   costFactors: string | null;
@@ -32,6 +33,7 @@ export default async function EditPricingItemPage({ params }: { params: Promise<
     priceMax: p.priceMax ?? null,
     priceLabel: p.priceLabel ?? null,
     note: p.note ?? null,
+    internalNote: p.internalNote ?? null,
     category: p.category ?? null,
     includes: p.includes ?? null,
     costFactors: p.costFactors ?? null,

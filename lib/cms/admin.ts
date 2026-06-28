@@ -238,6 +238,8 @@ export interface AdminPricingItem {
   priceMax?: number | null;
   priceLabel?: string | null;
   note?: string | null;
+  /** Admin-only note for the AI assistant. Present on admin endpoints only. */
+  internalNote?: string | null;
   category?: string | null;
   includes?: string | null;
   costFactors?: string | null;
@@ -250,6 +252,8 @@ export interface CreatePricingItemPayload {
   priceMax?: number | null;
   priceLabel?: string | null;
   note?: string | null;
+  /** Admin-only note for the AI assistant — never sent to the public site. */
+  internalNote?: string | null;
   category?: string | null;
   includes?: string | null;
   costFactors?: string | null;

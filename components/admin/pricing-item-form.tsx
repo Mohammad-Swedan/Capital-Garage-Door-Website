@@ -16,6 +16,7 @@ export interface InitialPricingItem {
   priceMax: number | null;
   priceLabel: string | null;
   note: string | null;
+  internalNote: string | null;
   category: string | null;
   includes: string | null;
   costFactors: string | null;
@@ -32,6 +33,7 @@ export function PricingItemForm({ initial }: { initial?: InitialPricingItem }) {
   const [priceMax, setPriceMax] = useState(initial?.priceMax != null ? String(initial.priceMax) : "");
   const [priceLabel, setPriceLabel] = useState(initial?.priceLabel ?? "");
   const [note, setNote] = useState(initial?.note ?? "");
+  const [internalNote, setInternalNote] = useState(initial?.internalNote ?? "");
   const [category, setCategory] = useState(initial?.category ?? "");
   const [includes, setIncludes] = useState(initial?.includes ?? "");
   const [costFactors, setCostFactors] = useState(initial?.costFactors ?? "");
@@ -56,6 +58,7 @@ export function PricingItemForm({ initial }: { initial?: InitialPricingItem }) {
         priceMax: num(priceMax),
         priceLabel: text(priceLabel),
         note: text(note),
+        internalNote: text(internalNote),
         category: text(category),
         includes: text(includes),
         costFactors: text(costFactors),
@@ -136,7 +139,14 @@ export function PricingItemForm({ initial }: { initial?: InitialPricingItem }) {
           placeholder="Repairs"
           hint="Optional. Groups pricing rows."
         />
-        <TextAreaField label="Note" value={note} onChange={setNote} rows={2} hint="Optional. Short caveat or detail." />
+        <TextAreaField label="Note" value={note} onChange={setNote} rows={2} hint="Optional. Short caveat or detail. Shown publicly in the cost table." />
+        <TextAreaField
+          label="Internal note (AI · not shown publicly)"
+          value={internalNote}
+          onChange={setInternalNote}
+          rows={3}
+          hint="Optional. Private context for the AI assistant — never rendered on the public site."
+        />
         <TextAreaField
           label="Includes"
           value={includes}

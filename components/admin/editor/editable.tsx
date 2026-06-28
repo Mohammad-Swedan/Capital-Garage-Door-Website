@@ -512,6 +512,209 @@ export function EditableFaqList({ path, count, items }: EditableFaqListProps) {
 }
 
 /* ------------------------------------------------------------------ *
+ * EditablePricingRows — an editing-only editor for the cost table's rows.
+ * Rendered BELOW the real (display-only) cost <table> so the public markup
+ * stays pristine. Renders nothing when not editing.
+ *
+ * Cost rows are catalog-backed pins (a shared PricingItem via PagePricingRow),
+ * so each draft row carries a `pricingItemId`. The "Add cost row" affordance is
+ * a CatalogPicker that lets the author either:
+ *   - pick an existing pricing item from the catalog (DB), or
+ *   - create a new one — including an admin-only `internalNote` for the future
+ *     AI assistant — which POSTs to /admin/api/pins, then attaches it.
+ * Each attached row exposes an editable per-page NOTE override (the public
+ * "Notes" column) + reorder/remove. The catalog scenario/price are shown
+ * read-only (edit those in /admin/pricing-items). The serializer derives the
+ * pricing pins from these draft rows.
+ * ------------------------------------------------------------------ */
+
+/** A pricing catalog row as returned by /admin/api/pins?type=pricing (camelCase). */
+interface PricingCatalogRecord {
+  id: number;
+  scenario: string;
+  priceLabel?: string | null;
+  priceMin?: number | null;
+  priceMax?: number | null;
+  note?: string | null;
+  internalNote?: string | null;
+  category?: string | null;
+}
+
+/** A draft cost row managed inline (mirrors ServiceCostRow; catalog-backed). */
+interface DraftCostRow {
+  label: string;
+  price: string;
+  note?: string;
+  pricingItemId?: number | null;
+  internalNote?: string | null;
+}
+
+function pricingPriceLabel(r: PricingCatalogRecord): string {
+  if (r.priceLabel) return r.priceLabel;
+  if (r.priceMin != null && r.priceMax != null) return `$${r.priceMin}–$${r.priceMax}`;
+  if (r.priceMin != null) return `From $${r.priceMin}`;
+  return "";
+}
+
+async function createPricingCatalog(values: Record<string, string>): Promise<PricingCatalogRecord | null> {
+  const res = await fetch("/admin/api/pins", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "pricing",
+      scenario: values.scenario ?? "",
+      priceLabel: values.priceLabel ?? "",
+      priceMin: values.priceMin ?? "",
+      priceMax: values.priceMax ?? "",
+      category: values.category ?? "",
+      note: values.note ?? "",
+      internalNote: values.internalNote ?? "",
+    }),
+  });
+  if (!res.ok) return null;
+  return (await res.json()) as PricingCatalogRecord;
+}
+
+export interface EditablePricingRowsProps {
+  /** Draft path to the cost rows array, e.g. "costGuidance.rows". */
+  path: string;
+  /** Number of rows currently rendered (kept in sync by the template). */
+  count: number;
+  /** Live rows (used to avoid offering already-attached catalog items). */
+  items?: { pricingItemId?: number | null }[];
+}
+
+export function EditablePricingRows({ path, count, items }: EditablePricingRowsProps) {
+  const { editing, listOps, get } = useEditable();
+  // Cache full catalog records (keyed by id) fetched by the picker, so a pick
+  // attaches the full scenario/price/note, not just the preview.
+  const recordCache = useRef<Map<number, PricingCatalogRecord>>(new Map());
+
+  const fetchPricing = useCallback(async (): Promise<CatalogPickerItem[]> => {
+    const res = await fetch(`/admin/api/pins?type=pricing`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`pricing ${res.status}`);
+    const data = (await res.json()) as unknown;
+    const list = Array.isArray(data) ? (data as PricingCatalogRecord[]) : [];
+    for (const p of list) recordCache.current.set(p.id, p);
+    return list.map((p) => ({
+      id: p.id,
+      label: p.scenario || `Item #${p.id}`,
+      sub: [pricingPriceLabel(p), p.category ?? ""].filter(Boolean).join(" · ") || undefined,
+    }));
+  }, []);
+
+  if (!editing) return null;
+  const ops = listOps(path);
+
+  const attachedIds = (items ?? [])
+    .map((r) => r.pricingItemId)
+    .filter((id): id is number => typeof id === "number");
+
+  const rowFromRecord = (rec: PricingCatalogRecord): DraftCostRow => ({
+    label: rec.scenario,
+    price: pricingPriceLabel(rec),
+    note: rec.note ?? "",
+    pricingItemId: rec.id,
+    internalNote: rec.internalNote ?? null,
+  });
+
+  const addPicked = (item: CatalogPickerItem) => {
+    const full = recordCache.current.get(item.id);
+    const row: DraftCostRow = full
+      ? rowFromRecord(full)
+      : { label: item.label, price: "", note: "", pricingItemId: item.id, internalNote: null };
+    ops.add(row);
+  };
+  const addCreated = (created: PricingCatalogRecord) => ops.add(rowFromRecord(created));
+
+  const text = (p: string): string => {
+    const v = get(p);
+    return typeof v === "string" ? v : "";
+  };
+
+  return (
+    <div className="mt-5 space-y-3 rounded-2xl border border-dashed border-border bg-muted/20 p-4">
+      <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+        Edit cost rows
+      </p>
+      {count === 0 && (
+        <p className="text-sm text-muted-foreground">
+          No cost rows yet. Add one from the shared pricing catalog, or create a new one.
+        </p>
+      )}
+      {Array.from({ length: count }).map((_, i) => {
+        const internal = text(`${path}[${i}].internalNote`);
+        return (
+          <div
+            key={i}
+            className="group/edit-item relative space-y-2 rounded-lg border border-border bg-background p-3"
+          >
+            <div className="absolute -top-3 right-2 z-20 flex items-center gap-1 rounded-md border border-border bg-popover px-1 py-0.5 opacity-0 shadow-sm transition-opacity group-hover/edit-item:opacity-100">
+              <ItemButton label="Move up" disabled={i === 0} onClick={() => ops.move(i, i - 1)}>
+                <ChevronUp className="size-3.5" />
+              </ItemButton>
+              <ItemButton label="Move down" disabled={i === count - 1} onClick={() => ops.move(i, i + 1)}>
+                <ChevronDown className="size-3.5" />
+              </ItemButton>
+              <ItemButton label="Delete" destructive onClick={() => ops.removeAt(i)}>
+                <Trash2 className="size-3.5" />
+              </ItemButton>
+            </div>
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="font-heading text-sm font-semibold text-foreground">
+                {text(`${path}[${i}].label`) || "Untitled scenario"}
+              </span>
+              <span className="text-sm font-semibold text-cta">{text(`${path}[${i}].price`)}</span>
+              <span className="text-[11px] text-muted-foreground">
+                scenario &amp; price are managed in the pricing catalog
+              </span>
+            </div>
+            <label className="block text-xs font-medium text-muted-foreground">
+              Public note (the “Notes” column)
+              <span className="mt-1 block text-sm text-foreground">
+                <EditableText path={`${path}[${i}].note`} placeholder="Optional per-page note…" />
+              </span>
+            </label>
+            {internal && (
+              <p className="rounded-md border border-amber-300/40 bg-amber-50 px-2 py-1 text-xs text-amber-800">
+                <span className="font-semibold">Internal note (AI · not public):</span> {internal}
+              </p>
+            )}
+          </div>
+        );
+      })}
+      <CatalogPicker<PricingCatalogRecord>
+        title="Add cost row from catalog"
+        searchPlaceholder="Search scenarios…"
+        triggerLabel="Add cost row"
+        multi
+        clientFilter
+        excludeIds={attachedIds}
+        fetchItems={fetchPricing}
+        onPick={addPicked}
+        createLabel="Create new pricing item"
+        createFields={[
+          { name: "scenario", label: "Scenario", placeholder: "Spring replacement", required: true },
+          { name: "priceLabel", label: "Price label", placeholder: "From $250" },
+          { name: "priceMin", label: "Price min", placeholder: "250" },
+          { name: "priceMax", label: "Price max", placeholder: "450" },
+          { name: "category", label: "Category", placeholder: "Repairs" },
+          { name: "note", label: "Public note (shown on the page)", placeholder: "Most common repair", multiline: true },
+          {
+            name: "internalNote",
+            label: "Internal note · not shown publicly (feeds the AI assistant)",
+            placeholder: "e.g. quote higher for double doors; spring cost varies by gauge",
+            multiline: true,
+          },
+        ]}
+        onCreate={createPricingCatalog}
+        onPickCreated={addCreated}
+      />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ *
  * EditableImage — hover "Change image" overlay → asset picker.
  * ------------------------------------------------------------------ */
 export interface EditableImageProps extends Omit<ImageProps, "src"> {

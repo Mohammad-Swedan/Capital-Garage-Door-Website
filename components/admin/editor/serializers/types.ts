@@ -1,5 +1,6 @@
 import type { InitialPage } from "@/components/admin/page-form-types";
 import type { RelatedLinkItem } from "@/components/admin/fields";
+import type { PageResolveDto } from "@/lib/cms/client";
 import type { PageMeta } from "../settings-drawer";
 
 /**
@@ -42,6 +43,53 @@ export interface CreatePageCommand {
   pricingRows: unknown[];
   reviews: unknown[];
   services: unknown[];
+}
+
+/**
+ * Map the admin record's pinned pricing rows (resolved by GET /api/admin/pages/{id}) into the
+ * resolve-DTO pricing-row shape the `map-*.ts` loaders consume — so cost-table templates render
+ * their existing rows in the in-place editor instead of an empty table. Carries the editor-only
+ * `pricingItemId`/`internalNote` for the inline cost-row editor + serializer round-trip. Shared by
+ * every cost-table `buildDraft` (defined here, not in registry.ts, to avoid an import cycle).
+ */
+export function pricingRowsToDto(rows: InitialPage["pricingRows"]): PageResolveDto["pricingRows"] {
+  return (rows ?? [])
+    .slice()
+    .sort((a, b) => a.sortOrder - b.sortOrder)
+    .map((r) => ({
+      scenario: r.scenario ?? "",
+      priceMin: r.priceMin ?? null,
+      priceMax: r.priceMax ?? null,
+      priceLabel: r.priceLabel ?? null,
+      note: r.effectiveNote ?? r.noteOverride ?? null,
+      includes: r.includes ?? null,
+      costFactors: r.costFactors ?? null,
+      nextStep: r.nextStep ?? null,
+      pricingItemId: r.pricingItemId,
+      internalNote: r.internalNote ?? null,
+    }));
+}
+
+/** A draft cost row managed by the inline editor (catalog-backed: must carry `pricingItemId`). */
+export interface DraftCostRow {
+  pricingItemId?: number | null;
+  note?: string;
+}
+
+/**
+ * Inverse of {@link pricingRowsToDto}: turn the inline editor's draft cost rows back into the
+ * pricing-row PIN payload the backend expects (`{ pricingItemId, sortOrder, noteOverride }`). Rows
+ * without a `pricingItemId` (not catalog-backed) are dropped — every cost row pins a PricingItem.
+ */
+export function pricingPinsFromDraftRows(rows: DraftCostRow[] | undefined) {
+  return (rows ?? [])
+    .filter((r): r is DraftCostRow & { pricingItemId: number } =>
+      typeof r.pricingItemId === "number" && r.pricingItemId > 0)
+    .map((r, i) => ({
+      pricingItemId: r.pricingItemId,
+      sortOrder: i,
+      noteOverride: r.note && r.note.trim() ? r.note : null,
+    }));
 }
 
 /** Map RelatedLinkItem[] (drawer state) → the payload's relatedLinks (shared by all serializers). */

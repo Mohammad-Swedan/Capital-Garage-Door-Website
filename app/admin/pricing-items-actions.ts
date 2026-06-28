@@ -16,6 +16,7 @@ interface PricingItemPayload {
   priceMax: number | null;
   priceLabel: string | null;
   note: string | null;
+  internalNote: string | null;
   category: string | null;
   includes: string | null;
   costFactors: string | null;

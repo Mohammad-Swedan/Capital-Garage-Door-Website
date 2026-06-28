@@ -214,6 +214,11 @@ export interface PinsEditorProps {
   onPricingChange: (v: PricingPin[]) => void;
   services: ServicePin[];
   onServicesChange: (v: ServicePin[]) => void;
+  /**
+   * Hide the "Pricing rows" section. Set false for templates that manage cost rows INLINE under the
+   * cost table (e.g. ServicePage), so there's a single source of truth and no dual editor.
+   */
+  showPricing?: boolean;
 }
 
 function normReview(x: RawCatalogRow): CatalogItem {
@@ -241,6 +246,7 @@ export function PinsEditor({
   onPricingChange,
   services,
   onServicesChange,
+  showPricing = true,
 }: PinsEditorProps) {
   const [reviewCat, setReviewCat] = useState<CatalogItem[]>([]);
   const [pricingCat, setPricingCat] = useState<CatalogItem[]>([]);
@@ -295,6 +301,7 @@ export function PinsEditor({
         onCreated={foldInto(setReviewCat)}
       />
 
+      {showPricing && (
       <PinSection
         title="Pricing rows"
         emptyHint="No pricing rows. Add centralized pricing items (with an optional per-page note)."
@@ -319,6 +326,7 @@ export function PinsEditor({
         }}
         onCreated={foldInto(setPricingCat)}
       />
+      )}
 
       <PinSection
         title="Service links"

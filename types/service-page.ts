@@ -31,6 +31,14 @@ export interface ServiceCostRow {
   label: string;
   price: string;
   note?: string;
+  /**
+   * Catalog provenance — the shared PricingItem this row pins to. Present in the in-place editor
+   * (so the serializer can round-trip the pin); the public render ignores it. Same pattern as
+   * `faqItemId` on FAQs.
+   */
+  pricingItemId?: number | null;
+  /** Admin-only note for the future AI assistant. Never rendered publicly; editor-only. */
+  internalNote?: string | null;
 }
 
 export interface ServiceCostGuidance {

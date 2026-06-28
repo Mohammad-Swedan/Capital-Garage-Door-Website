@@ -27,6 +27,13 @@ export interface PageEditorProps {
   initial?: InitialPage;
 }
 
+/**
+ * Templates that manage their cost/pricing rows INLINE (on the canvas, under the cost table) rather
+ * than in the Settings-drawer "Pins" tab. For these, the drawer's pricing section is hidden to keep
+ * a single source of truth. ServicePage uses the inline `EditablePricingRows` editor.
+ */
+const INLINE_PRICING_TEMPLATES = new Set(["ServicePage"]);
+
 function initialMeta(page?: InitialPage): PageMeta {
   return {
     slug: page?.slug ?? "",
@@ -348,6 +355,7 @@ function EditorChrome({
       onPricingChange={setPricingRows}
       services={services}
       onServicesChange={setServices}
+      showPricingPins={!INLINE_PRICING_TEMPLATES.has(templateType)}
       issues={issues}
       onJumpToIssue={jumpToIssue}
     />

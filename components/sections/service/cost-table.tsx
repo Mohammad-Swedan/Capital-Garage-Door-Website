@@ -1,6 +1,6 @@
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import { EditableText } from "@/components/admin/editor/editable";
+import { EditableText, EditablePricingRows } from "@/components/admin/editor/editable";
 import type { ServiceCostGuidance } from "@/types/service-page";
 
 interface ServiceCostTableProps {
@@ -59,6 +59,13 @@ export function ServiceCostTable({
             </tbody>
           </table>
         </Reveal>
+
+        {/* Editing-only cost-row editor (pick-or-create). Renders nothing on the public site. */}
+        <EditablePricingRows
+          path="costGuidance.rows"
+          count={costGuidance.rows.length}
+          items={costGuidance.rows}
+        />
 
         <p className="mt-4 text-xs text-muted-foreground sm:text-sm">{disclaimer}</p>
       </Container>

@@ -63,6 +63,9 @@ export function mapServicePage(dto: PageResolveDto): ServicePage {
         label: r.scenario,
         price: priceLabel(r),
         note: r.note ?? undefined,
+        // Editor-only fields (undefined on the public path); used by the inline cost-row editor.
+        pricingItemId: r.pricingItemId ?? null,
+        internalNote: r.internalNote ?? null,
       })),
     },
     whyChoose: asArray<any>(data.whyChoose).map((w) => ({

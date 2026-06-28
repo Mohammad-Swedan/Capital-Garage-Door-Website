@@ -36,6 +36,13 @@ export interface CmsPricingRow {
   includes: string | null;
   costFactors: string | null;
   nextStep: string | null;
+  /**
+   * Editor-only provenance + admin note. The PUBLIC resolve payload never sets these; the in-place
+   * editor's synthetic DTO (registry buildDraft, from the admin page record) populates them so the
+   * cost-row editor can round-trip the pin and show the admin-only note. Optional everywhere else.
+   */
+  pricingItemId?: number | null;
+  internalNote?: string | null;
 }
 
 export interface CmsReview {

@@ -11,6 +11,7 @@ import {
   type SerializerInput,
   type CreatePageCommand,
   serializeRelatedLinks,
+  pricingRowsToDto,
 } from "./types";
 
 /**
@@ -177,7 +178,8 @@ export function buildCostGuideDraft(
     data: initial.data ?? {},
     faqs: initial.faqs ?? [],
     relatedLinks: {},
-    pricingRows: [],
+    // Render the page's existing pricing pins in the editor's cost table (was hardcoded `[]`).
+    pricingRows: pricingRowsToDto(initial.pricingRows),
     reviews: [],
   };
   return mapCostGuidePage(dto);

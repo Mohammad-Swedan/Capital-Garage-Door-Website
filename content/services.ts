@@ -1,9 +1,8 @@
 import type { Service } from "@/types";
 
-// canonicalHref points to the live flat SEO page for each service. Until a
-// dedicated page exists for a given service type, it falls back to
-// /garage-door-repairs-perth (the one comprehensive page covering repairs,
-// springs, motors, and call-outs) instead of a route that doesn't exist yet.
+// canonicalHref points to the live flat SEO page for each service. Each service
+// now has its own dedicated CMS-backed page (served from the backend); these
+// values are the local-fallback parity used only when CMS_CATALOGS is off.
 export const services: Service[] = [
   {
     slug: "garage-door-repair",
@@ -30,7 +29,7 @@ export const services: Service[] = [
       "Choose from a wide range of styles and materials. We handle full installation, old door removal, and final safety inspection.",
     image: "/images/services/garage-door-installation.webp",
     icon: "DoorOpen",
-    canonicalHref: "/garage-door-repairs-perth",
+    canonicalHref: "/garage-door-installation-perth",
   },
   {
     slug: "spring-repair",
@@ -40,7 +39,7 @@ export const services: Service[] = [
       "Broken springs are dangerous to handle yourself. Our trained technicians safely replace torsion and extension springs with proper tools.",
     image: "/images/services/spring-repair.webp",
     icon: "Settings",
-    canonicalHref: "/garage-door-repairs-perth",
+    canonicalHref: "/garage-door-spring-repair-perth",
   },
   {
     slug: "garage-door-opener-repair",
@@ -50,7 +49,7 @@ export const services: Service[] = [
       "We repair and install garage door openers from all major brands, including smart Wi-Fi enabled openers for remote access.",
     image: "/images/services/garage-door-opener-repair.webp",
     icon: "Cpu",
-    canonicalHref: "/garage-door-repairs-perth",
+    canonicalHref: "/garage-door-opener-repair-perth",
   },
   {
     slug: "emergency-garage-door-service",
@@ -60,7 +59,7 @@ export const services: Service[] = [
       "A stuck or broken garage door can't wait. Our emergency team is available around the clock for urgent repairs.",
     image: "/images/services/emergency-garage-door-service.webp",
     icon: "Siren",
-    canonicalHref: "/garage-door-repairs-perth",
+    canonicalHref: "/emergency-garage-door-repairs-perth",
   },
   {
     slug: "garage-door-maintenance",
@@ -70,6 +69,6 @@ export const services: Service[] = [
       "Regular tune-ups catch small issues before they become costly repairs, keeping your garage door operating smoothly and safely.",
     image: "/images/services/garage-door-maintenance.webp",
     icon: "ShieldCheck",
-    canonicalHref: "/garage-door-repairs-perth",
+    canonicalHref: "/garage-door-maintenance-perth",
   },
 ];

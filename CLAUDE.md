@@ -19,7 +19,7 @@ There is no test suite. `npm run build` is the closest thing to a correctness ga
 
 ## Architecture
 
-This is a marketing/SEO site for a Perth garage-door business. Almost every page is **data-driven from local TypeScript content**, rendered through a small set of reusable template components. The whole site is statically generated at build time (`generateStaticParams` + `dynamicParams = false`); there is no per-request fetching.
+This is a marketing/SEO site for a Perth garage-door business. Almost every page is **data-driven** — from local TypeScript content by default, or from the **live CMS** where its cutover flags are on (see **CMS** below) — rendered through a small set of reusable template components. Public pages are statically generated at build time (`generateStaticParams` + `dynamicParams = false`) with ISR revalidation; there is no per-request fetching for them (the CMS, when enabled, is read at build/revalidate, not per request). The `/admin/*` CMS dashboard is the exception — it is dynamic/server-rendered.
 
 ### The content pipeline (the core pattern)
 
@@ -29,7 +29,7 @@ Each page *type* flows through four layers — to add or change content you usua
    - **Directory-per-type** (one file per instance): `content/<type>/<slug>.ts` is a plain typed object; the sibling `content/<type>/index.ts` imports each instance and exports them as an array. Used by the larger page types — `articles`, `case-studies`, `comparison-pages`, `cost-guides`, `landing-pages`, `service-pages`.
    - **Single-file registry**: a flat `content/<type>.ts` exporting the array directly. Used for the smaller/list-style datasets — `services.ts`, `problems.ts`, `reviews.ts`, `testimonials.ts`, `gallery.ts`, `service-areas.ts`, `service-area-regions.ts`, `service-suburb-pages.ts`, `blog.ts`.
    - Ship a new page by adding the entry (and pushing onto the registry array) — no routing or component changes.
-2. **`lib/data/<type>.ts`** — an `async` data-access layer (`get…BySlug`, `get…Slugs`, `get…`) wrapping the registry. There is one per content type (see `lib/data/` for the full list). **All call sites (routes, templates, sitemap) go through this layer, never the `content/` registries directly.** It is deliberately async so the backing store can later swap from local files to a CMS API without changing call sites (see `docs/cms-architecture.md`).
+2. **`lib/data/<type>.ts`** — an `async` data-access layer (`get…BySlug`, `get…Slugs`, `get…`) wrapping the registry. There is one per content type (see `lib/data/` for the full list). **All call sites (routes, templates, sitemap) go through this layer, never the `content/` registries directly.** It is deliberately async so the backing store swaps from local files to the CMS API without changing call sites — a cutover that is **now live** behind per-type flags (see **CMS** below; original design in `docs/cms-architecture.md`).
 3. **`types/<type>.ts`** — the interface shared by the content file, the data layer, and the template. `types/index.ts` holds the cross-cutting ones (`FAQ`, `Service`, `Problem`, `ServiceArea`, `BreadcrumbItem`).
 4. **`components/.../<type>-page-template.tsx`** — the `…PageTemplate` component that consumes one typed object and renders the page from composable section components in `components/sections/<type>/` (or `components/page/` for the service-suburb template).
 
@@ -78,6 +78,17 @@ Beyond the static templates, several client-side widgets drive conversions. Most
 
 `framer-motion` is loaded lazily through `LazyMotionProvider`; GSAP + Lenis power the smooth-scroll and the garage-door intro/reveal animations. These areas are performance-tuned — consult the auto-memory notes (first-load performance, ScrollDoorReveal rendering) before touching the intro, scroll, or canvas-reveal code. `next.config.ts` enables `experimental.inlineCss` (prod only) and restricts image `qualities` to `[60, 75]`.
 
-### CMS (not built)
+### CMS (live — ASP.NET Core + SQL Server)
 
-`docs/cms-architecture.md` is a **design draft only** for a future ASP.NET Core + SQL Server CMS that would replace the `content/*.ts` files by having `lib/data/*.ts` fetch from an API. Nothing in it is implemented. It's useful context for *why* the data layer is shaped the way it is (async, registry-per-type, FK-style internal links), but treat it as forward-looking, not current.
+The CMS that `docs/cms-architecture.md` designed is **built and running**, not a draft. It's a separate ASP.NET Core (clean-architecture) backend in **its own repo** at `C:\Users\Mohammad swedan\source\repos\Capital Garage Door CMS\` (API project `CapitalGarageDoor.Cms.Api`), serving `http://localhost:5179` in dev (`CMS_API_URL` overrides). In Development it auto-applies EF migrations and seeds the admin account against SQL Server **LocalDB** on startup — run it with `dotnet run --project "CapitalGarageDoor.Cms.Api" --launch-profile http`.
+
+**Frontend integration (this repo):**
+- `lib/cms/*` — the typed API client (`client.ts`), admin/auth (`admin.ts`), reviews (`reviews-client.ts`), DTO→type mappers (`map-*.ts`), editor serializers, and content importers.
+- `app/admin/*` — the CMS admin dashboard + page editor, plus `app/admin/api/*` route handlers that proxy the backend. `app/api/revalidate` is the ISR webhook the backend calls on publish.
+- The `lib/data/*.ts` cutover seam is **active**: per-type flags in `.env.local` (`CMS_SERVICE_PAGES`, `CMS_COMPARISON_PAGES`, …, `CMS_CATALOGS`, `CMS_REVIEWS` = `"on"`) decide whether each type reads from the CMS or falls back to local `content/*.ts`.
+
+**Build/runtime dependency:** `app/[slug]` resolution (`lib/cms/client.ts` `cmsResolve()`) **throws** when the API is unreachable, so `npm run build` — which prerenders those pages — **requires the backend running**, or it fails at static generation with `ECONNREFUSED`. Catalog/review reads fall back gracefully (`try/catch → []`), so non-`[slug]` routes (incl. the home page) still render without it. For a backend-free type check, use `npx tsc --noEmit`. `docs/admin-dashboard-and-editor-plan.md` covers the admin/editor build.
+
+## Keeping this file current
+
+**Update CLAUDE.md whenever you make a major change to the system.** That includes: adding or removing a subsystem (e.g. the CMS, a new external service), an architectural shift, a new build- or runtime dependency, route-structure changes, or anything that would make a description above wrong. A stale CLAUDE.md silently misleads every future session — the "CMS (not built)" section was wrong for weeks because this rule wasn't followed. Fix the affected section in the **same change** that introduces the shift, not later.

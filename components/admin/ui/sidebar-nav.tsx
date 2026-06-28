@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { TooltipPrimitive, TooltipPopup } from "@/components/ui/tooltip";
 
 export interface AdminNavItem {
   label: string;
@@ -25,10 +26,6 @@ export interface AdminNavGroup {
   items: AdminNavItem[];
 }
 
-/**
- * The admin navigation model. Kept here (not in the shell) so both the desktop
- * sidebar and the mobile Sheet drawer render the exact same items.
- */
 export const ADMIN_NAV: AdminNavGroup[] = [
   {
     label: "Content",
@@ -46,13 +43,59 @@ export const ADMIN_NAV: AdminNavGroup[] = [
   },
 ];
 
-/**
- * Grouped navigation list used inside the admin shell. The active item is
- * matched by path prefix and styled with an elevated accent surface + a
- * navy→red left bar, using the sidebar theme tokens from globals.css.
- */
-export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+export function SidebarNav({
+  onNavigate,
+  collapsed = false,
+}: {
+  onNavigate?: () => void;
+  collapsed?: boolean;
+}) {
   const pathname = usePathname();
+
+  if (collapsed) {
+    return (
+      <nav className="flex flex-col gap-1 px-2 py-4">
+        {ADMIN_NAV.map((group, groupIdx) => (
+          <div key={group.label} className="flex flex-col gap-0.5">
+            {groupIdx > 0 && (
+              <hr className="mx-1 my-2 border-sidebar-border/40" />
+            )}
+            {group.items.map((item) => {
+              const active =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
+              const Icon = item.icon;
+              return (
+                <TooltipPrimitive.Root key={item.href}>
+                  <TooltipPrimitive.Trigger
+                    render={
+                      <Link
+                        href={item.href}
+                        onClick={onNavigate}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "mx-auto flex h-9 w-9 items-center justify-center rounded-lg outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-sidebar-ring",
+                          active
+                            ? "bg-sidebar-accent text-primary shadow-card ring-1 ring-primary/20"
+                            : "text-sidebar-foreground/55 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground",
+                        )}
+                      />
+                    }
+                  >
+                    <Icon className="size-4 shrink-0" />
+                  </TooltipPrimitive.Trigger>
+                  <TooltipPrimitive.Portal>
+                    <TooltipPrimitive.Positioner side="right" sideOffset={10} className="z-50">
+                      <TooltipPopup>{item.label}</TooltipPopup>
+                    </TooltipPrimitive.Positioner>
+                  </TooltipPrimitive.Portal>
+                </TooltipPrimitive.Root>
+              );
+            })}
+          </div>
+        ))}
+      </nav>
+    );
+  }
 
   return (
     <nav className="flex flex-col gap-7 px-3 py-5">
@@ -78,7 +121,6 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-foreground",
                 )}
               >
-                {/* Active accent bar */}
                 <span
                   aria-hidden
                   className={cn(
@@ -104,8 +146,13 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-/** Brand mark + navy wordmark + small red "CMS" pill, shared by sidebar + drawer. */
-export function AdminBrandLockup({ className }: { className?: string }) {
+export function AdminBrandLockup({
+  className,
+  collapsed,
+}: {
+  className?: string;
+  collapsed?: boolean;
+}) {
   return (
     <Link
       href="/admin/pages"
@@ -117,12 +164,16 @@ export function AdminBrandLockup({ className }: { className?: string }) {
       <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-gradient-brand text-[0.8125rem] font-bold text-brand-foreground shadow-card ring-1 ring-inset ring-white/15">
         C
       </span>
-      <span className="font-heading text-sm leading-tight font-semibold text-sidebar-foreground">
-        Capital Garage Door
-      </span>
-      <span className="rounded-md bg-cta px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-cta-foreground uppercase">
-        CMS
-      </span>
+      {!collapsed && (
+        <>
+          <span className="font-heading text-sm font-semibold leading-tight text-sidebar-foreground">
+            Capital Garage Door
+          </span>
+          <span className="rounded-md bg-cta px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-cta-foreground uppercase">
+            CMS
+          </span>
+        </>
+      )}
     </Link>
   );
 }

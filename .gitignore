@@ -36,6 +36,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local automation / scratch verification artifacts (kept on disk, out of git)
+/.playwright-mcp/
+/login-desktop.png
+/login-mobile.png
+/sidebar-collapsed.png
+/sidebar-expanded.png
+/sidebar-expanded-again.png
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

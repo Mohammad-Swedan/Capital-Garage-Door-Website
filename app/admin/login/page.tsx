@@ -7,8 +7,17 @@ export default async function AdminLoginPage() {
   if (await isAuthenticated()) redirect("/admin/pages");
 
   return (
-    <div className="dark flex min-h-screen items-center justify-center bg-[oklch(0.13_0.02_258)] p-4">
-      <div className="relative flex w-full max-w-4xl overflow-hidden rounded-3xl shadow-float ring-1 ring-white/10">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background p-4">
+      {/* Decorative background — matches the hero: faint navy grid + soft glow */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        {/* Grid pattern, fading out toward the edges (centered behind the card) */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,31,69,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,31,69,0.07)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_80%_70%_at_50%_50%,black_20%,transparent_80%)]" />
+        {/* Soft ambient glows behind the card */}
+        <div className="absolute top-1/2 left-1/2 h-[34rem] w-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/6 blur-3xl" />
+        <div className="absolute -bottom-24 right-1/4 h-72 w-72 rounded-full bg-[#0f4e9b]/8 blur-3xl" />
+      </div>
+
+      <div className="relative flex w-full max-w-4xl overflow-hidden rounded-3xl shadow-float ring-1 ring-black/5">
         {/* LEFT: image panel — visible only on desktop */}
         <div className="relative hidden min-h-[600px] w-[55%] lg:block">
           <Image

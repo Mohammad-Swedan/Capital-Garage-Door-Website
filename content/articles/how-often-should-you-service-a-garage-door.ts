@@ -9,7 +9,7 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
   author: "Capital Garage Door Team",
   publishedAt: "2026-01-12",
   updatedAt: "2026-05-18",
-  featuredImage: "/images/services/garage-door-maintenance.webp",
+  featuredImage: "https://jadara-hub.b-cdn.net/capital-garage-door/4d804e09b10b497da43d4d92e26eea1b.png",
   featuredImageAlt: "Technician servicing a residential garage door opener and tracks in Perth",
 
   shortAnswer:

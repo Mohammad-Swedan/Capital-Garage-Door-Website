@@ -8,7 +8,7 @@ import type { GalleryItem } from "@/types/gallery";
 export const galleryItems: GalleryItem[] = [
   {
     id: "gal-1",
-    image: "/images/services/spring-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/f6fc0640098c46ad850e452b484793b1.png",
     alt: "Broken garage door spring repaired on a Perth home",
     title: "Broken Spring Replacement",
     service: "Spring Repair",
@@ -18,7 +18,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-2",
-    image: "/images/services/garage-door-installation.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/28f0c68acee14282b37795b41eecfb19.png",
     alt: "New sectional garage door installed on a Perth home",
     title: "Sectional Door Installation",
     service: "Installation",
@@ -28,7 +28,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-3",
-    image: "/images/services/garage-door-opener-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/b93a172fbf3947ef8e7e8e005dd95c50.png",
     alt: "Garage door motor and opener repaired in Perth",
     title: "Motor & Opener Repair",
     service: "Motor Repair",
@@ -38,7 +38,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-4",
-    image: "/images/services/garage-door-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
     alt: "Roller door tracks repaired on a Perth home",
     title: "Roller Door Track Repair",
     service: "Roller Door Repair",
@@ -48,7 +48,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-5",
-    image: "/images/services/emergency-garage-door-service.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/e7702bf861814fb590b7131e4dcba82f.png",
     alt: "Commercial roller shutter servicing in Perth",
     title: "Commercial Roller Shutter Service",
     service: "Commercial Servicing",
@@ -58,7 +58,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-6",
-    image: "/images/services/garage-door-maintenance.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/4d804e09b10b497da43d4d92e26eea1b.png",
     alt: "Garage door before and after maintenance service in Perth",
     title: "Before & After Full Service",
     service: "Servicing",
@@ -68,7 +68,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-7",
-    image: "/images/services/garage-door-installation.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/28f0c68acee14282b37795b41eecfb19.png",
     alt: "New garage door motor installed in Perth",
     title: "Smart Motor Upgrade",
     service: "Motor Installation",
@@ -78,7 +78,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-8",
-    image: "/images/services/garage-door-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
     alt: "Garage door panel replacement in Perth",
     title: "Damaged Panel Replacement",
     service: "Panel Repair",
@@ -88,7 +88,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: "gal-9",
-    image: "/images/services/garage-door-installation.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/28f0c68acee14282b37795b41eecfb19.png",
     alt: "Commercial garage door installation in Perth",
     title: "Commercial Door Installation",
     service: "Commercial Installation",

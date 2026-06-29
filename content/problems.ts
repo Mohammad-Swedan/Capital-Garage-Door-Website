@@ -133,6 +133,6 @@ export const problems: Problem[] = [
       },
     ],
     updatedAt: "2026-06-22",
-    heroImage: "/images/services/garage-door-repair.webp",
+    heroImage: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
   },
 ];

@@ -10,7 +10,7 @@ export const services: Service[] = [
     shortDescription: "Fast, reliable repair for any garage door issue.",
     description:
       "From off-track doors to dented panels, our technicians diagnose and fix garage door problems quickly so your home stays safe and secure.",
-    image: "/images/services/garage-door-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
     icon: "Wrench",
     canonicalHref: "/garage-door-repairs-perth",
     faqs: [
@@ -27,7 +27,7 @@ export const services: Service[] = [
     shortDescription: "New garage door installation for any home.",
     description:
       "Choose from a wide range of styles and materials. We handle full installation, old door removal, and final safety inspection.",
-    image: "/images/services/garage-door-installation.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/28f0c68acee14282b37795b41eecfb19.png",
     icon: "DoorOpen",
     canonicalHref: "/garage-door-installation-perth",
   },
@@ -37,7 +37,7 @@ export const services: Service[] = [
     shortDescription: "Safe replacement of broken torsion and extension springs.",
     description:
       "Broken springs are dangerous to handle yourself. Our trained technicians safely replace torsion and extension springs with proper tools.",
-    image: "/images/services/spring-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/f6fc0640098c46ad850e452b484793b1.png",
     icon: "Settings",
     canonicalHref: "/garage-door-spring-repair-perth",
   },
@@ -47,7 +47,7 @@ export const services: Service[] = [
     shortDescription: "Opener troubleshooting, repair, and smart upgrades.",
     description:
       "We repair and install garage door openers from all major brands, including smart Wi-Fi enabled openers for remote access.",
-    image: "/images/services/garage-door-opener-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/b93a172fbf3947ef8e7e8e005dd95c50.png",
     icon: "Cpu",
     canonicalHref: "/garage-door-opener-repair-perth",
   },
@@ -57,7 +57,7 @@ export const services: Service[] = [
     shortDescription: "24/7 emergency response for urgent garage door issues.",
     description:
       "A stuck or broken garage door can't wait. Our emergency team is available around the clock for urgent repairs.",
-    image: "/images/services/emergency-garage-door-service.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/e7702bf861814fb590b7131e4dcba82f.png",
     icon: "Siren",
     canonicalHref: "/emergency-garage-door-repairs-perth",
   },
@@ -67,7 +67,7 @@ export const services: Service[] = [
     shortDescription: "Preventive maintenance to extend the life of your door.",
     description:
       "Regular tune-ups catch small issues before they become costly repairs, keeping your garage door operating smoothly and safely.",
-    image: "/images/services/garage-door-maintenance.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/4d804e09b10b497da43d4d92e26eea1b.png",
     icon: "ShieldCheck",
     canonicalHref: "/garage-door-maintenance-perth",
   },

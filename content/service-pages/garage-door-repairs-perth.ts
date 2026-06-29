@@ -15,7 +15,7 @@ export const garageDoorRepairsPerth: ServicePage = {
       { icon: "ShieldCheck", label: "Warranty Support" },
       { icon: "Building2", label: "Residential & Commercial" },
     ],
-    image: "/images/services/garage-door-repair.webp",
+    image: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
     imageAlt: "Capital Garage Door technician repairing a residential garage door in Perth",
     floatingCardLabel: "Same-Day Service Available",
   },

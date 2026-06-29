@@ -33,6 +33,9 @@ function mapRegion(dto: CmsServiceAreaRegionDto): CoverageRegion {
     suburbs: dto.suburbs.map((s) => ({
       name: s.name,
       slug: s.slug ?? slugify(s.name),
+      // `pageHref` is present only when the suburb is linked to a published page in the CMS —
+      // when set, the directory renders the chip as a link to that suburb's local-SEO page.
+      ...(s.pageHref ? { href: s.pageHref } : {}),
     })),
   };
 }

@@ -470,6 +470,32 @@ export function collectionPageSchema({
   };
 }
 
+/**
+ * Builds ItemList JSON-LD for the /services index — an ordered list of the
+ * services, each as a ListItem with its page URL, name, and hero image. Gives
+ * search engines an explicit, machine-readable map of the service catalogue.
+ */
+export function servicesItemListSchema(
+  items: { name: string; url: string; image?: string }[],
+  path: string,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    url: absUrl(path),
+    numberOfItems: items.length,
+    itemListElement: items.map((it, i) =>
+      compact({
+        "@type": "ListItem",
+        position: i + 1,
+        url: absUrl(it.url),
+        name: it.name,
+        image: it.image ? absUrl(it.image) : undefined,
+      }),
+    ),
+  };
+}
+
 /** Builds LocalBusiness + areaServed JSON-LD for the /service-areas suburb directory. */
 export function serviceAreasSchema(regions: CoverageRegion[]) {
   return {

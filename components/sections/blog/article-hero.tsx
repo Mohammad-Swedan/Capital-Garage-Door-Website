@@ -9,8 +9,10 @@ interface ArticleHeroProps {
   article: Article;
 }
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+function formatDate(iso: string): string | null {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
 }
 
 /**
@@ -19,6 +21,8 @@ function formatDate(iso: string) {
  * homepage's gradient/typography language without touching the homepage hero.
  */
 export function ArticleHero({ article }: ArticleHeroProps) {
+  const updated = formatDate(article.updatedAt);
+
   return (
     <header className="relative overflow-hidden bg-background">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -63,13 +67,15 @@ export function ArticleHero({ article }: ArticleHeroProps) {
                   </EditableText>
                 </dd>
               </div>
-              <div className="flex items-center gap-1.5">
-                <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />
-                <dt className="sr-only">Last updated</dt>
-                <dd>
-                  Updated <time dateTime={article.updatedAt}>{formatDate(article.updatedAt)}</time>
-                </dd>
-              </div>
+              {updated && (
+                <div className="flex items-center gap-1.5">
+                  <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />
+                  <dt className="sr-only">Last updated</dt>
+                  <dd>
+                    Updated <time dateTime={article.updatedAt}>{updated}</time>
+                  </dd>
+                </div>
+              )}
               {article.readingTime && (
                 <div className="flex items-center gap-1.5">
                   <Clock3 className="h-4 w-4 text-primary" aria-hidden="true" />

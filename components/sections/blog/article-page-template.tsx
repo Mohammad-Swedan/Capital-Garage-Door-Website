@@ -1,10 +1,8 @@
 import { SmartCta } from "@/components/sections/smart-cta";
-import { CalendarCheck, FileText } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { DirectAnswer } from "@/components/sections/direct-answer";
-import { CTASection } from "@/components/sections/cta-section";
 import { FAQSection } from "@/components/sections/faq-section";
 import { ArticleHero } from "@/components/sections/blog/article-hero";
 import { TableOfContents } from "@/components/sections/blog/table-of-contents";
@@ -12,7 +10,6 @@ import { ArticleContent } from "@/components/sections/blog/article-content";
 import { ExpertTipCards } from "@/components/sections/blog/expert-tip-cards";
 import { RelatedServicesCta } from "@/components/sections/blog/related-services-cta";
 import { RelatedArticles } from "@/components/sections/blog/related-articles";
-import { siteConfig } from "@/config/site";
 import type { Article } from "@/types/article";
 
 interface ArticlePageTemplateProps {
@@ -26,7 +23,8 @@ interface ArticlePageTemplateProps {
  * changes needed.
  */
 export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
-  const phone = siteConfig.business.phone;
+  const toc = article.tableOfContents ?? [];
+  const hasToc = toc.length > 0;
 
   return (
     <>
@@ -42,15 +40,27 @@ export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
 
       <ArticleHero article={article} />
 
-      <DirectAnswer heading="Short Answer" answer={article.shortAnswer} path="shortAnswer" />
+      <DirectAnswer heading="Short Answer" answer={article.shortAnswer} path="shortAnswer" narrow />
 
       <section className="bg-background py-10 sm:py-14">
         <Container>
-          <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[15rem_1fr] lg:items-start">
-            {article.tableOfContents && article.tableOfContents.length > 0 && (
-              <TableOfContents items={article.tableOfContents} />
+          {/* Centered reading column. The TOC hangs in the left margin on wide
+              screens (so it never pushes the prose off-centre) and collapses
+              inline above the article on smaller screens. */}
+          <div className="relative mx-auto max-w-[42rem]">
+            {hasToc && (
+              <div className="pointer-events-none absolute top-0 right-full hidden h-full w-64 pr-8 xl:block">
+                <div className="pointer-events-auto sticky top-28">
+                  <TableOfContents items={toc} variant="rail" />
+                </div>
+              </div>
             )}
             <article className="min-w-0">
+              {hasToc && (
+                <div className="mb-8 xl:hidden">
+                  <TableOfContents items={toc} variant="inline" />
+                </div>
+              )}
               <ArticleContent blocks={article.contentBlocks} />
             </article>
           </div>

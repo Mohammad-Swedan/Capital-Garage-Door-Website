@@ -1,6 +1,7 @@
 import { Lightbulb } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { EditableText } from "@/components/admin/editor/editable";
+import { cn } from "@/lib/utils";
 
 interface DirectAnswerProps {
   heading?: string;
@@ -12,6 +13,12 @@ interface DirectAnswerProps {
    * through verbatim when no editor is mounted.
    */
   path?: string;
+  /**
+   * Constrain the box to the article reading column and centre it, so the
+   * Quick Answer shares the same vertical axis as the prose below it. Defaults
+   * to full container width (used by the wider service/comparison templates).
+   */
+  narrow?: boolean;
 }
 
 /**
@@ -19,11 +26,16 @@ interface DirectAnswerProps {
  * surfacing (AI assistants and "People also ask" style answers), and for
  * users who just want the short version before reading on.
  */
-export function DirectAnswer({ heading = "Quick Answer", answer, path = "directAnswer" }: DirectAnswerProps) {
+export function DirectAnswer({ heading = "Quick Answer", answer, path = "directAnswer", narrow = false }: DirectAnswerProps) {
   return (
     <section className="bg-background pb-2 sm:pb-4">
       <Container>
-        <div className="relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/5 p-5 sm:p-7">
+        <div
+          className={cn(
+            "relative overflow-hidden rounded-2xl border border-primary/15 bg-primary/5 p-5 sm:p-7",
+            narrow && "mx-auto max-w-[42rem]",
+          )}
+        >
           <div className="flex items-start gap-3 sm:gap-4">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary sm:h-10 sm:w-10">
               <Lightbulb className="h-4.5 w-4.5 sm:h-5 sm:w-5" aria-hidden="true" />

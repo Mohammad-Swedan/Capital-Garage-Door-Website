@@ -32,6 +32,7 @@ export function TestimonialsColumn({
             {testimonials.map((testimonial) => (
               <div
                 key={`${index}-${testimonial.id}`}
+                aria-hidden={index === 1}
                 className="w-full rounded-xl border bg-card p-2.5 shadow-lg shadow-primary/10 sm:rounded-2xl sm:p-6 lg:rounded-3xl lg:p-8"
               >
                 <p className="text-[9.5px] leading-snug text-foreground/90 sm:text-sm sm:leading-relaxed">

@@ -14,7 +14,7 @@ import { getReviews, getFeaturedReviews, getReviewsSummary } from "@/lib/data/re
 import { aggregateReviewSchema } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
-import { REVIEW_SERVICE_OPTIONS, REVIEW_SUBURB_OPTIONS } from "@/types/review";
+import { REVIEW_SERVICE_OPTIONS } from "@/types/review";
 
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Reviews Perth | Capital Garage Door",
@@ -58,13 +58,6 @@ export default async function ReviewsPage() {
         reviews={reviews}
         options={REVIEW_SERVICE_OPTIONS}
         filterBy="service"
-      />
-
-      <ReviewsFilterSection
-        heading="Reviews by Suburb"
-        reviews={reviews}
-        options={REVIEW_SUBURB_OPTIONS}
-        filterBy="suburb"
       />
 
       <CTASection

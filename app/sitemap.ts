@@ -81,6 +81,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/problems`, changeFrequency: "weekly", priority: 0.6 },
     { url: `${siteConfig.url}/case-studies`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${siteConfig.url}/reviews`, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${siteConfig.url}/warranty`, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteConfig.url}/warranty-registration`, changeFrequency: "monthly", priority: 0.5 },
   ];
 
   const dynamic: Array<MetadataRoute.Sitemap[number] | null> = [

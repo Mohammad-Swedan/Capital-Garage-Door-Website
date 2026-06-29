@@ -38,8 +38,9 @@ export function ReviewCard({ review }: ReviewCardProps) {
 
       <div className="mt-auto flex items-center justify-between gap-2 text-xs">
         <p className="font-semibold text-muted-foreground">
-          {review.customerName} — {review.suburb}
-          <span className="text-muted-foreground/70"> · {review.service}</span>
+          {review.customerName}
+          {review.suburb ? ` — ${review.suburb}` : ""}
+          {review.service ? <span className="text-muted-foreground/70"> · {review.service}</span> : null}
         </p>
         <time dateTime={review.date} className="shrink-0 text-muted-foreground/70">
           {formattedDate}

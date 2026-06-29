@@ -780,6 +780,14 @@ html:not(.intro-seen) main {
   will-change: transform;
 }
 
+/* Pause the column under the cursor so the card can be read. Hover-capable
+   pointers only, so touch scrolling on phones is never affected. */
+@media (hover: hover) {
+  .cgd-testimonial-track:hover {
+    animation-play-state: paused;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cgd-testimonial-track {
     animation: none;
@@ -854,4 +862,60 @@ html:not(.intro-seen) main {
     transparent 0px 38px,
     rgba(255, 255, 255, 0.05) 38px 40px
   );
+}
+
+/* "Open full screen" hint on the warranty registration embed
+   (see components/sections/warranty/registration-frame.tsx). The popup pops in,
+   then gently bobs to draw the eye; the button glows in sync. */
+@keyframes cgd-hint-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cgd-hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes cgd-hint-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--color-primary, #0d1f45);
+    opacity: 0.85;
+  }
+  50% {
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-primary, #0d1f45) 22%, transparent);
+    opacity: 1;
+  }
+}
+
+.cgd-hint-pop {
+  /* Enter first, then loop the bob (delayed past the enter). */
+  animation:
+    cgd-hint-in 240ms ease-out both,
+    cgd-hint-bob 1.9s ease-in-out 260ms infinite;
+}
+
+.cgd-hint-glow {
+  animation: cgd-hint-glow 1.9s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-hint-pop {
+    animation: cgd-hint-in 240ms ease-out both;
+  }
+  .cgd-hint-glow {
+    animation: none;
+  }
 }

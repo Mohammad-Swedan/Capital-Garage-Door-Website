@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Phone, FileText, Target } from "lucide-react";
+import Link from "next/link";
+import { Phone, FileText, Target, ShieldCheck, ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { PageHero } from "@/components/sections/page-hero";
@@ -96,6 +97,17 @@ export default function AboutPage() {
         description="Beyond the toolbox — the systems we use to make booking, tracking, and trusting your service simple."
         reasons={SYSTEM_FEATURES}
       />
+
+      <Container className="pb-4">
+        <Link
+          href="/warranty-registration"
+          className="mx-auto flex max-w-2xl items-center justify-center gap-2 rounded-2xl border border-border bg-muted/40 px-5 py-4 text-center text-sm font-medium text-foreground transition-colors hover:border-primary/30 hover:bg-muted/70"
+        >
+          <ShieldCheck className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+          Already had a motor installed? Register or check your warranty
+          <ArrowRight className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+        </Link>
+      </Container>
 
       <CTASection
         heading="Ready to Work With a Local Team You Can Trust?"

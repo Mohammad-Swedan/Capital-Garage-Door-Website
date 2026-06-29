@@ -60,6 +60,7 @@ export const siteConfig = {
       links: [
         { label: "About Us", href: "/about" },
         { label: "Reviews", href: "/reviews" },
+        { label: "Warranty", href: "/warranty" },
         { label: "Blog", href: "/blog" },
         { label: "Contact", href: "/contact" },
       ],

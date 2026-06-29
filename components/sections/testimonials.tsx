@@ -36,13 +36,13 @@ export async function Testimonials() {
 
         <div className="mx-auto mt-12 grid h-105 max-w-sm grid-cols-3 gap-2 overflow-hidden sm:h-150 sm:max-w-2xl sm:gap-4 lg:h-185 lg:max-w-5xl lg:gap-6 mask-[linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)]">
           <Reveal delay={0}>
-            <TestimonialsColumn testimonials={firstColumn} duration={15} />
+            <TestimonialsColumn testimonials={firstColumn} duration={26} />
           </Reveal>
           <Reveal delay={0.15}>
-            <TestimonialsColumn testimonials={secondColumn} duration={19} />
+            <TestimonialsColumn testimonials={secondColumn} duration={32} />
           </Reveal>
           <Reveal delay={0.3}>
-            <TestimonialsColumn testimonials={thirdColumn} duration={17} />
+            <TestimonialsColumn testimonials={thirdColumn} duration={29} />
           </Reveal>
         </div>
       </Container>

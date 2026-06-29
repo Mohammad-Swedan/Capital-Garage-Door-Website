@@ -67,6 +67,12 @@ export const siteConfig = {
     {
       title: "Services",
       links: [
+        { label: "Garage Door Repairs", href: "/garage-door-repairs-perth" },
+        { label: "Garage Door Installation", href: "/garage-door-installation-perth" },
+        { label: "Opener Repair", href: "/garage-door-opener-repair-perth" },
+        { label: "Spring Repair", href: "/garage-door-spring-repair-perth" },
+        { label: "Emergency Repairs", href: "/emergency-garage-door-repairs-perth" },
+        { label: "Maintenance", href: "/garage-door-maintenance-perth" },
         { label: "All Services", href: "/services" },
         { label: "Service Areas", href: "/service-areas" },
       ],

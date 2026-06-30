@@ -1,16 +1,24 @@
-import { BadgeCheck, Award, ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import { BadgeCheck, Award, ShieldCheck, Image as PlaceholderIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 
 export interface Brand {
   name: string;
   description: string;
+  /**
+   * Logo image URL — a local `/public` path or a CDN URL. When omitted, a labelled placeholder
+   * slot is rendered instead, so the strip works before the real logos are supplied. Drop the
+   * file paths in here (or upload to the media library and reference the CDN URL) to go live.
+   */
+  logo?: string;
 }
 
 /**
  * The garage-door manufacturers Capital is an authorized dealer for. Single source of truth —
  * also imported by the About page to feed `knowsAbout` into the AboutPage JSON-LD, so the
- * visible strip and the structured data never drift.
+ * visible strip and the structured data never drift. Add a `logo` to swap a placeholder for the
+ * real brand logo.
  */
 export const BRANDS: Brand[] = [
   { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance." },
@@ -29,19 +37,40 @@ const TRUST_PILLS = [
   { icon: ShieldCheck, label: "Full Warranties" },
 ];
 
+/** One logo slot — the real logo (next/image) when supplied, otherwise a labelled placeholder. */
+function BrandLogo({ brand }: { brand: Brand }) {
+  return (
+    <div
+      title={brand.description}
+      className="mx-4 inline-flex h-14 w-32 shrink-0 items-center justify-center sm:mx-7 sm:h-16 sm:w-40"
+    >
+      {brand.logo ? (
+        <Image
+          src={brand.logo}
+          alt={`${brand.name} logo`}
+          width={160}
+          height={64}
+          className="max-h-full w-auto object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 text-muted-foreground">
+          <PlaceholderIcon className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
+          <span className="truncate text-xs font-semibold sm:text-sm">{brand.name}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /**
- * "Brands We Work With" — a CSS perspective marquee of manufacturer wordmarks.
+ * "Brands We Work With" — a flat, continuous logo marquee.
  *
- * Server component / pure CSS (no JS, no video runtime): the row is rendered twice and the
- * `.cgd-brand-track` keyframe (app/globals.css) translates it -50% for a seamless loop, tilted
- * in 3D and faded into the section background by an edge mask. Pauses on hover and goes static
- * under `prefers-reduced-motion` (both handled in CSS). Each item carries trailing padding (not
- * flex `gap`) so the -50% loop stays perfectly seamless.
+ * Two identical tracks (`.cgd-brand-track` / `.cgd-brand-track-2`, keyframes in app/globals.css)
+ * chase each other for a seamless horizontal scroll, pure CSS (no JS, no video runtime). Pauses on
+ * hover and goes static under `prefers-reduced-motion`. Logos render once the `logo` field is set on
+ * a brand; until then each slot shows a labelled placeholder.
  */
 export function BrandsMarquee() {
-  // Two passes of the list → translateX(-50%) lands each name exactly where its clone was.
-  const row = [...BRANDS, ...BRANDS];
-
   return (
     <section
       className="overflow-hidden border-y border-border/60 bg-muted/30 py-14 sm:py-20"
@@ -76,22 +105,17 @@ export function BrandsMarquee() {
         </Reveal>
       </Container>
 
-      {/* Perspective marquee. The mask fades the wordmarks into the section bg at both edges,
-          so no fade colour needs to be hard-coded. */}
-      <div className="relative mt-10 [mask-image:linear-gradient(to_right,transparent,black_12%,black_88%,transparent)] [perspective:1200px] sm:mt-14">
-        <div className="[transform:rotateX(6deg)_rotateY(-12deg)] [transform-style:preserve-3d] md:[transform:rotateX(8deg)_rotateY(-16deg)]">
-          <div className="cgd-brand-track flex w-max items-center">
-            {row.map((brand, i) => (
-              <span
-                key={i}
-                title={brand.description}
-                aria-hidden={i >= BRANDS.length}
-                className="block shrink-0 pr-10 font-heading text-3xl font-black tracking-tight whitespace-nowrap text-foreground/80 select-none sm:pr-16 sm:text-5xl"
-              >
-                {brand.name}
-              </span>
-            ))}
-          </div>
+      {/* Flat dual-track marquee: two identical rows offset by one track-width loop seamlessly. */}
+      <div className="cgd-brand-marquee relative mt-10 flex w-full overflow-hidden sm:mt-14">
+        <div className="cgd-brand-track flex shrink-0 items-center">
+          {BRANDS.map((brand) => (
+            <BrandLogo key={brand.name} brand={brand} />
+          ))}
+        </div>
+        <div className="cgd-brand-track-2 absolute top-0 flex shrink-0 items-center" aria-hidden="true">
+          {BRANDS.map((brand) => (
+            <BrandLogo key={brand.name} brand={brand} />
+          ))}
         </div>
       </div>
     </section>

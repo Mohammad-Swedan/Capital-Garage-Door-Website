@@ -795,35 +795,49 @@ html:not(.intro-seen) main {
 }
 
 /* Brands-we-work-with marquee (see components/sections/brands-marquee.tsx).
-   The wordmark row is rendered twice, so translating it -50% loops seamlessly.
-   Compositor-driven (transform only) like the testimonials marquee above. */
+   Two identical tracks chase each other (0 → -100% and 100% → 0%) for a flat,
+   seamless horizontal scroll. Compositor-driven (transform only) — dual-track. */
 @keyframes cgd-brand-marquee {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes cgd-brand-marquee-2 {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 
 .cgd-brand-track {
-  animation: cgd-brand-marquee var(--cgd-duration, 40s) linear infinite;
+  animation: cgd-brand-marquee var(--cgd-duration, 30s) linear infinite;
   will-change: transform;
 }
 
-/* Pause under the cursor (hover-capable pointers only) so a name can be read;
+.cgd-brand-track-2 {
+  animation: cgd-brand-marquee-2 var(--cgd-duration, 30s) linear infinite;
+  will-change: transform;
+}
+
+/* Pause both tracks while hovering the strip (hover-capable pointers only);
    touch scrolling on phones is never affected. */
 @media (hover: hover) {
-  .cgd-brand-track:hover {
+  .cgd-brand-marquee:hover .cgd-brand-track,
+  .cgd-brand-marquee:hover .cgd-brand-track-2 {
     animation-play-state: paused;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cgd-brand-track {
+  .cgd-brand-track,
+  .cgd-brand-track-2 {
     animation: none;
-    /* Static, centred strip when motion is reduced. */
-    transform: none;
   }
 }
 

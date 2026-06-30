@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { UploadCloud, Loader2, TriangleAlert, ImageIcon } from "lucide-react";
+import { Loader2, TriangleAlert, ImageIcon, ImageOff, Search, Check } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -11,22 +11,19 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+import { ASSET_CATEGORY_FILTERS, assetCategoryLabel } from "@/components/admin/asset-categories";
+import { AssetUploadForm } from "@/components/admin/media/asset-upload-form";
 import type { AssetSelection } from "./editable-context";
 
 /**
- * The Asset Picker dialog (plan §B.3e). Two tabs:
- * - Upload: file → `POST /admin/api/upload` → `{ id, cdnUrl }`.
- * - Library: `GET /admin/api/assets` (proxy → `adminRequest`). Degrades gracefully
- *   to "no assets" if the endpoint is unavailable.
+ * The Asset Picker dialog. Two tabs:
+ * - Upload: shared `AssetUploadForm` → `POST /admin/api/upload` (lands in the categorised library).
+ * - Library: `GET /admin/api/assets` with category filter, alt-text search, and pagination.
  *
- * It is *imperatively* driven: `useAssetPicker()` returns an `open()` that resolves
- * with the chosen asset (or null if cancelled). `<AssetPickerHost>` renders the
- * actual dialog and must be mounted once inside the editor.
- *
- * Alt-text enforcement (Agent 5): screen readers and search engines rely on image
- * alt text, so the picker now nudges authors to provide it — an editable alt field
- * on upload (seeded from a tidied filename) and a gentle warning when a chosen
- * library image has none. It warns, it never hard-blocks.
+ * It is *imperatively* driven: `useAssetPicker()` returns an `open()` that resolves with the chosen
+ * asset (or null if cancelled). `<AssetPickerHost>` renders the dialog and must be mounted once.
+ * The resolve shape (`AssetSelection { assetId, url }`) is unchanged, so no template/serializer is
+ * affected by this redesign.
  */
 
 interface PendingResolver {
@@ -37,7 +34,17 @@ interface LibraryAsset {
   id: number;
   cdnUrl: string;
   altText?: string | null;
+  category?: string | null;
 }
+
+interface AssetPage {
+  items?: LibraryAsset[];
+  pageNumber?: number;
+  totalPages?: number;
+  totalCount?: number;
+}
+
+const PAGE_SIZE = 24;
 
 export interface AssetPickerController {
   open: () => Promise<AssetSelection | null>;
@@ -82,11 +89,11 @@ export function AssetPickerHost({ open, onSettle }: AssetPickerHostProps) {
         if (!next) onSettle(null);
       }}
     >
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>Choose an image</DialogTitle>
           <DialogDescription>
-            Upload a new image or pick one from the library. Add alt text so it&apos;s accessible.
+            Pick one from the library or upload a new image. Add alt text so it&apos;s accessible.
           </DialogDescription>
         </DialogHeader>
         {open && <PickerBody onSettle={onSettle} />}
@@ -97,210 +104,77 @@ export function AssetPickerHost({ open, onSettle }: AssetPickerHostProps) {
 
 function PickerBody({ onSettle }: { onSettle: (v: AssetSelection | null) => void }) {
   return (
-    <Tabs defaultValue="upload" className="mt-2">
+    <Tabs defaultValue="library" className="mt-2">
       <TabsList>
-        <TabsTrigger value="upload">Upload</TabsTrigger>
         <TabsTrigger value="library">Library</TabsTrigger>
+        <TabsTrigger value="upload">Upload</TabsTrigger>
       </TabsList>
-      <TabsContent value="upload">
-        <UploadTab onSettle={onSettle} />
-      </TabsContent>
       <TabsContent value="library">
         <LibraryTab onSettle={onSettle} />
+      </TabsContent>
+      <TabsContent value="upload">
+        <div className="mt-3">
+          <AssetUploadForm onUploaded={(a) => onSettle({ assetId: a.id, url: a.cdnUrl })} />
+        </div>
       </TabsContent>
     </Tabs>
   );
 }
 
-/** "hero-image_v2.JPG" → "Hero image v2" — a friendlier alt-text seed than the raw filename. */
-function altFromFilename(name: string): string {
-  const base = name.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]+/g, " ").trim();
-  if (!base) return "";
-  return base.charAt(0).toUpperCase() + base.slice(1);
-}
-
-function UploadTab({ onSettle }: { onSettle: (v: AssetSelection | null) => void }) {
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [dragOver, setDragOver] = useState(false);
-  const [file, setFile] = useState<File | null>(null);
-  const [altText, setAltText] = useState("");
-
-  // Object-URL preview for the staged file, derived from `file` (no state →
-  // no cascading renders). The cleanup effect revokes the previous URL when the
-  // file changes or on unmount, so we never leak blob: handles.
-  const previewUrl = useMemo(() => (file ? URL.createObjectURL(file) : null), [file]);
-  useEffect(() => {
-    if (!previewUrl) return;
-    return () => URL.revokeObjectURL(previewUrl);
-  }, [previewUrl]);
-
-  const stage = useCallback((f: File) => {
-    setError(null);
-    setFile(f);
-    setAltText((prev) => (prev.trim() ? prev : altFromFilename(f.name)));
-  }, []);
-
-  const upload = useCallback(async () => {
-    if (!file) return;
-    setUploading(true);
-    setError(null);
-    try {
-      const form = new FormData();
-      form.append("file", file);
-      // Author-provided alt text (falls back to the filename so it's never blank
-      // server-side, but the UI nudges them to write something meaningful).
-      form.append("altText", altText.trim() || altFromFilename(file.name) || file.name);
-      const res = await fetch("/admin/api/upload", { method: "POST", body: form });
-      if (!res.ok) throw new Error(`Upload failed (${res.status})`);
-      const data = (await res.json()) as { id: number; cdnUrl: string };
-      onSettle({ assetId: data.id, url: data.cdnUrl });
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setUploading(false);
-    }
-  }, [file, altText, onSettle]);
-
-  const altMissing = !altText.trim();
-
-  return (
-    <div className="mt-3 space-y-3">
-      <label
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragOver(true);
-        }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={(e) => {
-          e.preventDefault();
-          setDragOver(false);
-          const f = e.dataTransfer.files?.[0];
-          if (f) stage(f);
-        }}
-        className={cn(
-          "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/20 p-6 text-center text-sm text-muted-foreground transition-colors hover:border-primary/40",
-          dragOver && "border-primary/60 bg-primary/5",
-        )}
-      >
-        {previewUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={previewUrl} alt="" className="max-h-32 w-auto rounded-lg object-contain shadow-card" />
-        ) : (
-          <UploadCloud className="size-6 text-primary" />
-        )}
-        <span className="font-medium text-foreground">
-          {file ? file.name : "Drop an image or click to browse"}
-        </span>
-        <span className="text-xs">{file ? "Click to choose a different image" : "PNG, JPG or WebP"}</span>
-        <input
-          type="file"
-          accept="image/*"
-          className="sr-only"
-          disabled={uploading}
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) stage(f);
-          }}
-        />
-      </label>
-
-      {file && (
-        <div className="space-y-1.5">
-          <label className="block space-y-1.5">
-            <span className="flex items-center gap-1.5 text-sm font-medium text-foreground">
-              Alt text
-              <span className="text-xs font-normal text-muted-foreground">· describes the image for screen readers &amp; SEO</span>
-            </span>
-            <input
-              autoFocus
-              value={altText}
-              onChange={(e) => setAltText(e.target.value)}
-              placeholder="e.g. Technician installing a sectional garage door"
-              aria-invalid={altMissing}
-              className={cn(
-                "w-full rounded-lg border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
-                altMissing ? "border-amber-400/70" : "border-border",
-              )}
-            />
-          </label>
-          {altMissing && (
-            <p className="flex items-start gap-1.5 text-xs text-amber-600 dark:text-amber-400">
-              <TriangleAlert className="mt-0.5 size-3.5 shrink-0" />
-              No alt text yet — recommended for accessibility and SEO. You can still upload without it.
-            </p>
-          )}
-        </div>
-      )}
-
-      {error && (
-        <p className="rounded-md bg-destructive/10 px-3 py-2 text-xs text-destructive">{error}</p>
-      )}
-
-      {file && (
-        <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            disabled={uploading}
-            onClick={() => {
-              setFile(null);
-              setAltText("");
-            }}
-            className="inline-flex h-8 items-center rounded-lg px-3 text-sm font-medium text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
-          >
-            Clear
-          </button>
-          <button
-            type="button"
-            disabled={uploading}
-            onClick={() => void upload()}
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground shadow-card outline-none transition-colors hover:bg-primary/90 focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
-          >
-            {uploading ? <Loader2 className="size-4 animate-spin" /> : <UploadCloud className="size-4" />}
-            {uploading ? "Uploading…" : "Use this image"}
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function LibraryTab({ onSettle }: { onSettle: (v: AssetSelection | null) => void }) {
   const [assets, setAssets] = useState<LibraryAsset[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [category, setCategory] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
   // A staged pick so we can warn before settling when the library image lacks alt text.
   const [pending, setPending] = useState<LibraryAsset | null>(null);
+  // Ids whose thumbnail failed to load (e.g. an asset pointing at a removed file).
+  const [broken, setBroken] = useState<Set<number>>(new Set());
 
+  // Debounce the search box so we don't refetch on every keystroke.
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    setError(null);
-    fetch("/admin/api/assets")
-      .then(async (res) => {
+    const t = setTimeout(() => setSearch(searchInput.trim()), 300);
+    return () => clearTimeout(t);
+  }, [searchInput]);
+
+  const fetchPage = useCallback(
+    async (pageNumber: number, append: boolean) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const qs = new URLSearchParams({ pageNumber: String(pageNumber), pageSize: String(PAGE_SIZE) });
+        if (category) qs.set("category", category);
+        if (search) qs.set("search", search);
+        const res = await fetch(`/admin/api/assets?${qs.toString()}`);
         if (!res.ok) throw new Error(`Library unavailable (${res.status})`);
-        return res.json();
-      })
-      .then((data: { items?: LibraryAsset[] } | LibraryAsset[]) => {
-        if (cancelled) return;
+        const data = (await res.json()) as AssetPage | LibraryAsset[];
         const items = Array.isArray(data) ? data : (data.items ?? []);
-        setAssets(items.filter((a) => a && a.cdnUrl));
-      })
-      .catch((e: unknown) => {
-        if (cancelled) return;
+        const clean = items.filter((a) => a && a.cdnUrl);
+        setAssets((prev) => (append ? [...prev, ...clean] : clean));
+        setTotalPages(Array.isArray(data) ? 1 : (data.totalPages ?? 1));
+        setPage(pageNumber);
+      } catch (e) {
+        if (!append) setAssets([]);
         setError(e instanceof Error ? e.message : "Could not load the library");
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [category, search],
+  );
+
+  // (Re)load from page 1 whenever the filter or search changes.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional data fetch when category/search deps change
+    void fetchPage(1, false);
+  }, [fetchPage]);
 
   const choose = useCallback(
     (asset: LibraryAsset) => {
-      // Warn (don't block) when the chosen image has no alt text on record.
       if (!asset.altText || !asset.altText.trim()) {
         setPending(asset);
         return;
@@ -314,22 +188,6 @@ function LibraryTab({ onSettle }: { onSettle: (v: AssetSelection | null) => void
     () => assets.find((a) => a.id === pending?.id) ?? pending,
     [assets, pending],
   );
-
-  if (loading) {
-    return (
-      <div className="mt-6 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-        <Loader2 className="size-4 animate-spin" /> Loading library…
-      </div>
-    );
-  }
-
-  if (error || assets.length === 0) {
-    return (
-      <div className="mt-6 rounded-lg border border-border bg-muted/20 p-6 text-center text-sm text-muted-foreground">
-        {error ?? "No images in the library yet — upload one from the Upload tab."}
-      </div>
-    );
-  }
 
   // Confirmation step for an alt-less library image.
   if (pending && pendingPreview) {
@@ -373,34 +231,113 @@ function LibraryTab({ onSettle }: { onSettle: (v: AssetSelection | null) => void
   }
 
   return (
-    <div className="mt-3 grid max-h-72 grid-cols-3 gap-2 overflow-y-auto">
-      {assets.map((asset) => {
-        const missingAlt = !asset.altText || !asset.altText.trim();
-        return (
-          <button
-            key={asset.id}
-            type="button"
-            onClick={() => choose(asset)}
-            title={missingAlt ? "No alt text on this image" : (asset.altText ?? undefined)}
-            className="group relative aspect-square overflow-hidden rounded-lg border border-border bg-muted outline-none transition-colors hover:border-primary/60 focus-visible:ring-3 focus-visible:ring-ring/50"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={asset.cdnUrl}
-              alt={asset.altText ?? ""}
-              className="size-full object-cover transition-transform group-hover:scale-105"
-            />
-            {missingAlt && (
-              <span
-                className="absolute right-1 top-1 inline-flex size-5 items-center justify-center rounded-full bg-amber-500/90 text-white shadow-card"
-                aria-hidden
-              >
-                <TriangleAlert className="size-3" />
+    <div className="mt-3 space-y-3">
+      <div className="flex flex-col gap-2.5">
+        <div className="relative">
+          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search by alt text…"
+            className="w-full rounded-lg border border-border bg-background py-2 pr-3 pl-9 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          />
+        </div>
+        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
+          {ASSET_CATEGORY_FILTERS.map((c) => (
+            <button
+              key={c.value || "all"}
+              type="button"
+              onClick={() => setCategory(c.value)}
+              className={cn(
+                "shrink-0 rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                category === c.value
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {error ? (
+        <div className="rounded-lg border border-border bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+          {error}
+        </div>
+      ) : assets.length === 0 && !loading ? (
+        <div className="rounded-lg border border-border bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+          No images here yet — try another category or upload one from the Upload tab.
+        </div>
+      ) : (
+        <>
+          <div className="grid max-h-80 grid-cols-3 gap-2 overflow-y-auto sm:grid-cols-4">
+            {assets.map((asset) => {
+              const missingAlt = !asset.altText || !asset.altText.trim();
+              return (
+                <button
+                  key={asset.id}
+                  type="button"
+                  onClick={() => choose(asset)}
+                  title={missingAlt ? "No alt text on this image" : (asset.altText ?? undefined)}
+                  className="group relative aspect-square overflow-hidden rounded-lg border border-border bg-muted outline-none transition-colors hover:border-primary/60 focus-visible:ring-3 focus-visible:ring-ring/50"
+                >
+                  {broken.has(asset.id) ? (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-muted text-muted-foreground">
+                      <ImageOff className="size-5" />
+                      <span className="text-[9px]">Unavailable</span>
+                    </div>
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={asset.cdnUrl}
+                      alt={asset.altText ?? ""}
+                      onError={() =>
+                        setBroken((s) => {
+                          const n = new Set(s);
+                          n.add(asset.id);
+                          return n;
+                        })
+                      }
+                      className="absolute inset-0 size-full object-cover transition-transform group-hover:scale-105"
+                    />
+                  )}
+                  <span className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-gradient-to-t from-black/65 to-transparent px-1.5 pt-4 pb-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:opacity-100">
+                    {assetCategoryLabel(asset.category)}
+                  </span>
+                  <span className="absolute inset-0 flex items-center justify-center bg-primary/0 opacity-0 transition-opacity group-hover:bg-primary/10 group-hover:opacity-100">
+                    <Check className="size-6 text-primary drop-shadow" />
+                  </span>
+                  {missingAlt && (
+                    <span
+                      className="absolute right-1 top-1 inline-flex size-5 items-center justify-center rounded-full bg-amber-500/90 text-white shadow-card"
+                      aria-hidden
+                    >
+                      <TriangleAlert className="size-3" />
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="flex items-center justify-center pt-1">
+            {loading ? (
+              <span className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Loader2 className="size-4 animate-spin" /> Loading…
               </span>
-            )}
-          </button>
-        );
-      })}
+            ) : page < totalPages ? (
+              <button
+                type="button"
+                onClick={() => void fetchPage(page + 1, true)}
+                className="inline-flex h-8 items-center rounded-lg border border-border px-3 text-sm font-medium text-foreground outline-none transition-colors hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50"
+              >
+                Load more
+              </button>
+            ) : null}
+          </div>
+        </>
+      )}
     </div>
   );
 }

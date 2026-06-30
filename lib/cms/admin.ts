@@ -201,6 +201,43 @@ export function deleteFaq(id: number) {
   return request<unknown>(`/api/admin/faqs/${id}`, { method: "DELETE" });
 }
 
+// ---- Assets / media library ----
+export interface AdminAsset {
+  id: number;
+  cdnUrl: string;
+  altText: string;
+  /** AssetCategory enum name (e.g. "RollerDoors", "Uncategorized"). */
+  category: string;
+  width?: number | null;
+  height?: number | null;
+  uploadedAt: string;
+}
+
+/** List/search the media library, paged and optionally filtered by category. */
+export function listAssets(
+  params: { category?: string; search?: string; pageNumber?: number; pageSize?: number } = {},
+) {
+  const qs = new URLSearchParams();
+  if (params.category) qs.set("category", params.category);
+  if (params.search) qs.set("search", params.search);
+  if (params.pageNumber) qs.set("pageNumber", String(params.pageNumber));
+  qs.set("pageSize", String(params.pageSize ?? 40));
+  return request<PaginatedAdmin<AdminAsset>>(`/api/admin/assets?${qs.toString()}`);
+}
+
+/** Edit a library asset's alt text and category. */
+export function updateAsset(id: number, body: { altText: string; category: string }) {
+  return request<AdminAsset>(`/api/admin/assets/${id}`, {
+    method: "PUT",
+    body: JSON.stringify({ ...body, id }),
+  });
+}
+
+/** Delete a library asset. Returns the backend error (e.g. `Asset.InUse`) when it is still referenced. */
+export function deleteAsset(id: number) {
+  return request<unknown>(`/api/admin/assets/${id}`, { method: "DELETE" });
+}
+
 // ---- Catalog create (Reviews / Services / PricingItems) ----
 // Minimal create helpers used by the in-place editor's pin pickers ("Create new …").
 // They attach the JWT cookie via `request` and return the created row (camelCase DTO).

@@ -1,20 +1,19 @@
-import { Images } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Images, ImageIcon } from "lucide-react";
 
 import { GalleryRowActions } from "@/components/admin/gallery-row-actions";
 import { GALLERY_CATEGORIES } from "@/components/admin/gallery-categories";
 import { Badge } from "@/components/ui/badge";
-import {
-  AdminTableCard,
-  AdminTableEmpty,
-  adminRowClass,
-} from "@/components/admin/ui/admin-table";
+import { AdminTableEmpty } from "@/components/admin/ui/admin-table";
+import { cn } from "@/lib/utils";
 
 /**
- * Presentational gallery table. It is intentionally a *pure* component: it takes
- * the already-fetched rows as a prop and renders them. The single fetch lives in
- * the page server component (`app/admin/(dashboard)/gallery/page.tsx`) — keeping
- * the data load there (instead of letting each cell/section fetch on its own) is
- * what guarantees one `GetGalleryItems` round-trip per page load.
+ * Presentational gallery grid. It takes the already-fetched rows as a prop (the single fetch lives
+ * in the page server component, `app/admin/(dashboard)/gallery/page.tsx`) and renders them as image
+ * cards, with a client-side category filter. Each card shows the main image, an optional "before"
+ * thumbnail, category, caption, sort order, and edit/delete actions.
  */
 export interface AdminGalleryItem {
   id: number;
@@ -29,26 +28,12 @@ export interface AdminGalleryItem {
   sortOrder: number;
 }
 
-const CATEGORY_LABELS = Object.fromEntries(
-  GALLERY_CATEGORIES.map((c) => [c.value, c.label]),
-);
-
-function Thumb({ src, alt }: { src: string | null; alt: string | null }) {
-  if (!src) {
-    return <span className="text-xs text-muted-foreground">—</span>;
-  }
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={src}
-      alt={alt ?? ""}
-      loading="lazy"
-      className="h-14 w-20 rounded-md border border-border/70 object-cover shadow-card"
-    />
-  );
-}
+const CATEGORY_LABELS = Object.fromEntries(GALLERY_CATEGORIES.map((c) => [c.value, c.label]));
+const FILTERS = [{ value: "", label: "All" }, ...GALLERY_CATEGORIES];
 
 export function GalleryTable({ items }: { items: AdminGalleryItem[] }) {
+  const [filter, setFilter] = useState("");
+
   if (items.length === 0) {
     return (
       <AdminTableEmpty
@@ -59,41 +44,86 @@ export function GalleryTable({ items }: { items: AdminGalleryItem[] }) {
     );
   }
 
+  const shown = filter ? items.filter((g) => g.category === filter) : items;
+
   return (
-    <AdminTableCard
-      head={
-        <tr>
-          <th className="px-4 py-3 font-medium">Image</th>
-          <th className="px-4 py-3 font-medium">Before</th>
-          <th className="px-4 py-3 font-medium">Category</th>
-          <th className="px-4 py-3 font-medium">Caption</th>
-          <th className="px-4 py-3 font-medium">Sort</th>
-          <th className="px-4 py-3 text-right font-medium">Actions</th>
-        </tr>
-      }
-    >
-      {items.map((g) => (
-        <tr key={g.id} className={adminRowClass}>
-          <td className="px-4 py-3">
-            <Thumb src={g.assetCdnUrl} alt={g.assetAltText} />
-          </td>
-          <td className="px-4 py-3">
-            <Thumb src={g.beforeAssetCdnUrl} alt={g.beforeAssetAltText} />
-          </td>
-          <td className="px-4 py-3">
-            <Badge variant="brand">{CATEGORY_LABELS[g.category] ?? g.category}</Badge>
-          </td>
-          <td className="max-w-xs truncate px-4 py-3 text-muted-foreground">
-            {g.caption ?? "—"}
-          </td>
-          <td className="px-4 py-3 tabular-nums text-muted-foreground">{g.sortOrder}</td>
-          <td className="px-4 py-3">
-            <div className="flex justify-end">
-              <GalleryRowActions id={g.id} />
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-1.5">
+        {FILTERS.map((c) => {
+          const count = c.value ? items.filter((g) => g.category === c.value).length : items.length;
+          return (
+            <button
+              key={c.value || "all"}
+              type="button"
+              onClick={() => setFilter(c.value)}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
+                filter === c.value
+                  ? "border-primary bg-primary/10 text-primary"
+                  : "border-border text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {c.label}
+              <span className="ml-1.5 tabular-nums opacity-60">{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {shown.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-border bg-muted/10 p-8 text-center text-sm text-muted-foreground">
+          No items in this category yet.
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {shown.map((g) => (
+            <div
+              key={g.id}
+              className="overflow-hidden rounded-xl border border-border bg-card shadow-card transition-shadow hover:shadow-elevated"
+            >
+              <div className="relative aspect-[4/3] bg-muted">
+                {g.assetCdnUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={g.assetCdnUrl}
+                    alt={g.assetAltText ?? ""}
+                    loading="lazy"
+                    className="absolute inset-0 size-full object-cover"
+                  />
+                ) : (
+                  <div className="flex size-full items-center justify-center text-muted-foreground">
+                    <ImageIcon className="size-6" />
+                  </div>
+                )}
+                <span className="absolute left-2 top-2">
+                  <Badge variant="brand">{CATEGORY_LABELS[g.category] ?? g.category}</Badge>
+                </span>
+                {g.beforeAssetCdnUrl && (
+                  <div className="absolute bottom-2 left-2 flex items-center gap-1.5 rounded-lg bg-background/85 p-1 pr-2 shadow-card backdrop-blur">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={g.beforeAssetCdnUrl}
+                      alt={g.beforeAssetAltText ?? ""}
+                      loading="lazy"
+                      className="size-9 rounded-md object-cover"
+                    />
+                    <span className="text-[11px] font-medium text-muted-foreground">Before</span>
+                  </div>
+                )}
+              </div>
+              <div className="space-y-2 p-3">
+                <p className="line-clamp-2 min-h-[2.5rem] text-sm text-foreground">
+                  {g.caption ?? <span className="text-muted-foreground">No caption</span>}
+                </p>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="shrink-0 text-xs text-muted-foreground tabular-nums">Sort {g.sortOrder}</span>
+                  <GalleryRowActions id={g.id} />
+                </div>
+              </div>
             </div>
-          </td>
-        </tr>
-      ))}
-    </AdminTableCard>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

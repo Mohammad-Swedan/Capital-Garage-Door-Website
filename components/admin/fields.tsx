@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { ImagePlus, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useAssetPicker, AssetPickerHost } from "@/components/admin/editor/asset-picker";
 
 // Mirrors components/ui/input + textarea styling so the field forms read like
 // the rest of the admin theme. Kept as a shared string (not the Input
@@ -323,7 +325,12 @@ export function RelatedLinksEditor({
   );
 }
 
-/** Upload a hero image to the CMS and capture its asset id. */
+/**
+ * Image field for the classic forms. Opens the shared Asset Picker so authors can either pick an
+ * existing library image (organised by category) or upload a new one — every upload lands in the
+ * categorised media library. Keeps the original `onUploaded(id, url)` API so all call sites are
+ * unchanged. (Deliberately not wrapped in <Field>, whose <label> must not contain a button/dialog.)
+ */
 export function AssetUploadField({
   label,
   assetId,
@@ -335,48 +342,37 @@ export function AssetUploadField({
   previewUrl: string | null;
   onUploaded: (id: number, url: string) => void;
 }) {
-  const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { controller, hostProps } = useAssetPicker();
   const [preview, setPreview] = useState<string | null>(previewUrl);
 
-  async function handleFile(file: File) {
-    setUploading(true);
-    setError(null);
-    try {
-      const form = new FormData();
-      form.append("file", file);
-      form.append("altText", file.name);
-      const res = await fetch("/admin/api/upload", { method: "POST", body: form });
-      if (!res.ok) throw new Error(`Upload failed (${res.status})`);
-      const data = (await res.json()) as { id: number; cdnUrl: string };
-      setPreview(data.cdnUrl);
-      onUploaded(data.id, data.cdnUrl);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setUploading(false);
-    }
+  async function choose() {
+    const picked = await controller.open();
+    if (!picked) return;
+    setPreview(picked.url);
+    onUploaded(picked.assetId, picked.url);
   }
 
   return (
-    <Field label={label} error={error ?? undefined} hint={assetId ? `Asset #${assetId}` : "No image yet"}>
+    <div className="space-y-1.5">
+      <span className="block text-sm font-medium text-foreground">{label}</span>
       <div className="space-y-2">
-        {preview && (
+        {preview ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={preview} alt="" className="h-32 w-auto rounded-lg border border-border object-cover" />
+        ) : (
+          <div className="flex h-32 w-48 items-center justify-center rounded-lg border border-dashed border-border bg-muted/20 text-xs text-muted-foreground">
+            No image selected
+          </div>
         )}
-        <input
-          type="file"
-          accept="image/*"
-          className="text-sm"
-          disabled={uploading}
-          onChange={(e) => {
-            const f = e.target.files?.[0];
-            if (f) handleFile(f);
-          }}
-        />
-        {uploading && <span className="text-xs text-muted-foreground">Uploading…</span>}
+        <Button type="button" variant="outline" size="sm" onClick={() => void choose()}>
+          {preview ? <RefreshCw className="size-4" /> : <ImagePlus className="size-4" />}
+          {preview ? "Replace image" : "Choose image"}
+        </Button>
+        <span className="block text-xs text-muted-foreground">
+          {assetId ? `Asset #${assetId} · pick from library or upload` : "Pick from the library or upload a new image"}
+        </span>
       </div>
-    </Field>
+      <AssetPickerHost {...hostProps} />
+    </div>
   );
 }

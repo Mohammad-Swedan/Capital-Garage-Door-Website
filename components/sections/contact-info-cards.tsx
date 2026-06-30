@@ -38,11 +38,11 @@ export function ContactInfoCards({ cards }: ContactInfoCardsProps) {
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-xs font-bold tracking-wide text-muted-foreground uppercase">{card.label}</p>
                   <p
                     className={cn(
-                      "mt-1 font-display text-base leading-snug font-bold text-foreground",
+                      "mt-1 font-display text-base leading-snug font-bold break-words text-foreground",
                       card.href && "group-hover:text-cta",
                     )}
                   >

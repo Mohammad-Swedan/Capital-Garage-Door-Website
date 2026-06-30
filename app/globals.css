@@ -794,6 +794,39 @@ html:not(.intro-seen) main {
   }
 }
 
+/* Brands-we-work-with marquee (see components/sections/brands-marquee.tsx).
+   The wordmark row is rendered twice, so translating it -50% loops seamlessly.
+   Compositor-driven (transform only) like the testimonials marquee above. */
+@keyframes cgd-brand-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.cgd-brand-track {
+  animation: cgd-brand-marquee var(--cgd-duration, 40s) linear infinite;
+  will-change: transform;
+}
+
+/* Pause under the cursor (hover-capable pointers only) so a name can be read;
+   touch scrolling on phones is never affected. */
+@media (hover: hover) {
+  .cgd-brand-track:hover {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-brand-track {
+    animation: none;
+    /* Static, centred strip when motion is reduced. */
+    transform: none;
+  }
+}
+
 /* Smart Chat tooltip: light frosted glass (see StickyMobileCta in
    components/sections/hero.tsx). Plain CSS rather than Tailwind utilities
    because the layered inset highlights + -webkit-backdrop-filter prefix

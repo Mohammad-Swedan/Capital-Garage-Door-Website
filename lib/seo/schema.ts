@@ -200,6 +200,28 @@ export function contactPointSchema() {
   });
 }
 
+/**
+ * Builds AboutPage JSON-LD for /about.
+ *
+ * A WebPage(AboutPage) whose `mainEntity` is the business Organization, with the manufacturer
+ * brands we're an authorized dealer for listed as `knowsAbout` — a valid, machine-readable
+ * association between the brand and those products (a real entity/AEO signal). `organizationRef()`
+ * already carries the logo, telephone, and `sameAs` links.
+ */
+export function aboutPageSchema(brandNames: string[]) {
+  const org = compact({
+    ...organizationRef(),
+    ...(brandNames.length > 0 ? { knowsAbout: brandNames } : {}),
+  });
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: `About ${siteConfig.name}`,
+    url: new URL("/about", siteConfig.url).toString(),
+    mainEntity: org,
+  };
+}
+
 export function serviceSchema(service: Service) {
   return {
     "@context": "https://schema.org",

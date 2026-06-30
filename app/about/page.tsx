@@ -8,7 +8,10 @@ import { PageHero } from "@/components/sections/page-hero";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { CTASection } from "@/components/sections/cta-section";
 import { TrustCards } from "@/components/page/trust-cards";
+import { JsonLd } from "@/components/seo/json-ld";
+import { BrandsMarquee, BRANDS } from "@/components/sections/brands-marquee";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { breadcrumbSchema, organizationSchema, aboutPageSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { TrustReason } from "@/types";
 
@@ -46,17 +49,29 @@ const SYSTEM_FEATURES: TrustReason[] = [
 export const metadata: Metadata = buildMetadata({
   title: "About Us | Capital Garage Door",
   description:
-    "Capital Garage Door is a Perth-based garage door repair, installation, and maintenance company. Licensed, insured, and trusted across the metro area.",
+    "Perth's local garage door repair, installation & maintenance team — licensed, insured, and an authorized dealer for B&D, Steel-Line, Gliderol, Avanti and more.",
   path: "/about",
 });
 
 export default function AboutPage() {
   const phone = siteConfig.business.phone;
+  const breadcrumbs = [
+    { name: "Home", url: "/" },
+    { name: "About", url: "/about" },
+  ];
 
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbSchema(breadcrumbs),
+          organizationSchema(),
+          aboutPageSchema(BRANDS.map((b) => b.name)),
+        ]}
+      />
+
       <Container className="pt-6">
-        <Breadcrumbs items={[{ name: "Home", url: "/" }, { name: "About", url: "/about" }]} />
+        <Breadcrumbs items={breadcrumbs} />
       </Container>
 
       <PageHero
@@ -70,6 +85,8 @@ export default function AboutPage() {
       />
 
       <AboutSection />
+
+      <BrandsMarquee />
 
       <section className="bg-muted/40 py-14 sm:py-20">
         <Container className="max-w-2xl text-center">

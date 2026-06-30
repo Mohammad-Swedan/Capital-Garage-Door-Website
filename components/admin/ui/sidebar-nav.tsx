@@ -9,6 +9,7 @@ import {
   MapPin,
   Images,
   HelpCircle,
+  MessagesSquare,
   type LucideIcon,
 } from "lucide-react";
 
@@ -40,6 +41,10 @@ export const ADMIN_NAV: AdminNavGroup[] = [
       { label: "Gallery", href: "/admin/gallery", icon: Images },
       { label: "FAQs", href: "/admin/faqs", icon: HelpCircle },
     ],
+  },
+  {
+    label: "Assistant",
+    items: [{ label: "Conversations", href: "/admin/conversations", icon: MessagesSquare }],
   },
 ];
 

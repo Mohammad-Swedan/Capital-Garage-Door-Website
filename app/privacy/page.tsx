@@ -37,11 +37,12 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="font-heading text-lg font-semibold text-foreground">Information We Collect</h2>
-            <p className="mt-2">When you contact us, request a quote, or use our price calculator, we may collect:</p>
+            <p className="mt-2">When you contact us, request a quote, use our price calculator, or chat with our Smart Garage Assistant, we may collect:</p>
             <ul className="mt-2 list-disc space-y-1 pl-5">
               <li>Your name, phone number, email address, and property address</li>
               <li>Details about your garage door and the service you&apos;re requesting</li>
               <li>Any photos or videos you choose to upload with your request</li>
+              <li>Messages you send to our Smart Garage Assistant chat, which we store to answer your enquiry, follow up, and improve the service (an AI provider processes the message text to generate replies; please don&apos;t share sensitive information you don&apos;t want recorded)</li>
               <li>Basic usage data (pages visited, device/browser type) via standard analytics tools</li>
             </ul>
           </section>

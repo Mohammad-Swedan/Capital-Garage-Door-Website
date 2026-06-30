@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { m, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import {
-  CalendarCheck,
+  ChevronLeft,
   DoorOpen,
+  Loader2,
   MapPin,
   Paperclip,
   Phone,
@@ -13,7 +16,6 @@ import {
   Send,
   Siren,
   Sparkles,
-  Tag,
   Wrench,
   X,
   Zap,
@@ -28,6 +30,25 @@ import {
 } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { ChatActions } from "@/components/sections/chat/chat-actions";
+import { ChatSuggestions } from "@/components/sections/chat/chat-suggestions";
+import type { AssistantReply, ChatAction, ChatOverlay } from "@/components/sections/chat/types";
+import type { BookingCompleteDetail } from "@/components/sections/chat/in-chat-booking";
+import type { QuoteLead } from "@/components/sections/chat/in-chat-quote";
+
+// Heavy / on-demand panels — only loaded once the user raises that overlay.
+const SmartPriceCalculator = dynamic(
+  () => import("@/components/sections/smart-calculator").then((mod) => mod.SmartPriceCalculator),
+  { ssr: false, loading: () => <PanelSpinner /> }
+);
+const InChatBooking = dynamic(
+  () => import("@/components/sections/chat/in-chat-booking").then((mod) => mod.InChatBooking),
+  { ssr: false }
+);
+const InChatQuote = dynamic(
+  () => import("@/components/sections/chat/in-chat-quote").then((mod) => mod.InChatQuote),
+  { ssr: false }
+);
 
 type ChatRole = "bot" | "user";
 
@@ -40,6 +61,10 @@ interface ChatMessage {
   id: string;
   role: ChatRole;
   text: string;
+  /** Model-generated follow-up questions (latest bot turn only). */
+  suggestions?: string[];
+  /** Model-generated typed CTAs (latest bot turn only). */
+  actions?: ChatAction[];
 }
 
 const quickReplies: { label: string; icon: LucideIcon }[] = [
@@ -51,62 +76,37 @@ const quickReplies: { label: string; icon: LucideIcon }[] = [
   { label: "Opener not working", icon: Zap },
 ];
 
-const nextSteps = [
-  { label: "Book inspection", icon: CalendarCheck, text: "I'd like to book an inspection" },
-  { label: "Show prices", icon: Tag, text: "Show prices" },
-  { label: "Check suburbs", icon: MapPin, text: "Check suburbs" },
-];
-
-// Lightweight keyword matching so the demo feels responsive before the real
-// RAG backend is wired in — not meant to be exhaustive.
-const cannedReplies: { match: RegExp; reply: string }[] = [
-  {
-    match: /install|new door|replace.*door/i,
-    reply:
-      "We install all major garage door brands and styles — sectional, roller, and tilt. Want a measure-and-quote visit, or do you have a brand/style in mind?",
-  },
-  {
-    match: /opener|remote|motor/i,
-    reply:
-      "Opener issues are usually the motor, remote battery, or a sensor misalignment. Is the opener completely dead, or does it hum/click without moving the door?",
-  },
-  {
-    match: /suburb|area|location|perth/i,
-    reply:
-      "We service all Perth metro suburbs — from Joondalup to Rockingham and everywhere in between. Tell me your suburb and I'll confirm coverage.",
-  },
-  {
-    match: /book|inspection|schedule/i,
-    reply:
-      "I can pass your request to the team. Tap “Book Emergency Repair” on the page or call us and we'll lock in a time that works for you.",
-  },
-  {
-    match: /repair|fix|wear|spring|cable|track|panel/i,
-    reply:
-      "We repair springs, cables, tracks, panels, and openers — most jobs are same-day. What's happening with your door (won't open/close, noisy, off-track, etc.)?",
-  },
-  {
-    match: /quote|price|cost|much/i,
-    reply:
-      "Most repairs run $99–$249 depending on the issue. Tell me your door type and what's wrong, or tap Call Us for an exact quote on the spot.",
-  },
-  {
-    match: /emergency|urgent|stuck|broken|asap|won'?t/i,
-    reply:
-      "That sounds urgent — we offer same-day emergency callouts across Perth. Tap “Call Us” below and we'll dispatch a tech right away.",
-  },
-  {
-    match: /hour|open|time|today/i,
-    reply:
-      "We run 24/7 for emergencies, with standard bookings Mon–Fri 8am–6pm and Sat 9am–3pm.",
-  },
-];
-
+// Shown only when the assistant backend is unreachable or errors — keeps the conversation graceful
+// and points the user at the phone. The real replies come from /api/chat (DeepSeek + CMS RAG).
 const fallbackReply =
-  "Thanks for reaching out! I'm a demo assistant for now — the team can help right now if you tap Call Us below.";
+  "Sorry, I'm having trouble connecting right now. For a fast answer, tap Call us below and the team will help straight away.";
+const errorActions: ChatAction[] = [{ type: "call", label: "Call us" }];
 
-function getReply(input: string) {
-  return cannedReplies.find((c) => c.match.test(input))?.reply ?? fallbackReply;
+/** Fire a GA/GTM dataLayer event for CTA interactions (no-op if no dataLayer is present). */
+function trackChatEvent(event: string, params: Record<string, unknown>) {
+  if (typeof window === "undefined") return;
+  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
+  w.dataLayer?.push({ event, ...params });
+}
+
+/** Stable per-tab conversation id so the backend can upsert one logged transcript per visit. */
+const SESSION_KEY = "cgd_chat_session";
+function getChatSessionId(): string {
+  if (typeof window === "undefined") return "";
+  try {
+    let id = window.sessionStorage.getItem(SESSION_KEY);
+    if (!id) {
+      id = crypto?.randomUUID?.() ?? `s-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      window.sessionStorage.setItem(SESSION_KEY, id);
+    }
+    return id;
+  } catch {
+    return "";
+  }
+}
+
+function currentPath(): string | undefined {
+  return typeof window === "undefined" ? undefined : window.location.pathname;
 }
 
 let messageIdCounter = 0;
@@ -138,9 +138,10 @@ export function AiChatWidget({
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const [sendState, setSendState] = useState<SendState>("idle");
+  const [overlay, setOverlay] = useState<ChatOverlay>(null);
   const reduceMotion = useReducedMotion();
+  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const typingTimeoutRef = useRef<number | undefined>(undefined);
   const sendTimersRef = useRef<number[]>([]);
 
   useEffect(() => {
@@ -148,10 +149,8 @@ export function AiChatWidget({
   }, [messages, typing]);
 
   useEffect(() => {
-    const timeout = typingTimeoutRef.current;
     const sendTimers = sendTimersRef.current;
     return () => {
-      window.clearTimeout(timeout);
       sendTimers.forEach((t) => window.clearTimeout(t));
     };
   }, []);
@@ -172,16 +171,54 @@ export function AiChatWidget({
     sendTimersRef.current.push(window.setTimeout(() => setSendState("idle"), launchMs + successMs));
   }
 
-  function sendMessage(text: string) {
+  async function sendMessage(text: string) {
     const trimmed = text.trim();
     if (!trimmed) return;
-    setMessages((prev) => [...prev, { id: nextMessageId(), role: "user", text: trimmed }]);
+
+    const userMessage: ChatMessage = { id: nextMessageId(), role: "user", text: trimmed };
+    // Send the full conversation (incl. this turn) so the assistant has context. The DeepSeek key
+    // stays server-side — this only talks to the same-origin /api/chat proxy.
+    const history = [...messages, userMessage];
+    setMessages(history);
     setInput("");
     setTyping(true);
-    typingTimeoutRef.current = window.setTimeout(() => {
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: history.map((msg) => ({
+            role: msg.role === "bot" ? "assistant" : "user",
+            content: msg.text,
+          })),
+          sessionId: getChatSessionId(),
+          source: currentPath(),
+        }),
+      });
+      const data = (await res.json().catch(() => null)) as (AssistantReply & { error?: string }) | null;
+      const reply = res.ok && data && typeof data.reply === "string" ? data.reply : undefined;
+      const ok = !!reply;
+      if (!ok) setSendState("idle"); // request failed — skip the success checkmark
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: nextMessageId(),
+          role: "bot",
+          text: ok ? reply! : fallbackReply,
+          suggestions: ok ? data!.suggestions : undefined,
+          actions: ok ? data!.actions : errorActions,
+        },
+      ]);
+    } catch {
+      setSendState("idle");
+      setMessages((prev) => [
+        ...prev,
+        { id: nextMessageId(), role: "bot", text: fallbackReply, actions: errorActions },
+      ]);
+    } finally {
       setTyping(false);
-      setMessages((prev) => [...prev, { id: nextMessageId(), role: "bot", text: getReply(trimmed) }]);
-    }, 900 + Math.random() * 500);
+    }
   }
 
   function handleSubmit(e: React.FormEvent) {
@@ -191,8 +228,67 @@ export function AiChatWidget({
     sendMessage(input);
   }
 
+  function handleAction(action: ChatAction) {
+    trackChatEvent("chat_cta_click", { type: action.type, label: action.label });
+    switch (action.type) {
+      case "call":
+        return; // the rendered <a href="tel:"> handles dialling
+      case "book":
+        setOverlay("booking");
+        return;
+      case "calculator":
+        setOverlay("calculator");
+        return;
+      case "quote":
+        setOverlay("quote");
+        return;
+      case "suburb":
+        if (action.value) sendMessage(`Do you service ${action.value}?`);
+        return;
+      case "link":
+        if (action.href) {
+          onOpenChange(false);
+          router.push(action.href);
+        }
+        return;
+    }
+  }
+
+  function handleBookingComplete(detail: BookingCompleteDetail) {
+    setOverlay(null);
+    trackChatEvent("chat_booking_complete", { ref: detail.ref });
+    const refLine = detail.ref ? ` Your reference is ${detail.ref}.` : "";
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: nextMessageId(),
+        role: "bot",
+        text: `Thanks${detail.name ? `, ${detail.name}` : ""}! Your booking request is in and our team will confirm it shortly.${refLine} Anything else I can help with?`,
+        actions: [{ type: "call", label: "Call us" }],
+      },
+    ]);
+  }
+
+  function handleQuoteSubmitted(lead: QuoteLead) {
+    trackChatEvent("chat_quote_submitted", {});
+    const sessionId = getChatSessionId();
+    if (!sessionId) return;
+    // Best-effort: attach the lead to this conversation; ignore failures.
+    void fetch("/api/chat/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sessionId,
+        name: lead.name,
+        phone: lead.phone,
+        type: "quote",
+        source: currentPath(),
+      }),
+    }).catch(() => {});
+  }
+
   const lastMessage = messages[messages.length - 1];
-  const showNextSteps = !typing && lastMessage?.role === "bot";
+  const showNextSteps = !typing && !overlay && lastMessage?.role === "bot";
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -312,7 +408,16 @@ export function AiChatWidget({
 
             <AnimatePresence>{typing && <TypingIndicator />}</AnimatePresence>
 
-            {showNextSteps && <NextStepsRow onPick={(t) => sendMessage(t)} />}
+            {showNextSteps && lastMessage && (
+              <div className="flex flex-col gap-3">
+                {lastMessage.actions && lastMessage.actions.length > 0 && (
+                  <ChatActions actions={lastMessage.actions} onAction={handleAction} />
+                )}
+                {lastMessage.suggestions && lastMessage.suggestions.length > 0 && (
+                  <ChatSuggestions suggestions={lastMessage.suggestions} onPick={(t) => sendMessage(t)} />
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -346,8 +451,42 @@ export function AiChatWidget({
             Powered by Capital Garage Doors knowledge base
           </p>
         </div>
+
+        {/* In-chat overlays (booking / calculator / quote) — cover the sheet so the conversation is kept. */}
+        {overlay === "booking" && (
+          <InChatBooking onClose={() => setOverlay(null)} onComplete={handleBookingComplete} />
+        )}
+        {overlay === "quote" && (
+          <InChatQuote onClose={() => setOverlay(null)} onSubmitted={handleQuoteSubmitted} />
+        )}
+        {overlay === "calculator" && (
+          <div className="absolute inset-0 z-20 flex flex-col bg-background">
+            <div className="flex shrink-0 items-center gap-2 border-b border-border bg-background px-3 py-2.5">
+              <button
+                type="button"
+                onClick={() => setOverlay(null)}
+                className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-primary transition-colors hover:bg-primary/5"
+              >
+                <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                Back to chat
+              </button>
+              <span className="ml-auto text-sm font-semibold text-foreground">Price estimate</span>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <SmartPriceCalculator />
+            </div>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
+  );
+}
+
+function PanelSpinner() {
+  return (
+    <div className="flex h-full w-full items-center justify-center">
+      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" aria-hidden="true" />
+    </div>
   );
 }
 
@@ -413,46 +552,6 @@ function QuickChips({ onPick }: { onPick: (text: string) => void }) {
             {q.label}
           </m.button>
         ))}
-      </div>
-    </m.div>
-  );
-}
-
-function NextStepsRow({ onPick }: { onPick: (text: string) => void }) {
-  return (
-    <m.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="rounded-2xl border border-border bg-background/70 p-3 backdrop-blur-sm"
-    >
-      <p className="mb-2 flex items-center gap-1.5 px-1 text-[11px] font-semibold tracking-wide text-muted-foreground uppercase">
-        <Sparkles className="h-3 w-3 text-primary/60" aria-hidden="true" />
-        Suggested next steps
-      </p>
-      <div className="flex flex-wrap gap-2">
-        {nextSteps.map((s) => (
-          <m.button
-            key={s.label}
-            type="button"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => onPick(s.text)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-background px-3 py-1.5 text-xs font-medium text-primary transition-colors hover:border-primary/40 hover:bg-primary/5"
-          >
-            <s.icon className="h-3.5 w-3.5" aria-hidden="true" />
-            {s.label}
-          </m.button>
-        ))}
-        <m.a
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          href={`tel:${siteConfig.business.phone}`}
-          className="inline-flex items-center gap-1.5 rounded-full bg-cta px-3 py-1.5 text-xs font-semibold text-cta-foreground shadow-[0_4px_14px_rgba(200,34,42,0.35)]"
-        >
-          <Phone className="h-3.5 w-3.5" aria-hidden="true" />
-          Call now
-        </m.a>
       </div>
     </m.div>
   );

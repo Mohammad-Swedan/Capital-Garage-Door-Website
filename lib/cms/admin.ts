@@ -173,13 +173,35 @@ export interface UpdateFaqPayload extends CreateFaqPayload {
   id: number;
 }
 
-/** List/search the FAQ library. `search` is a substring match on the question. */
-export function listFaqs(params: { search?: string; pageNumber?: number; pageSize?: number } = {}) {
+/** List/search the FAQ library. `search` matches question/answer/category; `category` filters by it. */
+export function listFaqs(
+  params: { search?: string; category?: string; pageNumber?: number; pageSize?: number } = {}
+) {
   const qs = new URLSearchParams();
   if (params.search) qs.set("search", params.search);
+  if (params.category) qs.set("category", params.category);
   if (params.pageNumber) qs.set("pageNumber", String(params.pageNumber));
-  qs.set("pageSize", String(params.pageSize ?? 100));
+  qs.set("pageSize", String(params.pageSize ?? 20));
   return request<PaginatedAdmin<AdminFaqItem>>(`/api/admin/faqs?${qs.toString()}`);
+}
+
+export interface FaqCategoryCount {
+  category: string;
+  count: number;
+}
+
+export interface FaqCategories {
+  total: number;
+  uncategorized: number;
+  categories: FaqCategoryCount[];
+}
+
+/** FAQ category counts for the library chips (honors the active search). */
+export function listFaqCategories(params: { search?: string } = {}) {
+  const qs = new URLSearchParams();
+  if (params.search) qs.set("search", params.search);
+  const q = qs.toString();
+  return request<FaqCategories>(`/api/admin/faqs/categories${q ? `?${q}` : ""}`);
 }
 
 export function getFaq(id: number) {

@@ -1,31 +1,52 @@
 import Link from "next/link";
-import { Plus, Search } from "lucide-react";
-import { listFaqs } from "@/lib/cms/admin";
+import { Plus } from "lucide-react";
+import { listFaqs, listFaqCategories } from "@/lib/cms/admin";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AdminPageHeader } from "@/components/admin/ui/admin-page-header";
-import { FaqRowActions } from "@/components/admin/faq-row-actions";
+import { AdminPagination } from "@/components/admin/ui/admin-pagination";
+import { FaqsTable } from "@/components/admin/faqs-table";
+import { FaqsToolbar } from "@/components/admin/faqs-toolbar";
+import { FaqsCategoryTabs } from "@/components/admin/faqs-category-tabs";
+import { faqsHref, type FaqsFilters } from "@/components/admin/faqs-list";
 
 export const dynamic = "force-dynamic";
 
-const searchInputClass =
-  "w-full rounded-lg border border-border bg-background py-2 pr-3 pl-9 text-sm outline-none focus-visible:ring-3 focus-visible:ring-ring/50 placeholder:text-muted-foreground";
+const PAGE_SIZE = 20;
 
-export default async function FaqsLibrary({
-  searchParams,
-}: {
-  searchParams: Promise<{ search?: string }>;
-}) {
-  const { search } = await searchParams;
-  const res = await listFaqs({ search });
-  const items = res.data?.items ?? [];
-  const total = res.data?.totalCount ?? items.length;
+type SearchParams = { [key: string]: string | string[] | undefined };
+
+function one(value: string | string[] | undefined): string | undefined {
+  return (Array.isArray(value) ? value[0] : value) ?? undefined;
+}
+
+export default async function FaqsLibrary({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const sp = await searchParams;
+  const category = one(sp.category) || undefined;
+  const q = one(sp.q)?.trim() || undefined;
+  const pageRaw = Number.parseInt(one(sp.page) ?? "1", 10);
+  const page = Number.isFinite(pageRaw) && pageRaw > 0 ? pageRaw : 1;
+
+  const [res, countsRes] = await Promise.all([
+    listFaqs({ category, search: q, pageNumber: page, pageSize: PAGE_SIZE }),
+    listFaqCategories({ search: q }),
+  ]);
+
+  const data = res.data;
+  const items = data?.items ?? [];
+  const totalCount = data?.totalCount ?? items.length;
+  const totalPages = data?.totalPages ?? 1;
+  const pageNumber = data?.pageNumber ?? page;
+
+  const counts = countsRes.ok ? countsRes.data : undefined;
+  const current: FaqsFilters = { category, q, page };
+  const filtered = Boolean(category || q);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <AdminPageHeader
         title="FAQs"
-        description={`${total} FAQ${total === 1 ? "" : "s"} in the library`}
+        description={`${totalCount} FAQ${totalCount === 1 ? "" : "s"}${filtered ? " in this view" : " in the library"}`}
         actions={
           <Button render={<Link href="/admin/faqs/new" />}>
             <Plus className="size-4" />
@@ -33,20 +54,6 @@ export default async function FaqsLibrary({
           </Button>
         }
       />
-
-      {/* Search (GET form → server re-render). */}
-      <form method="GET" className="max-w-md">
-        <div className="relative">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="search"
-            name="search"
-            defaultValue={search ?? ""}
-            placeholder="Search questions…"
-            className={searchInputClass}
-          />
-        </div>
-      </form>
 
       {!res.ok && (
         <Card className="border-destructive/30 bg-destructive/10 py-4 text-destructive ring-destructive/20">
@@ -56,47 +63,18 @@ export default async function FaqsLibrary({
         </Card>
       )}
 
-      {res.ok && items.length === 0 ? (
-        <Card className="items-center justify-center py-12 text-center">
-          <p className="text-sm text-muted-foreground">
-            {search ? `No FAQs match “${search}”.` : "No FAQs yet. Create your first one."}
-          </p>
-        </Card>
-      ) : (
-        <Card className="overflow-hidden p-0">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-muted/50 text-left text-xs tracking-wide text-muted-foreground uppercase">
-                <tr>
-                  <th className="px-4 py-2.5 font-medium">Question</th>
-                  <th className="px-4 py-2.5 font-medium">Category</th>
-                  <th className="px-4 py-2.5 font-medium">Updated</th>
-                  <th className="px-4 py-2.5 text-right font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {items.map((f) => (
-                  <tr key={f.id} className="transition-colors hover:bg-muted/40">
-                    <td className="max-w-md px-4 py-3">
-                      <span className="block truncate font-medium text-foreground">{f.question}</span>
-                      <span className="block truncate text-xs text-muted-foreground">{f.answer}</span>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{f.category || "—"}</td>
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {f.updatedAt ? new Date(f.updatedAt).toLocaleDateString() : "—"}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex justify-end">
-                        <FaqRowActions id={f.id} />
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
-      )}
+      <FaqsCategoryTabs current={current} counts={counts} />
+
+      <FaqsToolbar initialSearch={q ?? ""} />
+
+      <FaqsTable items={items} filtered={filtered} />
+
+      <AdminPagination
+        pageNumber={pageNumber}
+        totalPages={totalPages}
+        totalCount={totalCount}
+        makeHref={(p) => faqsHref(current, { page: p })}
+      />
     </div>
   );
 }

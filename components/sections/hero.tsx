@@ -184,11 +184,11 @@ export function Hero() {
           <div className="absolute -top-24 left-1/2 h-90 w-200 -translate-x-1/2 rounded-full bg-primary/6 blur-3xl" />
 
           {/* Secondary blue glow, weighted toward the van */}
-          <div className="absolute top-1/3 -right-16 h-64 w-64 rounded-full bg-[#0f4e9b]/10 blur-3xl sm:h-80 sm:w-80" />
+          <div className="absolute top-1/3 -right-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl sm:h-80 sm:w-80" />
         </div>
 
         <Container className="relative z-10 w-full py-[clamp(0.75rem,2.4svh,1.25rem)] sm:py-10 lg:py-20">
-          <div className="flex flex-col gap-[clamp(0.75rem,3svh,1.75rem)] sm:gap-8 lg:grid lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-10">
+          <div className="flex flex-col gap-[clamp(0.75rem,3svh,1.75rem)] sm:gap-8 md:grid md:grid-cols-[1.05fr_1fr] md:items-center md:gap-8 lg:gap-10">
             {/* Left column — copy */}
             <div className="flex flex-col items-start gap-[clamp(0.625rem,2.2svh,1.25rem)] sm:gap-7">
               <span
@@ -236,7 +236,7 @@ export function Hero() {
                   variant="outline"
                   size="lg"
                   onClick={() => setBookingOpen(true)}
-                  className="h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer rounded-xl border-[#0f4e9b]/35 bg-[#0f4e9b]/5 px-8 text-base text-[#0f4e9b] hover:bg-[#0f4e9b]/10 hover:text-[#0f4e9b] sm:h-14 sm:w-auto"
+                  className="h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer rounded-xl border-primary/35 bg-primary/5 px-8 text-base text-primary hover:bg-primary/10 hover:text-primary sm:h-14 sm:w-auto"
                 >
                   <span className="flex items-center justify-center gap-2">
                     <Siren className="h-4 w-4" aria-hidden="true" />
@@ -247,14 +247,14 @@ export function Hero() {
 
               {/* Micro-copy trust line */}
               <div className="cgd-rise [animation-delay:580ms] w-full">
-                <ul className="flex flex-nowrap gap-x-2.5 sm:gap-x-5">
+                <ul className="flex flex-wrap gap-x-2.5 gap-y-1 sm:gap-x-5">
                   {microItems.map((label) => (
                     <li
                       key={label}
                       className="flex items-center gap-1 whitespace-nowrap text-[11px] font-medium text-muted-foreground sm:gap-1.5 sm:text-sm"
                     >
                       <CheckCircle2
-                        className="h-3 w-3 shrink-0 text-[#0f4e9b] sm:h-4 sm:w-4"
+                        className="h-3 w-3 shrink-0 text-primary sm:h-4 sm:w-4"
                         aria-hidden="true"
                       />
                       {label}
@@ -281,7 +281,7 @@ export function Hero() {
                 </div>
                 <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
                   <ShieldCheck
-                    className="h-4 w-4 text-[#0f4e9b]"
+                    className="h-4 w-4 text-primary"
                     aria-hidden="true"
                   />
                   <span className="text-xs font-semibold text-muted-foreground">
@@ -294,7 +294,7 @@ export function Hero() {
             {/* Right column — van CTA */}
             <div
               className={cn(
-                "cgd-rise-right [animation-delay:120ms] relative mx-auto -mt-1 flex w-full max-w-[clamp(11.5rem,36svh,21rem)] flex-col items-center justify-center sm:mt-0 sm:max-w-md lg:max-w-xl lg:mx-0",
+                "cgd-rise-right [animation-delay:120ms] relative mx-auto -mt-1 flex w-full max-w-[clamp(11.5rem,36svh,21rem)] flex-col items-center justify-center sm:mt-0 sm:max-w-md md:max-w-none md:mx-0 lg:max-w-xl lg:mx-0",
                 // Only reserve room for the success overlay while it's actually
                 // showing — otherwise it'd waste space on short phones for a
                 // card that's invisible 99% of the time.

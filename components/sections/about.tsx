@@ -57,7 +57,7 @@ export function AboutSection() {
                 preserveAspectRatio="xMidYMid slice"
                 width={"100%"}
                 height={"100%"}
-                xlinkHref="/images/premium_garage_door_about.png"
+                xlinkHref="https://jadara-hub.b-cdn.net/capital-garage-door/premium-garage-door-about.webp"
               ></image>
             </svg>
           </figure>
@@ -73,30 +73,40 @@ export function AboutSection() {
             </h2>
 
             <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-4 md:mb-8 max-w-lg">
-              For over two decades, we've blended premium materials with expert craftsmanship to transform curb appeal. No shortcuts. Just perfection.
+              For over two decades, we&apos;ve blended premium materials with expert craftsmanship to transform curb appeal. No shortcuts. Just perfection.
             </p>
 
-            <Link
-              href="/contact"
-              className="group inline-flex items-center justify-center gap-1.5 rounded-full bg-cta px-4 py-2 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:-translate-y-0.5 hover:bg-cta/90 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95 w-fit md:px-6 md:py-2.5 md:text-base"
-            >
-              Get Your Free Quote
-              <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Primary CTA — uses the site's shared rounded-full red button language. */}
+              <Link
+                href="/contact"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:bg-cta/90 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95"
+              >
+                Get Your Free Quote
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              {/* Secondary CTA → /about (internal link for SEO) — shared navy outline style. */}
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/5 px-6 py-3 text-sm font-bold text-primary transition-all hover:-translate-y-0.5 hover:bg-primary/10 active:translate-y-0 active:scale-95"
+              >
+                Learn our story
+              </Link>
+            </div>
           </div>
 
           {/* Right Side: Modest Stats */}
           <div className="w-full lg:w-5/12 grid grid-cols-3 gap-x-4 gap-y-4 lg:pt-2">
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">20<span className="text-cta">+</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">20<span className="text-cta">+</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Years Exp.</p>
             </div>
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">10k<span className="text-cta">+</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">10k<span className="text-cta">+</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Installed</p>
             </div>
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">100<span className="text-cta">%</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">100<span className="text-cta">%</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Satisfaction</p>
             </div>
           </div>

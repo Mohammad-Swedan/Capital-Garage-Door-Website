@@ -403,9 +403,9 @@ export function SmartPriceCalculator() {
             <span className="absolute -right-0.5 -bottom-0.5 h-3.5 w-3.5 rounded-full bg-emerald-400 ring-2 ring-white" />
           </span>
           <div>
-            <h1 className="text-lg font-bold text-slate-900 flex items-center gap-1.5">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-1.5">
               Smart Assistant <Sparkles className="h-4 w-4 text-amber-400" />
-            </h1>
+            </h2>
             <p className="text-xs font-medium text-emerald-600 flex items-center gap-1.5">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />

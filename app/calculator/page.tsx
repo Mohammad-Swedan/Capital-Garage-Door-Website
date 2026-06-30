@@ -35,6 +35,17 @@ export default function CalculatorPage() {
           </Link>
         </div>
 
+        {/* Page heading — the route's real <h1> (the calculator card's own header is an <h2>). */}
+        <div className="mb-6 max-w-2xl">
+          <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Garage Door Price Calculator
+          </h1>
+          <p className="mt-2 text-sm leading-relaxed text-slate-500 sm:text-base">
+            Answer a few quick questions for a personalised Perth price estimate — free, instant and
+            no obligation.
+          </p>
+        </div>
+
         {/* Smart Price Calculator Component */}
         <SmartPriceCalculator />
       </Container>

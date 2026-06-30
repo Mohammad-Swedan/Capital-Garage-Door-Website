@@ -93,13 +93,41 @@ export interface PaginatedAdmin<T> {
   totalPages: number;
 }
 
-export function listPages(params: { templateType?: string; status?: string; search?: string } = {}) {
+export function listPages(
+  params: {
+    templateType?: string;
+    status?: string;
+    search?: string;
+    pageNumber?: number;
+    pageSize?: number;
+  } = {}
+) {
   const qs = new URLSearchParams();
   if (params.templateType) qs.set("templateType", params.templateType);
   if (params.status) qs.set("status", params.status);
   if (params.search) qs.set("search", params.search);
-  qs.set("pageSize", "100");
+  if (params.pageNumber) qs.set("pageNumber", String(params.pageNumber));
+  qs.set("pageSize", String(params.pageSize ?? 20));
   return request<PaginatedAdmin<AdminPageListItem>>(`/api/admin/pages?${qs.toString()}`);
+}
+
+export interface PageTypeCount {
+  templateType: string;
+  count: number;
+}
+
+export interface PageCounts {
+  total: number;
+  byType: PageTypeCount[];
+}
+
+/** Per-category page counts for the list's category chips. Honors status/search (not template type). */
+export function listPageCounts(params: { status?: string; search?: string } = {}) {
+  const qs = new URLSearchParams();
+  if (params.status) qs.set("status", params.status);
+  if (params.search) qs.set("search", params.search);
+  const q = qs.toString();
+  return request<PageCounts>(`/api/admin/pages/counts${q ? `?${q}` : ""}`);
 }
 
 export function getPage(id: number) {

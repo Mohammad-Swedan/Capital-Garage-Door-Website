@@ -86,6 +86,41 @@ export default function AboutPage() {
 
       <AboutSection />
 
+      {/* Our Story — the narrative "about us" copy the page was missing. */}
+      <section className="bg-background py-14 sm:py-20">
+        <Container className="max-w-3xl">
+          <Reveal className="space-y-5">
+            <p className="text-xs font-bold tracking-[0.14em] text-primary uppercase">Our Story</p>
+            <h2 className="font-heading text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-3xl">
+              A local Perth team that treats your home like our own
+            </h2>
+            <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+              <p>
+                Capital Garage Door started with a frustration every Perth homeowner knows: garage
+                door problems strike at the worst possible time, and finding honest, fast help
+                shouldn&apos;t be this hard. So we built the kind of local team we&apos;d want to call
+                ourselves — upfront about pricing, quick to respond, and genuinely invested in getting
+                the job right the first time.
+              </p>
+              <p>
+                Two decades and more than 10,000 doors later, we&apos;ve grown into one of
+                Perth&apos;s most trusted names for garage door repair, installation, and maintenance.
+                From a jammed roller door in Rockingham to a brand-new sectional install in Joondalup,
+                our licensed, fully insured technicians turn up in stocked vans and aim to have you
+                sorted the same day — right across the metro.
+              </p>
+              <p>
+                We&apos;re an authorised dealer for the brands Perth relies on — B&amp;D, Steel-Line,
+                Gliderol, Avanti and more — so whether it&apos;s a like-for-like repair or a modern
+                smart opener, you get genuine parts and workmanship backed by our lifetime workmanship
+                warranty. No shortcuts, no surprises: just doors that work, and customers who call us
+                back.
+              </p>
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
       <BrandsMarquee />
 
       <section className="bg-muted/40 py-14 sm:py-20">

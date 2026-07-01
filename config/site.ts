@@ -38,8 +38,9 @@ export const siteConfig = {
   },
 
   social: {
-    facebook: "",
-    instagram: "",
+    facebook: "https://www.facebook.com/p/Capital-Garage-Door-Repairs-61581857974729/",
+    instagram: "https://www.instagram.com/capitalgaragedoorperth1",
+    youtube: "https://www.youtube.com/@CapitalGarageDoors",
     google: "https://g.page/r/CRXCwS1W-cvEEAE",
     yelp: "",
   },

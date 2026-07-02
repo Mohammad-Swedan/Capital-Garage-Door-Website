@@ -32,14 +32,14 @@ export default function CalculatorPage() {
           />
         </div>
 
-        {/* Page heading */}
-        <div className="mx-auto mb-7 max-w-2xl text-center">
-          <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+        {/* Page heading — the route's real <h1> (the calculator card's own header is an <h2>). */}
+        <div className="mb-6 max-w-2xl">
+          <h1 className="font-display text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
             Garage Door Price Calculator
           </h1>
-          <p className="mt-3 text-base leading-relaxed text-slate-600">
-            Get an instant, no-obligation estimate built from our real Perth pricing — or just describe
-            your problem and let our Smart Assistant help.
+          <p className="mt-2 text-sm leading-relaxed text-slate-500 sm:text-base">
+            Answer a few quick questions for a personalised Perth price estimate — free, instant and
+            no obligation.
           </p>
         </div>
 

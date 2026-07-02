@@ -6,6 +6,7 @@ import { useReducedMotion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedTextCycle from "@/components/ui/animated-text-cycle";
+import { LogoMark } from "@/components/layout/logo";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -428,13 +429,7 @@ export function ScrollDoorReveal() {
       {!framesReady && (
         <div className="absolute inset-0 z-40 flex flex-col items-center justify-center gap-6 bg-background">
           <div className="flex flex-col items-center gap-2">
-            <Image
-              src="/images/CGD-logo-no-background.png"
-              alt=""
-              width={56}
-              height={56}
-              className="h-14 w-14 object-contain drop-shadow-[0_10px_24px_rgba(200,34,42,0.35)]"
-            />
+            <LogoMark className="h-14 w-auto drop-shadow-[0_10px_24px_rgba(200,34,42,0.35)]" />
             <span className="block h-px w-16 bg-gradient-to-r from-transparent via-cta/60 to-transparent" />
           </div>
           <p className="text-[10px] font-bold tracking-[0.5em] text-foreground/60 uppercase">
@@ -490,13 +485,7 @@ export function ScrollDoorReveal() {
             >
               <span className="block h-px w-10 bg-gradient-to-r from-transparent via-cta to-transparent" aria-hidden />
               {i === COPY.length - 1 && (
-                <Image
-                  src="/images/CGD-logo-no-background.png"
-                  alt="Capital Garage Door"
-                  width={45}
-                  height={21}
-                  className="object-contain drop-shadow-[0_4px_12px_rgba(200,34,42,0.35)] -mb-2"
-                />
+                <LogoMark className="h-8 w-auto drop-shadow-[0_4px_12px_rgba(200,34,42,0.35)] -mb-2" />
               )}
               <p
                 className="font-heading font-bold tracking-wide text-white leading-[1.15]"

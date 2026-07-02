@@ -2,6 +2,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { isAuthenticated } from "@/lib/cms/admin";
 import { LoginForm } from "@/components/admin/login-form";
+import { Logo } from "@/components/layout/logo";
 
 export default async function AdminLoginPage() {
   if (await isAuthenticated()) redirect("/admin/pages");
@@ -34,13 +35,7 @@ export default async function AdminLoginPage() {
           />
           {/* Logo — top-left */}
           <div className="absolute left-6 top-6">
-            <Image
-              src="/images/CGD-logo-with-text.png"
-              alt="Capital Garage Door"
-              width={128}
-              height={44}
-              className="object-contain brightness-0 invert"
-            />
+            <Logo tone="white" className="text-lg" />
           </div>
           {/* Tagline — bottom-left */}
           <div className="absolute bottom-8 left-7 text-white">

@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { m, AnimatePresence } from "framer-motion";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { Logo } from "@/components/layout/logo";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -15,17 +15,13 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95">
       <Container className="flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
-          <Image
-            src="/images/CGD-logo-with-text.png"
-            alt={siteConfig.name}
-            width={220}
-            height={110}
-            priority
-            fetchPriority="high"
-            sizes="(max-width: 640px) 200px, 220px"
-            className="h-20 w-auto sm:h-24"
-          />
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label={siteConfig.name}
+          onClick={() => setOpen(false)}
+        >
+          <Logo className="text-2xl sm:text-3xl" />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Phone, Mail, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { Logo } from "@/components/layout/logo";
 import { siteConfig } from "@/config/site";
 
 /**
@@ -18,13 +18,7 @@ export function LandingFooter() {
     <footer className="bg-[#0d1f60] text-white">
       <Container className="flex flex-col items-center gap-6 py-10 text-center sm:py-12">
         <div className="inline-flex rounded-2xl bg-white p-3 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
-          <Image
-            src="/images/CGD-logo-with-text.png"
-            alt={siteConfig.name}
-            width={220}
-            height={110}
-            className="h-8 w-auto"
-          />
+          <Logo className="text-base" />
         </div>
 
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-7">

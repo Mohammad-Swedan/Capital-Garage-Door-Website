@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import Image from "next/image";
+import { LogoMark } from "@/components/layout/logo";
 import { siteConfig } from "@/config/site";
 import { markIntroReady } from "@/lib/intro-ready";
 
@@ -262,14 +262,7 @@ function WindowUnit() {
 function BrandPlate() {
   return (
     <div className="flex w-full max-w-sm flex-col items-center text-center">
-      <Image
-        src="/images/CGD-logo-no-background.png"
-        alt=""
-        width={80}
-        height={80}
-        priority
-        className="mb-5 h-16 w-16 object-contain drop-shadow-[0_14px_30px_rgba(200,34,42,0.45)] sm:h-18 sm:w-18"
-      />
+      <LogoMark className="mb-5 h-16 w-auto drop-shadow-[0_14px_30px_rgba(200,34,42,0.45)] sm:h-18" />
 
       <span className="mb-3 text-xs font-bold tracking-[0.38em] text-cta uppercase sm:text-sm">
         Welcome to

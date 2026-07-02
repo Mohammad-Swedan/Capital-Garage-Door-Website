@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { LogoMark } from "@/components/layout/logo";
 import { TooltipPrimitive, TooltipPopup } from "@/components/ui/tooltip";
 
 export interface AdminNavItem {
@@ -168,8 +169,8 @@ export function AdminBrandLockup({
         className,
       )}
     >
-      <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-gradient-brand text-[0.8125rem] font-bold text-brand-foreground shadow-card ring-1 ring-inset ring-white/15">
-        C
+      <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-white shadow-card ring-1 ring-inset ring-black/5">
+        <LogoMark className="h-5 w-auto" />
       </span>
       {!collapsed && (
         <>

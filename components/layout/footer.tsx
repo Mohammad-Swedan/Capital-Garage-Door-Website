@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { Logo } from "@/components/layout/logo";
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/config/site";
 import { formatHour } from "@/lib/utils";
@@ -32,13 +32,7 @@ export function Footer() {
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="inline-flex rounded-2xl bg-white p-3 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
-              <Image
-                src="/images/CGD-logo-with-text.png"
-                alt={siteConfig.name}
-                width={220}
-                height={110}
-                className="h-9 w-auto"
-              />
+              <Logo className="text-lg" />
             </div>
 
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/60">

@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/layout/container";
+import { Logo } from "@/components/layout/logo";
 import { siteConfig } from "@/config/site";
 
 /**
@@ -16,16 +16,7 @@ export function LandingHeader() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
       <Container className="flex h-16 items-center justify-between">
         <span className="flex items-center" aria-label={siteConfig.name}>
-          <Image
-            src="/images/CGD-logo-with-text.png"
-            alt={siteConfig.name}
-            width={220}
-            height={110}
-            priority
-            fetchPriority="high"
-            sizes="(max-width: 640px) 180px, 220px"
-            className="h-16 w-auto sm:h-20"
-          />
+          <Logo className="text-xl sm:text-2xl" />
         </span>
 
         <div className="flex items-center gap-3 sm:gap-5">

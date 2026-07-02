@@ -35,7 +35,7 @@ function organizationRef() {
     url: siteConfig.url,
     logo: {
       "@type": "ImageObject",
-      url: absUrl("/images/CGD-logo-with-text.png"),
+      url: absUrl("/images/logo-icon-512.png"),
     },
     telephone: business.phone,
     ...(sameAs.length > 0 ? { sameAs } : {}),
@@ -152,7 +152,7 @@ export function organizationSchema() {
     name: siteConfig.name,
     legalName: business.legalName,
     url: siteConfig.url,
-    logo: new URL("/images/CGD-logo-with-text.png", siteConfig.url).toString(),
+    logo: new URL("/images/logo-icon-512.png", siteConfig.url).toString(),
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     telephone: business.phone,
     email: business.email,

@@ -40,6 +40,8 @@ export function AboutSection() {
             <svg
               className="w-full h-full drop-shadow-2xl"
               preserveAspectRatio="none"
+              role="img"
+              aria-label="Premium sectional garage door professionally installed by Capital Garage Door in Perth"
             >
               <defs>
                 <clipPath

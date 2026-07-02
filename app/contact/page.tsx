@@ -4,7 +4,7 @@ import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
-import { contactPointSchema } from "@/lib/seo/schema";
+import { contactPointSchema, faqSchema } from "@/lib/seo/schema";
 import { PageHero } from "@/components/sections/page-hero";
 import { ContactInfoCards } from "@/components/sections/contact-info-cards";
 import { ContactQuoteForm } from "@/components/forms/contact-quote-form";
@@ -102,8 +102,9 @@ export default function ContactPage() {
   const phone = business.phone;
 
   return (
-    <main>
+    <>
       <JsonLd data={contactPointSchema()} />
+      <JsonLd data={faqSchema(FAQS)} />
       <Container className="pt-6">
         <Breadcrumbs items={breadcrumbs} />
       </Container>
@@ -216,6 +217,6 @@ export default function ContactPage() {
       />
 
       <StickyMobileCta />
-    </main>
+    </>
   );
 }

@@ -36,6 +36,7 @@ interface SuburbInputProps {
 
 export function SuburbInput({ value, onChange, placeholder = "Enter your Perth suburb", error }: SuburbInputProps) {
   const [query, setQuery] = useState(value);
+  const [prevValue, setPrevValue] = useState(value);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -43,9 +44,12 @@ export function SuburbInput({ value, onChange, placeholder = "Enter your Perth s
   const containerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
+  // Sync the input buffer when the parent changes `value` externally (render-time adjustment — the
+  // React-recommended alternative to calling setState inside an effect).
+  if (value !== prevValue) {
+    setPrevValue(value);
     setQuery(value);
-  }, [value]);
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

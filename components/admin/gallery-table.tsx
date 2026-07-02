@@ -24,6 +24,9 @@ export interface AdminGalleryItem {
   beforeAssetCdnUrl: string | null;
   beforeAssetAltText: string | null;
   category: string;
+  title: string | null;
+  serviceType: string | null;
+  suburb: string | null;
   caption: string | null;
   sortOrder: number;
 }
@@ -112,9 +115,14 @@ export function GalleryTable({ items }: { items: AdminGalleryItem[] }) {
                 )}
               </div>
               <div className="space-y-2 p-3">
-                <p className="line-clamp-2 min-h-[2.5rem] text-sm text-foreground">
-                  {g.caption ?? <span className="text-muted-foreground">No caption</span>}
+                <p className="line-clamp-1 text-sm font-medium text-foreground">
+                  {g.title?.trim() || g.caption?.trim() || <span className="text-muted-foreground">Untitled</span>}
                 </p>
+                {(g.serviceType || g.suburb) && (
+                  <p className="line-clamp-1 text-xs text-muted-foreground">
+                    {[g.serviceType, g.suburb].filter(Boolean).join(" · ")}
+                  </p>
+                )}
                 <div className="flex items-center justify-between gap-2">
                   <span className="shrink-0 text-xs text-muted-foreground tabular-nums">Sort {g.sortOrder}</span>
                   <GalleryRowActions id={g.id} />

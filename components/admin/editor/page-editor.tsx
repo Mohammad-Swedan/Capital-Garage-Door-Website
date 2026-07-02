@@ -13,6 +13,7 @@ import type { ReviewPin, PricingPin, ServicePin } from "./pins-editor";
 import { editorRegistry } from "./registry";
 import { useAutosave } from "./use-autosave";
 import { slugify } from "./editor-helpers";
+import { PreviewFrame } from "./preview-frame";
 import "./editor.css";
 
 /**
@@ -99,6 +100,9 @@ function EditorChrome({
   const [advanced, setAdvanced] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [device, setDevice] = useState<"desktop" | "mobile">("desktop");
+  // The preview renders inside an <iframe> (PreviewFrame); on-canvas elements live in
+  // that frame's document, so jumpToIssue must query through this ref, not `document`.
+  const previewDocRef = useRef<Document | null>(null);
 
   const [meta, setMeta] = useState<PageMeta>(() => initialMeta(initial));
   const [relatedLinks, setRelatedLinks] = useState<RelatedLinkItem[]>(() => initialRelatedLinks(initial));
@@ -336,7 +340,9 @@ function EditorChrome({
       return;
     }
     setSettingsOpen(false);
-    const el = document.querySelector<HTMLElement>(`[data-issue-path="${path}"]`);
+    // On-canvas fields live in the preview iframe's document, not the admin one.
+    const doc = previewDocRef.current ?? document;
+    const el = doc.querySelector<HTMLElement>(`[data-issue-path="${path}"]`);
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
     el?.querySelector<HTMLElement>("[contenteditable], input, textarea")?.focus();
   }, []);
@@ -417,15 +423,13 @@ function EditorChrome({
         </div>
       )}
 
-      {device === "mobile" ? (
-        <div className="mx-auto w-full max-w-[430px] overflow-hidden rounded-2xl border border-border bg-background shadow-sm">
-          {Template ? <Template data={draft} /> : <p className="p-8 text-sm text-muted-foreground">No editor for {templateType}.</p>}
-        </div>
-      ) : (
-        <div className="-mx-4 sm:-mx-6 lg:-mx-8">
-          {Template ? <Template data={draft} /> : <p className="p-8 text-sm text-muted-foreground">No editor for {templateType}.</p>}
-        </div>
-      )}
+      <PreviewFrame device={device} editing={editing} docRef={previewDocRef}>
+        {Template ? (
+          <Template data={draft} />
+        ) : (
+          <p className="p-8 text-sm text-muted-foreground">No editor for {templateType}.</p>
+        )}
+      </PreviewFrame>
 
       {drawer}
     </div>

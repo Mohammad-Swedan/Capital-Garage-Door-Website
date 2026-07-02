@@ -52,6 +52,8 @@ next-env.d.ts
 .github/prompts/
 .claude/skills/
 .agent/skills/
+.agents/
+skills-lock.json
 .cursor/
 .codex/
 .kiro/

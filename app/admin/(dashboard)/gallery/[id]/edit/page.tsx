@@ -12,6 +12,9 @@ interface AdminGalleryItem {
   beforeAssetId: number | null;
   beforeAssetCdnUrl: string | null;
   category: string;
+  title: string | null;
+  serviceType: string | null;
+  suburb: string | null;
   caption: string | null;
   sortOrder: number;
 }
@@ -29,6 +32,9 @@ export default async function EditGalleryItemPage({ params }: { params: Promise<
     beforeAssetId: g.beforeAssetId ?? null,
     beforeAssetCdnUrl: g.beforeAssetCdnUrl ?? null,
     category: g.category ?? "Repairs",
+    title: g.title ?? null,
+    serviceType: g.serviceType ?? null,
+    suburb: g.suburb ?? null,
     caption: g.caption ?? null,
     sortOrder: g.sortOrder ?? 0,
   };

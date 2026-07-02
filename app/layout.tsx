@@ -32,7 +32,10 @@ const display = Archivo_Black({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} | ${siteConfig.tagline}`,
+    // Home <title>: keyword-first and ≤60 chars (Category 1). The template
+    // applies to any page that sets a bare string title; buildMetadata opts out
+    // via title.absolute so content pages aren't double-branded past 60 chars.
+    default: `Garage Door Repairs Perth | ${siteConfig.name}`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,

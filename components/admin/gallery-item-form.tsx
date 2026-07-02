@@ -14,6 +14,9 @@ export interface InitialGalleryItem {
   beforeAssetId: number | null;
   beforeAssetCdnUrl: string | null;
   category: string;
+  title: string | null;
+  serviceType: string | null;
+  suburb: string | null;
   caption: string | null;
   sortOrder: number;
 }
@@ -28,6 +31,9 @@ export function GalleryItemForm({ initial }: { initial?: InitialGalleryItem }) {
   const [beforeAssetId, setBeforeAssetId] = useState<number | null>(initial?.beforeAssetId ?? null);
   const [beforePreview, setBeforePreview] = useState<string | null>(initial?.beforeAssetCdnUrl ?? null);
   const [category, setCategory] = useState(initial?.category ?? "Repairs");
+  const [title, setTitle] = useState(initial?.title ?? "");
+  const [serviceType, setServiceType] = useState(initial?.serviceType ?? "");
+  const [suburb, setSuburb] = useState(initial?.suburb ?? "");
   const [caption, setCaption] = useState(initial?.caption ?? "");
   const [sortOrder, setSortOrder] = useState(String(initial?.sortOrder ?? 0));
 
@@ -45,6 +51,9 @@ export function GalleryItemForm({ initial }: { initial?: InitialGalleryItem }) {
         assetId,
         beforeAssetId,
         category,
+        title: title.trim() ? title.trim() : null,
+        serviceType: serviceType.trim() ? serviceType.trim() : null,
+        suburb: suburb.trim() ? suburb.trim() : null,
         caption: caption.trim() ? caption.trim() : null,
         sortOrder: Number(sortOrder) || 0,
       });
@@ -98,12 +107,30 @@ export function GalleryItemForm({ initial }: { initial?: InitialGalleryItem }) {
             setBeforePreview(url);
           }}
         />
+        <TextField
+          label="Title"
+          value={title}
+          onChange={setTitle}
+          hint="Short heading shown on the gallery card."
+        />
         <SelectField label="Category" value={category} onChange={setCategory} options={GALLERY_CATEGORIES} />
         <TextField
-          label="Caption"
+          label="Service type"
+          value={serviceType}
+          onChange={setServiceType}
+          hint="e.g. Spring Repair, Motor Install — drives the public gallery's Type filter."
+        />
+        <TextField
+          label="Suburb"
+          value={suburb}
+          onChange={setSuburb}
+          hint="Perth suburb the job was in — optional. Drives the Suburb filter."
+        />
+        <TextField
+          label="Description"
           value={caption}
           onChange={setCaption}
-          hint="Optional short description shown on the gallery."
+          hint="Short description shown on the gallery card."
         />
         <Field label="Sort order" hint="Lower numbers appear first.">
           <input

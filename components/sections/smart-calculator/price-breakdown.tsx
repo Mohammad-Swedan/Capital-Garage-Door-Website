@@ -1,41 +1,24 @@
 "use client";
 
-import { EstimateBreakdown } from "./estimate-logic";
+import type { EstimateBreakdown } from "./estimate-logic";
 
-interface PriceBreakdownProps {
-  breakdown: EstimateBreakdown[];
-  minTotal: number;
-  maxTotal: number;
-}
+/**
+ * Indicative line-item split for the estimate. Light theme; used inside PricePanel (desktop side card
+ * and the mobile details sheet). The headline total/range is shown by PricePanel, not here.
+ */
+export function PriceBreakdown({ breakdown }: { breakdown: EstimateBreakdown[] }) {
+  if (breakdown.length === 0) return null;
 
-export function PriceBreakdown({ breakdown, minTotal, maxTotal }: PriceBreakdownProps) {
   return (
-    <div className="w-full rounded-2xl border border-white/5 bg-white/[0.01] p-5">
-      <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">
-        Price Breakdown Summary
-      </h4>
-      
-      <div className="space-y-3">
-        {breakdown.map((item) => (
-          <div key={item.label} className="flex justify-between items-center text-sm py-1">
-            <span className="text-white/60 font-medium">{item.label}</span>
-            <span className="font-semibold text-white">
-              ${item.min} – ${item.max}
-            </span>
-          </div>
-        ))}
-        
-        {/* Separator Line */}
-        <div className="h-px bg-white/10 my-3" />
-        
-        {/* Estimated Total */}
-        <div className="flex justify-between items-center py-1">
-          <span className="text-base font-bold text-white">Estimated Total</span>
-          <span className="text-lg font-black text-blue-400">
-            ${minTotal} – ${maxTotal}
+    <ul className="space-y-2.5">
+      {breakdown.map((item) => (
+        <li key={item.label} className="flex items-baseline justify-between gap-3 text-sm">
+          <span className="text-slate-500">{item.label}</span>
+          <span className="shrink-0 font-semibold text-slate-800 tabular-nums">
+            ${item.min}–${item.max}
           </span>
-        </div>
-      </div>
-    </div>
+        </li>
+      ))}
+    </ul>
   );
 }

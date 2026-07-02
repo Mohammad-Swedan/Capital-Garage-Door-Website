@@ -41,11 +41,6 @@ const UPCOMING_TOPICS: ArticleTeaser[] = [
     description: "Typical price ranges for common repairs, and what changes the final quote.",
   },
   {
-    category: "Buying Guides",
-    title: "Sectional vs Roller Doors: Which Is Right for Your Home?",
-    description: "Weighing up space, budget, and street appeal when choosing a new garage door.",
-  },
-  {
     category: "Troubleshooting",
     title: "Why Is My Garage Door Remote Not Working?",
     description: "The most common causes of remote and sensor issues, from batteries to interference.",

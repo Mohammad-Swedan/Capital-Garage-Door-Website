@@ -50,6 +50,10 @@ export interface Article {
   category: string;
   excerpt: string;
   author: string;
+  /** Optional job title / credentials for the byline + Person JSON-LD (E-E-A-T). */
+  authorTitle?: string;
+  /** Optional author/team bio shown at the end of the article + Person `description`. */
+  authorBio?: string;
   /** ISO date, e.g. "2026-01-12". */
   publishedAt: string;
   /** ISO date, e.g. "2026-03-02". */

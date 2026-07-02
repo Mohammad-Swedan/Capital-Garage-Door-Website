@@ -35,7 +35,7 @@ const HOVER_RING =
  * useEditableInherit — copy computed typography onto the inline editor so
  * the textarea/input looks like the surrounding text (per plan §B.3b).
  * ------------------------------------------------------------------ */
-const INHERITED_STYLE: CSSProperties = {
+const INHERITED_STYLE = {
   font: "inherit",
   fontWeight: "inherit",
   fontSize: "inherit",
@@ -52,9 +52,18 @@ const INHERITED_STYLE: CSSProperties = {
   width: "100%",
   resize: "none",
   display: "block",
+  // `field-sizing: content` sizes the control to its content instead of its
+  // default cols/size-based intrinsic width. Without it, an editable <textarea>
+  // (cols=20 ≈ 207px) collapses any content-sized flex-item ancestor in the
+  // editor, pushing the text into a narrow left column ("shifted left" bug) even
+  // though the public render — plain text — fills correctly. Keeping width:100%
+  // means normal block-flow fields still fill; only content-sized flex/inline
+  // contexts size to content, matching the public layout. Chromium-only and
+  // harmlessly ignored elsewhere (those browsers keep the prior behaviour).
+  fieldSizing: "content",
   // Keep the text-balance / wrapping behaviour of the original element.
-  textWrap: "inherit" as CSSProperties["textWrap"],
-};
+  textWrap: "inherit",
+} as CSSProperties;
 
 // SSR-safe layout effect: public pages server-render these primitives (as
 // passthrough), so avoid React's useLayoutEffect-on-server warning.

@@ -18,10 +18,9 @@ import {
 } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 
-// Brand distinct colors for each step.
-// Alternating between Primary Blue and CTA Red.
-const STEP_COLORS = ["#1b3b8c", "#c8222a", "#1b3b8c", "#c8222a"] as const;
-const STEP_TINTS = ["#e8effa", "#fae8ea", "#e8effa", "#fae8ea"] as const;
+// Unified brand navy for every step's icon, numeral and bullets (red is reserved for CTAs).
+const STEP_COLORS = ["#1b3b8c", "#1b3b8c", "#1b3b8c", "#1b3b8c"] as const;
+const STEP_TINTS = ["#e8effa", "#e8effa", "#e8effa", "#e8effa"] as const;
 const STEP_ICONS: LucideIcon[] = [ShieldCheck, Clock3, Tag, Award];
 
 // Fallback card-center fractions (evenly spaced), used only until the real

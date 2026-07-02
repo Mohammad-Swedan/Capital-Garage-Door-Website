@@ -23,20 +23,22 @@ const CATEGORY_FROM_ENUM: Record<string, GalleryCategory> = {
 };
 
 /**
- * Map a CMS GalleryItemDto to the front `GalleryItem` shape. The CMS catalog stores only the image
- * (+ optional before image) and a free-text caption — it has no separate title/service/suburb
- * columns — so `title`/`description` derive from the caption and `service`/`suburb` are left blank
- * (the gallery card guards empty strings). `image`/`alt` are guarded to non-empty strings.
+ * Map a CMS GalleryItemDto to the front `GalleryItem` shape. The gallery is its own curated showcase
+ * (separate from the reusable media library): each item carries a `title`, free-text `serviceType`
+ * (the public "type" filter), and optional `suburb`, with `caption` reused as the description/body.
+ * Older rows that predate those fields fall back to the caption, and `service`/`suburb` stay blank
+ * (the gallery card + filters guard empty strings). `image`/`alt` are guarded to non-empty strings.
  */
 function mapGalleryItem(dto: CmsGalleryItemDto): GalleryItem {
   const caption = dto.caption ?? "";
+  const title = dto.title?.trim() || caption;
   return {
     id: String(dto.id),
     image: dto.assetCdnUrl ?? "",
-    alt: dto.assetAltText ?? caption,
-    title: caption,
-    service: "",
-    suburb: "",
+    alt: dto.assetAltText ?? title,
+    title,
+    service: dto.serviceType?.trim() ?? "",
+    suburb: dto.suburb?.trim() ?? "",
     category: CATEGORY_FROM_ENUM[dto.category] ?? "Repairs",
     description: caption,
   };

@@ -36,11 +36,21 @@ export function SiteChrome({ header, footer, children }: SiteChromeProps) {
 
   return (
     <>
+      {/* Skip link — first focusable element; lets keyboard/screen-reader users
+          jump past the header straight to the page content (WCAG 2.4.1). */}
+      <a
+        href="#main-content"
+        className="sr-only z-[100] rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-lg focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+      >
+        Skip to main content
+      </a>
       <GarageDoorLoader />
       <SmoothScrollProvider />
       <ScrollProgress />
       {header}
-      <main className="flex-1">{children}</main>
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        {children}
+      </main>
       {footer}
     </>
   );

@@ -270,6 +270,14 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Visible keyboard-focus indicator on every interactive element (WCAG 2.4.7).
+     The marketing CTA classes (ctaPrimaryClass etc.) and tel: links define none
+     of their own, so this guarantees one site-wide. :focus-visible targets
+     keyboard/heuristic focus only — it won't ring on mouse clicks or on the
+     programmatic focus the skip-link gives <main tabindex=-1>. */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
   body {
     @apply bg-background text-foreground;
   }

@@ -73,7 +73,8 @@ export async function ServicesGrid() {
             Everything Your Garage Door Needs
           </h2>
           <p className="mt-4 text-white/70">
-            From emergency repairs to full installations, our licensed technicians handle it all.
+            From emergency repairs and spring or motor replacements to new installs, roller doors and
+            regular servicing — our licensed technicians handle it all.
           </p>
         </Reveal>
 

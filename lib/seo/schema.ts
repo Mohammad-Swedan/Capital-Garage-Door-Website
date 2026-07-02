@@ -418,6 +418,8 @@ export function blogArticleSchema(article: Article) {
     author: compact({
       "@type": "Person",
       name: article.author,
+      jobTitle: article.authorTitle,
+      description: article.authorBio,
       worksFor: organizationRef(),
     }),
     publisher: organizationRef(),

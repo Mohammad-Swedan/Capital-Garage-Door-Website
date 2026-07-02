@@ -12,7 +12,6 @@ import { getGalleryItems } from "@/lib/data/gallery";
 import { collectionPageSchema } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
-import type { GalleryCategory } from "@/types/gallery";
 
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Gallery Perth | Capital Garage Door",
@@ -20,15 +19,6 @@ export const metadata: Metadata = buildMetadata({
     "See recent garage door repairs, installations, and motor upgrades completed by Capital Garage Door across Perth suburbs.",
   path: "/gallery",
 });
-
-const GALLERY_CATEGORIES: readonly GalleryCategory[] = [
-  "Repairs",
-  "Installations",
-  "Motors",
-  "Roller Doors",
-  "Commercial",
-  "Before & After",
-];
 
 export default async function GalleryPage() {
   const phone = siteConfig.business.phone;
@@ -69,7 +59,7 @@ export default async function GalleryPage() {
         </Container>
       </section>
 
-      <GalleryFilterGrid items={items} categories={GALLERY_CATEGORIES} />
+      <GalleryFilterGrid items={items} />
 
       <CTASection
         heading="Want a Similar Result?"

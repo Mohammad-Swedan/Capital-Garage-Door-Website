@@ -10,6 +10,8 @@ import { ArticleContent } from "@/components/sections/blog/article-content";
 import { ExpertTipCards } from "@/components/sections/blog/expert-tip-cards";
 import { RelatedServicesCta } from "@/components/sections/blog/related-services-cta";
 import { RelatedArticles } from "@/components/sections/blog/related-articles";
+import { AuthorBio } from "@/components/sections/blog/author-bio";
+import { BackToTop } from "@/components/sections/blog/back-to-top";
 import type { Article } from "@/types/article";
 
 interface ArticlePageTemplateProps {
@@ -67,6 +69,8 @@ export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
         </Container>
       </section>
 
+      <AuthorBio article={article} />
+
       <ExpertTipCards tips={article.expertTips} />
 
       <RelatedServicesCta services={article.relatedServices} />
@@ -76,6 +80,8 @@ export function ArticlePageTemplate({ article }: ArticlePageTemplateProps) {
       <RelatedArticles articles={article.relatedArticles} />
 
       <SmartCta />
+
+      <BackToTop />
 
       <StickyMobileCta />
     </>

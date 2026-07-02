@@ -4,14 +4,7 @@ import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowRight } from "lucide-reac
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { siteConfig } from "@/config/site";
-
-function formatHour(time: string) {
-  if (!time) return "Closed";
-  const [h, m] = time.split(":").map(Number);
-  const period = h >= 12 ? "PM" : "AM";
-  const hour = h % 12 === 0 ? 12 : h % 12;
-  return m === 0 ? `${hour} ${period}` : `${hour}:${String(m).padStart(2, "0")} ${period}`;
-}
+import { formatHour } from "@/lib/utils";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -168,7 +161,7 @@ export function Footer() {
       </Container>
 
       <div className="relative z-10 border-t border-white/10">
-        <Container className="flex flex-col items-center justify-between gap-4 py-6 text-xs text-white/45 sm:flex-row">
+        <Container className="flex flex-col items-center justify-between gap-4 py-6 text-xs text-white/70 sm:flex-row">
           <p>
             &copy; {year} {business.legalName}. All rights reserved.
           </p>

@@ -143,6 +143,12 @@ export interface CmsGalleryItemDto {
   beforeAssetCdnUrl?: string | null;
   beforeAssetAltText?: string | null;
   category: string;
+  /** Short heading for the public card. Falls back to `caption` when absent. */
+  title?: string | null;
+  /** Free-text service label — the public gallery's "type" filter (e.g. "Spring Repair"). */
+  serviceType?: string | null;
+  /** Perth suburb the job was in — the public gallery's suburb filter. May be absent. */
+  suburb?: string | null;
   caption?: string | null;
   sortOrder: number;
 }

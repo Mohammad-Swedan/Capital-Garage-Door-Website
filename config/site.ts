@@ -74,6 +74,8 @@ export const siteConfig = {
         { label: "Opener Repair", href: "/garage-door-opener-repair-perth" },
         { label: "Spring Repair", href: "/garage-door-spring-repair-perth" },
         { label: "Emergency Repairs", href: "/emergency-garage-door-repairs-perth" },
+        { label: "Roller Door Repairs", href: "/roller-door-repairs-perth" },
+        { label: "Commercial & Industrial Doors", href: "/commercial-garage-doors-perth" },
         { label: "Maintenance", href: "/garage-door-maintenance-perth" },
         { label: "All Services", href: "/services" },
         { label: "Service Areas", href: "/service-areas" },

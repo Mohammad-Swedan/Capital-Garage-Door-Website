@@ -130,7 +130,7 @@ export function StickyMobileCta() {
       <div className="flex w-full items-center gap-2 rounded-full border bg-card/95 p-2 shadow-[0_10px_30px_rgba(13,31,69,0.16)]">
         <a
           href={`tel:${siteConfig.business.phone}`}
-          className="flex flex-1 items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_6px_16px_rgba(200,34,42,0.25)] transition-colors hover:bg-cta/90"
+          className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_6px_16px_rgba(200,34,42,0.25)] transition-colors hover:bg-cta/90"
         >
           <Phone className="h-4.5 w-4.5" aria-hidden="true" />
           Call Us
@@ -139,7 +139,7 @@ export function StickyMobileCta() {
           type="button"
           aria-label="Open smart chat assistant"
           onClick={openChat}
-          className="relative flex h-11.5 w-11.5 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-muted text-foreground transition-colors hover:bg-muted/70"
+          className="relative flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full border bg-muted text-foreground transition-colors hover:bg-muted/70"
         >
           {showTooltip && !shouldReduceMotion && (
             <span className="absolute inset-0 rounded-full" aria-hidden="true">

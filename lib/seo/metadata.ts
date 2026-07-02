@@ -29,14 +29,43 @@ export function buildMetadata({
   publishedTime,
 }: BuildMetadataOptions): Metadata {
   const url = new URL(path, siteConfig.url).toString();
-  const ogImage = image ?? siteConfig.ogImage;
+
+  // When no page-specific image is supplied we fall back to the known-good
+  // default card (public/images/og/default.jpg, 1200×630) and can safely assert
+  // its dimensions. Per-page hero/featured images are arbitrary sizes, so we
+  // emit alt only and let the platform measure them.
+  const usingDefaultImage = !image;
+  const ogImageUrl = image ?? siteConfig.ogImage;
+  const ogImageObject = {
+    url: ogImageUrl,
+    alt: title,
+    ...(usingDefaultImage ? { width: 1200, height: 630 } : {}),
+  };
 
   // Use the "article" OG type only when we actually have freshness dates to
   // attach (article:modified_time / published_time are only valid on og:type=article).
   const hasDates = Boolean(lastModified || publishedTime);
 
+  // Dev-only authoring guardrail: flag titles/descriptions that overflow the
+  // SERP-safe lengths. No runtime behavior change — just a console nudge so new
+  // pages self-correct against on-page-seo.md (Category 1).
+  if (process.env.NODE_ENV !== "production") {
+    if (title.length > 60) {
+      console.warn(`[seo] <title> is ${title.length} chars (>60): "${title}" — ${path}`);
+    }
+    if (description.length > 160) {
+      console.warn(
+        `[seo] meta description is ${description.length} chars (>160) — ${path}`,
+      );
+    }
+  }
+
   return {
-    title,
+    // `absolute` opts out of the root `title.template` ("%s | Capital Garage
+    // Door"): the page-authored title is already keyword-complete, and appending
+    // the brand suffix pushed every content <title> past 60 chars and made
+    // og:title differ from <title>. Authors own the full title here.
+    title: { absolute: title },
     description,
     alternates: {
       canonical: url,
@@ -49,7 +78,7 @@ export function buildMetadata({
       description,
       url,
       siteName: siteConfig.name,
-      images: [{ url: ogImage }],
+      images: [ogImageObject],
       locale: siteConfig.locale,
       ...(hasDates
         ? {
@@ -63,7 +92,7 @@ export function buildMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [ogImage],
+      images: [{ url: ogImageUrl, alt: title }],
     },
     ...(lastModified ? { other: { "last-modified": lastModified } } : {}),
   };

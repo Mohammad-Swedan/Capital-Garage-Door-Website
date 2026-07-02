@@ -32,7 +32,15 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { ChatActions } from "@/components/sections/chat/chat-actions";
 import { ChatSuggestions } from "@/components/sections/chat/chat-suggestions";
-import type { AssistantReply, ChatAction, ChatOverlay } from "@/components/sections/chat/types";
+import type { ChatAction, ChatOverlay } from "@/components/sections/chat/types";
+import {
+  useAssistantChat,
+  trackChatEvent,
+  getChatSessionId,
+  currentPath,
+  nextMessageId,
+  type ChatMessage,
+} from "@/components/sections/chat/use-assistant-chat";
 import type { BookingCompleteDetail } from "@/components/sections/chat/in-chat-booking";
 import type { QuoteLead } from "@/components/sections/chat/in-chat-quote";
 
@@ -50,22 +58,10 @@ const InChatQuote = dynamic(
   { ssr: false }
 );
 
-type ChatRole = "bot" | "user";
-
 // Drives the send-button animation in order: the paper plane first launches
 // out of the (still pill-shaped) button, THEN the pill shrinks into a circle
 // with a checkmark to confirm, before resetting to idle.
 type SendState = "idle" | "launch" | "success";
-
-interface ChatMessage {
-  id: string;
-  role: ChatRole;
-  text: string;
-  /** Model-generated follow-up questions (latest bot turn only). */
-  suggestions?: string[];
-  /** Model-generated typed CTAs (latest bot turn only). */
-  actions?: ChatAction[];
-}
 
 const quickReplies: { label: string; icon: LucideIcon }[] = [
   { label: "Get a quick quote", icon: ReceiptText },
@@ -75,45 +71,6 @@ const quickReplies: { label: string; icon: LucideIcon }[] = [
   { label: "Emergency help", icon: Siren },
   { label: "Opener not working", icon: Zap },
 ];
-
-// Shown only when the assistant backend is unreachable or errors — keeps the conversation graceful
-// and points the user at the phone. The real replies come from /api/chat (DeepSeek + CMS RAG).
-const fallbackReply =
-  "Sorry, I'm having trouble connecting right now. For a fast answer, tap Call us below and the team will help straight away.";
-const errorActions: ChatAction[] = [{ type: "call", label: "Call us" }];
-
-/** Fire a GA/GTM dataLayer event for CTA interactions (no-op if no dataLayer is present). */
-function trackChatEvent(event: string, params: Record<string, unknown>) {
-  if (typeof window === "undefined") return;
-  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
-  w.dataLayer?.push({ event, ...params });
-}
-
-/** Stable per-tab conversation id so the backend can upsert one logged transcript per visit. */
-const SESSION_KEY = "cgd_chat_session";
-function getChatSessionId(): string {
-  if (typeof window === "undefined") return "";
-  try {
-    let id = window.sessionStorage.getItem(SESSION_KEY);
-    if (!id) {
-      id = crypto?.randomUUID?.() ?? `s-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-      window.sessionStorage.setItem(SESSION_KEY, id);
-    }
-    return id;
-  } catch {
-    return "";
-  }
-}
-
-function currentPath(): string | undefined {
-  return typeof window === "undefined" ? undefined : window.location.pathname;
-}
-
-let messageIdCounter = 0;
-function nextMessageId() {
-  messageIdCounter += 1;
-  return `msg-${messageIdCounter}`;
-}
 
 function BotAvatar({ className }: { className?: string }) {
   return (
@@ -134,9 +91,8 @@ export function AiChatWidget({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { messages, setMessages, typing, sendMessage } = useAssistantChat();
   const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
   const [sendState, setSendState] = useState<SendState>("idle");
   const [overlay, setOverlay] = useState<ChatOverlay>(null);
   const reduceMotion = useReducedMotion();
@@ -171,61 +127,20 @@ export function AiChatWidget({
     sendTimersRef.current.push(window.setTimeout(() => setSendState("idle"), launchMs + successMs));
   }
 
-  async function sendMessage(text: string) {
-    const trimmed = text.trim();
-    if (!trimmed) return;
-
-    const userMessage: ChatMessage = { id: nextMessageId(), role: "user", text: trimmed };
-    // Send the full conversation (incl. this turn) so the assistant has context. The DeepSeek key
-    // stays server-side — this only talks to the same-origin /api/chat proxy.
-    const history = [...messages, userMessage];
-    setMessages(history);
-    setInput("");
-    setTyping(true);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: history.map((msg) => ({
-            role: msg.role === "bot" ? "assistant" : "user",
-            content: msg.text,
-          })),
-          sessionId: getChatSessionId(),
-          source: currentPath(),
-        }),
-      });
-      const data = (await res.json().catch(() => null)) as (AssistantReply & { error?: string }) | null;
-      const reply = res.ok && data && typeof data.reply === "string" ? data.reply : undefined;
-      const ok = !!reply;
-      if (!ok) setSendState("idle"); // request failed — skip the success checkmark
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: nextMessageId(),
-          role: "bot",
-          text: ok ? reply! : fallbackReply,
-          suggestions: ok ? data!.suggestions : undefined,
-          actions: ok ? data!.actions : errorActions,
-        },
-      ]);
-    } catch {
-      setSendState("idle");
-      setMessages((prev) => [
-        ...prev,
-        { id: nextMessageId(), role: "bot", text: fallbackReply, actions: errorActions },
-      ]);
-    } finally {
-      setTyping(false);
-    }
+  // The conversation logic (history, fetch, fallback) lives in useAssistantChat; here we just drive
+  // the send-button animation and skip its success checkmark when the request fails.
+  async function handleSend(text: string) {
+    const ok = await sendMessage(text);
+    if (!ok) setSendState("idle");
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!input.trim()) return;
+    const text = input.trim();
+    if (!text) return;
+    setInput("");
     playSendAnimation();
-    sendMessage(input);
+    void handleSend(text);
   }
 
   function handleAction(action: ChatAction) {
@@ -473,7 +388,8 @@ export function AiChatWidget({
               <span className="ml-auto text-sm font-semibold text-foreground">Price estimate</span>
             </div>
             <div className="flex-1 overflow-y-auto">
-              <SmartPriceCalculator />
+              {/* Already inside the AI chat — show the structured calculator only (no "Ask AI" tab). */}
+              <SmartPriceCalculator showChatMode={false} />
             </div>
           </div>
         )}

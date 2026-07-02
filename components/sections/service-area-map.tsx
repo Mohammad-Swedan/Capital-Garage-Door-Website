@@ -105,29 +105,14 @@ export function ServiceAreaMap() {
 
             {/* Stat pills — single row, no wrap */}
             <m.div variants={item} className="flex w-full gap-2 sm:gap-3">
-              {stats.map(({ icon: Icon, value, label }) => {
-                const isPin = Icon === MapPin;
-                return (
+              {stats.map(({ icon: Icon, value, label }) => (
                 <div
                   key={label}
                   className="group relative flex min-w-0 flex-1 flex-col items-center gap-2 overflow-hidden rounded-2xl border border-white/[0.13] bg-white/9 px-2 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] transition-colors hover:bg-white/13 sm:flex-row sm:px-4 sm:py-3.5"
                 >
                   <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.04] to-transparent" />
-                  <div
-                    className={
-                      isPin
-                        ? "relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-300/25 bg-sky-300/12 shadow-[0_0_10px_rgba(125,211,252,0.18)] sm:h-9 sm:w-9 sm:rounded-xl"
-                        : "relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-cta/25 bg-cta/12 shadow-[0_0_10px_rgba(200,34,42,0.18)] sm:h-9 sm:w-9 sm:rounded-xl"
-                    }
-                  >
-                    <Icon
-                      className={
-                        isPin
-                          ? "h-3.5 w-3.5 text-sky-300 sm:h-4 sm:w-4"
-                          : "h-3.5 w-3.5 text-rose-300 sm:h-4 sm:w-4"
-                      }
-                      aria-hidden="true"
-                    />
+                  <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-sky-300/25 bg-sky-300/12 shadow-[0_0_10px_rgba(125,211,252,0.18)] sm:h-9 sm:w-9 sm:rounded-xl">
+                    <Icon className="h-3.5 w-3.5 text-sky-300 sm:h-4 sm:w-4" aria-hidden="true" />
                   </div>
                   <div className="relative text-center sm:text-left">
                     <p className="text-xs font-bold leading-none text-white tracking-wide sm:text-sm">
@@ -138,8 +123,7 @@ export function ServiceAreaMap() {
                     </p>
                   </div>
                 </div>
-                );
-              })}
+              ))}
             </m.div>
 
             {/* CTAs */}

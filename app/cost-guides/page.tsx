@@ -7,6 +7,8 @@ import { InternalLinkCard } from "@/components/sections/internal-link-card";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { getCostGuidePages } from "@/lib/data/cost-guides";
 import { buildMetadata } from "@/lib/seo/metadata";
+import { collectionPageSchema } from "@/lib/seo/schema";
+import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
@@ -22,6 +24,14 @@ export default async function CostGuidesPage() {
 
   return (
     <>
+      <JsonLd
+        data={collectionPageSchema({
+          name: "Garage Door Cost Guides Perth",
+          description:
+            "Transparent garage door pricing guidance for repairs, installation, motor replacement, and emergency call-outs across Perth.",
+          path: "/cost-guides",
+        })}
+      />
       <Container className="pt-6">
         <Breadcrumbs items={[{ name: "Home", url: "/" }, { name: "Cost Guides", url: "/cost-guides" }]} />
       </Container>

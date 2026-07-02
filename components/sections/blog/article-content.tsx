@@ -1,11 +1,51 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import dynamic from "next/dynamic";
 import { AlertTriangle, CheckCircle2, Info, Lightbulb, Quote } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { ContentBlock } from "@/types/article";
 import { useEditable } from "@/components/admin/editor/editable-context";
+
+/**
+ * Renders inline Markdown-style links — `[label](/internal-path)` or
+ * `[label](https://external)` — inside body text so articles can carry
+ * contextual in-prose links (on-page-seo.md Categories 7 & 8). Internal hrefs
+ * use next/link; external (http/https) open in a new tab with
+ * `rel="noopener noreferrer"`. Text with no links passes through unchanged, so
+ * existing content is unaffected.
+ */
+function renderRichText(text: string): ReactNode {
+  const pattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  const linkClass =
+    "font-medium text-primary underline decoration-primary/40 underline-offset-2 transition-colors hover:text-primary/80 hover:decoration-primary";
+
+  while ((match = pattern.exec(text)) !== null) {
+    const [full, label, href] = match;
+    if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index));
+    if (/^https?:\/\//i.test(href)) {
+      nodes.push(
+        <a key={match.index} href={href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+          {label}
+        </a>,
+      );
+    } else {
+      nodes.push(
+        <Link key={match.index} href={href} className={linkClass}>
+          {label}
+        </Link>,
+      );
+    }
+    lastIndex = match.index + full.length;
+  }
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return nodes.length ? nodes : text;
+}
 
 // Lazy: only loaded in the in-place editor, never in the public article bundle.
 const ArticleBlocksEditor = dynamic(() =>
@@ -84,7 +124,7 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
           case "paragraph":
             return (
               <p key={index} className="text-base leading-relaxed text-foreground sm:text-lg">
-                {block.text}
+                {renderRichText(block.text)}
               </p>
             );
 
@@ -92,7 +132,7 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
             return block.ordered ? (
               <ol key={index} className="list-decimal space-y-2.5 pl-6 text-base leading-relaxed text-foreground sm:text-lg">
                 {block.items.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item}>{renderRichText(item)}</li>
                 ))}
               </ol>
             ) : (
@@ -100,7 +140,7 @@ export function ArticleContent({ blocks }: ArticleContentProps) {
                 {block.items.map((item) => (
                   <li key={item} className="flex items-start gap-2.5 text-base leading-relaxed text-foreground sm:text-lg">
                     <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden="true" />
-                    {item}
+                    {renderRichText(item)}
                   </li>
                 ))}
               </ul>

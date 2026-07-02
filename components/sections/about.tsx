@@ -23,7 +23,7 @@ export function AboutSection() {
                 rel="noopener noreferrer"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
-                <img src="/images/social/facebook.svg" alt="fb" width={18} height={18} className="opacity-70 hover:opacity-100" />
+                <img src="/images/social/facebook.svg" alt="Facebook" width={18} height={18} className="opacity-70 hover:opacity-100" />
               </a>
               <a
                 href="https://www.instagram.com/"
@@ -31,7 +31,7 @@ export function AboutSection() {
                 rel="noopener noreferrer"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
-                <img src="/images/social/instagram.svg" alt="insta" width={18} height={18} className="opacity-70 hover:opacity-100" />
+                <img src="/images/social/instagram.svg" alt="Instagram" width={18} height={18} className="opacity-70 hover:opacity-100" />
               </a>
             </div>
           </div>
@@ -57,7 +57,7 @@ export function AboutSection() {
                 preserveAspectRatio="xMidYMid slice"
                 width={"100%"}
                 height={"100%"}
-                xlinkHref="/images/premium_garage_door_about.png"
+                xlinkHref="https://jadara-hub.b-cdn.net/capital-garage-door/premium-garage-door-about.webp"
               ></image>
             </svg>
           </figure>
@@ -69,34 +69,44 @@ export function AboutSection() {
           {/* Left Side: Story & CTA */}
           <div className="w-full lg:w-7/12 flex flex-col justify-center">
             <h2 className="font-heading text-2xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground mb-2.5 md:mb-5 leading-[1.15]">
-              Securing Homes with <span className="text-primary">Style</span> & <span className="text-cta">Precision.</span>
+              Perth&apos;s Trusted <span className="text-primary">Garage Door</span> <span className="text-cta">Specialists</span>
             </h2>
 
             <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-4 md:mb-8 max-w-lg">
-              For over two decades, we've blended premium materials with expert craftsmanship to transform curb appeal. No shortcuts. Just perfection.
+              For over 20 years, Capital Garage Door has repaired, serviced and installed garage doors, springs, motors and openers across Perth — from emergency same-day fixes to new roller and sectional doors for homes and businesses. Licensed, fully insured, and upfront on price, with no-surprise quotes.
             </p>
 
-            <Link
-              href="/contact"
-              className="group inline-flex items-center justify-center gap-1.5 rounded-full bg-cta px-4 py-2 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:-translate-y-0.5 hover:bg-cta/90 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95 w-fit md:px-6 md:py-2.5 md:text-base"
-            >
-              Get Your Free Quote
-              <ArrowRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              {/* Primary CTA — uses the site's shared rounded-full red button language. */}
+              <Link
+                href="/contact"
+                className="group inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:bg-cta/90 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95"
+              >
+                Get Your Free Quote
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+              {/* Secondary CTA → /about (internal link for SEO) — shared navy outline style. */}
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/5 px-6 py-3 text-sm font-bold text-primary transition-all hover:-translate-y-0.5 hover:bg-primary/10 active:translate-y-0 active:scale-95"
+              >
+                Learn our story
+              </Link>
+            </div>
           </div>
 
           {/* Right Side: Modest Stats */}
           <div className="w-full lg:w-5/12 grid grid-cols-3 gap-x-4 gap-y-4 lg:pt-2">
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">20<span className="text-cta">+</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">20<span className="text-cta">+</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Years Exp.</p>
             </div>
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">10k<span className="text-cta">+</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">10k<span className="text-cta">+</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Installed</p>
             </div>
             <div>
-              <h4 className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">100<span className="text-cta">%</span></h4>
+              <p className="text-xl md:text-4xl font-black text-foreground mb-0.5 md:mb-1 tracking-tight">100<span className="text-cta">%</span></p>
               <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase tracking-widest">Satisfaction</p>
             </div>
           </div>

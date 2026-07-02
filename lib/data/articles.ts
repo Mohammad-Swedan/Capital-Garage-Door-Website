@@ -5,6 +5,18 @@ import { mapArticle } from "@/lib/cms/map-article";
 
 const WORDS_PER_MINUTE = 200;
 
+/** Slugs of all locally-defined articles — used to drop related-article links
+ *  that point at posts which don't exist yet, so they never render as dead
+ *  links. Only meaningful in content-fallback mode (CMS owns its own links). */
+const LOCAL_ARTICLE_SLUGS = new Set(articles.map((a) => a.slug));
+
+function pruneDeadRelated(article: Article): Article {
+  const related = article.relatedArticles.filter((r) => LOCAL_ARTICLE_SLUGS.has(r.slug));
+  return related.length === article.relatedArticles.length
+    ? article
+    : { ...article, relatedArticles: related };
+}
+
 /**
  * Data-access layer for blog/guide articles.
  *
@@ -66,7 +78,8 @@ export async function getArticles(): Promise<Article[]> {
   }
   return [...articles]
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
-    .map(withDerivedFields);
+    .map(withDerivedFields)
+    .map(pruneDeadRelated);
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
@@ -75,7 +88,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | undefine
     return dto ? withDerivedFields(mapArticle(dto)) : undefined;
   }
   const article = articles.find((entry) => entry.slug === slug);
-  return article ? withDerivedFields(article) : undefined;
+  return article ? pruneDeadRelated(withDerivedFields(article)) : undefined;
 }
 
 export async function getArticleSlugs(): Promise<string[]> {

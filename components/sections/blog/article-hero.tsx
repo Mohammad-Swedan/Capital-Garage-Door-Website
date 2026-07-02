@@ -21,7 +21,11 @@ function formatDate(iso: string): string | null {
  * homepage's gradient/typography language without touching the homepage hero.
  */
 export function ArticleHero({ article }: ArticleHeroProps) {
+  const published = formatDate(article.publishedAt);
   const updated = formatDate(article.updatedAt);
+  // Only surface "Updated" when it actually differs from the publish date, so
+  // a freshly published article doesn't show two identical dates.
+  const showUpdated = updated && article.updatedAt !== article.publishedAt;
 
   return (
     <header className="relative overflow-hidden bg-background">
@@ -67,9 +71,17 @@ export function ArticleHero({ article }: ArticleHeroProps) {
                   </EditableText>
                 </dd>
               </div>
-              {updated && (
+              {published && (
                 <div className="flex items-center gap-1.5">
                   <CalendarDays className="h-4 w-4 text-primary" aria-hidden="true" />
+                  <dt className="sr-only">Published</dt>
+                  <dd>
+                    Published <time dateTime={article.publishedAt}>{published}</time>
+                  </dd>
+                </div>
+              )}
+              {showUpdated && (
+                <div className="flex items-center gap-1.5">
                   <dt className="sr-only">Last updated</dt>
                   <dd>
                     Updated <time dateTime={article.updatedAt}>{updated}</time>

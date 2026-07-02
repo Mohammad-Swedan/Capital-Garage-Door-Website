@@ -24,11 +24,18 @@ export function GalleryCard({ item }: GalleryCardProps) {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <h3 className="font-heading text-base font-semibold text-foreground sm:text-lg">{item.title}</h3>
-        <p className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-primary uppercase">
-          <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
-          {item.suburb}
-        </p>
-        <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+        {(item.service || item.suburb) && (
+          <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold tracking-wide text-primary uppercase">
+            {item.service && <span>{item.service}</span>}
+            {item.suburb && (
+              <span className="flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
+                {item.suburb}
+              </span>
+            )}
+          </p>
+        )}
+        {item.description && <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>}
       </div>
     </article>
   );

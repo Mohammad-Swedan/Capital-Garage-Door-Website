@@ -44,7 +44,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           <a
             href={`tel:${siteConfig.business.phone}`}
-            className="hidden items-center gap-1.5 rounded-full bg-cta px-4 py-2.5 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:-translate-y-0.5 hover:bg-cta/90 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95 lg:flex"
+            className="hidden min-h-11 items-center gap-1.5 rounded-full bg-cta px-4 py-2.5 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:-translate-y-0.5 hover:bg-cta/90 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95 lg:flex"
           >
             <Phone className="h-3.5 w-3.5" aria-hidden="true" />
             Call Now
@@ -55,7 +55,7 @@ export function Header() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open ? "true" : "false"}
             onClick={() => setOpen((value) => !value)}
-            className="flex flex-col gap-1.5 p-2 lg:hidden"
+            className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
           >
             <span
               className={cn(

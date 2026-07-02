@@ -21,14 +21,14 @@ export interface Brand {
  * real brand logo.
  */
 export const BRANDS: Brand[] = [
-  { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance." },
-  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia." },
-  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems." },
-  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design." },
-  { name: "Superlift", description: "Quality garage door solutions with professional installation and service." },
-  { name: "Boss Openers", description: "Reliable garage door systems designed for Australian conditions." },
-  { name: "Perth Windsor Doors", description: "Advanced garage door technology with superior performance and durability." },
-  { name: "Jaytech", description: "Premium garage door manufacturer with comprehensive warranty coverage." },
+  { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance.", logo: "/images/brands/avanti.webp" },
+  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia.", logo: "/images/brands/gliderol.webp" },
+  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems.", logo: "/images/brands/bd.webp" },
+  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design.", logo: "/images/brands/steel-line.webp" },
+  { name: "Superlift", description: "Quality garage door solutions with professional installation and service.", logo: "/images/brands/superlift.webp" },
+  { name: "Boss Openers", description: "Reliable garage door systems designed for Australian conditions.", logo: "/images/brands/boss-openers.webp" },
+  { name: "Perth Windsor Doors", description: "Advanced garage door technology with superior performance and durability.", logo: "/images/brands/perth-windsor-doors.webp" },
+  { name: "Jaytech", description: "Premium garage door manufacturer with comprehensive warranty coverage.", logo: "/images/brands/jaytech.webp" },
 ];
 
 const TRUST_PILLS = [
@@ -37,23 +37,27 @@ const TRUST_PILLS = [
   { icon: ShieldCheck, label: "Full Warranties" },
 ];
 
-/** One logo slot — the real logo (next/image) when supplied, otherwise a labelled placeholder. */
+/**
+ * One logo slot — a white card holding the real logo (the source logos are dark-on-white,
+ * so a white card keeps them crisp and uniform on the section's muted background). Falls back
+ * to a labelled placeholder when a brand has no logo yet.
+ */
 function BrandLogo({ brand }: { brand: Brand }) {
   return (
     <div
       title={brand.description}
-      className="mx-4 inline-flex h-14 w-32 shrink-0 items-center justify-center sm:mx-7 sm:h-16 sm:w-40"
+      className="relative mx-3 h-16 w-36 shrink-0 rounded-xl border border-border/60 bg-white shadow-sm sm:mx-4 sm:h-20 sm:w-44"
     >
       {brand.logo ? (
         <Image
           src={brand.logo}
-          alt={`${brand.name} logo`}
-          width={160}
-          height={64}
-          className="max-h-full w-auto object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+          alt={`${brand.name} garage doors logo`}
+          fill
+          sizes="(min-width: 640px) 176px, 144px"
+          className="object-contain p-3.5 sm:p-4"
         />
       ) : (
-        <div className="flex h-full w-full items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 text-muted-foreground">
+        <div className="flex h-full w-full items-center justify-center gap-2 px-3 text-muted-foreground">
           <PlaceholderIcon className="h-4 w-4 shrink-0 opacity-50" aria-hidden="true" />
           <span className="truncate text-xs font-semibold sm:text-sm">{brand.name}</span>
         </div>
@@ -105,8 +109,9 @@ export function BrandsMarquee() {
         </Reveal>
       </Container>
 
-      {/* Flat dual-track marquee: two identical rows offset by one track-width loop seamlessly. */}
-      <div className="cgd-brand-marquee relative mt-10 flex w-full overflow-hidden sm:mt-14">
+      {/* Flat dual-track marquee: two identical rows offset by one track-width loop seamlessly.
+          The edge-fade mask softens both ends so cards slide in/out rather than hard-clip. */}
+      <div className="cgd-brand-marquee relative mt-10 flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_7%,black_93%,transparent)] sm:mt-14">
         <div className="cgd-brand-track flex shrink-0 items-center">
           {BRANDS.map((brand) => (
             <BrandLogo key={brand.name} brand={brand} />

@@ -922,6 +922,24 @@ html:not(.intro-seen) main {
   }
 }
 
+/* Mobile nav overlay fade-in (replaces framer AnimatePresence in the header) */
+@keyframes cgd-menu-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.cgd-menu-fade {
+  animation: cgd-menu-fade 0.25s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cgd-menu-fade {
+    animation: none;
+  }
+}
+
 /* Service-area map ripple animations — pure CSS so they loop on the compositor
    with zero JS re-trigger lag. Opacity starts at 0 during the reset window
    (0%–8%) so the scale snap-back is completely invisible. */

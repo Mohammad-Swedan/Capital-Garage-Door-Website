@@ -286,7 +286,7 @@ export function Hero() {
                 // Only reserve room for the success overlay while it's actually
                 // showing — otherwise it'd waste space on short phones for a
                 // card that's invisible 99% of the time.
-                vanPhase === "onway" && "min-h-[clamp(8.5rem,30svh,13rem)] sm:min-h-0",
+                vanPhase === "onway" && "min-h-[20rem] sm:min-h-0",
               )}
             >
               {/* Ambient glow behind the van (CSS pulse) */}

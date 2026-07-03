@@ -8,6 +8,8 @@ import {
   Siren,
   ShieldCheck,
   CheckCircle2,
+  CalendarClock,
+  X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
@@ -27,9 +29,15 @@ type VanPhase = "idle" | "shake" | "approach" | "onway";
 
 export function Hero() {
   const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingPath, setBookingPath] = useState<string | undefined>(undefined);
   const [vanPhase, setVanPhase] = useState<VanPhase>("idle");
   const vanLockedRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
+  // Tracks at most one pending "reset to idle" timer (armed by Call Now / a
+  // closed booking dialog) so a later dismiss or fresh van tap can cancel it
+  // outright instead of letting a stale timeout yank an unrelated cycle back
+  // to idle. Still pushed onto `timeoutsRef` too, for unmount cleanup.
+  const idleResetTimeoutRef = useRef<number | undefined>(undefined);
   // Pointer tilt is written straight to CSS custom properties on this node (no
   // React state → no re-render storm on mousemove, no framer-motion springs).
   const tiltRef = useRef<HTMLDivElement>(null);
@@ -75,11 +83,34 @@ export function Hero() {
     }
   };
 
+  const openBooking = (path?: string) => {
+    setBookingPath(path);
+    setBookingOpen(true);
+  };
+
+  const clearIdleReset = () => {
+    if (idleResetTimeoutRef.current !== undefined) {
+      window.clearTimeout(idleResetTimeoutRef.current);
+      idleResetTimeoutRef.current = undefined;
+    }
+  };
+
+  const scheduleIdleReset = () => {
+    clearIdleReset();
+    const id = window.setTimeout(() => {
+      idleResetTimeoutRef.current = undefined;
+      setVanPhase("idle");
+    }, 2500);
+    idleResetTimeoutRef.current = id;
+    timeoutsRef.current.push(id);
+  };
+
   // Tap the van: shake → "approach" the viewer (stand-in for the reference
   // design's drive-up video, since no video asset exists here) → "On Our
-  // Way!" → open the booking dialog.
+  // Way!" → show the Call-or-Book choice card.
   const handleVanClick = () => {
     if (vanLockedRef.current || vanPhase === "onway") return;
+    clearIdleReset();
     vanLockedRef.current = true;
     resetTilt();
 
@@ -89,10 +120,7 @@ export function Hero() {
 
     if (reducedMotionRef.current) {
       setVanPhase("onway");
-      queue(() => {
-        vanLockedRef.current = false;
-        setBookingOpen(true);
-      }, 900);
+      vanLockedRef.current = false;
       return;
     }
 
@@ -101,23 +129,29 @@ export function Hero() {
       setVanPhase("approach");
       queue(() => {
         setVanPhase("onway");
-        queue(() => {
-          vanLockedRef.current = false;
-          setBookingOpen(true);
-        }, 800);
+        vanLockedRef.current = false;
       }, 600);
     }, 400);
+  };
+
+  const handleChoiceDismiss = () => {
+    clearIdleReset();
+    setVanPhase("idle");
+  };
+
+  const handleCallTap = () => {
+    scheduleIdleReset();
+  };
+
+  const handleEmergencyBooking = () => {
+    openBooking("/booking/9");
   };
 
   const handleBookingOpenChange = (open: boolean) => {
     setBookingOpen(open);
     if (!open && vanPhase !== "idle") {
-      // Wait for a few seconds so the success UI is visible, then reset the van to idle
-      timeoutsRef.current.push(
-        window.setTimeout(() => {
-          setVanPhase("idle");
-        }, 2500),
-      );
+      // Wait for a few seconds so the choice card is visible, then reset the van to idle
+      scheduleIdleReset();
     }
   };
 
@@ -187,7 +221,7 @@ export function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => setBookingOpen(true)}
+                  onClick={() => openBooking()}
                   className="h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer rounded-xl border-primary/35 bg-primary/5 px-8 text-base text-primary hover:bg-primary/10 hover:text-primary sm:h-14 sm:w-auto"
                 >
                   <span className="flex items-center justify-center gap-2">
@@ -249,10 +283,12 @@ export function Hero() {
               data-phase={vanPhase}
               className={cn(
                 "cgd-rise-right [animation-delay:120ms] relative mx-auto -mt-1 flex w-full max-w-[clamp(11.5rem,36svh,21rem)] flex-col items-center justify-center sm:mt-0 sm:max-w-md md:max-w-none md:mx-0 lg:max-w-xl lg:mx-0",
-                // Only reserve room for the success overlay while it's actually
+                // Only reserve room for the choice card while it's actually
                 // showing — otherwise it'd waste space on short phones for a
-                // card that's invisible 99% of the time.
-                vanPhase === "onway" && "min-h-[clamp(8.5rem,30svh,13rem)] sm:min-h-0",
+                // card that's invisible 99% of the time. 20rem comfortably
+                // fits the card's measured 245-310px height range across
+                // 320-390px-wide mobile viewports.
+                vanPhase === "onway" && "min-h-[20rem] sm:min-h-0",
               )}
             >
               {/* Ambient glow behind the van (CSS pulse) */}
@@ -268,7 +304,7 @@ export function Hero() {
                 onClick={handleVanClick}
                 onMouseMove={handleVanMove}
                 onMouseLeave={resetTilt}
-                aria-label="Tap for emergency service — opens the booking form"
+                aria-label="Tap for emergency service options"
                 className="cgd-van-btn group/van relative block w-full cursor-pointer rounded-3xl outline-none focus-visible:ring-4 focus-visible:ring-cta/40"
               >
                 {/* "Tap for Emergency" floating label (CSS bob; hides on drive-off) */}
@@ -335,23 +371,50 @@ export function Hero() {
                 </div>
               </button>
 
-              {/* Technician Dispatched Success UI (CSS spring-in on `onway`) */}
-              <div className="cgd-van-success absolute top-1/2 left-1/2 z-30 flex w-[90%] flex-col items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-[0_30px_60px_rgba(13,31,69,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl sm:w-80 dark:border-white/10 dark:bg-[#0d1f45]/50 dark:shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-400">
-                  <CheckCircle2 className="h-6 w-6" />
-                </div>
-                <div className="text-center">
+              {/* Call-or-Book choice card (CSS spring-in on `onway`, same slot the
+                  old auto-dispatch card used) */}
+              <div className="cgd-van-success absolute top-1/2 left-1/2 z-30 flex w-[90%] flex-col gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-[0_30px_60px_rgba(13,31,69,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl sm:w-80 dark:border-white/10 dark:bg-[#0d1f45]/50 dark:shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
+                <div className="flex items-start justify-between gap-2">
                   <h3 className="font-display text-lg font-bold text-foreground">
-                    Technician Dispatched!
+                    Need Us Now?
                   </h3>
-                  <p className="mt-1 text-xs font-medium text-muted-foreground/80">
-                    ETA: &lt; 30 minutes
-                  </p>
+                  <button
+                    type="button"
+                    aria-label="Cancel"
+                    onClick={handleChoiceDismiss}
+                    className="cursor-pointer rounded-full p-1 text-foreground/40 transition-colors hover:bg-foreground/5 hover:text-foreground/70"
+                  >
+                    <X className="h-4 w-4" aria-hidden="true" />
+                  </button>
                 </div>
-                {/* Animated progress bar */}
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-foreground/5 dark:bg-white/10">
-                  <div className="cgd-van-progress h-full w-full rounded-full bg-emerald-500" />
-                </div>
+
+                <a
+                  href={`tel:${siteConfig.business.phone}`}
+                  onClick={handleCallTap}
+                  className="flex cursor-pointer flex-col items-center gap-0.5 rounded-xl bg-cta px-4 py-2.5 text-center text-cta-foreground shadow-[0_6px_16px_rgba(200,34,42,0.25)] transition-transform hover:scale-[1.02] hover:bg-cta/90"
+                >
+                  <span className="flex items-center gap-2 text-sm font-bold">
+                    <Phone className="h-4 w-4" aria-hidden="true" />
+                    Call Now
+                  </span>
+                  <span className="text-[11px] font-medium text-cta-foreground/80">
+                    Recommended &mdash; fastest response
+                  </span>
+                </a>
+
+                <button
+                  type="button"
+                  onClick={handleEmergencyBooking}
+                  className="flex cursor-pointer flex-col items-center gap-0.5 rounded-xl border border-primary/25 bg-primary/5 px-4 py-2.5 text-center text-primary transition-colors hover:bg-primary/10"
+                >
+                  <span className="flex items-center gap-2 text-sm font-bold">
+                    <CalendarClock className="h-4 w-4" aria-hidden="true" />
+                    Emergency Booking
+                  </span>
+                  <span className="text-[11px] font-medium text-primary/70">
+                    Not recommended outside business hours
+                  </span>
+                </button>
               </div>
 
               {/* Road strip under the van */}
@@ -377,6 +440,7 @@ export function Hero() {
       <BookingDialog
         open={bookingOpen}
         onOpenChange={handleBookingOpenChange}
+        path={bookingPath}
       />
     </>
   );

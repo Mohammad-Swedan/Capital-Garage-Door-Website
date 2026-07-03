@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { m, useReducedMotion, type Variants } from "framer-motion";
 import {
   Search,
   CalendarClock,
@@ -43,16 +42,6 @@ const stats = [
 
 export function ServiceAreaMap() {
   const [bookingOpen, setBookingOpen] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
-
-  const container: Variants = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.11, delayChildren: 0.05 } },
-  };
-  const item: Variants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-  };
 
   return (
     <section className="relative overflow-hidden bg-[#0d1f60] py-14 sm:py-20 lg:py-28">
@@ -70,15 +59,9 @@ export function ServiceAreaMap() {
       <Container className="relative z-10">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-12">
           {/* ── Left column ── */}
-          <m.div
-            variants={container}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
-            className="flex flex-col items-start gap-5 sm:gap-6"
-          >
+          <Reveal className="flex flex-col items-start gap-5 sm:gap-6">
             {/* Eyebrow badge */}
-            <m.div variants={item}>
+            <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/12 px-3.5 py-1.5 text-xs font-medium text-white/75 sm:text-sm">
                 <MapPin
                   className="h-3 w-3 text-sky-300 sm:h-3.5 sm:w-3.5"
@@ -86,25 +69,19 @@ export function ServiceAreaMap() {
                 />
                 Perth Metro Coverage
               </span>
-            </m.div>
+            </div>
 
-            <m.h2
-              variants={item}
-              className="text-balance font-display text-2xl leading-[1.08] font-black tracking-tight text-white sm:text-3xl lg:text-[2.85rem]"
-            >
+            <h2 className="text-balance font-display text-2xl leading-[1.08] font-black tracking-tight text-white sm:text-3xl lg:text-[2.85rem]">
               We Cover All of <span className="text-cta">Perth</span>
-            </m.h2>
+            </h2>
 
-            <m.p
-              variants={item}
-              className="max-w-sm text-sm leading-relaxed text-white/60 sm:text-base"
-            >
+            <p className="max-w-sm text-sm leading-relaxed text-white/60 sm:text-base">
               From Joondalup to Rockingham — our licensed technicians reach
               every corner of the Perth metro, fast.
-            </m.p>
+            </p>
 
             {/* Stat pills — single row, no wrap */}
-            <m.div variants={item} className="flex w-full gap-2 sm:gap-3">
+            <div className="flex w-full gap-2 sm:gap-3">
               {stats.map(({ icon: Icon, value, label }) => (
                 <div
                   key={label}
@@ -124,13 +101,10 @@ export function ServiceAreaMap() {
                   </div>
                 </div>
               ))}
-            </m.div>
+            </div>
 
             {/* CTAs */}
-            <m.div
-              variants={item}
-              className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-3"
-            >
+            <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:flex-wrap sm:gap-3">
               <Button
                 size="lg"
                 nativeButton={false}
@@ -150,8 +124,8 @@ export function ServiceAreaMap() {
                 <CalendarClock className="h-4 w-4" aria-hidden="true" />
                 Book a Technician
               </Button>
-            </m.div>
-          </m.div>
+            </div>
+          </Reveal>
 
           {/* ── Right column — map ── */}
           <Reveal
@@ -208,13 +182,7 @@ export function ServiceAreaMap() {
             </div>
 
             {/* Floating badge — inside padding area so it never overflows */}
-            <m.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.55, duration: 0.45, ease: "easeOut" }}
-              className="cgd-glass-card-dark absolute -bottom-7 left-3 flex items-center gap-3 overflow-hidden px-4 py-2.5 sm:left-5 sm:px-5 sm:py-3.5 lg:-bottom-3"
-            >
+            <div className="cgd-glass-card-dark absolute -bottom-7 left-3 flex items-center gap-3 overflow-hidden px-4 py-2.5 sm:left-5 sm:px-5 sm:py-3.5 lg:-bottom-3">
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-transparent" />
               <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-amber-400/20 bg-amber-400/10 shadow-[0_0_14px_rgba(251,191,36,0.18)] sm:h-10 sm:w-10 sm:rounded-xl">
                 <Star
@@ -230,7 +198,7 @@ export function ServiceAreaMap() {
                   Across Greater Perth
                 </p>
               </div>
-            </m.div>
+            </div>
           </Reveal>
         </div>
       </Container>

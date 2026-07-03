@@ -901,6 +901,27 @@ html:not(.intro-seen) main {
   }
 }
 
+/* Why-choose-us card accent ribbon: grows top→down as the card reveals
+   (replaces the framer scaleY whileInView). */
+.cgd-why-ribbon {
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.cgd-reveal-in .cgd-why-ribbon {
+  animation: cgd-why-ribbon-grow 0.9s ease-out forwards;
+}
+@keyframes cgd-why-ribbon-grow {
+  to {
+    transform: scaleY(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cgd-why-ribbon {
+    transform: scaleY(1);
+    animation: none;
+  }
+}
+
 /* Service-area map ripple animations — pure CSS so they loop on the compositor
    with zero JS re-trigger lag. Opacity starts at 0 during the reset window
    (0%–8%) so the scale snap-back is completely invisible. */

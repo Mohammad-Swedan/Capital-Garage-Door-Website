@@ -3,14 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
-  m,
-  useMotionValue,
-  useSpring,
-  useReducedMotion,
-  useInView,
-  type Variants,
-} from "framer-motion";
-import {
   Phone,
   Star,
   Siren,
@@ -34,46 +26,53 @@ const microItems = ["No call-out fee", "Same-day service", "All Perth suburbs"];
 type VanPhase = "idle" | "shake" | "approach" | "onway";
 
 export function Hero() {
-  const shouldReduceMotion = useReducedMotion();
   const [bookingOpen, setBookingOpen] = useState(false);
   const [vanPhase, setVanPhase] = useState<VanPhase>("idle");
   const vanLockedRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
-  const sectionRef = useRef<HTMLElement>(null);
-  // Idle animations (van bob, glow pulse, floating label) only loop while the
-  // hero is actually on screen — otherwise they'd keep running via rAF in the
-  // background for the rest of the visit, burning CPU/battery for nothing.
-  const inView = useInView(sectionRef, { amount: 0, initial: true });
-  const loopIdle = inView && !shouldReduceMotion;
+  // Pointer tilt is written straight to CSS custom properties on this node (no
+  // React state → no re-render storm on mousemove, no framer-motion springs).
+  const tiltRef = useRef<HTMLDivElement>(null);
+  // Resolved once on mount; the idle *visual* loops honour reduced motion via CSS
+  // (`@media (prefers-reduced-motion)` in globals.css), this only gates the
+  // interactive tap sequence + pointer tilt.
+  const reducedMotionRef = useRef(false);
 
   useEffect(() => {
+    reducedMotionRef.current = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     const timeouts = timeoutsRef.current;
     return () => {
       timeouts.forEach((id) => window.clearTimeout(id));
     };
   }, []);
 
-  // The hero's mount entrance is done in pure CSS (see `.cgd-rise` /
-  // `.cgd-rise-right` in globals.css) rather than Framer Motion, so the
-  // above-the-fold content animates in on the first paint instead of staying
-  // invisible until the large client bundle hydrates.
-
-  // Pointer-driven tilt on the van (disabled for reduced motion / mid-sequence).
-  const tiltX = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 });
-  const tiltY = useSpring(useMotionValue(0), { stiffness: 150, damping: 18 });
+  // The hero's mount entrance + all idle motion (van bob, glow pulse, floating
+  // label, pulse rings, drive-off) are pure CSS (see the `.cgd-rise*` and
+  // `.cgd-van-*` rules in globals.css) rather than framer-motion, so the
+  // above-the-fold content paints on first paint instead of waiting for the
+  // large client bundle to hydrate — and the idle loops run on the compositor
+  // instead of a main-thread rAF (mobile TBT / LCP).
 
   const handleVanMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (shouldReduceMotion || vanPhase !== "idle") return;
+    if (reducedMotionRef.current || vanPhase !== "idle") return;
     const rect = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width - 0.5;
     const py = (e.clientY - rect.top) / rect.height - 0.5;
-    tiltY.set(px * 6);
-    tiltX.set(-py * 6);
+    const el = tiltRef.current;
+    if (el) {
+      el.style.setProperty("--rx", `${(-py * 6).toFixed(2)}deg`);
+      el.style.setProperty("--ry", `${(px * 6).toFixed(2)}deg`);
+    }
   };
 
-  const resetVan = () => {
-    tiltX.set(0);
-    tiltY.set(0);
+  const resetTilt = () => {
+    const el = tiltRef.current;
+    if (el) {
+      el.style.setProperty("--rx", "0deg");
+      el.style.setProperty("--ry", "0deg");
+    }
   };
 
   // Tap the van: shake → "approach" the viewer (stand-in for the reference
@@ -82,12 +81,13 @@ export function Hero() {
   const handleVanClick = () => {
     if (vanLockedRef.current || vanPhase === "onway") return;
     vanLockedRef.current = true;
+    resetTilt();
 
     const queue = (fn: () => void, delay: number) => {
       timeoutsRef.current.push(window.setTimeout(fn, delay));
     };
 
-    if (shouldReduceMotion) {
+    if (reducedMotionRef.current) {
       setVanPhase("onway");
       queue(() => {
         vanLockedRef.current = false;
@@ -121,57 +121,9 @@ export function Hero() {
     }
   };
 
-  const vanImageVariants: Variants = {
-    idle: {
-      x: 0,
-      y: shouldReduceMotion ? 0 : -2,
-      scale: 1,
-      rotate: shouldReduceMotion ? 0 : 0.3,
-      opacity: 1,
-      transition: {
-        y: {
-          duration: 1.3,
-          repeat: loopIdle ? Infinity : 0,
-          repeatType: "mirror",
-          ease: "easeInOut",
-        },
-        rotate: {
-          duration: 1.3,
-          repeat: loopIdle ? Infinity : 0,
-          repeatType: "mirror",
-          ease: "easeInOut",
-        },
-        x: { type: "tween", duration: 0 },
-        opacity: { duration: 0.3 },
-      },
-    },
-    shake: {
-      x: 0,
-      y: [0, -8, 6, -4, 2, 0],
-      rotate: [0, -2, 1.5, -1, 0.5, 0],
-      transition: { duration: 0.4, ease: "easeInOut" },
-    },
-    approach: {
-      x: "-120vw",
-      opacity: 0,
-      transition: { duration: 0.6, ease: "easeIn" },
-    },
-    onway: { x: "-120vw", opacity: 0, transition: { duration: 0 } },
-  };
-
-  const glowVariants: Variants = {
-    idle: { opacity: [0.35, 0.55, 0.35], scale: [1, 1.1, 1] },
-    shake: { opacity: 0.55, scale: 1.05 },
-    approach: { opacity: 0.85, scale: 1.3 },
-    onway: { opacity: 0.7, scale: 1.2 },
-  };
-
   return (
     <>
-      <section
-        ref={sectionRef}
-        className="relative flex min-h-[calc(100svh-4rem)] items-center bg-background"
-      >
+      <section className="relative flex min-h-[calc(100svh-4rem)] items-center bg-background">
         {/* Decorative background layer */}
         <div
           aria-hidden="true"
@@ -291,8 +243,10 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Right column — van CTA */}
+            {/* Right column — van CTA. `data-phase` drives every van animation via
+                CSS (see `.cgd-van-*` in globals.css). */}
             <div
+              data-phase={vanPhase}
               className={cn(
                 "cgd-rise-right [animation-delay:120ms] relative mx-auto -mt-1 flex w-full max-w-[clamp(11.5rem,36svh,21rem)] flex-col items-center justify-center sm:mt-0 sm:max-w-md md:max-w-none md:mx-0 lg:max-w-xl lg:mx-0",
                 // Only reserve room for the success overlay while it's actually
@@ -301,66 +255,31 @@ export function Hero() {
                 vanPhase === "onway" && "min-h-[clamp(8.5rem,30svh,13rem)] sm:min-h-0",
               )}
             >
-              {/* Ambient glow behind the van */}
-              <m.div
-                // Framer Motion won't restart an in-progress infinite loop just
-                // because `transition.repeat` changed while the active variant
-                // name stays "idle" — keying on loopIdle forces a clean
-                // remount so the pause/resume below actually takes effect.
-                key={loopIdle ? "glow-loop" : "glow-paused"}
+              {/* Ambient glow behind the van (CSS pulse) */}
+              <div
                 aria-hidden="true"
-                variants={glowVariants}
-                animate={vanPhase}
-                transition={
-                  vanPhase === "idle"
-                    ? {
-                        duration: 3,
-                        repeat: loopIdle ? Infinity : 0,
-                        ease: "easeInOut",
-                      }
-                    : { duration: 0.5, ease: "easeOut" }
-                }
-                className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
+                className="cgd-van-glow pointer-events-none absolute inset-0 -z-10 flex items-center justify-center"
               >
                 <div className="h-[70%] w-[70%] rounded-full bg-cta/15 blur-3xl" />
-              </m.div>
+              </div>
 
               <button
                 type="button"
                 onClick={handleVanClick}
                 onMouseMove={handleVanMove}
-                onMouseLeave={resetVan}
+                onMouseLeave={resetTilt}
                 aria-label="Tap for emergency service — opens the booking form"
-                className="group/van relative block w-full cursor-pointer rounded-3xl outline-none focus-visible:ring-4 focus-visible:ring-cta/40"
+                className="cgd-van-btn group/van relative block w-full cursor-pointer rounded-3xl outline-none focus-visible:ring-4 focus-visible:ring-cta/40"
               >
-                {/* "Tap for Emergency" floating label */}
-                <m.span
-                  key={loopIdle ? "label-loop" : "label-paused"}
-                  animate={
-                    vanPhase === "idle"
-                      ? { y: [0, -8, 0], opacity: 1, scale: 1 }
-                      : { opacity: 0, y: -6, scale: 0.9 }
-                  }
-                  transition={
-                    vanPhase === "idle"
-                      ? {
-                          y: {
-                            duration: 2.4,
-                            repeat: loopIdle ? Infinity : 0,
-                            ease: "easeInOut",
-                          },
-                          opacity: { duration: 0.3 },
-                          scale: { duration: 0.3 },
-                        }
-                      : { duration: 0.25 }
-                  }
-                  className="absolute -top-3 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center drop-shadow-[0_8px_16px_rgba(200,34,42,0.4)] scale-90 sm:scale-100"
-                >
-                  <span className="whitespace-nowrap rounded-xl bg-cta px-3.5 py-2 text-[11px] font-black tracking-wide text-white uppercase sm:px-4 sm:text-xs">
-                    🚨 Tap for Emergency
+                {/* "Tap for Emergency" floating label (CSS bob; hides on drive-off) */}
+                <span className="cgd-van-label absolute -top-3 left-1/2 z-20">
+                  <span className="cgd-van-label-bob flex flex-col items-center drop-shadow-[0_8px_16px_rgba(200,34,42,0.4)]">
+                    <span className="whitespace-nowrap rounded-xl bg-cta px-3.5 py-2 text-[11px] font-black tracking-wide text-white uppercase sm:px-4 sm:text-xs">
+                      🚨 Tap for Emergency
+                    </span>
+                    <span className="-mt-[1px] border-[6px] border-transparent border-t-cta border-b-0" />
                   </span>
-                  <span className="-mt-[1px] border-[6px] border-transparent border-t-cta border-b-0" />
-                </m.span>
+                </span>
 
                 {/* Pulse rings - Centered and modernized */}
                 {vanPhase === "idle" && (
@@ -394,48 +313,30 @@ export function Hero() {
                   />
                 )}
 
-                <m.div
-                  key={loopIdle ? "van-loop" : "van-paused"}
-                  variants={vanImageVariants}
-                  animate={vanPhase}
-                  whileHover={vanPhase === "idle" ? { scale: 1.02 } : undefined}
-                  whileTap={vanPhase === "idle" ? { scale: 0.99 } : undefined}
-                  style={{
-                    rotateX: tiltX,
-                    rotateY: tiltY,
-                    transformPerspective: 900,
-                  }}
-                >
-                  <Image
-                    src="/images/van-speeding-light.png"
-                    alt="Capital Garage Door service van"
-                    width={2933}
-                    height={1398}
-                    priority
-                    fetchPriority="high"
-                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 400px, 460px"
-                    quality={75}
-                    className="w-full drop-shadow-[0_28px_56px_rgba(13,31,69,0.22)]"
-                  />
-                </m.div>
+                {/* Van image — nested transform layers so drive-off (translateX),
+                    idle bob (translateY/rotate) and pointer tilt (rotateX/Y +
+                    hover scale) never collide on a single `transform`. */}
+                <div className="cgd-van-driveoff">
+                  <div className="cgd-van-bob">
+                    <div ref={tiltRef} className="cgd-van-tilt">
+                      <Image
+                        src="/images/van-speeding-light.png"
+                        alt="Capital Garage Door service van"
+                        width={2933}
+                        height={1398}
+                        priority
+                        fetchPriority="high"
+                        sizes="(max-width: 640px) 280px, (max-width: 1024px) 400px, 460px"
+                        quality={75}
+                        className="w-full drop-shadow-[0_28px_56px_rgba(13,31,69,0.22)]"
+                      />
+                    </div>
+                  </div>
+                </div>
               </button>
 
-              {/* Technician Dispatched Success UI */}
-              <m.div
-                initial={false}
-                animate={
-                  vanPhase === "onway"
-                    ? { opacity: 1, y: 0, scale: 1, pointerEvents: "auto" }
-                    : { opacity: 0, y: 20, scale: 0.95, pointerEvents: "none" }
-                }
-                transition={{
-                  type: "spring",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: 0.2,
-                }}
-                className="absolute top-1/2 left-1/2 z-30 flex w-[90%] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-[0_30px_60px_rgba(13,31,69,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl sm:w-80 dark:border-white/10 dark:bg-[#0d1f45]/50 dark:shadow-[0_30px_60px_rgba(0,0,0,0.5)]"
-              >
+              {/* Technician Dispatched Success UI (CSS spring-in on `onway`) */}
+              <div className="cgd-van-success absolute top-1/2 left-1/2 z-30 flex w-[90%] flex-col items-center gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-[0_30px_60px_rgba(13,31,69,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl sm:w-80 dark:border-white/10 dark:bg-[#0d1f45]/50 dark:shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-600 ring-1 ring-emerald-500/20 dark:bg-emerald-500/20 dark:text-emerald-400">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
@@ -449,16 +350,9 @@ export function Hero() {
                 </div>
                 {/* Animated progress bar */}
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-foreground/5 dark:bg-white/10">
-                  <m.div
-                    initial={{ x: "-100%" }}
-                    animate={
-                      vanPhase === "onway" ? { x: "0%" } : { x: "-100%" }
-                    }
-                    transition={{ duration: 2, ease: "easeOut" }}
-                    className="h-full w-full rounded-full bg-emerald-500"
-                  />
+                  <div className="cgd-van-progress h-full w-full rounded-full bg-emerald-500" />
                 </div>
-              </m.div>
+              </div>
 
               {/* Road strip under the van */}
               <div

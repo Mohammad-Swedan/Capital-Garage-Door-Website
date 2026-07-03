@@ -68,16 +68,21 @@ export function GarageDoorLoader() {
   const shellRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let alreadySeen = false;
+    // The inline guard in app/layout.tsx adds `.intro-seen` before first paint on
+    // a repeat visit OR on a touch/mobile device (where the intro is skipped for
+    // performance). Honour that here so we take the no-lock skip path below —
+    // otherwise we'd lock scroll and run timers for an intro the CSS has already
+    // hidden, leaving mobile scroll frozen.
+    let alreadySeen = document.documentElement.classList.contains("intro-seen");
     try {
-      alreadySeen = sessionStorage.getItem(SEEN_KEY) !== null;
+      alreadySeen = alreadySeen || sessionStorage.getItem(SEEN_KEY) !== null;
       sessionStorage.setItem(SEEN_KEY, "1");
     } catch {
-      /* sessionStorage unavailable — just play the intro */
+      /* sessionStorage unavailable — rely on the `.intro-seen` check above */
     }
 
-    // Already welcomed this session → remove immediately (the inline guard in
-    // app/layout.tsx has already hidden it before paint, so no flash).
+    // Already welcomed this session (or skipped on mobile) → remove immediately
+    // (the inline guard in app/layout.tsx has already hidden it before paint).
     if (alreadySeen) {
       markIntroReady();
       setDone(true);

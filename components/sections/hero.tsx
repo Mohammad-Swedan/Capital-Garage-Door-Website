@@ -33,6 +33,11 @@ export function Hero() {
   const [vanPhase, setVanPhase] = useState<VanPhase>("idle");
   const vanLockedRef = useRef(false);
   const timeoutsRef = useRef<number[]>([]);
+  // Tracks at most one pending "reset to idle" timer (armed by Call Now / a
+  // closed booking dialog) so a later dismiss or fresh van tap can cancel it
+  // outright instead of letting a stale timeout yank an unrelated cycle back
+  // to idle. Still pushed onto `timeoutsRef` too, for unmount cleanup.
+  const idleResetTimeoutRef = useRef<number | undefined>(undefined);
   // Pointer tilt is written straight to CSS custom properties on this node (no
   // React state → no re-render storm on mousemove, no framer-motion springs).
   const tiltRef = useRef<HTMLDivElement>(null);
@@ -83,11 +88,29 @@ export function Hero() {
     setBookingOpen(true);
   };
 
+  const clearIdleReset = () => {
+    if (idleResetTimeoutRef.current !== undefined) {
+      window.clearTimeout(idleResetTimeoutRef.current);
+      idleResetTimeoutRef.current = undefined;
+    }
+  };
+
+  const scheduleIdleReset = () => {
+    clearIdleReset();
+    const id = window.setTimeout(() => {
+      idleResetTimeoutRef.current = undefined;
+      setVanPhase("idle");
+    }, 2500);
+    idleResetTimeoutRef.current = id;
+    timeoutsRef.current.push(id);
+  };
+
   // Tap the van: shake → "approach" the viewer (stand-in for the reference
   // design's drive-up video, since no video asset exists here) → "On Our
   // Way!" → open the booking dialog.
   const handleVanClick = () => {
     if (vanLockedRef.current || vanPhase === "onway") return;
+    clearIdleReset();
     vanLockedRef.current = true;
     resetTilt();
 
@@ -112,15 +135,12 @@ export function Hero() {
   };
 
   const handleChoiceDismiss = () => {
+    clearIdleReset();
     setVanPhase("idle");
   };
 
   const handleCallTap = () => {
-    timeoutsRef.current.push(
-      window.setTimeout(() => {
-        setVanPhase("idle");
-      }, 2500),
-    );
+    scheduleIdleReset();
   };
 
   const handleEmergencyBooking = () => {
@@ -131,11 +151,7 @@ export function Hero() {
     setBookingOpen(open);
     if (!open && vanPhase !== "idle") {
       // Wait for a few seconds so the success UI is visible, then reset the van to idle
-      timeoutsRef.current.push(
-        window.setTimeout(() => {
-          setVanPhase("idle");
-        }, 2500),
-      );
+      scheduleIdleReset();
     }
   };
 

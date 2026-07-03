@@ -881,6 +881,26 @@ html:not(.intro-seen) main {
   }
 }
 
+/* Small pop-in for the sticky mobile CTA tooltip (replaces framer AnimatePresence) */
+@keyframes cgd-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.cgd-pop-in {
+  animation: cgd-pop-in 0.25s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cgd-pop-in {
+    animation: none;
+  }
+}
+
 /* Service-area map ripple animations — pure CSS so they loop on the compositor
    with zero JS re-trigger lag. Opacity starts at 0 during the reset window
    (0%–8%) so the scale snap-back is completely invisible. */

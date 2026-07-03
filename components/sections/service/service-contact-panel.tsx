@@ -13,8 +13,7 @@ const { business } = siteConfig;
 export function ServiceContactPanel({ serviceName }: { serviceName: string }) {
   const { address } = business;
   const weekday = business.hours.find((h) => h.day === "Monday");
-  const saturday = business.hours.find((h) => h.day === "Saturday");
-  const sunday = business.hours.find((h) => h.day === "Sunday");
+  const weekend = business.hours.find((h) => h.day === "Saturday");
 
   return (
     <div className="flex flex-col gap-6">
@@ -56,14 +55,10 @@ export function ServiceContactPanel({ serviceName }: { serviceName: string }) {
               </span>
             </div>
             <div className="flex justify-between gap-6">
-              <span>Saturday</span>
+              <span>Sat&ndash;Sun</span>
               <span className="font-medium text-foreground">
-                {formatHour(saturday?.opens ?? "")} &ndash; {formatHour(saturday?.closes ?? "")}
+                {formatHour(weekend?.opens ?? "")} &ndash; {formatHour(weekend?.closes ?? "")}
               </span>
-            </div>
-            <div className="flex justify-between gap-6">
-              <span>Sunday</span>
-              <span className="font-medium text-foreground">{formatHour(sunday?.opens ?? "")}</span>
             </div>
           </div>
         </li>

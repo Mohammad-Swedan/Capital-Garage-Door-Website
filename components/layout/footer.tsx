@@ -14,8 +14,7 @@ export function Footer() {
   const legalLinks = footerNav.find((section) => section.title === "Legal")?.links ?? [];
 
   const weekday = business.hours.find((h) => h.day === "Monday");
-  const saturday = business.hours.find((h) => h.day === "Saturday");
-  const sunday = business.hours.find((h) => h.day === "Sunday");
+  const weekend = business.hours.find((h) => h.day === "Saturday");
 
   return (
     <footer className="relative overflow-hidden bg-[#0d1f60] text-white">
@@ -115,17 +114,10 @@ export function Footer() {
               <li className="flex items-center gap-3">
                 <Clock className="h-3.5 w-3.5 shrink-0 text-sky-300" aria-hidden="true" />
                 <span className="flex w-full justify-between gap-4">
-                  <span>Saturday</span>
+                  <span>Sat&ndash;Sun</span>
                   <span className="font-medium text-white">
-                    {formatHour(saturday?.opens ?? "")} &ndash; {formatHour(saturday?.closes ?? "")}
+                    {formatHour(weekend?.opens ?? "")} &ndash; {formatHour(weekend?.closes ?? "")}
                   </span>
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Clock className="h-3.5 w-3.5 shrink-0 text-sky-300" aria-hidden="true" />
-                <span className="flex w-full justify-between gap-4">
-                  <span>Sunday</span>
-                  <span className="font-medium text-white">{formatHour(sunday?.opens ?? "")}</span>
                 </span>
               </li>
             </ul>

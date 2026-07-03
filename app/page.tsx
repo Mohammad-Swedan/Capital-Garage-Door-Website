@@ -3,6 +3,8 @@ import dynamic from "next/dynamic";
 import { Hero } from "@/components/sections/hero";
 import { CalculatorCta } from "@/components/sections/calculator-cta";
 import { FAQSection } from "@/components/sections/faq-section";
+import { ServiceAreaMap } from "@/components/sections/service-area-map";
+import { WhyChooseUs } from "@/components/sections/why-choose-us";
 import { LazyOnVisible } from "@/components/motion/lazy-on-visible";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getServices } from "@/lib/data/services";
@@ -12,8 +14,6 @@ import type { FAQ } from "@/types";
 
 const AboutSection = dynamic(() => import("@/components/sections/about").then(m => m.AboutSection));
 const ServicesGrid = dynamic(() => import("@/components/sections/services-grid").then(m => m.ServicesGrid));
-const WhyChooseUs = dynamic(() => import("@/components/sections/why-choose-us").then(m => m.WhyChooseUs));
-const ServiceAreaMap = dynamic(() => import("@/components/sections/service-area-map").then(m => m.ServiceAreaMap));
 const Testimonials = dynamic(() => import("@/components/sections/testimonials").then(m => m.Testimonials));
 const SmartCta = dynamic(() => import("@/components/sections/smart-cta").then(m => m.SmartCta));
 const ScrollDoorReveal = dynamic(() => import("@/components/sections/scroll-door-reveal").then(m => m.ScrollDoorReveal));

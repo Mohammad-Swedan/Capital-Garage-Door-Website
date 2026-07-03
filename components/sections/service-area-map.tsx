@@ -1,25 +1,10 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  Search,
-  CalendarClock,
-  MapPin,
-  Clock,
-  ShieldCheck,
-  Star,
-} from "lucide-react";
+import { Search, MapPin, Clock, ShieldCheck, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
-import dynamic from "next/dynamic";
-
-const BookingDialog = dynamic(
-  () => import("@/components/sections/booking-dialog").then((mod) => mod.BookingDialog),
-  { ssr: false }
-);
+import { ServiceAreaBookButton } from "@/components/sections/service-area-book-button";
 
 const hub = { left: 47.3, top: 48.5 };
 
@@ -41,8 +26,6 @@ const stats = [
 ];
 
 export function ServiceAreaMap() {
-  const [bookingOpen, setBookingOpen] = useState(false);
-
   return (
     <section className="relative overflow-hidden bg-[#0d1f60] py-14 sm:py-20 lg:py-28">
       {/* Ambient background */}
@@ -116,14 +99,7 @@ export function ServiceAreaMap() {
                   </Link>
                 }
               />
-              <Button
-                size="lg"
-                onClick={() => setBookingOpen(true)}
-                className="h-11 w-full cursor-pointer gap-2 rounded-xl bg-cta px-6 text-sm font-semibold text-cta-foreground shadow-[0_8px_32px_rgba(200,34,42,0.3)] transition-all hover:scale-[1.03] hover:bg-cta/90 sm:h-12 sm:w-auto sm:px-8 sm:text-base"
-              >
-                <CalendarClock className="h-4 w-4" aria-hidden="true" />
-                Book a Technician
-              </Button>
+              <ServiceAreaBookButton />
             </div>
           </Reveal>
 
@@ -203,7 +179,6 @@ export function ServiceAreaMap() {
         </div>
       </Container>
 
-      <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />
     </section>
   );
 }

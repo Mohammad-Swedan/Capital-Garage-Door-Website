@@ -80,7 +80,7 @@ export function BookingDialog({ trigger, open, onOpenChange, path }: BookingDial
 
 function BookingFrame({ path }: { path?: string }) {
   const [loaded, setLoaded] = React.useState(false);
-  const src = `${BOOKING_ORIGIN}${path ?? "/"}`;
+  const src = new URL(path ?? "/", BOOKING_ORIGIN).toString();
 
   return (
     <div className="relative flex-1 bg-background">

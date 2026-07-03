@@ -14,6 +14,11 @@ export function Footer() {
   const legalLinks = footerNav.find((section) => section.title === "Legal")?.links ?? [];
 
   const weekday = business.hours.find((h) => h.day === "Monday");
+  // Sat and Sun currently share identical hours; the footer only reads
+  // Saturday's entry under the combined "Sat-Sun" label below. If they ever
+  // diverge, this needs to render two separate rows again (the JSON-LD
+  // schema in lib/seo/schema.ts already reads both days independently and
+  // doesn't need this fix).
   const weekend = business.hours.find((h) => h.day === "Saturday");
 
   return (

@@ -107,7 +107,7 @@ export function Hero() {
 
   // Tap the van: shake → "approach" the viewer (stand-in for the reference
   // design's drive-up video, since no video asset exists here) → "On Our
-  // Way!" → open the booking dialog.
+  // Way!" → show the Call-or-Book choice card.
   const handleVanClick = () => {
     if (vanLockedRef.current || vanPhase === "onway") return;
     clearIdleReset();
@@ -150,7 +150,7 @@ export function Hero() {
   const handleBookingOpenChange = (open: boolean) => {
     setBookingOpen(open);
     if (!open && vanPhase !== "idle") {
-      // Wait for a few seconds so the success UI is visible, then reset the van to idle
+      // Wait for a few seconds so the choice card is visible, then reset the van to idle
       scheduleIdleReset();
     }
   };
@@ -283,9 +283,11 @@ export function Hero() {
               data-phase={vanPhase}
               className={cn(
                 "cgd-rise-right [animation-delay:120ms] relative mx-auto -mt-1 flex w-full max-w-[clamp(11.5rem,36svh,21rem)] flex-col items-center justify-center sm:mt-0 sm:max-w-md md:max-w-none md:mx-0 lg:max-w-xl lg:mx-0",
-                // Only reserve room for the success overlay while it's actually
+                // Only reserve room for the choice card while it's actually
                 // showing — otherwise it'd waste space on short phones for a
-                // card that's invisible 99% of the time.
+                // card that's invisible 99% of the time. 20rem comfortably
+                // fits the card's measured 245-310px height range across
+                // 320-390px-wide mobile viewports.
                 vanPhase === "onway" && "min-h-[20rem] sm:min-h-0",
               )}
             >

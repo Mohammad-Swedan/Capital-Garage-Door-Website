@@ -86,11 +86,19 @@ export default async function RootLayout({
         />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={webSiteSchema()} />
-        {/* Hide the welcome intro before first paint if it has already played this session. */}
+        {/* Before first paint, add `.intro-seen` (which hides the welcome intro and
+            skips the page-reveal animation) when it should not play:
+             - it already played this session (`cgd:welcomed`), or
+             - this is a touch / mobile device. The garage-door intro is a desktop
+               brand moment; on phones it only delayed the largest paint (it covers
+               the hero until it rolls up), hurting mobile LCP / Core Web Vitals with
+               no scroll benefit. Matching a mobile UA as well as coarse-pointer means
+               Lighthouse's emulated-mobile audit (mobile UA, but no `pointer:coarse`)
+               also skips it, so the lab reflects real-phone behaviour. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(sessionStorage.getItem('cgd:welcomed'))document.documentElement.classList.add('intro-seen')}catch(e){}",
+              "try{var d=document.documentElement,m=matchMedia('(pointer:coarse)').matches||matchMedia('(hover:none)').matches||/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);if(sessionStorage.getItem('cgd:welcomed')||m)d.classList.add('intro-seen')}catch(e){}",
           }}
         />
         <LazyMotionProvider>

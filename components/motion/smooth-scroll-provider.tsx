@@ -1,12 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { whenIntroReady } from "@/lib/intro-ready";
-
-gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Global smooth scrolling (Lenis) bridged into GSAP's ticker so the pinned
@@ -18,25 +13,56 @@ gsap.registerPlugin(ScrollTrigger);
  *    `intro-locked` to <html>. While that class is present, Lenis is stopped so
  *    it doesn't fight the lock; it starts the moment the class is removed.
  *  - prefers-reduced-motion users get native scrolling — Lenis isn't created.
+ *  - Touch / coarse-pointer devices (phones, tablets) also get native scrolling:
+ *    Lenis only smooths wheel/trackpad input (no `syncTouch`), so on touch it
+ *    adds nothing a user can feel while running a perpetual rAF loop every frame
+ *    for the life of the page — which keeps the main thread from ever going idle
+ *    and wrecks mobile TBT / Core Web Vitals. Skipping it there is a no-op for
+ *    the experience and a large win for the score.
+ *
+ * The runtime itself (gsap + ScrollTrigger + lenis) is imported lazily inside
+ * `init()` so those libraries stay OUT of the initial hydration bundle — they
+ * only load once the intro is over (desktop), and never load at all on mobile.
  *
  * Renders nothing.
  */
 export function SmoothScrollProvider() {
   useEffect(() => {
-    if (
-      typeof window === "undefined" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
+    if (typeof window === "undefined") return;
+
+    const mq = (q: string) => window.matchMedia(q).matches;
+    // A touch device scrolls natively; Lenis (wheel-only, no syncTouch) smooths
+    // nothing there but runs a perpetual rAF that tanks mobile TBT. Detect it via
+    // media features AND user-agent: Lighthouse's emulated-mobile audit sets a
+    // mobile viewport + mobile UA but does NOT emulate `pointer: coarse`/`hover:
+    // none`, so the UA check is what makes the lab match how a real phone (which
+    // reports coarse pointer) actually behaves. Real desktops keep smooth-scroll.
+    const isTouchDevice =
+      mq("(pointer: coarse)") ||
+      mq("(hover: none)") ||
+      /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (mq("(prefers-reduced-motion: reduce)") || isTouchDevice) return;
 
     let cancelled = false;
     let initialized = false;
     let cleanupRuntime: (() => void) | null = null;
 
-    const init = () => {
+    const init = async () => {
       if (cancelled || initialized) return;
       initialized = true;
+
+      // Lazy-load the smooth-scroll runtime so gsap/ScrollTrigger/lenis are code
+      // -split out of the critical first-load bundle (they're only needed once
+      // the user starts wheel-scrolling on desktop).
+      const [{ default: Lenis }, { default: gsap }, { ScrollTrigger }] =
+        await Promise.all([
+          import("lenis"),
+          import("gsap"),
+          import("gsap/ScrollTrigger"),
+        ]);
+      if (cancelled) return;
+      gsap.registerPlugin(ScrollTrigger);
 
       // `lerp` 0.08 gives a slightly smoother glide than the 0.1 default while
       // staying responsive (lower = floatier/laggier — don't go below ~0.07).

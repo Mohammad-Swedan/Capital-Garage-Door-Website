@@ -716,6 +716,171 @@ html:not(.intro-seen) main {
   }
 }
 
+/* ===================================================================
+   Hero van — CSS-driven animations (replaces framer-motion so the
+   above-the-fold hero hydrates cheaply and the idle loops run on the
+   compositor, not a main-thread rAF). All state comes from the
+   `data-phase` attribute on the van column: idle | shake | approach | onway.
+   Transforms are split across nested layers (.cgd-van-driveoff >
+   .cgd-van-bob > .cgd-van-tilt) so drive-off, idle bob and pointer tilt
+   never fight over a single `transform`.
+   =================================================================== */
+
+/* Ambient glow pulse behind the van */
+.cgd-van-glow > div {
+  animation: cgd-van-glow 3s ease-in-out infinite;
+}
+@keyframes cgd-van-glow {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.1);
+  }
+}
+
+/* Floating "Tap for Emergency" label: centred, gentle bob, hides on drive-off */
+.cgd-van-label {
+  transform: translateX(-50%);
+  transform-origin: center bottom;
+  scale: 0.9;
+  transition: opacity 0.25s ease, scale 0.25s ease;
+}
+@media (min-width: 640px) {
+  .cgd-van-label {
+    scale: 1;
+  }
+}
+.cgd-van-label-bob {
+  animation: cgd-van-label-bob 2.4s ease-in-out infinite;
+}
+@keyframes cgd-van-label-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+[data-phase]:not([data-phase="idle"]) .cgd-van-label {
+  opacity: 0;
+  scale: 0.8;
+}
+[data-phase]:not([data-phase="idle"]) .cgd-van-label-bob {
+  animation: none;
+}
+
+/* Drive-off layer: idle = at rest; shake = wiggle; approach/onway = off-screen left */
+.cgd-van-driveoff {
+  transition: transform 0.6s ease, opacity 0.5s ease;
+}
+[data-phase="shake"] .cgd-van-driveoff {
+  animation: cgd-van-shake 0.4s ease-in-out;
+}
+[data-phase="approach"] .cgd-van-driveoff,
+[data-phase="onway"] .cgd-van-driveoff {
+  transform: translateX(-120vw);
+  opacity: 0;
+}
+[data-phase="onway"] .cgd-van-driveoff {
+  transition: none;
+}
+@keyframes cgd-van-shake {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+  40% {
+    transform: translateY(6px) rotate(1.5deg);
+  }
+  60% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  80% {
+    transform: translateY(2px) rotate(0.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+/* Bob layer: gentle float, only while idle */
+.cgd-van-bob {
+  animation: cgd-van-bob 2.6s ease-in-out infinite;
+}
+[data-phase]:not([data-phase="idle"]) .cgd-van-bob {
+  animation: none;
+}
+@keyframes cgd-van-bob {
+  0%,
+  100% {
+    transform: translateY(-2px) rotate(0.3deg);
+  }
+  50% {
+    transform: translateY(3px) rotate(-0.3deg);
+  }
+}
+
+/* Tilt layer: pointer-driven 3D tilt (--rx/--ry set from JS) + hover/press scale */
+.cgd-van-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.3s ease-out, scale 0.2s ease-out;
+}
+[data-phase="idle"] .cgd-van-btn:hover .cgd-van-tilt {
+  scale: 1.02;
+}
+[data-phase="idle"] .cgd-van-btn:active .cgd-van-tilt {
+  scale: 0.99;
+}
+
+/* "Technician Dispatched" card: springy entrance when the van is on the way */
+.cgd-van-success {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(20px) scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-phase="onway"] .cgd-van-success {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: auto;
+}
+
+/* Dispatch progress bar fills once the card is shown */
+.cgd-van-progress {
+  transform: translateX(-100%);
+}
+[data-phase="onway"] .cgd-van-progress {
+  animation: cgd-van-progress 2s ease-out forwards;
+}
+@keyframes cgd-van-progress {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-van-glow > div,
+  .cgd-van-label-bob,
+  .cgd-van-bob {
+    animation: none;
+  }
+  .cgd-van-driveoff,
+  .cgd-van-success,
+  .cgd-van-tilt {
+    transition: none;
+  }
+  .cgd-van-tilt {
+    transform: none;
+  }
+}
+
 /* Service-area map ripple animations — pure CSS so they loop on the compositor
    with zero JS re-trigger lag. Opacity starts at 0 during the reset window
    (0%–8%) so the scale snap-back is completely invisible. */

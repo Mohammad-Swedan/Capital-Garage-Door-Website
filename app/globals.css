@@ -839,7 +839,7 @@ html:not(.intro-seen) main {
   scale: 0.99;
 }
 
-/* "Technician Dispatched" card: springy entrance when the van is on the way */
+/* Call-or-Book choice card: springy entrance when the van is on the way */
 .cgd-van-success {
   opacity: 0;
   transform: translate(-50%, -50%) translateY(20px) scale(0.95);
@@ -850,19 +850,6 @@ html:not(.intro-seen) main {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
   pointer-events: auto;
-}
-
-/* Dispatch progress bar fills once the card is shown */
-.cgd-van-progress {
-  transform: translateX(-100%);
-}
-[data-phase="onway"] .cgd-van-progress {
-  animation: cgd-van-progress 2s ease-out forwards;
-}
-@keyframes cgd-van-progress {
-  to {
-    transform: translateX(0);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

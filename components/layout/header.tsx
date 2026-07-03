@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { m, AnimatePresence } from "framer-motion";
 import { Phone } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
@@ -75,35 +74,27 @@ export function Header() {
         </div>
       </Container>
 
-      <AnimatePresence>
-        {open && (
-          <m.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-7 bg-background/98 backdrop-blur-xl lg:hidden"
-          >
-            {siteConfig.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="font-display text-2xl text-foreground transition-colors hover:text-cta"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <a
-              href={`tel:${siteConfig.business.phone}`}
-              className="mt-3 flex items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-lg font-bold text-cta-foreground"
+      {open && (
+        <div className="cgd-menu-fade fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-7 bg-background/98 backdrop-blur-xl lg:hidden">
+          {siteConfig.nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="font-display text-2xl text-foreground transition-colors hover:text-cta"
             >
-              <Phone className="h-5 w-5" aria-hidden="true" />
-              {siteConfig.business.phoneDisplay}
-            </a>
-          </m.div>
-        )}
-      </AnimatePresence>
+              {item.label}
+            </Link>
+          ))}
+          <a
+            href={`tel:${siteConfig.business.phone}`}
+            className="mt-3 flex items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-lg font-bold text-cta-foreground"
+          >
+            <Phone className="h-5 w-5" aria-hidden="true" />
+            {siteConfig.business.phoneDisplay}
+          </a>
+        </div>
+      )}
     </header>
   );
 }

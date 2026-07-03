@@ -1,13 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
-import {
-  m,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-  type MotionValue,
-} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import {
   Award,
   Check,
@@ -22,10 +15,6 @@ import { Reveal } from "@/components/motion/reveal";
 const STEP_COLORS = ["#1b3b8c", "#1b3b8c", "#1b3b8c", "#1b3b8c"] as const;
 const STEP_TINTS = ["#e8effa", "#e8effa", "#e8effa", "#e8effa"] as const;
 const STEP_ICONS: LucideIcon[] = [ShieldCheck, Clock3, Tag, Award];
-
-// Fallback card-center fractions (evenly spaced), used only until the real
-// card heights are measured on mount — avoids a flash of misaligned numerals.
-const FALLBACK_CENTERS = [0.125, 0.375, 0.625, 0.875];
 
 interface Reason {
   title: string;
@@ -87,59 +76,47 @@ const reasons: Reason[] = [
 ];
 
 export function WhyChooseUs() {
-  const panelRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<(HTMLElement | null)[]>([]);
-  const [centers, setCenters] = useState<number[]>(FALLBACK_CENTERS);
-  const shouldReduceMotion = useReducedMotion();
+  const [activeStep, setActiveStep] = useState(0);
 
-  // The 4 cards rarely render at equal heights (titles/descriptions differ in
-  // length), so assuming 4 even quarters of scroll desyncs the numeral from
-  // the card actually on screen. Measure each card's real center instead.
-  useLayoutEffect(() => {
-    const panel = panelRef.current;
-    if (!panel) return;
-
-    const measure = () => {
-      const panelRect = panel.getBoundingClientRect();
-      if (panelRect.height === 0) return;
-      const next = cardRefs.current.map((card, i) => {
-        if (!card) return FALLBACK_CENTERS[i];
-        const cardRect = card.getBoundingClientRect();
-        const relativeCenter =
-          cardRect.top - panelRect.top + cardRect.height / 2;
-        return relativeCenter / panelRect.height;
-      });
-      if (next.every((n) => Number.isFinite(n))) setCenters(next);
+  // Framer-free scroll tracking: a passive, rAF-throttled listener marks the
+  // reason card nearest the viewport centre as active. No animation library
+  // here means nothing extra to hydrate (mobile TBT); the numeral, icon and
+  // rail crossfade/fill purely in CSS off `activeStep`.
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const cards = cardRefs.current;
+      const mid = window.innerHeight / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      for (let i = 0; i < cards.length; i++) {
+        const c = cards[i];
+        if (!c) continue;
+        const r = c.getBoundingClientRect();
+        const dist = Math.abs(r.top + r.height / 2 - mid);
+        if (dist < bestDist) {
+          bestDist = dist;
+          best = i;
+        }
+      }
+      setActiveStep(best);
     };
-
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(panel);
-    return () => observer.disconnect();
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
-  // Track scroll progress across the panel
-  const { scrollYProgress } = useScroll({
-    target: panelRef,
-    offset: ["start center", "end center"],
-  });
-
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  // stickyNum hits exactly k when card k is actually centered in the
-  // viewport, regardless of how tall each card renders.
-  const stickyNum = useTransform(scrollYProgress, centers, [1, 2, 3, 4]);
-
-  const railColor = useTransform(
-    stickyNum,
-    [1, 2, 3, 4],
-    [STEP_COLORS[0], STEP_COLORS[1], STEP_COLORS[2], STEP_COLORS[3]],
-  );
-
-  const haloColor = useTransform(
-    stickyNum,
-    [1, 2, 3, 4],
-    [STEP_TINTS[0], STEP_TINTS[1], STEP_TINTS[2], STEP_TINTS[3]],
-  );
+  const progressPct = `${((activeStep + 1) / reasons.length) * 100}%`;
 
   return (
     <section className="relative bg-background border-t border-border py-14 md:py-20">
@@ -168,9 +145,9 @@ export function WhyChooseUs() {
             <div className="sticky top-24 relative h-[calc(100vh-12rem)] flex items-start">
               {/* Vertical progress rail */}
               <div className="absolute left-0 top-0 h-full w-[2px] overflow-hidden bg-border rounded-full">
-                <m.div
-                  style={{ height: lineHeight, backgroundColor: railColor }}
-                  className="w-full origin-top"
+                <div
+                  style={{ height: progressPct, backgroundColor: STEP_COLORS[0] }}
+                  className="w-full origin-top transition-[height] duration-500 ease-out"
                 />
               </div>
 
@@ -190,9 +167,9 @@ export function WhyChooseUs() {
               </div>
 
               <div className="pl-12 relative w-full">
-                {/* Soft animated background halo */}
-                <m.div
-                  style={{ backgroundColor: haloColor }}
+                {/* Soft background halo */}
+                <div
+                  style={{ backgroundColor: STEP_TINTS[0] }}
                   className="pointer-events-none absolute -inset-8 rounded-[4rem] blur-3xl opacity-50"
                   aria-hidden
                 />
@@ -202,10 +179,10 @@ export function WhyChooseUs() {
                     Reason
                   </p>
                   <div className="font-heading text-[8rem] lg:text-[10rem] leading-none font-bold tabular-nums tracking-tighter">
-                    <StickyDigit progress={stickyNum} />
+                    <StickyDigit active={activeStep} />
                   </div>
                   <div className="mt-4 h-10">
-                    <ActiveIcon progress={stickyNum} />
+                    <ActiveIcon active={activeStep} />
                   </div>
                 </div>
               </div>
@@ -213,7 +190,7 @@ export function WhyChooseUs() {
           </div>
 
           {/* ----- Right: step panels ----- */}
-          <div ref={panelRef} className="md:col-span-7 md:py-6 relative">
+          <div className="md:col-span-7 md:py-6 relative">
             {/* MOBILE-ONLY sticky counter strip */}
             <div className="md:hidden sticky top-16 z-20 -mx-6 mb-4 px-6 py-3 bg-background/95 border-y border-border">
               <div className="flex items-center justify-between gap-5">
@@ -222,7 +199,7 @@ export function WhyChooseUs() {
                     Reason
                   </p>
                   <div className="font-heading text-3xl font-bold leading-none">
-                    <StickyDigit progress={stickyNum} prefixZero />
+                    <StickyDigit active={activeStep} prefixZero />
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                     / 04
@@ -232,9 +209,9 @@ export function WhyChooseUs() {
 
               {/* Horizontal progress rail */}
               <div className="relative mt-3 h-[2px] w-full overflow-hidden bg-border rounded-full">
-                <m.div
-                  style={{ width: lineHeight, backgroundColor: railColor }}
-                  className="h-full origin-left"
+                <div
+                  style={{ width: progressPct, backgroundColor: STEP_COLORS[0] }}
+                  className="h-full origin-left transition-[width] duration-500 ease-out"
                 />
               </div>
             </div>
@@ -265,14 +242,8 @@ export function WhyChooseUs() {
 
                       {/* Left accent ribbon */}
                       <div className="pointer-events-none absolute left-0 top-0 h-full w-[3px] overflow-hidden">
-                        <m.span
-                          initial={
-                            shouldReduceMotion ? false : { scaleY: 0 }
-                          }
-                          whileInView={{ scaleY: 1 }}
-                          viewport={{ once: true, margin: "-80px" }}
-                          transition={{ duration: 0.9, ease: "easeOut" }}
-                          className="block h-full w-full origin-top"
+                        <span
+                          className="cgd-why-ribbon block h-full w-full origin-top"
                           style={{ backgroundColor: color }}
                         />
                       </div>
@@ -342,112 +313,46 @@ export function WhyChooseUs() {
   );
 }
 
-/** Number crossfader component handling 1 to 4 steps */
+/** Number crossfader — shows the active step's digit via CSS opacity. */
 function StickyDigit({
-  progress,
+  active,
   prefixZero = false,
 }: {
-  progress: MotionValue<number>;
+  active: number;
   prefixZero?: boolean;
 }) {
-  const opacity1 = useTransform(progress, [1.35, 1.55], [1, 0]);
-  const opacity2 = useTransform(
-    progress,
-    [1.45, 1.6, 2.35, 2.55],
-    [0, 1, 1, 0],
-  );
-  const opacity3 = useTransform(
-    progress,
-    [2.45, 2.6, 3.35, 3.55],
-    [0, 1, 1, 0],
-  );
-  const opacity4 = useTransform(progress, [3.45, 3.6], [0, 1]);
-
   const widthCh = prefixZero ? "w-[2ch]" : "w-[1ch]";
-  const label = (n: 1 | 2 | 3 | 4) => (prefixZero ? `0${n}` : String(n));
-
   return (
     <span className={`relative inline-block h-[1em] align-top ${widthCh}`}>
-      <m.span
-        style={{ opacity: opacity1, color: STEP_COLORS[0] }}
-        className="absolute inset-0"
-      >
-        {label(1)}
-      </m.span>
-      <m.span
-        style={{ opacity: opacity2, color: STEP_COLORS[1] }}
-        className="absolute inset-0"
-      >
-        {label(2)}
-      </m.span>
-      <m.span
-        style={{ opacity: opacity3, color: STEP_COLORS[2] }}
-        className="absolute inset-0"
-      >
-        {label(3)}
-      </m.span>
-      <m.span
-        style={{ opacity: opacity4, color: STEP_COLORS[3] }}
-        className="absolute inset-0"
-      >
-        {label(4)}
-      </m.span>
+      {[0, 1, 2, 3].map((i) => (
+        <span
+          key={i}
+          className="absolute inset-0 transition-opacity duration-300 ease-out"
+          style={{ opacity: active === i ? 1 : 0, color: STEP_COLORS[i] }}
+        >
+          {prefixZero ? `0${i + 1}` : String(i + 1)}
+        </span>
+      ))}
     </span>
   );
 }
 
-/** Active-step icon crossfader */
-function ActiveIcon({ progress }: { progress: MotionValue<number> }) {
-  const opacity1 = useTransform(progress, [1.35, 1.55], [1, 0]);
-  const opacity2 = useTransform(
-    progress,
-    [1.45, 1.6, 2.35, 2.55],
-    [0, 1, 1, 0],
-  );
-  const opacity3 = useTransform(
-    progress,
-    [2.45, 2.6, 3.35, 3.55],
-    [0, 1, 1, 0],
-  );
-  const opacity4 = useTransform(progress, [3.45, 3.6], [0, 1]);
-
-  const items = [
-    {
-      Icon: STEP_ICONS[0],
-      color: STEP_COLORS[0],
-      tint: STEP_TINTS[0],
-      o: opacity1,
-    },
-    {
-      Icon: STEP_ICONS[1],
-      color: STEP_COLORS[1],
-      tint: STEP_TINTS[1],
-      o: opacity2,
-    },
-    {
-      Icon: STEP_ICONS[2],
-      color: STEP_COLORS[2],
-      tint: STEP_TINTS[2],
-      o: opacity3,
-    },
-    {
-      Icon: STEP_ICONS[3],
-      color: STEP_COLORS[3],
-      tint: STEP_TINTS[3],
-      o: opacity4,
-    },
-  ];
-
+/** Active-step icon crossfader — CSS opacity off `active`. */
+function ActiveIcon({ active }: { active: number }) {
   return (
     <div className="relative h-10 w-10">
-      {items.map(({ Icon, color, tint, o }, i) => (
-        <m.div
+      {STEP_ICONS.map((Icon, i) => (
+        <div
           key={i}
-          style={{ opacity: o, backgroundColor: tint, color }}
-          className="absolute inset-0 flex items-center justify-center rounded-2xl"
+          style={{
+            opacity: active === i ? 1 : 0,
+            backgroundColor: STEP_TINTS[i],
+            color: STEP_COLORS[i],
+          }}
+          className="absolute inset-0 flex items-center justify-center rounded-2xl transition-opacity duration-300 ease-out"
         >
           <Icon className="h-5 w-5" strokeWidth={2} />
-        </m.div>
+        </div>
       ))}
     </div>
   );

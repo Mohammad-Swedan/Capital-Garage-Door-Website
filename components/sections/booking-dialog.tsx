@@ -6,7 +6,7 @@ import { Loader2, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
-const BOOKING_URL = "https://booking-system-cgd.netlify.app/";
+const BOOKING_ORIGIN = "https://booking-system-cgd.netlify.app";
 
 interface BookingDialogProps {
   /** Optional element that opens the sheet (rendered as the dialog trigger). */
@@ -14,6 +14,8 @@ interface BookingDialogProps {
   /** Controlled open state — use with `onOpenChange` to drive the sheet externally. */
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /** Path appended to the booking origin, e.g. "/booking/9". Defaults to the root booking form. */
+  path?: string;
 }
 
 /**
@@ -23,7 +25,7 @@ interface BookingDialogProps {
  * or drive it externally via `open`/`onOpenChange` (e.g. to share one sheet
  * across several triggers in the hero).
  */
-export function BookingDialog({ trigger, open, onOpenChange }: BookingDialogProps) {
+export function BookingDialog({ trigger, open, onOpenChange, path }: BookingDialogProps) {
   // Bumped on every open so <BookingFrame> remounts with a fresh loading
   // state instead of showing a stale iframe from the previous session.
   const [sessionKey, setSessionKey] = React.useState(0);
@@ -69,15 +71,16 @@ export function BookingDialog({ trigger, open, onOpenChange }: BookingDialogProp
             </DialogPrimitive.Close>
           </div>
 
-          <BookingFrame key={sessionKey} />
+          <BookingFrame key={sessionKey} path={path} />
         </DialogPrimitive.Popup>
       </DialogPrimitive.Portal>
     </DialogPrimitive.Root>
   );
 }
 
-function BookingFrame() {
+function BookingFrame({ path }: { path?: string }) {
   const [loaded, setLoaded] = React.useState(false);
+  const src = `${BOOKING_ORIGIN}${path ?? "/"}`;
 
   return (
     <div className="relative flex-1 bg-background">
@@ -87,7 +90,7 @@ function BookingFrame() {
         </div>
       )}
       <iframe
-        src={BOOKING_URL}
+        src={src}
         title="Book your garage door service"
         className={cn(
           "h-full w-full border-0 transition-opacity duration-200",

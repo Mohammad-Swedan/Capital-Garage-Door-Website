@@ -87,18 +87,20 @@ export default async function RootLayout({
         <JsonLd data={organizationSchema()} />
         <JsonLd data={webSiteSchema()} />
         {/* Before first paint, add `.intro-seen` (which hides the welcome intro and
-            skips the page-reveal animation) when it should not play:
-             - it already played this session (`cgd:welcomed`), or
-             - this is a touch / mobile device. The garage-door intro is a desktop
-               brand moment; on phones it only delayed the largest paint (it covers
-               the hero until it rolls up), hurting mobile LCP / Core Web Vitals with
-               no scroll benefit. Matching a mobile UA as well as coarse-pointer means
-               Lighthouse's emulated-mobile audit (mobile UA, but no `pointer:coarse`)
-               also skips it, so the lab reflects real-phone behaviour. */}
+            skips the page-reveal animation) once it has already played this session
+            (`cgd:welcomed`). The intro now plays on the first visit of every session
+            on ALL devices, phones included.
+
+            History/tradeoff: the intro used to be skipped on touch / mobile devices
+            too, because the closed door covers the hero on first paint and so delayed
+            mobile LCP / Core Web Vitals. That mobile gate was intentionally removed
+            (product decision) so the brand moment also shows on phones — at a known
+            mobile-LCP cost. Re-add a `matchMedia('(pointer:coarse)')` / mobile-UA
+            check here to bring the mobile skip back. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{var d=document.documentElement,m=matchMedia('(pointer:coarse)').matches||matchMedia('(hover:none)').matches||/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);if(sessionStorage.getItem('cgd:welcomed')||m)d.classList.add('intro-seen')}catch(e){}",
+              "try{var d=document.documentElement;if(sessionStorage.getItem('cgd:welcomed'))d.classList.add('intro-seen')}catch(e){}",
           }}
         />
         <LazyMotionProvider>

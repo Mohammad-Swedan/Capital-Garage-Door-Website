@@ -250,6 +250,18 @@ export function AiChatWidget({
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
+              <button
+                type="button"
+                aria-label="Request a quote"
+                onClick={() => {
+                  trackChatEvent("chat_quote_open", { source: "header" });
+                  setOverlay("quote");
+                }}
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-white/15 text-xs font-semibold text-white ring-1 ring-white/25 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 active:scale-95 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5"
+              >
+                <ReceiptText className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                <span className="sr-only sm:not-sr-only">Quote</span>
+              </button>
               <a
                 href={`tel:${siteConfig.business.phone}`}
                 aria-label="Call us"

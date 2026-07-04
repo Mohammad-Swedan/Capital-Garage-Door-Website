@@ -8,7 +8,6 @@ import {
   CallNowButton,
   BookNowButton,
   RequestQuoteButton,
-  UploadPhotoButton,
 } from "@/components/page/cta-buttons";
 import { resolveIcon } from "@/lib/icons";
 import {
@@ -63,7 +62,6 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
                 <CallNowButton />
                 <BookNowButton />
                 <RequestQuoteButton />
-                <UploadPhotoButton variant="secondary" />
               </div>
             </Reveal>
 

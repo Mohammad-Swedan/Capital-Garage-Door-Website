@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Phone, Mail, MapPin, Clock, Siren, FileText, Camera, ShieldCheck } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, Siren, FileText, MessageSquare, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
@@ -19,7 +19,7 @@ import type { BreadcrumbItem, FAQ, TrustReason } from "@/types";
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us | Request a Garage Door Quote in Perth",
   description:
-    "Request a free garage door repair, installation, or servicing quote in Perth. Call now, upload a photo, or fill out the form and Capital Garage Doors will get back to you fast.",
+    "Request a free garage door repair, installation, or servicing quote in Perth. Call now or fill out the form and Capital Garage Doors will get back to you fast.",
   path: "/contact",
 });
 
@@ -71,9 +71,9 @@ const FAQS: FAQ[] = [
       "We typically reply within the hour during business hours (Mon–Fri 8am–6pm, Sat 9am–3pm). Emergency requests are prioritised, with 24/7 emergency repairs available across Perth.",
   },
   {
-    question: "Can I upload a photo?",
+    question: "What details should I include in my quote request?",
     answer:
-      "Yes — the quote form below lets you attach a photo or short video of the issue. It helps our technicians diagnose the problem faster and often means a more accurate quote before we arrive.",
+      "Tell us the type of door, what's happening (won't open, off its tracks, strange noise, etc.), and roughly how long it's been an issue. The more specific you are, the faster and more accurate your quote will be.",
   },
   {
     question: "Do you service my suburb?",
@@ -150,13 +150,13 @@ export default function ContactPage() {
             <aside className="flex flex-col gap-5">
               <div className="rounded-2xl border border-border bg-gradient-to-br from-card to-muted/30 p-6 shadow-sm ring-1 ring-foreground/5">
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <Camera className="h-5 w-5" aria-hidden="true" />
+                  <MessageSquare className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
-                  Why upload a photo or video?
+                  Why the details matter
                 </h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  A quick snap of the issue helps our technicians get it right the first time.
+                  Describing the issue clearly helps our technicians get it right the first time.
                 </p>
                 <ul className="mt-4 flex flex-col gap-2 text-sm text-foreground">
                   <li className="flex items-center gap-2">

@@ -12,8 +12,8 @@ import {
   trackChatEvent,
   type ChatMessage,
 } from "@/components/sections/chat/use-assistant-chat";
-import { buildChatQuoteNotes } from "@/components/sections/chat/quote-prefill";
 import type { ChatAction } from "@/components/sections/chat/types";
+import type { QuoteEmbedPrefill } from "@/lib/booking-embed";
 import { cn } from "@/lib/utils";
 
 const quickReplies: { label: string; icon: LucideIcon }[] = [
@@ -85,7 +85,7 @@ export function ChatMode({
   onShowCalculator,
 }: {
   onBook: () => void;
-  onQuote: (ctx: { service?: string; suburb?: string; notes?: string }) => void;
+  onQuote: (prefill: QuoteEmbedPrefill) => void;
   onShowCalculator: () => void;
 }) {
   const { messages, typing, sendMessage } = useAssistantChat();
@@ -105,7 +105,8 @@ export function ChatMode({
       case "book":
         return onBook();
       case "quote":
-        return onQuote({ notes: buildChatQuoteNotes(messages) });
+        // The live quote widget has no notes param, so nothing from the transcript carries over.
+        return onQuote({});
       case "calculator":
         return onShowCalculator();
       case "suburb":

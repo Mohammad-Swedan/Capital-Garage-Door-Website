@@ -36,14 +36,10 @@ import type { ChatAction, ChatOverlay } from "@/components/sections/chat/types";
 import {
   useAssistantChat,
   trackChatEvent,
-  getChatSessionId,
-  currentPath,
   nextMessageId,
   type ChatMessage,
 } from "@/components/sections/chat/use-assistant-chat";
 import type { BookingCompleteDetail } from "@/components/sections/chat/in-chat-booking";
-import type { QuoteLead } from "@/components/sections/chat/in-chat-quote";
-import { buildChatQuoteNotes } from "@/components/sections/chat/quote-prefill";
 
 // Heavy / on-demand panels — only loaded once the user raises that overlay.
 const SmartPriceCalculator = dynamic(
@@ -185,24 +181,6 @@ export function AiChatWidget({
     ]);
   }
 
-  function handleQuoteSubmitted(lead: QuoteLead) {
-    trackChatEvent("chat_quote_submitted", {});
-    const sessionId = getChatSessionId();
-    if (!sessionId) return;
-    // Best-effort: attach the lead to this conversation; ignore failures.
-    void fetch("/api/chat/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId,
-        name: lead.name,
-        phone: lead.phone,
-        type: "quote",
-        source: currentPath(),
-      }),
-    }).catch(() => {});
-  }
-
   const lastMessage = messages[messages.length - 1];
   const showNextSteps = !typing && !overlay && lastMessage?.role === "bot";
 
@@ -272,6 +250,18 @@ export function AiChatWidget({
               </div>
             </div>
             <div className="flex shrink-0 items-center gap-1.5">
+              <button
+                type="button"
+                aria-label="Request a quote"
+                onClick={() => {
+                  trackChatEvent("chat_quote_open", { source: "header" });
+                  setOverlay("quote");
+                }}
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-white/15 text-xs font-semibold text-white ring-1 ring-white/25 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/25 active:scale-95 sm:h-auto sm:w-auto sm:px-3 sm:py-1.5"
+              >
+                <ReceiptText className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                <span className="sr-only sm:not-sr-only">Quote</span>
+              </button>
               <a
                 href={`tel:${siteConfig.business.phone}`}
                 aria-label="Call us"
@@ -372,13 +362,7 @@ export function AiChatWidget({
         {overlay === "booking" && (
           <InChatBooking onClose={() => setOverlay(null)} onComplete={handleBookingComplete} />
         )}
-        {overlay === "quote" && (
-          <InChatQuote
-            defaultNotes={buildChatQuoteNotes(messages)}
-            onClose={() => setOverlay(null)}
-            onSubmitted={handleQuoteSubmitted}
-          />
-        )}
+        {overlay === "quote" && <InChatQuote onClose={() => setOverlay(null)} />}
         {overlay === "calculator" && (
           <div className="absolute inset-0 z-20 flex flex-col bg-background">
             <div className="flex shrink-0 items-center gap-2 border-b border-border bg-background px-3 py-2.5">

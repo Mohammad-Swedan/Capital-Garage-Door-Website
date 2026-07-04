@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
-import { Phone, FileText, Camera, CalendarCheck } from "lucide-react";
+import { Phone, FileText, CalendarCheck } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-// Booking dialog is heavy + client-only — load it on demand from the button.
+// Booking/quote dialogs are heavy + client-only — load them on demand from the buttons.
 const BookingDialog = dynamic(
   () => import("@/components/sections/booking-dialog").then((m) => m.BookingDialog),
+  { ssr: false }
+);
+const QuoteDialog = dynamic(
+  () => import("@/components/sections/quote-dialog").then((m) => m.QuoteDialog),
   { ssr: false }
 );
 
@@ -56,13 +60,25 @@ export function RequestQuoteButton({ className, variant = "secondary" }: CtaProp
   );
 }
 
-/** Upload Photo for Quote — scrolls to the quote form (which has a file input). */
-export function UploadPhotoButton({ className, variant = "secondary" }: CtaProps) {
+/** Get a Quote — opens the live quote-request widget in a dialog (real CRM submissions). */
+export function GetQuoteButton({
+  className,
+  variant = "primary",
+  children,
+}: CtaProps & { children?: ReactNode }) {
+  const [open, setOpen] = useState(false);
   return (
-    <a href="#quote" className={cn(variantClass(variant), className)}>
-      <Camera className="h-4 w-4" aria-hidden="true" />
-      Upload Photo for Quote
-    </a>
+    <>
+      <button type="button" onClick={() => setOpen(true)} className={cn(variantClass(variant), className)}>
+        {children ?? (
+          <>
+            <FileText className="h-4 w-4" aria-hidden="true" />
+            Get a Free Quote
+          </>
+        )}
+      </button>
+      <QuoteDialog open={open} onOpenChange={setOpen} />
+    </>
   );
 }
 

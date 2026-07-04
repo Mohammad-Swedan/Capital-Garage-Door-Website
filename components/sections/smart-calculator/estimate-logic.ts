@@ -1,4 +1,5 @@
 import type { CmsPublicPricingItem } from "@/lib/cms/pricing-client";
+import { BOOKING_SERVICE_IDS, type QuoteEmbedPrefill } from "@/lib/booking-embed";
 import {
   PRICING_BY_ID,
   SERVICE_FALLBACK,
@@ -77,14 +78,6 @@ export const EMPTY_FORM: CalculatorFormData = {
   quantity: 1,
   emergency: false,
   suburb: "",
-};
-
-/** Friendly service names for the quote hand-off + summaries. */
-export const SERVICE_LABELS: Record<ServiceType, string> = {
-  repair: "Repair",
-  installation: "New garage door",
-  opener: "Motor / opener",
-  maintenance: "Service",
 };
 
 // Map each service to the catalog `category` words that count as the same family.
@@ -323,37 +316,19 @@ export function calculateEstimate(
   };
 }
 
-/** Format a headline range for prose ("from $X", "about $X", "$X–$Y"). */
-export function formatEstimateRange(estimate: EstimateResult): string {
-  if (estimate.openEnded) return `from $${estimate.minPrice.toLocaleString()}`;
-  if (estimate.minPrice === estimate.maxPrice) return `about $${estimate.minPrice.toLocaleString()}`;
-  return `$${estimate.minPrice.toLocaleString()}–$${estimate.maxPrice.toLocaleString()}`;
-}
-
-export interface QuotePrefill {
-  service: string;
-  suburb: string;
-  notes: string;
-}
-
 /**
- * Build a pre-filled, editable quote request from the calculator's current selections + estimate, so
- * the "Get my exact quote" CTA opens a form that already describes what the customer asked about.
+ * Build the quote-widget pre-fill from the calculator's current selections, so the
+ * "Get my exact quote" CTA opens the live quote form (booking-system embed) already set
+ * to the right service + suburb. The widget only accepts its documented URL params —
+ * the full selection summary can't be passed through.
  */
-export function buildQuotePrefill(formData: CalculatorFormData, estimate: EstimateResult): QuotePrefill {
-  const serviceLabel = formData.serviceType ? SERVICE_LABELS[formData.serviceType] : "Garage door enquiry";
-  const scenario =
-    formData.problemId && formData.problemId !== NOT_SURE_ID
-      ? PRICING_BY_ID.get(formData.problemId)
-      : undefined;
-  const jobLabel = scenario ? scenarioLabelForSelection(scenario, formData.quantity) : "";
-  const service = jobLabel ? `${serviceLabel} — ${jobLabel}` : serviceLabel;
-
-  const lines: string[] = [`Service: ${service}`];
-  if (formData.doorType && formData.doorType !== "notsure") lines.push(`Door type: ${formData.doorType}`);
-  if (formData.doorSize) lines.push(`Door size: ${formData.doorSize}`);
-  if (formData.emergency) lines.push("After-hours / emergency: yes (+$500)");
-  lines.push(`Calculator estimate: ${formatEstimateRange(estimate)} (indicative — please confirm my exact price).`);
-
-  return { service, suburb: formData.suburb, notes: lines.join("\n") };
+export function buildQuotePrefill(formData: CalculatorFormData): QuoteEmbedPrefill {
+  const serviceId = formData.emergency
+    ? BOOKING_SERVICE_IDS.emergency
+    : formData.serviceType === "installation"
+      ? BOOKING_SERVICE_IDS.installationQuote
+      : formData.serviceType === "maintenance"
+        ? BOOKING_SERVICE_IDS.tuneUp
+        : BOOKING_SERVICE_IDS.repair;
+  return { suburb: formData.suburb || undefined, serviceId };
 }

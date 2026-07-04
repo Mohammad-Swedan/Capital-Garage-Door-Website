@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { GetQuoteButton } from "@/components/page/cta-buttons";
 
 export function AboutSection() {
   return (
@@ -79,14 +80,11 @@ export function AboutSection() {
             </p>
 
             <div className="flex flex-wrap items-center gap-3">
-              {/* Primary CTA — uses the site's shared rounded-full red button language. */}
-              <Link
-                href="/contact"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-cta px-6 py-3 text-sm font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all hover:bg-cta/90 hover:-translate-y-0.5 hover:shadow-[0_6px_28px_rgba(200,34,42,0.45)] active:translate-y-0 active:scale-95"
-              >
+              {/* Primary CTA — opens the live quote widget in a dialog (shared red button language). */}
+              <GetQuoteButton className="group">
                 Get Your Free Quote
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </GetQuoteButton>
               {/* Secondary CTA → /about (internal link for SEO) — shared navy outline style. */}
               <Link
                 href="/about"

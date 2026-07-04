@@ -122,9 +122,9 @@ export const problems: Problem[] = [
           "In most cases, yes. Our technicians can diagnose and repair common opener motor faults on-site. If the motor is beyond economical repair, we can supply and install a replacement the same day in many cases.",
       },
       {
-        question: "Can I send a video of the issue?",
+        question: "What should I describe when I request help?",
         answer:
-          "Yes — uploading a photo or short video of the door when you request help lets our technicians diagnose the issue faster and arrive with the right parts.",
+          "Tell us what the door is doing (won't open, off its tracks, grinding noise, etc.) and roughly how long it's been happening — the more detail you give our technicians, the faster they can diagnose the issue and arrive with the right parts.",
       },
       {
         question: "Do you service all Perth suburbs?",

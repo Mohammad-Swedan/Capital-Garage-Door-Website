@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Camera } from "lucide-react";
+import { Check, MessageSquare } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/page/section-heading";
@@ -27,7 +27,7 @@ export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProp
             {data.note && (
               <Reveal delay={0.1}>
                 <p className="mt-5 inline-flex items-center gap-2 rounded-xl border border-[#0f4e9b]/15 bg-[#0f4e9b]/5 px-4 py-2.5 text-sm font-semibold text-[#0f4e9b]">
-                  <Camera className="h-4 w-4" aria-hidden="true" />
+                  <MessageSquare className="h-4 w-4" aria-hidden="true" />
                   <EditableText path="costGuidance.note" placeholder="Cost note…">
                     {data.note}
                   </EditableText>

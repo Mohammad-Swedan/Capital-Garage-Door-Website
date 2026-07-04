@@ -26,7 +26,7 @@ const SYSTEM_FEATURES: TrustReason[] = [
   },
   {
     title: "Clear, Fast Quotes",
-    description: "Upload a photo and get a clear estimate before we arrive, so there are no surprises on the day.",
+    description: "Describe the issue and get a clear estimate before we arrive, so there are no surprises on the day.",
     icon: "FileText",
   },
   {

@@ -64,8 +64,8 @@ export function ServicePageTemplate({ data }: ServicePageTemplateProps) {
 
       <FAQSection faqs={data.faqs} />
 
-      {/* Lead-capture form — the #quote target for every "Request a Quote" /
-          "Upload Photo" CTA on the page (hero, service-area grid, sticky bar). */}
+      {/* Lead-capture form — the #quote target for every "Request a Quote"
+          CTA on the page (hero, service-area grid, sticky bar). */}
       <section className="bg-muted/40">
         <Container className="py-12 sm:py-16">
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-12">

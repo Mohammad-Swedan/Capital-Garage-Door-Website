@@ -4,7 +4,6 @@ import { Reveal } from "@/components/motion/reveal";
 import {
   CallNowButton,
   RequestQuoteButton,
-  UploadPhotoButton,
   BookNowButton,
 } from "@/components/page/cta-buttons";
 import { EditableText } from "@/components/admin/editor/editable";
@@ -64,7 +63,6 @@ export function CaseStudyHero({ data }: CaseStudyHeroProps) {
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
               <CallNowButton />
               <RequestQuoteButton />
-              <UploadPhotoButton variant="secondary" />
               <BookNowButton variant="secondary" />
             </div>
           </Reveal>

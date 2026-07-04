@@ -28,7 +28,6 @@ const blankLandingBadge = (): LandingBadge => ({ icon: "ShieldCheck", label: "" 
  */
 export function LandingHero({ page }: LandingHeroProps) {
   const { business } = siteConfig;
-  const problemOptions = page.problems.items.map((problem) => problem.title);
 
   return (
     <section className="relative overflow-hidden bg-background">
@@ -139,11 +138,7 @@ export function LandingHero({ page }: LandingHeroProps) {
               </p>
             )}
             <div className="mt-5">
-              <LandingQuoteForm
-                pageType={page.pageType}
-                service={page.serviceLabel}
-                problemOptions={problemOptions}
-              />
+              <LandingQuoteForm service={page.serviceLabel} />
             </div>
           </div>
         </div>

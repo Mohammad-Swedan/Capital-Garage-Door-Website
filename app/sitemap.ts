@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/config/site";
-import { cmsSitemap, type PageSitemapItem } from "@/lib/cms/client";
+import { cmsSitemap, cmsSitemapSafe, type PageSitemapItem } from "@/lib/cms/client";
 import { getArticleSlugs } from "@/lib/data/articles";
 import { getProblemSlugs } from "@/lib/data/problems";
 import { getServicePageSlugs } from "@/lib/data/service-pages";
@@ -15,15 +15,26 @@ import { getCaseStudySlugs } from "@/lib/data/case-studies";
  * `lastModified` per dynamic entry comes from the CMS sitemap feed
  * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL; entries omit
  * `lastModified` when no real date is known (an invented date is worse than none).
- * The strict `cmsSitemap()` THROWS when the CMS is unreachable, so a failed
- * regeneration keeps serving the last good sitemap instead of silently dropping
- * every CMS URL; the CMS pushes changes instantly via app/api/revalidate on
- * create/update/publish/unpublish/delete.
+ * At RUNTIME we use the strict `cmsSitemap()` which THROWS when the CMS is
+ * unreachable, so a failed regeneration keeps serving the last good sitemap
+ * instead of silently dropping every CMS URL; the CMS pushes changes instantly
+ * via app/api/revalidate on create/update/publish/unpublish/delete.
+ * During the production BUILD there is no "last good sitemap" to fall back to,
+ * so throwing would abort the whole deploy if the CMS happens to be unreachable
+ * from the build container (e.g. Netlify can't see a dev-only localhost CMS).
+ * There we use the lenient `cmsSitemapSafe()` (→ [] on failure): the site's
+ * local-content slugs still ship, and ISR fills in CMS lastmods on the first
+ * successful revalidation.
  * `noIndex` pages (e.g. paid `/lp/*` landing pages, draft/hidden pages) are
  * EXCLUDED — both by never listing /lp here and by dropping any CMS feed item
  * flagged `noIndex`.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Strict at runtime (keep last-good sitemap on a transient CMS failure); lenient during
+  // `next build`, where a throw would abort the whole deploy and there is no prior sitemap.
+  const readCmsFeed =
+    process.env.NEXT_PHASE === "phase-production-build" ? cmsSitemapSafe : cmsSitemap;
+
   const [
     cmsFeed,
     blogSlugs,
@@ -34,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     suburbPageSlugs,
     caseStudySlugs,
   ] = await Promise.all([
-    cmsSitemap(),
+    readCmsFeed(),
     getArticleSlugs(),
     getProblemSlugs(),
     getServicePageSlugs(),

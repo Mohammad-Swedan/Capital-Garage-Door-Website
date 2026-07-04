@@ -15,7 +15,7 @@ import { mapCostGuidePage } from "@/lib/cms/map-cost-guide-page";
  * must check `dto.templateType` and return `undefined` when it doesn't match, letting the shared
  * `app/[slug]/page.tsx` resolver fall through to the next registry.
  */
-const CMS_ON = process.env.CMS_COST_GUIDES === "on";
+const CMS_ON = (process.env.CMS_COST_GUIDES ?? "on") === "on";
 
 export async function getCostGuidePages(): Promise<CostGuidePage[]> {
   if (CMS_ON) {

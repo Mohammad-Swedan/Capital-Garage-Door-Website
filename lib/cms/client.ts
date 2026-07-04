@@ -5,7 +5,7 @@
  * these functions is the documented cutover seam (docs/cms-architecture.md §8).
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 
 /** A related link flattened by the API to a label + real href. */
 export interface CmsRelatedLink {

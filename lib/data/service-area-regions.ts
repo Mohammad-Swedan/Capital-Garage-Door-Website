@@ -10,7 +10,7 @@ import { cmsServiceAreaRegions, type CmsServiceAreaRegionDto } from "@/lib/cms/c
  * consumes; otherwise it falls back to the local `content/service-area-regions` module. Mirrors the
  * per-page-type cutover seam (lib/data/service-pages.ts).
  */
-const CMS_ON = process.env.CMS_CATALOGS === "on";
+const CMS_ON = (process.env.CMS_CATALOGS ?? "on") === "on";
 
 /** Kebab-case fallback slug from a suburb name, for the (rare) suburb with no stored slug. */
 function slugify(name: string): string {

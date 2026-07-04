@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { cookies } from "next/headers";
 import { CMS_TOKEN_COOKIE } from "@/lib/cms/admin";
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 
 /** Server-side proxy: forwards a multipart upload to the CMS with the httpOnly JWT attached. */
 export async function POST(request: NextRequest) {

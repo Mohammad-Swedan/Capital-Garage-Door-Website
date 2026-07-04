@@ -11,7 +11,7 @@ import { mapCaseStudyPage } from "@/lib/cms/map-case-study-page";
  * This flag-guarded seam is how the site cuts over to the CMS one template type at a time without
  * ever breaking the live site (docs/cms-architecture.md §8). Call sites do not change.
  */
-const CMS_ON = process.env.CMS_CASE_STUDIES === "on";
+const CMS_ON = (process.env.CMS_CASE_STUDIES ?? "on") === "on";
 
 export async function getCaseStudies(): Promise<CaseStudyPage[]> {
   if (CMS_ON) {

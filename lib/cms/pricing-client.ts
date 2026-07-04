@@ -9,7 +9,7 @@
  * when the CMS is unreachable. The admin-only InternalNote is never exposed by GET /api/pricing-items.
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 const REVALIDATE_SECONDS = 3600;
 
 /** A single row from GET /api/pricing-items (mirrors the backend PublicPricingItemDto, camelCase). */

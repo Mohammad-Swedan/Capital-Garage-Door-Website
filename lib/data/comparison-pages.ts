@@ -15,7 +15,7 @@ import { mapComparisonPage } from "@/lib/cms/map-comparison-page";
  * must check `dto.templateType` and return `undefined` when it doesn't match, letting the shared
  * `app/[slug]/page.tsx` resolver fall through to the next registry.
  */
-const CMS_ON = process.env.CMS_COMPARISON_PAGES === "on";
+const CMS_ON = (process.env.CMS_COMPARISON_PAGES ?? "on") === "on";
 
 export async function getComparisonPages(): Promise<ComparisonPage[]> {
   if (CMS_ON) {

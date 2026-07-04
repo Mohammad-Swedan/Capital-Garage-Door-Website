@@ -15,7 +15,7 @@ import { mapServiceSuburbPage } from "@/lib/cms/map-service-suburb-page";
  * the shared "flat" route group and we narrow on `templateType` to avoid colliding with other flat
  * page types (e.g. ServicePage).
  */
-const CMS_ON = process.env.CMS_SUBURB_PAGES === "on";
+const CMS_ON = (process.env.CMS_SUBURB_PAGES ?? "on") === "on";
 
 export async function getServiceSuburbPages(): Promise<ServiceSuburbPage[]> {
   if (CMS_ON) {

@@ -11,7 +11,7 @@ import { mapServicePage } from "@/lib/cms/map-service-page";
  * how the site cuts over to the CMS one template type at a time without ever breaking the live site
  * (docs/cms-architecture.md §8). Call sites (templates, app/sitemap.ts) do not change.
  */
-const CMS_ON = process.env.CMS_SERVICE_PAGES === "on";
+const CMS_ON = (process.env.CMS_SERVICE_PAGES ?? "on") === "on";
 
 export async function getServicePages(): Promise<ServicePage[]> {
   if (CMS_ON) {

@@ -25,7 +25,7 @@ function pruneDeadRelated(article: Article): Article {
  * seam is how the site cuts over to the CMS one template type at a time without ever breaking the
  * live site (docs/cms-architecture.md §8). Call sites (templates, app/sitemap.ts) do not change.
  */
-const CMS_ON = process.env.CMS_ARTICLES === "on";
+const CMS_ON = (process.env.CMS_ARTICLES ?? "on") === "on";
 
 function blockWordCount(block: ContentBlock): number {
   switch (block.type) {

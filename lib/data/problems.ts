@@ -13,7 +13,7 @@ import { mapProblemPage } from "@/lib/cms/map-problem-page";
  *
  * The "problems" route group is single-type, so resolving by slug returns the ProblemPage directly.
  */
-const CMS_ON = process.env.CMS_PROBLEMS === "on";
+const CMS_ON = (process.env.CMS_PROBLEMS ?? "on") === "on";
 
 export async function getProblems(): Promise<Problem[]> {
   if (CMS_ON) {

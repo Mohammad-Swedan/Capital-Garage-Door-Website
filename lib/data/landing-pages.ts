@@ -16,7 +16,7 @@ import { mapLandingPage } from "@/lib/cms/map-landing-page";
  * templateType ONLY — filtering out no-index here would leave generateStaticParams nothing to
  * prebuild. They are excluded from app/sitemap.ts regardless (noindex pages never belong there).
  */
-const CMS_ON = process.env.CMS_LANDING_PAGES === "on";
+const CMS_ON = (process.env.CMS_LANDING_PAGES ?? "on") === "on";
 
 export async function getLandingPages(): Promise<LandingPage[]> {
   if (CMS_ON) {

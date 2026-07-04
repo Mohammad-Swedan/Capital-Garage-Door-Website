@@ -14,7 +14,7 @@ import { cmsPublicReviews, type CmsPublicReviewItem } from "@/lib/cms/reviews-cl
  * NOTE: the homepage testimonials (content/testimonials.ts + lib/data/testimonials.ts) are a
  * separate concern and are intentionally left untouched here.
  */
-const CMS_ON = process.env.CMS_REVIEWS === "on";
+const CMS_ON = (process.env.CMS_REVIEWS ?? "on") === "on";
 
 /** Map a CMS review item to the front-end `Review` shape the page/components expect. */
 function mapReview(item: CmsPublicReviewItem): Review {

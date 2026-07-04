@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
  * applies. Used by the /admin route group's server components and server actions.
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 export const CMS_TOKEN_COOKIE = "cms_token";
 
 export async function getToken(): Promise<string | undefined> {

@@ -4,7 +4,7 @@
  * DTOs; mirrors the fetch/revalidate style of lib/cms/client.ts.
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 const REVALIDATE_SECONDS = 3600;
 
 /** A single review item from GET /api/reviews (mirrors the backend ReviewDto, camelCase). */

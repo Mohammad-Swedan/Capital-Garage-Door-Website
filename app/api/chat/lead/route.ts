@@ -6,7 +6,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * conversation (by sessionId). Same-origin only — the browser never sees the CMS or the secret.
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 
 function str(value: unknown, max: number): string | undefined {
   return typeof value === "string" && value.trim().length > 0 ? value.trim().slice(0, max) : undefined;

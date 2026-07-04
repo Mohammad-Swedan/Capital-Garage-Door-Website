@@ -9,7 +9,7 @@ import { cmsGallery, type CmsGalleryItemDto } from "@/lib/cms/client";
  * and maps each DTO to the `GalleryItem` shape the gallery page consumes; otherwise it falls back to
  * the local `content/gallery` module. Mirrors the per-page-type cutover seam (lib/data/service-pages.ts).
  */
-const CMS_ON = process.env.CMS_CATALOGS === "on";
+const CMS_ON = (process.env.CMS_CATALOGS ?? "on") === "on";
 
 // Map the CMS GalleryCategory enum name (PascalCase on the wire) to the front display string used
 // by the filter pills (types/gallery.ts). Inverse of the importer's display → enum-name mapping.

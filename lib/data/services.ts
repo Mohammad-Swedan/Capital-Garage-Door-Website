@@ -10,7 +10,7 @@ import { cmsServices, type CmsServiceDto } from "@/lib/cms/client";
  * back to the local `content/services` module (the current source of truth). This flag-guarded seam
  * mirrors the per-page-type cutover (see lib/data/service-pages.ts). Call sites do not change.
  */
-const CMS_ON = process.env.CMS_CATALOGS === "on";
+const CMS_ON = (process.env.CMS_CATALOGS ?? "on") === "on";
 
 // The documented fallback canonical URL when a service has no dedicated CMS page yet — the one
 // comprehensive flat page covering repairs, springs, motors, and call-outs (see content/services.ts).

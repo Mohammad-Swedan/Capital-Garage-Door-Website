@@ -10,7 +10,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * here (the browser is untrusted on the way out) before handing it to the widget.
  */
 
-const CMS_API_URL = process.env.CMS_API_URL ?? "http://localhost:5179";
+const CMS_API_URL = process.env.CMS_API_URL ?? "https://cgd.runasp.net";
 
 // Keep these in step with the backend ChatQueryValidator (max 30 messages, 2000 chars each).
 const MAX_MESSAGES = 30;

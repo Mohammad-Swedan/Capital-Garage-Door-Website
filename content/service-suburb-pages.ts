@@ -52,7 +52,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
     localIntro: [
       "From family homes near Lakeside Joondalup to businesses around the Joondalup CBD, a faulty garage door is more than an inconvenience — it affects your security, your daily routine, and the look of your property. Our local Perth technicians repair residential and commercial garage doors across Joondalup, with same-day and emergency options when you need to get moving fast.",
       "Whether it's a sudden breakdown — a door that won't open before the morning commute — or a slow-developing issue like grinding noise, jerky movement, or a remote that's stopped responding, we diagnose the real cause and fix it properly the first time. We regularly service the wider northern corridor too, including Edgewater, Currambine, Ocean Reef and Wanneroo.",
-      "Not sure what's wrong? Upload a photo or short video of your garage door and we'll give you a clear idea of the likely fix and an honest estimate before we arrive — no guesswork, no surprise call-out fees.",
+      "Not sure what's wrong? Tell us what you're seeing when you request a quote and we'll give you a clear idea of the likely fix and an honest estimate before we arrive — no guesswork, no surprise call-out fees.",
     ],
 
     availableServices: [
@@ -150,7 +150,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
         "Site access and how the door is installed",
         "Whether a repair will last, or a replacement is the smarter long-term option",
       ],
-      note: "Send a photo of your door for a faster, more accurate estimate.",
+      note: "Describe the issue in your quote request for a faster, more accurate estimate.",
     },
 
     whyChooseUs: [
@@ -217,9 +217,9 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
           "Yes — we regularly work across the northern corridor, including Edgewater, Currambine, Heathridge, Connolly, Ocean Reef, Mullaloo, Wanneroo and Woodvale.",
       },
       {
-        question: "Can I upload a photo before booking?",
+        question: "Can I get an estimate before booking?",
         answer:
-          "Absolutely. Send a photo or short video of your garage door through our quote form and we'll give you a clearer idea of the likely repair and an estimate before we arrive.",
+          "Yes — describe the issue in our quote form and we'll give you a clearer idea of the likely repair and an estimate before we arrive.",
       },
       {
         question: "Do you offer emergency garage door repair?",
@@ -229,7 +229,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
       {
         question: "How much does garage door repair cost in Joondalup?",
         answer:
-          "It depends on the problem, the parts needed, your door type and the urgency. We always provide a clear, upfront quote before starting — request a quote or send a photo for an accurate estimate.",
+          "It depends on the problem, the parts needed, your door type and the urgency. We always provide a clear, upfront quote before starting — request a quote and describe the issue for an accurate estimate.",
       },
     ],
 

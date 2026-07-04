@@ -23,9 +23,9 @@ import {
   EMPTY_FORM,
   NOT_SURE_ID,
   type CalculatorFormData,
-  type QuotePrefill,
   type ServiceType,
 } from "./estimate-logic";
+import type { QuoteEmbedPrefill } from "@/lib/booking-embed";
 import {
   SERVICE_OPTIONS,
   ISSUE_OPTIONS,
@@ -199,7 +199,7 @@ export function CalculatorMode({
   onQuote,
 }: {
   onBook: () => void;
-  onQuote: (prefill: QuotePrefill) => void;
+  onQuote: (prefill: QuoteEmbedPrefill) => void;
 }) {
   const catalog = usePricingCatalog();
   const [form, setForm] = useState<CalculatorFormData>(EMPTY_FORM);
@@ -309,7 +309,7 @@ export function CalculatorMode({
   };
   const handleQuote = () => {
     setDetailsOpen(false);
-    onQuote(buildQuotePrefill(form, estimate));
+    onQuote(buildQuotePrefill(form));
   };
 
   const stepAnimate = !reduceMotion;

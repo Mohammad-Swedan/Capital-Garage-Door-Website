@@ -6,15 +6,13 @@ import { Calculator, MessageCircle, Phone, Sparkles } from "lucide-react";
 import { CalculatorMode } from "./calculator-mode";
 import { ChatMode } from "./chat-mode";
 import { InChatBooking } from "@/components/sections/chat/in-chat-booking";
-import { InChatQuote, type QuoteLead } from "@/components/sections/chat/in-chat-quote";
-import { getChatSessionId, currentPath, trackChatEvent } from "@/components/sections/chat/use-assistant-chat";
+import { InChatQuote } from "@/components/sections/chat/in-chat-quote";
+import type { QuoteEmbedPrefill } from "@/lib/booking-embed";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 type Mode = "calculator" | "chat";
 type Overlay = "booking" | "quote" | null;
-/** Pre-fill passed into the quote overlay (from the calculator selection or the chat transcript). */
-type QuoteContext = { service?: string; suburb?: string; notes?: string };
 
 function BotAvatar() {
   return (
@@ -69,32 +67,14 @@ function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
 export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: boolean }) {
   const [mode, setMode] = useState<Mode>("calculator");
   const [overlay, setOverlay] = useState<Overlay>(null);
-  const [quoteCtx, setQuoteCtx] = useState<QuoteContext | null>(null);
+  const [quotePrefill, setQuotePrefill] = useState<QuoteEmbedPrefill | undefined>(undefined);
 
   const activeMode: Mode = showChatMode ? mode : "calculator";
 
-  const openQuote = (ctx: QuoteContext) => {
-    setQuoteCtx(ctx);
+  const openQuote = (prefill: QuoteEmbedPrefill) => {
+    setQuotePrefill(prefill);
     setOverlay("quote");
   };
-
-  function handleQuoteSubmitted(lead: QuoteLead) {
-    trackChatEvent("calc_quote_submitted", {});
-    const sessionId = getChatSessionId();
-    if (!sessionId) return;
-    // Best-effort lead capture, mirroring the chat widget's quote flow.
-    void fetch("/api/chat/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId,
-        name: lead.name,
-        phone: lead.phone,
-        type: "quote",
-        source: currentPath(),
-      }),
-    }).catch(() => {});
-  }
 
   return (
     <div className="relative mx-auto flex h-full min-h-[34rem] w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50">
@@ -162,13 +142,7 @@ export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: b
         <InChatBooking onClose={() => setOverlay(null)} onComplete={() => setOverlay(null)} />
       )}
       {overlay === "quote" && (
-        <InChatQuote
-          service={quoteCtx?.service}
-          defaultSuburb={quoteCtx?.suburb}
-          defaultNotes={quoteCtx?.notes}
-          onClose={() => setOverlay(null)}
-          onSubmitted={handleQuoteSubmitted}
-        />
+        <InChatQuote prefill={quotePrefill} onClose={() => setOverlay(null)} />
       )}
     </div>
   );

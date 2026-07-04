@@ -36,14 +36,10 @@ import type { ChatAction, ChatOverlay } from "@/components/sections/chat/types";
 import {
   useAssistantChat,
   trackChatEvent,
-  getChatSessionId,
-  currentPath,
   nextMessageId,
   type ChatMessage,
 } from "@/components/sections/chat/use-assistant-chat";
 import type { BookingCompleteDetail } from "@/components/sections/chat/in-chat-booking";
-import type { QuoteLead } from "@/components/sections/chat/in-chat-quote";
-import { buildChatQuoteNotes } from "@/components/sections/chat/quote-prefill";
 
 // Heavy / on-demand panels — only loaded once the user raises that overlay.
 const SmartPriceCalculator = dynamic(
@@ -183,24 +179,6 @@ export function AiChatWidget({
         actions: [{ type: "call", label: "Call us" }],
       },
     ]);
-  }
-
-  function handleQuoteSubmitted(lead: QuoteLead) {
-    trackChatEvent("chat_quote_submitted", {});
-    const sessionId = getChatSessionId();
-    if (!sessionId) return;
-    // Best-effort: attach the lead to this conversation; ignore failures.
-    void fetch("/api/chat/lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId,
-        name: lead.name,
-        phone: lead.phone,
-        type: "quote",
-        source: currentPath(),
-      }),
-    }).catch(() => {});
   }
 
   const lastMessage = messages[messages.length - 1];
@@ -372,13 +350,7 @@ export function AiChatWidget({
         {overlay === "booking" && (
           <InChatBooking onClose={() => setOverlay(null)} onComplete={handleBookingComplete} />
         )}
-        {overlay === "quote" && (
-          <InChatQuote
-            defaultNotes={buildChatQuoteNotes(messages)}
-            onClose={() => setOverlay(null)}
-            onSubmitted={handleQuoteSubmitted}
-          />
-        )}
+        {overlay === "quote" && <InChatQuote onClose={() => setOverlay(null)} />}
         {overlay === "calculator" && (
           <div className="absolute inset-0 z-20 flex flex-col bg-background">
             <div className="flex shrink-0 items-center gap-2 border-b border-border bg-background px-3 py-2.5">

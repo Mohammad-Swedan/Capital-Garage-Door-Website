@@ -1,5 +1,5 @@
 import { SmartCta } from "@/components/sections/smart-cta";
-import { Camera, MessageCircleQuestion, Phone, Siren } from "lucide-react";
+import { MessageCircleQuestion, Phone, Siren } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { PageHero } from "@/components/sections/page-hero";
 import { DirectAnswer } from "@/components/sections/direct-answer";
@@ -51,7 +51,6 @@ export function ProblemPageTemplate({ problem }: ProblemPageTemplateProps) {
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           { label: "Request Help", href: "#get-quote", variant: "outline", icon: <MessageCircleQuestion className="h-4 w-4" aria-hidden="true" /> },
-          { label: "Upload Photo/Video", href: "#get-quote", variant: "outline", icon: <Camera className="h-4 w-4" aria-hidden="true" /> },
         ]}
       />
 
@@ -73,7 +72,6 @@ export function ProblemPageTemplate({ problem }: ProblemPageTemplateProps) {
         body={problem.emergency.body}
         buttons={[
           { label: "Call Emergency Repair", href: `tel:${phone}`, icon: <Siren className="h-4 w-4" aria-hidden="true" /> },
-          { label: "Send Photo Now", href: "#get-quote", variant: "outline", icon: <Camera className="h-4 w-4" aria-hidden="true" /> },
         ]}
       />
 

@@ -8,7 +8,6 @@ import {
   CallNowButton,
   BookNowButton,
   RequestQuoteButton,
-  UploadPhotoButton,
 } from "@/components/page/cta-buttons";
 import { EditableText, EditableList } from "@/components/admin/editor/editable";
 
@@ -68,7 +67,6 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
                 <CallNowButton />
                 <BookNowButton />
                 <RequestQuoteButton />
-                <UploadPhotoButton variant="secondary" />
               </div>
             </Reveal>
 

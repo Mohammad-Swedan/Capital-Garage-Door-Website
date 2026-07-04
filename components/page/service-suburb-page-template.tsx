@@ -124,7 +124,7 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
             <SectionHeading
               eyebrow="Get a quote"
               title={`Request a Quote in ${page.suburb}`}
-              description={`Tell us what's going on and we'll get back to you fast. Prefilled for ${page.service.toLowerCase()} in ${page.suburb} — add a photo for an even quicker estimate.`}
+              description={`Tell us what's going on and we'll get back to you fast. Prefilled for ${page.service.toLowerCase()} in ${page.suburb}.`}
             />
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm ring-1 ring-foreground/5 sm:p-8">
               <QuoteForm service={page.service} suburb={page.suburb} />

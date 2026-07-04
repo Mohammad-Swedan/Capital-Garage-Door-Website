@@ -57,13 +57,13 @@ export const garageDoorRepairsPerth: ServicePage = {
   processSteps: [
     {
       title: "Contact us or request a quote",
-      description: "Call, request a quote online, or upload a photo of the issue — whichever is easiest.",
+      description: "Call us or request a quote online — whichever is easiest.",
       icon: "PhoneCall",
     },
     {
       title: "Tell us what's happening",
-      description: "Describe the issue or upload a photo/video so our technician arrives prepared with the right parts.",
-      icon: "Camera",
+      description: "Describe the issue in the quote form so our technician arrives prepared with the right parts.",
+      icon: "HelpCircle",
     },
     {
       title: "On-site inspection",
@@ -205,9 +205,9 @@ export const garageDoorRepairsPerth: ServicePage = {
         "Yes, we repair both residential and commercial garage and roller doors across Perth, including doors used for higher-frequency commercial access.",
     },
     {
-      question: "Can I send a photo or video of the problem before booking?",
+      question: "What should I tell you before booking?",
       answer:
-        "Yes — uploading a photo or short video when you request a quote helps our technician diagnose the issue in advance and arrive with the right parts.",
+        "Describe the problem when you request a quote — what the door is doing, how long it's been happening, and the door type if you know it. It helps our technician diagnose the issue in advance and arrive with the right parts.",
     },
   ],
 

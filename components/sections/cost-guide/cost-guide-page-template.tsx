@@ -1,5 +1,5 @@
 import { SmartCta } from "@/components/sections/smart-cta";
-import { Camera, FileText, Phone } from "lucide-react";
+import { FileText, Phone } from "lucide-react";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
@@ -48,12 +48,6 @@ export function CostGuidePageTemplate({ data }: CostGuidePageTemplateProps) {
         subtitle={data.hero.subtitle}
         ctas={[
           { label: "Request Quote", href: "#quote", icon: <FileText className="h-4 w-4" aria-hidden="true" /> },
-          {
-            label: "Upload Photo for Estimate",
-            href: "#quote",
-            variant: "outline",
-            icon: <Camera className="h-4 w-4" aria-hidden="true" />,
-          },
           {
             label: "Call Now",
             href: `tel:${phone}`,

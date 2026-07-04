@@ -143,7 +143,7 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 
 ## 14. Conversion Elements *(service / money pages)*
 
-**In this repo:** flat service pages render `ServiceContactPanel` + `ServiceQuoteForm` inside an `id="quote"` section; the hero/area-grid CTAs (`RequestQuoteButton`, `UploadPhotoButton`) scroll to it. Reuse this pattern — every `#quote` CTA needs a real `#quote` target on the page.
+**In this repo:** flat service pages render `ServiceContactPanel` + `ServiceQuoteForm` inside an `id="quote"` section; the hero/area-grid CTA (`RequestQuoteButton`) scrolls to it. Reuse this pattern — every `#quote` CTA needs a real `#quote` target on the page.
 
 - [ ] **Primary CTA above the fold** (hero) + **`tel:` click-to-call** (`siteConfig.business.phone`).
 - [ ] **Multiple CTA placements** (hero, mid-page band/`SmartCta`, sticky mobile bar).

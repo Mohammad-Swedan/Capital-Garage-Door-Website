@@ -13,7 +13,7 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
   },
 
   directAnswer:
-    "Garage door repair cost in Perth depends on the type of door, the problem, parts required, urgency, and site access. Minor adjustments are usually simpler, while motor, spring, cable, or track repairs may require replacement parts and more labour. The most accurate way to get a price is to tell us what's happening — a photo or short video helps us quote faster.",
+    "Garage door repair cost in Perth depends on the type of door, the problem, parts required, urgency, and site access. Minor adjustments are usually simpler, while motor, spring, cable, or track repairs may require replacement parts and more labour. The most accurate way to get a price is to tell us what's happening when you request a quote.",
 
   costTable: {
     heading: "Garage Door Repair Cost Guide",
@@ -42,13 +42,13 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
         repairType: "Spring or cable repair",
         includes: "Replacing a broken torsion or extension spring, or a frayed/snapped cable",
         costFactors: "Spring type, single vs double door",
-        nextStep: "Send a photo for a faster quote",
+        nextStep: "Describe the issue for a faster quote",
       },
       {
         repairType: "Track/roller repair",
         includes: "Straightening or replacing bent tracks, worn rollers, or hinges",
         costFactors: "Damage extent, door size",
-        nextStep: "Upload a photo or video",
+        nextStep: "Request a quote for exact pricing",
       },
       {
         repairType: "Emergency repair",
@@ -160,9 +160,9 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
         description: "Call or message us with a quick description of what your garage door is doing.",
       },
       {
-        icon: "Camera",
-        title: "Upload a photo/video",
-        description: "A short clip or photo of the problem helps us quote accurately before we arrive.",
+        icon: "FileText",
+        title: "Tell us your details",
+        description: "Fill in your contact info so we can get back to you with pricing.",
       },
       {
         icon: "MapPin",
@@ -213,12 +213,12 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
     {
       question: "How much does garage door repair cost in Perth?",
       answer:
-        "It depends on the issue — minor adjustments are typically the most affordable, while motor, spring, cable, or track repairs cost more due to parts and labour. The best way to get an accurate figure is to send us a description or photo of the problem so we can quote before any work begins.",
+        "It depends on the issue — minor adjustments are typically the most affordable, while motor, spring, cable, or track repairs cost more due to parts and labour. The best way to get an accurate figure is to send us a description of the problem so we can quote before any work begins.",
     },
     {
-      question: "Can you quote from a photo?",
+      question: "Can you quote without an inspection visit?",
       answer:
-        "Yes. A clear photo or short video of the issue — the spring, cable, track, or motor — lets us give you a far more accurate quote upfront, and often avoids the need for a separate inspection visit.",
+        "Often, yes. A clear description of the issue — the spring, cable, track, or motor, and what it's doing — lets us give you a far more accurate quote upfront, and often avoids the need for a separate inspection visit.",
     },
     {
       question: "What affects the cost?",
@@ -245,7 +245,7 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
   cta: {
     heading: "Want a Clear Garage Door Repair Quote?",
     subtitle:
-      "Tell us what's happening, upload a photo if you can, and we'll get back to you with a straightforward quote — no call-out fee to ask.",
+      "Tell us what's happening and we'll get back to you with a straightforward quote — no call-out fee to ask.",
   },
 
   seo: {

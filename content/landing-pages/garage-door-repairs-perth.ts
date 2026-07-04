@@ -24,7 +24,7 @@ export const garageDoorRepairsPerth: LandingPage = {
 
   form: {
     heading: "Get Your Repair Quote",
-    subheading: "Send a photo for a faster, more accurate quote.",
+    subheading: "Describe the issue for a faster, more accurate quote.",
   },
 
   problems: {
@@ -167,7 +167,7 @@ export const garageDoorRepairsPerth: LandingPage = {
     {
       question: "How much do garage door repairs cost in Perth?",
       answer:
-        "It depends on the fault and parts needed. We give you an upfront, fixed quote before any work starts, so there are no surprises. Send a photo for a faster estimate.",
+        "It depends on the fault and parts needed. We give you an upfront, fixed quote before any work starts, so there are no surprises. Describe the issue for a faster estimate.",
     },
     {
       question: "Can you repair my garage door the same day?",
@@ -180,9 +180,9 @@ export const garageDoorRepairsPerth: LandingPage = {
         "Yes. We service all major brands and models including B&D, Steel-Line, Centurion and Merlin, and carry common parts on board.",
     },
     {
-      question: "Can I get a quote from a photo?",
+      question: "Can I get a quote without a technician visiting first?",
       answer:
-        "Definitely. Upload a photo of your door or the problem when you request a quote and we'll give you a faster, more accurate estimate.",
+        "Yes. Describe your door and the problem when you request a quote and we'll give you a faster, more accurate estimate before anyone visits.",
     },
     {
       question: "Do you offer a warranty on repairs?",
@@ -193,7 +193,7 @@ export const garageDoorRepairsPerth: LandingPage = {
 
   finalCta: {
     heading: "Need Your Garage Door Repaired?",
-    body: "Call now for fast help, or request a quote and upload a photo for an accurate estimate.",
+    body: "Call now for fast help, or request a quote and tell us what's happening for an accurate estimate.",
   },
 
   seo: {

@@ -6,9 +6,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
+      // /lp/* is deliberately NOT disallowed: those paid landing pages are noindex, and a
+      // crawler can only see a noindex directive on URLs it is allowed to fetch — disallowing
+      // them here could leave externally-linked LPs "indexed, though blocked". They are also
+      // excluded from the sitemap, so they are never advertised.
       disallow: ["/admin", "/api"],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: [`${siteConfig.url}/sitemap.xml`, `${siteConfig.url}/image-sitemap.xml`],
     host: siteConfig.url,
   };
 }

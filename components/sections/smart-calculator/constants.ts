@@ -6,25 +6,32 @@ import {
   AlertTriangle,
   Unplug,
   Cable,
-  Volume2,
   RadioTower,
   PanelTopOpen,
   DoorClosed,
   DoorOpen,
   Layers,
   Maximize,
-  Zap,
-  CalendarClock,
+  RotateCcw,
+  Hammer,
+  Settings,
+  Lock,
+  Wind,
+  ScanEye,
+  Building2,
+  Truck,
+  Wifi,
   CalendarCheck,
-  Timer,
+  HelpCircle,
   type LucideIcon,
 } from "lucide-react";
-import type { ServiceType } from "./estimate-logic";
+import { NOT_SURE_ID, type ServiceType } from "./estimate-logic";
+import { getScenariosByService } from "./pricing-data";
 
 /**
- * Static option definitions for the calculator inputs — extracted so the UI components stay lean and
- * the lists are easy to tune. `value`s feed `CalculatorFormData`; the estimate engine reads the issue
- * `label` text (keyword-matched), so wording can change freely without touching pricing logic.
+ * Static option definitions for the calculator inputs. The service list is fixed; the per-service issue
+ * lists are DERIVED from the single pricing source of truth (`pricing-data.ts`) so options and prices
+ * never drift — each issue's `value` is the scenario `id` the estimate engine looks up.
  */
 
 export interface ServiceOption {
@@ -47,38 +54,34 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
   { value: "maintenance", label: "Service", description: "Tune-up & safety inspection", icon: ShieldCheck },
 ];
 
-/** Specific issues per service. Icons are optional; pure presentation. */
+/** Lucide icon names (stored as strings in pricing-data) → components. */
+const ICON_BY_NAME: Record<string, LucideIcon> = {
+  Wrench, Home, Cpu, ShieldCheck, AlertTriangle, Unplug, Cable, RadioTower, PanelTopOpen,
+  DoorClosed, DoorOpen, Layers, Maximize, RotateCcw, Hammer, Settings, Lock, Wind, ScanEye,
+  Building2, Truck, Wifi, CalendarCheck,
+};
+
+function resolveIcon(name: string): LucideIcon {
+  return ICON_BY_NAME[name] ?? Wrench;
+}
+
+/** Build the issue chips for a service from the price list, plus a trailing "Not sure" fallback. */
+function buildIssueOptions(service: ServiceType): ChoiceOption[] {
+  const options: ChoiceOption[] = getScenariosByService(service).map((s) => ({
+    value: s.id,
+    label: s.label,
+    icon: resolveIcon(s.icon),
+  }));
+  options.push({ value: NOT_SURE_ID, label: "Not sure", icon: HelpCircle });
+  return options;
+}
+
+/** Specific issues per service — derived from `pricing-data.ts`. `value` is the scenario `id`. */
 export const ISSUE_OPTIONS: Record<ServiceType, ChoiceOption[]> = {
-  repair: [
-    { value: "Door won't open", label: "Won't open", icon: PanelTopOpen },
-    { value: "Door stuck halfway", label: "Stuck / off track", icon: AlertTriangle },
-    { value: "Broken spring", label: "Broken spring", icon: Unplug },
-    { value: "Broken cable", label: "Broken cable", icon: Cable },
-    { value: "Motor not working", label: "Motor not working", icon: Cpu },
-    { value: "Door is noisy", label: "Noisy door", icon: Volume2 },
-    { value: "Remote not working", label: "Remote issue", icon: RadioTower },
-    { value: "Not sure", label: "Not sure", icon: Wrench },
-  ],
-  installation: [
-    { value: "New sectional door", label: "Sectional door", icon: Layers },
-    { value: "New roller door", label: "Roller door", icon: DoorClosed },
-    { value: "Insulated door", label: "Insulated door", icon: ShieldCheck },
-    { value: "Need old door removed", label: "Remove old door", icon: Wrench },
-    { value: "Not sure", label: "Help me choose", icon: Home },
-  ],
-  opener: [
-    { value: "Replace existing motor", label: "Replace motor", icon: Cpu },
-    { value: "New motor installation", label: "New automation", icon: Zap },
-    { value: "Smart/WiFi opener", label: "Smart / WiFi", icon: RadioTower },
-    { value: "Battery backup", label: "Battery backup", icon: ShieldCheck },
-    { value: "Extra remotes", label: "Extra remotes", icon: RadioTower },
-  ],
-  maintenance: [
-    { value: "One door service", label: "One door", icon: DoorClosed },
-    { value: "Two doors service", label: "Two doors", icon: DoorOpen },
-    { value: "Safety inspection", label: "Safety check", icon: ShieldCheck },
-    { value: "Annual service", label: "Annual tune-up", icon: CalendarCheck },
-  ],
+  repair: buildIssueOptions("repair"),
+  installation: buildIssueOptions("installation"),
+  opener: buildIssueOptions("opener"),
+  maintenance: buildIssueOptions("maintenance"),
 };
 
 export const DOOR_TYPE_OPTIONS: ChoiceOption[] = [
@@ -92,11 +95,4 @@ export const DOOR_SIZE_OPTIONS: ChoiceOption[] = [
   { value: "single", label: "Single", icon: DoorClosed },
   { value: "double", label: "Double", icon: DoorOpen },
   { value: "custom", label: "Custom / large", icon: Maximize },
-];
-
-export const URGENCY_OPTIONS: ChoiceOption[] = [
-  { value: "today", label: "Today (emergency)", icon: Zap },
-  { value: "24h", label: "Within 24 hours", icon: Timer },
-  { value: "week", label: "This week", icon: CalendarClock },
-  { value: "flexible", label: "I'm flexible", icon: CalendarCheck },
 ];

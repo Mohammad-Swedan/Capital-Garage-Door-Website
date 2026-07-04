@@ -99,14 +99,28 @@ export async function cmsResolve(routeGroup: string, slug: string): Promise<Page
   return (await res.json()) as PageResolveDto;
 }
 
-/** The slim published-only feed for sitemap + slug generation. Returns [] on failure. */
+/**
+ * The slim published-only feed for sitemap + slug generation.
+ * THROWS when the CMS is unreachable or errors: app/sitemap.ts must fail loudly so ISR keeps
+ * serving the last good sitemap (a 200 sitemap suddenly missing every CMS URL tells crawlers
+ * those pages are gone, while a 5xx is treated as transient and retried). A CMS with zero
+ * published pages is not an error — that legitimately returns [].
+ */
 export async function cmsSitemap(): Promise<PageSitemapItem[]> {
+  const res = await fetch(`${CMS_API_URL}/api/pages/sitemap`, {
+    next: { revalidate: REVALIDATE_SECONDS, tags: ["cms-sitemap"] },
+  });
+  if (!res.ok) throw new Error(`CMS sitemap feed failed (${res.status})`);
+  return (await res.json()) as PageSitemapItem[];
+}
+
+/**
+ * Lenient variant for slug generation and listing pages: [] on any failure, so builds and
+ * non-sitemap routes keep working when the CMS is down. Only app/sitemap.ts uses the strict one.
+ */
+export async function cmsSitemapSafe(): Promise<PageSitemapItem[]> {
   try {
-    const res = await fetch(`${CMS_API_URL}/api/pages/sitemap`, {
-      next: { revalidate: REVALIDATE_SECONDS, tags: ["cms-sitemap"] },
-    });
-    if (!res.ok) return [];
-    return (await res.json()) as PageSitemapItem[];
+    return await cmsSitemap();
   } catch {
     return [];
   }

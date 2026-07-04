@@ -20,15 +20,16 @@ export function Header() {
           aria-label={siteConfig.name}
           onClick={() => setOpen(false)}
         >
-          <Logo className="text-2xl sm:text-3xl" />
+          <Logo className="text-2xl sm:text-3xl lg:text-2xl xl:text-3xl" />
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        {/* gap tightens at lg so all 8 items + Call Now fit a 1024px viewport. */}
+        <nav className="hidden items-center gap-4 lg:flex xl:gap-7">
           {siteConfig.nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="group relative py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="group relative whitespace-nowrap py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.label}
               <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-cta transition-transform duration-300 ease-out group-hover:scale-x-100" />

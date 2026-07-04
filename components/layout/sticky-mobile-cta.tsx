@@ -12,10 +12,12 @@ const AiChatWidget = dynamic(
 );
 
 /**
- * Fixed bottom mobile CTA bar (Call + Smart Chat) shared across the homepage
- * hero and inner templated pages. Render once per page, outside any
- * `overflow-hidden`/`relative` section, since `position: fixed` would
- * otherwise be clipped to its bounds.
+ * Fixed conversion launcher shared across the homepage hero and inner templated
+ * pages. On mobile/tablet it's a full-width Call + Smart Chat bar; on desktop
+ * (lg+) it's a single round Smart Chat bubble bottom-right (chat only, no Call).
+ * Both triggers share one AiChatWidget instance + open state. Render once per
+ * page, outside any `overflow-hidden`/`relative` section, since `position:
+ * fixed` would otherwise be clipped to its bounds.
  *
  * Framer-free: visibility is a passive, rAF-throttled scroll listener and the
  * show/hide + tooltip use CSS transitions/keyframes, so this always-mounted
@@ -92,15 +94,17 @@ export function StickyMobileCta() {
   }
 
   return (
-    <div
-      ref={wrapperRef}
-      className={cn(
-        "fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-sm items-center gap-2 transition-[transform,opacity] duration-[350ms] ease-out lg:hidden",
-        visible
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-[130%] opacity-0",
-      )}
-    >
+    <>
+      {/* Mobile / tablet: full-width Call + Smart Chat bar (unchanged). */}
+      <div
+        ref={wrapperRef}
+        className={cn(
+          "fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-sm items-center gap-2 transition-[transform,opacity] duration-[350ms] ease-out lg:hidden",
+          visible
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-[130%] opacity-0",
+        )}
+      >
       {showTooltip && (
         <div className="cgd-pop-in absolute right-0 bottom-full mb-3 w-64">
           {/* The pointer sits outside this card on purpose — the card needs
@@ -164,7 +168,27 @@ export function StickyMobileCta() {
         </button>
       </div>
 
+      </div>
+
+      {/* Desktop: a single round Smart Chat launcher pinned bottom-right — chat
+          only, no Call button. Shares the same widget instance + open state as
+          the mobile bar above, so only one AiChatWidget is ever mounted. */}
+      <button
+        type="button"
+        aria-label="Open smart chat assistant"
+        onClick={openChat}
+        className="group fixed bottom-6 right-6 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-[#0f4e9b] text-white shadow-[0_12px_34px_rgba(13,31,69,0.32)] ring-1 ring-white/15 transition-transform hover:scale-105 active:scale-95 lg:flex"
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-full bg-foreground/90 px-3 py-1.5 text-xs font-semibold text-background opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100"
+        >
+          Chat with us
+        </span>
+        <MessageCircle className="h-6 w-6" aria-hidden="true" />
+      </button>
+
       <AiChatWidget open={chatOpen} onOpenChange={setChatOpen} />
-    </div>
+    </>
   );
 }

@@ -1,6 +1,6 @@
 import { problems } from "@/content/problems";
 import type { Problem } from "@/types";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapProblemPage } from "@/lib/cms/map-problem-page";
 
 /**
@@ -35,7 +35,7 @@ export async function getProblemBySlug(slug: string): Promise<Problem | undefine
 
 export async function getProblemSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "ProblemPage" && !p.noIndex).map((p) => p.slug);
   }
   return problems.map((problem) => problem.slug);

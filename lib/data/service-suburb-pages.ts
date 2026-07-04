@@ -1,6 +1,6 @@
 import { serviceSuburbPages } from "@/content/service-suburb-pages";
 import type { ServiceSuburbPage } from "@/types";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapServiceSuburbPage } from "@/lib/cms/map-service-suburb-page";
 
 /**
@@ -39,7 +39,7 @@ export async function getServiceSuburbPageBySlug(
 
 export async function getServiceSuburbPageSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "ServiceSuburbPage" && !p.noIndex).map((p) => p.slug);
   }
   return serviceSuburbPages.map((page) => page.slug);

@@ -21,10 +21,16 @@ export interface QuoteLead {
 
 export function InChatQuote({
   defaultSuburb,
+  defaultNotes,
+  service,
   onClose,
   onSubmitted,
 }: {
   defaultSuburb?: string;
+  /** Pre-filled, editable "what do you need?" text (from the calculator selection or chat). */
+  defaultNotes?: string;
+  /** Pre-filled service context for the lead (falls back to a generic enquiry). */
+  service?: string;
   onClose: () => void;
   onSubmitted?: (lead: QuoteLead) => void;
 }) {
@@ -68,7 +74,7 @@ export function InChatQuote({
           </div>
         ) : (
           <form action={formAction} className="flex flex-col gap-3.5">
-            <input type="hidden" name="service" value="General garage door enquiry" />
+            <input type="hidden" name="service" value={service || "General garage door enquiry"} />
             <input type="hidden" name="source" value="chat" />
             <input type="hidden" name="pageType" value="ChatAssistant" />
 
@@ -108,7 +114,18 @@ export function InChatQuote({
             </div>
             <div className="grid gap-1.5">
               <Label htmlFor="cq-notes">What do you need?</Label>
-              <Textarea id="cq-notes" name="notes" rows={3} placeholder="Tell us briefly what's happening…" />
+              <Textarea
+                id="cq-notes"
+                name="notes"
+                rows={defaultNotes ? 5 : 3}
+                defaultValue={defaultNotes}
+                placeholder="Tell us briefly what's happening…"
+              />
+              {defaultNotes && (
+                <p className="text-[11px] text-muted-foreground">
+                  We&apos;ve pre-filled this from your selection — edit anything before sending.
+                </p>
+              )}
             </div>
 
             {state.status === "error" && (

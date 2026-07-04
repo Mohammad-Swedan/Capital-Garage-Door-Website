@@ -1,6 +1,6 @@
 import { comparisonPages } from "@/content/comparison-pages";
 import type { ComparisonPage } from "@/types/comparison-page";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapComparisonPage } from "@/lib/cms/map-comparison-page";
 
 /**
@@ -37,7 +37,7 @@ export async function getComparisonPageBySlug(slug: string): Promise<ComparisonP
 
 export async function getComparisonPageSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "ComparisonPage" && !p.noIndex).map((p) => p.slug);
   }
   return comparisonPages.map((page) => page.slug);

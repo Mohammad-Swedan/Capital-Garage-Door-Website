@@ -1,6 +1,6 @@
 import { caseStudies } from "@/content/case-studies";
 import type { CaseStudyPage } from "@/types/case-study";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapCaseStudyPage } from "@/lib/cms/map-case-study-page";
 
 /**
@@ -32,7 +32,7 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudyPage | 
 
 export async function getCaseStudySlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "CaseStudyPage" && !p.noIndex).map((p) => p.slug);
   }
   return caseStudies.map((page) => page.slug);

@@ -6,6 +6,7 @@ import {
   BadgeCheck,
   CalendarCheck,
   CheckCircle2,
+  Info,
   Phone,
   ReceiptText,
   ShieldCheck,
@@ -53,7 +54,7 @@ function useCountUp(target: number, duration = 450): number {
   return reduce ? target : display;
 }
 
-function AnimatedAmount({ value }: { value: number }) {
+export function AnimatedAmount({ value }: { value: number }) {
   const display = useCountUp(value);
   return <span className="tabular-nums">${display.toLocaleString()}</span>;
 }
@@ -62,6 +63,7 @@ function AnimatedAmount({ value }: { value: number }) {
 function PriceRange({ estimate, onDark }: { estimate: EstimateResult; onDark?: boolean }) {
   const dash = onDark ? "text-white/40" : "text-slate-300";
   const from = onDark ? "text-white/60" : "text-slate-400";
+  const single = !estimate.openEnded && estimate.minPrice === estimate.maxPrice;
   return (
     <div className="text-4xl font-black tracking-tight sm:text-5xl">
       {estimate.openEnded ? (
@@ -69,6 +71,8 @@ function PriceRange({ estimate, onDark }: { estimate: EstimateResult; onDark?: b
           <span className={cn("align-middle text-base font-bold", from)}>From </span>
           <AnimatedAmount value={estimate.minPrice} />
         </>
+      ) : single ? (
+        <AnimatedAmount value={estimate.minPrice} />
       ) : (
         <>
           <AnimatedAmount value={estimate.minPrice} />
@@ -80,7 +84,7 @@ function PriceRange({ estimate, onDark }: { estimate: EstimateResult; onDark?: b
   );
 }
 
-const CONFIDENCE_META: Record<EstimateResult["confidence"], { label: string; dot: string; text: string }> = {
+export const CONFIDENCE_META: Record<EstimateResult["confidence"], { label: string; dot: string; text: string }> = {
   High: { label: "High confidence", dot: "bg-emerald-500", text: "text-emerald-700" },
   Medium: { label: "Good estimate", dot: "bg-amber-500", text: "text-amber-700" },
   Low: { label: "Rough guide", dot: "bg-slate-400", text: "text-slate-600" },
@@ -113,9 +117,9 @@ export function PricePanel({ estimate, hasSelection, onBook, onQuote, className 
   }
 
   return (
-    <div className={cn("flex flex-col gap-5", className)}>
+    <div className={cn("flex flex-col gap-4", className)}>
       {/* Headline range */}
-      <div className="rounded-2xl bg-gradient-to-br from-primary to-[#0f4e9b] p-5 text-center text-white shadow-lg shadow-primary/20">
+      <div className="rounded-2xl bg-gradient-to-br from-primary to-[#0f4e9b] p-4 text-center text-white shadow-lg shadow-primary/20">
         <p className="mb-1 flex items-center justify-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-white/70">
           <Sparkles className="h-3.5 w-3.5 text-amber-300" aria-hidden="true" />
           Estimated range
@@ -140,8 +144,16 @@ export function PricePanel({ estimate, hasSelection, onBook, onQuote, className 
         <span className="text-slate-500">Add details to sharpen it</span>
       </div>
 
+      {/* Smart note for the chosen scenario */}
+      {estimate.note && (
+        <div className="flex items-start gap-2 rounded-xl bg-sky-50 px-3 py-2.5 text-xs leading-relaxed text-slate-600 ring-1 ring-sky-100">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-500" aria-hidden="true" />
+          <span>{estimate.note}</span>
+        </div>
+      )}
+
       {/* Breakdown */}
-      <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+      <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-3.5">
         <h4 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
           Indicative breakdown
         </h4>
@@ -167,28 +179,28 @@ export function PricePanel({ estimate, hasSelection, onBook, onQuote, className 
         ))}
       </ul>
 
-      {/* CTAs */}
+      {/* CTAs — the exact-quote is the hero (it opens a form pre-filled with this selection). */}
       <div className="flex flex-col gap-2.5">
         <button
           type="button"
-          onClick={onBook}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary to-[#0f4e9b] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:brightness-105 active:scale-[0.99]"
+          onClick={onQuote}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-cta to-[#c2410c] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-cta/25 transition-all hover:brightness-105 active:scale-[0.99]"
         >
-          <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-          Book this service
+          <ReceiptText className="h-4 w-4" aria-hidden="true" />
+          Get my exact quote
         </button>
         <div className="grid grid-cols-2 gap-2.5">
           <button
             type="button"
-            onClick={onQuote}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50"
+            onClick={onBook}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-primary/30 bg-primary/5 px-3 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
           >
-            <ReceiptText className="h-4 w-4" aria-hidden="true" />
-            Exact quote
+            <CalendarCheck className="h-4 w-4" aria-hidden="true" />
+            Book service
           </button>
           <a
             href={`tel:${siteConfig.business.phone}`}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-cta/25 bg-cta/5 px-3 py-2.5 text-sm font-semibold text-cta transition-colors hover:bg-cta/10"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50"
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
             Call now
@@ -197,70 +209,11 @@ export function PricePanel({ estimate, hasSelection, onBook, onQuote, className 
       </div>
 
       <p className="text-center text-[11px] leading-relaxed text-slate-400">
-        Estimate only — your final price is confirmed on site, with no obligation.
+        These prices are indicative guides — not a final quote. Your exact price is confirmed free &amp; on-site, with no obligation.
       </p>
     </div>
   );
 }
 
-/**
- * Compact always-visible bar pinned to the bottom of the card on mobile. Shows the live range +
- * a button that opens the full PricePanel as a sheet, plus a quick Book.
- */
-export function MobilePriceBar({
-  estimate,
-  hasSelection,
-  onExpand,
-  onBook,
-}: {
-  estimate: EstimateResult;
-  hasSelection: boolean;
-  onExpand: () => void;
-  onBook: () => void;
-}) {
-  return (
-    <div className="flex items-center gap-3 px-4 py-3">
-      <div className="min-w-0 flex-1">
-        {hasSelection ? (
-          <>
-            <p className="text-[10.5px] font-bold uppercase tracking-wide text-slate-400">Your estimate</p>
-            <div className="text-lg font-black leading-none text-slate-900">
-              {estimate.openEnded ? (
-                <>
-                  <span className="text-xs font-bold text-slate-400">From </span>
-                  <AnimatedAmount value={estimate.minPrice} />
-                </>
-              ) : (
-                <>
-                  <AnimatedAmount value={estimate.minPrice} />
-                  <span className="mx-0.5 text-slate-300">–</span>
-                  <AnimatedAmount value={estimate.maxPrice} />
-                </>
-              )}
-            </div>
-          </>
-        ) : (
-          <p className="text-sm font-semibold text-slate-500">Pick a service to estimate</p>
-        )}
-      </div>
-      {hasSelection && (
-        <>
-          <button
-            type="button"
-            onClick={onExpand}
-            className="shrink-0 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-          >
-            Details
-          </button>
-          <button
-            type="button"
-            onClick={onBook}
-            className="shrink-0 rounded-xl bg-gradient-to-br from-primary to-[#0f4e9b] px-4 py-2 text-sm font-bold text-white shadow-md shadow-primary/25 transition-all active:scale-95"
-          >
-            Book
-          </button>
-        </>
-      )}
-    </div>
-  );
-}
+// The always-visible bottom price bar lives in ./sticky-price-bar.tsx (it replaced the old
+// mobile-only MobilePriceBar when the calculator became a single-column step wizard).

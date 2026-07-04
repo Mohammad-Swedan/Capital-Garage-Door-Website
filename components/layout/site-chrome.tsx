@@ -28,6 +28,9 @@ export function SiteChrome({ header, footer, children }: SiteChromeProps) {
   const isLanding = pathname?.startsWith("/lp");
   // The CMS admin (/admin) is an internal tool — no marketing header/footer/intro/smooth-scroll.
   const isAdmin = pathname?.startsWith("/admin");
+  // /calculator is a full-screen tool that scrolls internally: no footer below it (it would
+  // force a second, page-level scrollbar) and no scroll progress (the page never scrolls).
+  const isCalculator = pathname === "/calculator";
 
   if (isLanding || isAdmin) {
     // /lp and /admin provide their own chrome from their own layouts.
@@ -46,12 +49,12 @@ export function SiteChrome({ header, footer, children }: SiteChromeProps) {
       </a>
       <GarageDoorLoader />
       <SmoothScrollProvider />
-      <ScrollProgress />
+      {!isCalculator && <ScrollProgress />}
       {header}
       <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
         {children}
       </main>
-      {footer}
+      {!isCalculator && footer}
     </>
   );
 }

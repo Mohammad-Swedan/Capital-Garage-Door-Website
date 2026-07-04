@@ -1,6 +1,6 @@
 import { articles } from "@/content/articles";
 import type { Article, ContentBlock, TocItem } from "@/types/article";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapArticle } from "@/lib/cms/map-article";
 
 const WORDS_PER_MINUTE = 200;
@@ -93,7 +93,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | undefine
 
 export async function getArticleSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "Article" && !p.noIndex).map((p) => p.slug);
   }
   return articles.map((article) => article.slug);

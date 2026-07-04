@@ -12,6 +12,7 @@ import {
   trackChatEvent,
   type ChatMessage,
 } from "@/components/sections/chat/use-assistant-chat";
+import { buildChatQuoteNotes } from "@/components/sections/chat/quote-prefill";
 import type { ChatAction } from "@/components/sections/chat/types";
 import { cn } from "@/lib/utils";
 
@@ -79,10 +80,12 @@ function Bubble({ message }: { message: ChatMessage }) {
 }
 
 export function ChatMode({
-  onOpenOverlay,
+  onBook,
+  onQuote,
   onShowCalculator,
 }: {
-  onOpenOverlay: (overlay: "booking" | "quote") => void;
+  onBook: () => void;
+  onQuote: (ctx: { service?: string; suburb?: string; notes?: string }) => void;
   onShowCalculator: () => void;
 }) {
   const { messages, typing, sendMessage } = useAssistantChat();
@@ -100,9 +103,9 @@ export function ChatMode({
       case "call":
         return; // the rendered tel: anchor dials
       case "book":
-        return onOpenOverlay("booking");
+        return onBook();
       case "quote":
-        return onOpenOverlay("quote");
+        return onQuote({ notes: buildChatQuoteNotes(messages) });
       case "calculator":
         return onShowCalculator();
       case "suburb":
@@ -130,7 +133,11 @@ export function ChatMode({
 
   return (
     <div className="flex h-full flex-col">
-      <div ref={scrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-4 py-5 sm:px-6">
+      <div
+        ref={scrollRef}
+        data-lenis-prevent
+        className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6"
+      >
         {messages.length === 0 && (
           <>
             <m.div

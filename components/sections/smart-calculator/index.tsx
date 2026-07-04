@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils";
 
 type Mode = "calculator" | "chat";
 type Overlay = "booking" | "quote" | null;
+/** Pre-fill passed into the quote overlay (from the calculator selection or the chat transcript). */
+type QuoteContext = { service?: string; suburb?: string; notes?: string };
 
 function BotAvatar() {
   return (
@@ -32,7 +34,7 @@ function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
     { id: "chat", label: "Ask AI", icon: MessageCircle },
   ];
   return (
-    <div className="relative mt-4 flex rounded-full bg-white/15 p-1 ring-1 ring-white/20">
+    <div className="relative mx-auto mt-4 flex w-full max-w-sm rounded-full bg-white/15 p-1 ring-1 ring-white/20">
       {/* Sliding indicator */}
       <span
         aria-hidden="true"
@@ -67,8 +69,14 @@ function ModeToggle({ mode, onChange }: { mode: Mode; onChange: (mode: Mode) => 
 export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: boolean }) {
   const [mode, setMode] = useState<Mode>("calculator");
   const [overlay, setOverlay] = useState<Overlay>(null);
+  const [quoteCtx, setQuoteCtx] = useState<QuoteContext | null>(null);
 
   const activeMode: Mode = showChatMode ? mode : "calculator";
+
+  const openQuote = (ctx: QuoteContext) => {
+    setQuoteCtx(ctx);
+    setOverlay("quote");
+  };
 
   function handleQuoteSubmitted(lead: QuoteLead) {
     trackChatEvent("calc_quote_submitted", {});
@@ -96,7 +104,10 @@ export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: b
           aria-hidden="true"
           className="pointer-events-none absolute -top-12 -right-10 h-40 w-40 rounded-full bg-white/10 blur-2xl"
         />
-        <div className="relative z-10 flex items-center justify-between gap-3">
+        {/* Cap the header content to the wizard column's width so it lines up with the
+            steps below when the calculator is full-bleed (the /calculator page). */}
+        <div className="relative z-10 mx-auto w-full max-w-2xl">
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-white/30">
               <BotAvatar />
@@ -130,14 +141,19 @@ export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: b
         </div>
 
         {showChatMode && <ModeToggle mode={mode} onChange={setMode} />}
+        </div>
       </header>
 
       {/* Body */}
       <div className="relative min-h-0 flex-1">
         {activeMode === "calculator" ? (
-          <CalculatorMode onBook={() => setOverlay("booking")} onQuote={() => setOverlay("quote")} />
+          <CalculatorMode onBook={() => setOverlay("booking")} onQuote={openQuote} />
         ) : (
-          <ChatMode onOpenOverlay={setOverlay} onShowCalculator={() => setMode("calculator")} />
+          <ChatMode
+            onBook={() => setOverlay("booking")}
+            onQuote={openQuote}
+            onShowCalculator={() => setMode("calculator")}
+          />
         )}
       </div>
 
@@ -146,7 +162,13 @@ export function SmartPriceCalculator({ showChatMode = true }: { showChatMode?: b
         <InChatBooking onClose={() => setOverlay(null)} onComplete={() => setOverlay(null)} />
       )}
       {overlay === "quote" && (
-        <InChatQuote onClose={() => setOverlay(null)} onSubmitted={handleQuoteSubmitted} />
+        <InChatQuote
+          service={quoteCtx?.service}
+          defaultSuburb={quoteCtx?.suburb}
+          defaultNotes={quoteCtx?.notes}
+          onClose={() => setOverlay(null)}
+          onSubmitted={handleQuoteSubmitted}
+        />
       )}
     </div>
   );

@@ -47,6 +47,7 @@ export const siteConfig = {
 
   nav: [
     { label: "Services", href: "/services" },
+    { label: "Motors", href: "/garage-door-motors-perth" },
     { label: "Service Areas", href: "/service-areas" },
     { label: "Price Calculator", href: "/calculator" },
     { label: "Gallery", href: "/gallery" },
@@ -77,6 +78,7 @@ export const siteConfig = {
         { label: "Roller Door Repairs", href: "/roller-door-repairs-perth" },
         { label: "Commercial & Industrial Doors", href: "/commercial-garage-doors-perth" },
         { label: "Maintenance", href: "/garage-door-maintenance-perth" },
+        { label: "Garage Door Motors", href: "/garage-door-motors-perth" },
         { label: "All Services", href: "/services" },
         { label: "Service Areas", href: "/service-areas" },
       ],

@@ -1185,3 +1185,108 @@ html:not(.intro-seen) main {
     animation: none;
   }
 }
+
+/* Motors product page (components/sections/motors/*) — the "power-on" hero:
+   the LED glow behind the dark motor render flickers to life like a real LED
+   strip, then settles into a slow breathe; the light beam beneath it fades in
+   once the glow is lit; the motor render drifts on a slow, compositor-only bob.
+   The force-selector island reuses cgd-motor-spec-in when a model is switched. */
+@keyframes cgd-motor-power-on {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.55;
+  }
+  12% {
+    opacity: 0.08;
+  }
+  20% {
+    opacity: 0.85;
+  }
+  26% {
+    opacity: 0.25;
+  }
+  38% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes cgd-motor-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes cgd-motor-beam-in {
+  from {
+    opacity: 0;
+    transform: scaleY(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+@keyframes cgd-motor-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes cgd-motor-spec-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cgd-motor-glow {
+  animation:
+    cgd-motor-power-on 1.4s ease-out both,
+    cgd-motor-breathe 5.5s ease-in-out 1.6s infinite;
+}
+
+.cgd-motor-beam {
+  transform-origin: top center;
+  animation: cgd-motor-beam-in 900ms ease-out 1.05s both;
+}
+
+.cgd-motor-bob {
+  animation: cgd-motor-bob 6.5s ease-in-out 1.8s infinite;
+}
+
+.cgd-motor-spec-in {
+  animation: cgd-motor-spec-in 320ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cgd-motor-glow,
+  .cgd-motor-beam,
+  .cgd-motor-spec-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .cgd-motor-bob {
+    animation: none;
+  }
+}

@@ -58,7 +58,7 @@ export function Logo({
       <LogoMark tone={tone} className={cn("h-[1.9em] w-auto", iconClassName)} />
       <span
         className={cn(
-          "flex flex-col leading-none",
+          "flex flex-col items-center leading-none",
           tone === "white" ? "text-white" : "text-[#0F4E9B]",
           textClassName,
         )}

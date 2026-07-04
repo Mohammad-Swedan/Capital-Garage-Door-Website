@@ -1,6 +1,6 @@
 import { costGuidePages } from "@/content/cost-guides";
 import type { CostGuidePage } from "@/types/cost-guide";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapCostGuidePage } from "@/lib/cms/map-cost-guide-page";
 
 /**
@@ -37,7 +37,7 @@ export async function getCostGuidePageBySlug(slug: string): Promise<CostGuidePag
 
 export async function getCostGuidePageSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "CostGuidePage" && !p.noIndex).map((p) => p.slug);
   }
   return costGuidePages.map((page) => page.slug);

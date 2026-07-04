@@ -327,7 +327,7 @@ export function ScrollDoorReveal() {
     // Show the middle frame of the sequence
     const fallbackSrc = getFrameSrc(Math.floor(FRAME_COUNT / 2));
     return (
-      <section className="relative isolate h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center py-8">
+      <section className="relative isolate h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center py-8 md:pt-24">
         {/* Top Header Section */}
         <div className="z-10 flex flex-col items-center justify-center text-center px-6 mb-8">
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-light text-muted-foreground tracking-tight">
@@ -357,7 +357,7 @@ export function ScrollDoorReveal() {
         </div>
 
         {/* Center Frame */}
-        <div className="relative z-0 w-full max-w-5xl aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-border/50 mx-auto my-8 shrink-0">
+        <div className="relative z-0 w-full max-w-5xl aspect-[16/9] md:aspect-[21/9] md:max-h-[40vh] rounded-2xl overflow-hidden shadow-2xl border border-border/50 mx-auto my-8 shrink-0">
           <Image
             src={fallbackSrc}
             alt="Capital Garage Door — open sectional garage door revealing a vehicle inside"
@@ -396,7 +396,7 @@ export function ScrollDoorReveal() {
   return (
     <section
       ref={sectionRef}
-      className="relative isolate h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center py-8"
+      className="relative isolate h-screen w-full overflow-hidden bg-background flex flex-col items-center justify-center py-8 md:pt-24"
     >
       {/* Top Header Section */}
       <div className="z-10 flex flex-col items-center justify-center text-center px-6 mb-8">
@@ -446,7 +446,7 @@ export function ScrollDoorReveal() {
       )}
 
       {/* Center Canvas Frame */}
-      <div className="relative z-0 w-full max-w-5xl aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-border/50 mx-auto my-8 shrink-0">
+      <div className="relative z-0 w-full max-w-5xl aspect-[16/9] md:aspect-[21/9] md:max-h-[40vh] rounded-2xl overflow-hidden shadow-2xl border border-border/50 mx-auto my-8 shrink-0">
         <div className="absolute inset-0 z-0 flex items-center justify-center bg-[#0a0b0d]">
           <div
             ref={canvasWrapRef}

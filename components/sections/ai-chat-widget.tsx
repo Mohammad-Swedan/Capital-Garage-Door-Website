@@ -43,6 +43,7 @@ import {
 } from "@/components/sections/chat/use-assistant-chat";
 import type { BookingCompleteDetail } from "@/components/sections/chat/in-chat-booking";
 import type { QuoteLead } from "@/components/sections/chat/in-chat-quote";
+import { buildChatQuoteNotes } from "@/components/sections/chat/quote-prefill";
 
 // Heavy / on-demand panels — only loaded once the user raises that overlay.
 const SmartPriceCalculator = dynamic(
@@ -372,7 +373,11 @@ export function AiChatWidget({
           <InChatBooking onClose={() => setOverlay(null)} onComplete={handleBookingComplete} />
         )}
         {overlay === "quote" && (
-          <InChatQuote onClose={() => setOverlay(null)} onSubmitted={handleQuoteSubmitted} />
+          <InChatQuote
+            defaultNotes={buildChatQuoteNotes(messages)}
+            onClose={() => setOverlay(null)}
+            onSubmitted={handleQuoteSubmitted}
+          />
         )}
         {overlay === "calculator" && (
           <div className="absolute inset-0 z-20 flex flex-col bg-background">

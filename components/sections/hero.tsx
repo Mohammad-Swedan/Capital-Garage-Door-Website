@@ -5,7 +5,6 @@ import Image from "next/image";
 import {
   Phone,
   Star,
-  Siren,
   ShieldCheck,
   CheckCircle2,
   CalendarClock,
@@ -225,8 +224,8 @@ export function Hero() {
                   className="h-[clamp(2.75rem,6.5svh,3rem)] w-full cursor-pointer rounded-xl border-primary/35 bg-primary/5 px-8 text-base text-primary hover:bg-primary/10 hover:text-primary sm:h-14 sm:w-auto"
                 >
                   <span className="flex items-center justify-center gap-2">
-                    <Siren className="h-4 w-4" aria-hidden="true" />
-                    Book Emergency Repair
+                    <CalendarClock className="h-4 w-4" aria-hidden="true" />
+                    Book a Service
                   </span>
                 </Button>
               </div>

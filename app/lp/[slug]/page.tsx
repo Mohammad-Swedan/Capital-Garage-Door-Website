@@ -9,7 +9,10 @@ interface LandingRouteProps {
   params: Promise<{ slug: string }>;
 }
 
-export const dynamicParams = false;
+// Allow on-demand rendering so landing pages published in the CMS admin resolve without a
+// rebuild. Unknown slugs still 404 via notFound() below; every LP stays noindex and is never
+// listed in the sitemap, so nothing here is exposed to organic search.
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = await getLandingPageSlugs();

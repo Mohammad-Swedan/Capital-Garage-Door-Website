@@ -1,30 +1,47 @@
 import type { CmsPublicPricingItem } from "@/lib/cms/pricing-client";
+import {
+  PRICING_BY_ID,
+  SERVICE_FALLBACK,
+  EMERGENCY_SURCHARGE,
+  priceForScenario,
+  scenarioLabelForSelection,
+  clampQuantity,
+  type PricingScenario,
+} from "./pricing-data";
 
 /**
  * Data-driven estimate engine for the Smart Price Calculator.
  *
- * Two layers (the user's chosen "built-in defaults + DB override" model):
- *   1. A comprehensive, baked-in Perth pricing model produces a transparent line-item breakdown and a
- *      default range for any selection — so the calculator always works, even with the CMS offline.
+ * Two layers (the "built-in defaults + DB override" model):
+ *   1. A baked-in Perth price list (`pricing-data.ts`) gives an exact range + line-item breakdown for the
+ *      chosen scenario — so the calculator always works, even with the CMS offline.
  *   2. When the live CMS pricing catalog (GET /api/pricing-items, passed in as `catalog`) has a row that
- *      matches the chosen service + issue, that row's price *overrides* the headline range and is flagged
- *      as a live "list price". The breakdown stays as the indicative default split.
+ *      matches the chosen scenario, that row's price *overrides* the headline range and is flagged as a
+ *      live "list price" (so an admin price edit reflects immediately). Both are seeded from the same
+ *      `pricing-data.ts`, so they agree unless the admin has changed a price.
+ *
+ * A flat after-hours/emergency surcharge (+$500) is added on top when the customer flags it.
  *
  * Pure + synchronous: the UI recomputes on every selection change (instant), no network in here.
  */
 
 export type ServiceType = "repair" | "installation" | "opener" | "maintenance";
 
+/** Sentinel id for the "Not sure / help me choose" option (no specific priced scenario). */
+export const NOT_SURE_ID = "notsure";
+
 export interface CalculatorFormData {
   serviceType: ServiceType | "";
-  /** The selected specific issue label, e.g. "Broken spring". Empty until chosen. */
-  problem: string;
+  /** Stable id of the selected pricing scenario (from `pricing-data.ts`), or NOT_SURE_ID. Empty until chosen. */
+  problemId: string;
   /** "roller" | "sectional" | "tilt" | "notsure" | "" */
   doorType: string;
   /** "single" | "double" | "custom" | "" */
   doorSize: string;
-  /** "today" | "24h" | "week" | "flexible" | "" */
-  urgency: string;
+  /** Quantity for perCount (springs 1–4) / perUnit (remotes, hinges) scenarios. Default 1. */
+  quantity: number;
+  /** After-hours / emergency call-out — adds a flat surcharge. */
+  emergency: boolean;
   suburb: string;
 }
 
@@ -44,24 +61,35 @@ export interface EstimateResult {
   breakdown: EstimateBreakdown[];
   /** Where the headline range came from. "catalog" = a live admin-maintained list price drove it. */
   priceSource: "estimate" | "catalog";
-  /** The matched catalog scenario (when priceSource === "catalog"), e.g. "E2E spring". */
+  /** The matched catalog scenario (when priceSource === "catalog"). */
   catalogLabel?: string;
-  /** Optional "what's included" copy from a matched catalog row. */
+  /** Optional "what's included" copy. */
   includes?: string | null;
+  /** Customer-facing "smart note" for the chosen scenario. */
+  note?: string | null;
 }
 
 export const EMPTY_FORM: CalculatorFormData = {
   serviceType: "",
-  problem: "",
+  problemId: "",
   doorType: "",
   doorSize: "",
-  urgency: "",
+  quantity: 1,
+  emergency: false,
   suburb: "",
+};
+
+/** Friendly service names for the quote hand-off + summaries. */
+export const SERVICE_LABELS: Record<ServiceType, string> = {
+  repair: "Repair",
+  installation: "New garage door",
+  opener: "Motor / opener",
+  maintenance: "Service",
 };
 
 // Map each service to the catalog `category` words that count as the same family.
 const CATEGORY_SYNONYMS: Record<ServiceType, string[]> = {
-  repair: ["repair", "repairs", "fix"],
+  repair: ["repair", "repairs", "fix", "spring"],
   installation: ["install", "installation", "new door", "doors", "supply"],
   opener: ["opener", "motor", "automation"],
   maintenance: ["service", "servicing", "maintenance", "tune"],
@@ -81,6 +109,10 @@ function tokenize(text: string): string[] {
     .filter((t) => t.length >= 3 && !ISSUE_STOPWORDS.has(t));
 }
 
+function normalize(text: string): string {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
 /** Parse the leading dollar amount out of a price label like "From $129 call-out". */
 function parseLabelAmount(label: string | null | undefined): number | null {
   if (!label) return null;
@@ -90,10 +122,16 @@ function parseLabelAmount(label: string | null | undefined): number | null {
   return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+/** The scenario's CMS label at the current quantity ("" when nothing specific is chosen). */
+function effectiveScenarioLabel(formData: CalculatorFormData, scenario: PricingScenario | undefined): string {
+  return scenario ? scenarioLabelForSelection(scenario, formData.quantity) : "";
+}
+
 /**
- * Find the catalog row that best fits the chosen service + issue. Requires the issue keyword to
- * actually appear in the row (so we never attach an unrelated row just because the category matches);
- * the category match and a complete min/max range are tie-breakers.
+ * Find the catalog row that best fits the chosen scenario. Prefers an exact scenario-name match (our
+ * CMS rows are seeded with the same scenario strings), then falls back to a relevance-gated keyword
+ * score. The exact-match step prevents "One spring" attaching to the "Two springs" row now that many
+ * scenarios are near-identical.
  */
 function matchCatalogRow(
   catalog: CmsPublicPricingItem[],
@@ -101,6 +139,15 @@ function matchCatalogRow(
   problem: string,
 ): CmsPublicPricingItem | null {
   if (catalog.length === 0) return null;
+
+  // 1) Exact scenario-name match (with a real range).
+  const target = normalize(problem);
+  if (target) {
+    const exact = catalog.find((r) => normalize(r.scenario ?? "") === target && r.priceMin != null);
+    if (exact) return exact;
+  }
+
+  // 2) Keyword score fallback.
   const issueKw = tokenize(problem);
   if (issueKw.length === 0) return null;
 
@@ -130,149 +177,81 @@ function matchCatalogRow(
 interface BaseModel {
   likelyIssue: string;
   breakdown: EstimateBreakdown[];
+  openEnded: boolean;
+  includes: string | null;
+  note: string | null;
 }
 
-/** The baked-in default model: a transparent line-item breakdown for the chosen service + issue. */
-function buildBaseModel(formData: CalculatorFormData): BaseModel {
-  const issue = formData.problem.toLowerCase();
-  const breakdown: EstimateBreakdown[] = [];
-  let likelyIssue = "";
-
-  switch (formData.serviceType) {
-    case "repair": {
-      const calloutMin = 80, calloutMax = 120;
-      let labourMin = 80, labourMax = 180;
-      let partsMin = 20, partsMax = 120;
-
-      if (issue.includes("spring")) {
-        likelyIssue = "Broken torsion or extension spring";
-        partsMin += 60; partsMax += 120; labourMin += 40; labourMax += 80;
-      } else if (issue.includes("cable")) {
-        likelyIssue = "Snapped or frayed cable / drum slip";
-        partsMin += 30; partsMax += 70; labourMin += 30; labourMax += 60;
-      } else if (issue.includes("stuck") || issue.includes("track") || issue.includes("off")) {
-        likelyIssue = "Track misalignment or roller/cable slip";
-        labourMin += 50; labourMax += 100;
-      } else if (issue.includes("motor") || issue.includes("opener")) {
-        likelyIssue = "Opener motor failure or logic-board fault";
-        partsMin += 100; partsMax += 250; labourMin += 40; labourMax += 80;
-      } else if (issue.includes("nois")) {
-        likelyIssue = "Worn rollers, hinges or dry components";
-        partsMin += 10; partsMax += 40;
-      } else if (issue.includes("remote")) {
-        likelyIssue = "Remote battery, code sync or receiver issue";
-        partsMin += 20; partsMax += 50;
-      } else if (issue.includes("open")) {
-        likelyIssue = "Door won't open — diagnostic needed";
-        labourMin += 30; labourMax += 70;
-      } else {
-        likelyIssue = "Mechanical garage door fault";
-      }
-
-      breakdown.push({ label: "Service call & diagnostic", min: calloutMin, max: calloutMax });
-      breakdown.push({ label: "Labour", min: labourMin, max: labourMax });
-      breakdown.push({ label: "Replacement parts", min: partsMin, max: partsMax });
-      break;
-    }
-
-    case "installation": {
-      let doorMin = 1200, doorMax = 3000;
-      let labourMin = 400, labourMax = 1000;
-      const partsMin = 200, partsMax = 500;
-      likelyIssue = "New garage door supply & installation";
-
-      if (issue.includes("remove") || issue.includes("old")) { labourMin += 100; labourMax += 200; }
-      if (issue.includes("insulat")) { doorMin += 400; doorMax += 900; }
-      if (issue.includes("roller")) { likelyIssue = "New roller door supply & installation"; }
-      if (issue.includes("sectional")) { likelyIssue = "New sectional door supply & installation"; }
-
-      breakdown.push({ label: "Garage door unit", min: doorMin, max: doorMax });
-      breakdown.push({ label: "Professional installation", min: labourMin, max: labourMax });
-      breakdown.push({ label: "Hardware & tracking", min: partsMin, max: partsMax });
-      break;
-    }
-
-    case "opener": {
-      let motorMin = 300, motorMax = 650;
-      const labourMin = 100, labourMax = 200;
-      let setupMin = 50, setupMax = 100;
-      likelyIssue = "Garage door opener / motor upgrade";
-
-      if (issue.includes("smart") || issue.includes("wifi") || issue.includes("wi-fi")) { motorMin += 100; motorMax += 200; }
-      if (issue.includes("battery")) { motorMin += 80; motorMax += 150; }
-      if (issue.includes("remote")) { setupMin += 40; setupMax += 80; }
-
-      breakdown.push({ label: "Opener / motor unit", min: motorMin, max: motorMax });
-      breakdown.push({ label: "Installation & fitment", min: labourMin, max: labourMax });
-      breakdown.push({ label: "Setup & remote programming", min: setupMin, max: setupMax });
-      break;
-    }
-
-    case "maintenance": {
-      let inspectionMin = 40, inspectionMax = 80;
-      let servicingMin = 50, servicingMax = 120;
-      let adjustMin = 30, adjustMax = 80;
-      likelyIssue = "Preventative service & safety inspection";
-
-      if (issue.includes("two") || issue.includes("2") || issue.includes("double")) {
-        servicingMin += 30; servicingMax += 70; adjustMin += 20; adjustMax += 50;
-      } else if (issue.includes("commercial")) {
-        inspectionMin += 40; inspectionMax += 80; servicingMin += 50; servicingMax += 100;
-      }
-
-      breakdown.push({ label: "Safety & alignment inspection", min: inspectionMin, max: inspectionMax });
-      breakdown.push({ label: "Lubrication & spring tensioning", min: servicingMin, max: servicingMax });
-      breakdown.push({ label: "Minor hardware adjustments", min: adjustMin, max: adjustMax });
-      break;
-    }
-
-    default: {
-      likelyIssue = "General inspection & diagnostic";
-      breakdown.push({ label: "Service call & assessment", min: 80, max: 120 });
-      breakdown.push({ label: "Labour", min: 70, max: 150 });
-      breakdown.push({ label: "Estimated parts", min: 30, max: 120 });
-      break;
-    }
-  }
-
-  return { likelyIssue, breakdown };
+function cap(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
 }
 
-/** Apply door-size and urgency modifiers to the breakdown in place. */
-function applyModifiers(formData: CalculatorFormData, breakdown: EstimateBreakdown[]) {
-  if (breakdown.length === 0) return;
+/** Build the indicative line-item breakdown for a scenario at the chosen quantity. */
+function buildScenarioBreakdown(
+  scenario: PricingScenario,
+  quantity: number,
+  min: number,
+  max: number,
+): EstimateBreakdown[] {
+  if (scenario.pricingModel === "perUnit") {
+    const q = clampQuantity(scenario, quantity);
+    const unit = scenario.unitPrice ?? 0;
+    const callout = scenario.calloutFee ?? 0;
+    const noun = cap(scenario.unitLabel ?? "part");
+    return [
+      { label: `${noun}${q > 1 ? "s" : ""} (×${q})`, min: q * unit, max: q * unit },
+      { label: scenario.calloutLabel ?? "Attendance", min: callout, max: callout },
+    ];
+  }
+  return [{ label: "Parts, labour & call-out", min, max }];
+}
 
-  if (formData.doorSize === "double") {
-    if (formData.serviceType === "installation") {
-      breakdown[0].min += 200; breakdown[0].max += 500;
-      breakdown[1].min += 50; breakdown[1].max += 120;
-    } else {
-      const last = breakdown[breakdown.length - 1];
-      last.min += 50; last.max += 150;
-    }
-  } else if (formData.doorSize === "custom") {
-    breakdown[0].min += 150; breakdown[0].max += 350;
+/** The baked-in default model: an exact range + breakdown for the chosen scenario (or a fallback). */
+function buildBaseModel(formData: CalculatorFormData, scenario: PricingScenario | undefined): BaseModel {
+  if (scenario) {
+    const { min, max, openEnded } = priceForScenario(scenario, formData.quantity);
+    return {
+      likelyIssue: scenarioLabelForSelection(scenario, formData.quantity),
+      breakdown: buildScenarioBreakdown(scenario, formData.quantity, min, max),
+      openEnded,
+      includes: scenario.includes ?? null,
+      note: scenario.publicNote,
+    };
   }
 
-  if (formData.urgency === "today") {
-    const idx = breakdown.findIndex((b) =>
-      /labour|installation|servicing|fitment/i.test(b.label));
-    if (idx !== -1) {
-      breakdown[idx].min += 80; breakdown[idx].max += 150;
-      breakdown[idx].label += " (same-day priority)";
-    } else {
-      breakdown.push({ label: "Same-day dispatch", min: 80, max: 150 });
-    }
+  // No specific scenario ("Not sure" / nothing picked) → a broad per-service fallback.
+  if (formData.serviceType) {
+    const f = SERVICE_FALLBACK[formData.serviceType];
+    return {
+      likelyIssue: f.likelyIssue,
+      breakdown: [{ label: f.label, min: f.min, max: f.max }],
+      openEnded: f.openEnded,
+      includes: null,
+      note: "Tell us a bit more and we'll sharpen this — or get a free, firm quote.",
+    };
   }
+
+  return {
+    likelyIssue: "General inspection & diagnostic",
+    breakdown: [
+      { label: "Service call & assessment", min: 80, max: 120 },
+      { label: "Labour", min: 70, max: 150 },
+      { label: "Estimated parts", min: 30, max: 120 },
+    ],
+    openEnded: false,
+    includes: null,
+    note: null,
+  };
 }
 
 function deriveConfidence(formData: CalculatorFormData, matchedCatalog: boolean): "Low" | "Medium" | "High" {
+  const knownIssue = Boolean(formData.problemId) && formData.problemId !== NOT_SURE_ID;
   let notSure = 0;
-  if (!formData.problem) notSure++;
+  if (!knownIssue) notSure++;
   if (formData.doorType === "notsure" || !formData.doorType) notSure++;
   if (!formData.doorSize) notSure++;
 
-  if (matchedCatalog && formData.problem) return "High";
+  if (matchedCatalog && knownIssue) return "High";
   if (notSure >= 2) return "Low";
   if (notSure === 0) return "High";
   return "Medium";
@@ -286,41 +265,95 @@ export function calculateEstimate(
   formData: CalculatorFormData,
   catalog: CmsPublicPricingItem[] = [],
 ): EstimateResult {
-  const { likelyIssue, breakdown } = buildBaseModel(formData);
-  applyModifiers(formData, breakdown);
+  const scenario =
+    formData.problemId && formData.problemId !== NOT_SURE_ID
+      ? PRICING_BY_ID.get(formData.problemId)
+      : undefined;
+  const base = buildBaseModel(formData, scenario);
 
-  const defaultMin = breakdown.reduce((sum, b) => sum + b.min, 0);
-  const defaultMax = breakdown.reduce((sum, b) => sum + b.max, 0);
+  // Flat after-hours/emergency surcharge, added as its own line.
+  if (formData.emergency) {
+    base.breakdown.push({
+      label: "After-hours / emergency call-out",
+      min: EMERGENCY_SURCHARGE,
+      max: EMERGENCY_SURCHARGE,
+    });
+  }
 
-  // DB override: a matching live list price becomes the authoritative headline range.
+  const defaultMin = base.breakdown.reduce((sum, b) => sum + b.min, 0);
+  const defaultMax = base.breakdown.reduce((sum, b) => sum + b.max, 0);
+
+  // DB override: a matching live list price becomes the authoritative headline range. We skip it for
+  // per-unit scenarios (remotes/hinges), whose price is quantity-driven and can't be a single row.
+  const problemLabel = effectiveScenarioLabel(formData, scenario);
+  const allowOverride = !scenario || scenario.pricingModel !== "perUnit";
   const match =
-    formData.serviceType && formData.problem
-      ? matchCatalogRow(catalog, formData.serviceType as ServiceType, formData.problem)
+    allowOverride && formData.serviceType && problemLabel
+      ? matchCatalogRow(catalog, formData.serviceType as ServiceType, problemLabel)
       : null;
 
-  if (match) {
-    const min = match.priceMin ?? parseLabelAmount(match.priceLabel) ?? defaultMin;
-    const max = match.priceMax ?? null;
+  if (match && match.priceMin != null) {
+    const surcharge = formData.emergency ? EMERGENCY_SURCHARGE : 0;
+    const min = (match.priceMin ?? parseLabelAmount(match.priceLabel) ?? defaultMin) + surcharge;
+    const max = match.priceMax != null ? match.priceMax + surcharge : null;
     return {
       minPrice: Math.round(min),
       maxPrice: Math.round(max ?? min),
       openEnded: max == null,
       confidence: deriveConfidence(formData, true),
-      likelyIssue: match.note?.trim() || match.scenario || likelyIssue,
-      breakdown,
+      likelyIssue: base.likelyIssue,
+      breakdown: base.breakdown,
       priceSource: "catalog",
       catalogLabel: match.scenario,
-      includes: match.includes ?? null,
+      includes: match.includes ?? base.includes,
+      note: base.note,
     };
   }
 
   return {
     minPrice: Math.round(defaultMin),
     maxPrice: Math.round(defaultMax),
-    openEnded: false,
+    openEnded: base.openEnded,
     confidence: deriveConfidence(formData, false),
-    likelyIssue,
-    breakdown,
+    likelyIssue: base.likelyIssue,
+    breakdown: base.breakdown,
     priceSource: "estimate",
+    includes: base.includes,
+    note: base.note,
   };
+}
+
+/** Format a headline range for prose ("from $X", "about $X", "$X–$Y"). */
+export function formatEstimateRange(estimate: EstimateResult): string {
+  if (estimate.openEnded) return `from $${estimate.minPrice.toLocaleString()}`;
+  if (estimate.minPrice === estimate.maxPrice) return `about $${estimate.minPrice.toLocaleString()}`;
+  return `$${estimate.minPrice.toLocaleString()}–$${estimate.maxPrice.toLocaleString()}`;
+}
+
+export interface QuotePrefill {
+  service: string;
+  suburb: string;
+  notes: string;
+}
+
+/**
+ * Build a pre-filled, editable quote request from the calculator's current selections + estimate, so
+ * the "Get my exact quote" CTA opens a form that already describes what the customer asked about.
+ */
+export function buildQuotePrefill(formData: CalculatorFormData, estimate: EstimateResult): QuotePrefill {
+  const serviceLabel = formData.serviceType ? SERVICE_LABELS[formData.serviceType] : "Garage door enquiry";
+  const scenario =
+    formData.problemId && formData.problemId !== NOT_SURE_ID
+      ? PRICING_BY_ID.get(formData.problemId)
+      : undefined;
+  const jobLabel = scenario ? scenarioLabelForSelection(scenario, formData.quantity) : "";
+  const service = jobLabel ? `${serviceLabel} — ${jobLabel}` : serviceLabel;
+
+  const lines: string[] = [`Service: ${service}`];
+  if (formData.doorType && formData.doorType !== "notsure") lines.push(`Door type: ${formData.doorType}`);
+  if (formData.doorSize) lines.push(`Door size: ${formData.doorSize}`);
+  if (formData.emergency) lines.push("After-hours / emergency: yes (+$500)");
+  lines.push(`Calculator estimate: ${formatEstimateRange(estimate)} (indicative — please confirm my exact price).`);
+
+  return { service, suburb: formData.suburb, notes: lines.join("\n") };
 }

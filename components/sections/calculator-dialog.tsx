@@ -30,7 +30,7 @@ export function CalculatorDialog({ trigger, open, onOpenChange }: CalculatorDial
             "fixed z-50 flex flex-col overflow-hidden bg-transparent outline-none transition-all duration-300 ease-out",
             "left-0 right-0 top-auto bottom-0 h-[92dvh]",
             "data-starting-style:translate-y-full data-ending-style:translate-y-full",
-            "sm:top-1/2 sm:left-1/2 sm:right-auto sm:bottom-auto sm:h-[min(44rem,88dvh)] sm:w-full sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2",
+            "sm:top-1/2 sm:left-1/2 sm:right-auto sm:bottom-auto sm:h-[min(46rem,90dvh)] sm:w-full sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2",
             "sm:data-starting-style:translate-y-[-50%] sm:data-ending-style:translate-y-[-50%] sm:data-starting-style:scale-95 sm:data-ending-style:scale-95 sm:data-starting-style:opacity-0 sm:data-ending-style:opacity-0"
           )}
         >

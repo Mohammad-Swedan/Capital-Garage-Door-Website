@@ -13,8 +13,12 @@ import { getCaseStudySlugs } from "@/lib/data/case-studies";
  * XML sitemap for every public route.
  *
  * `lastModified` per dynamic entry comes from the CMS sitemap feed
- * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL. When the CMS is off
- * (content-fallback mode) the feed is empty and entries simply omit `lastModified`.
+ * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL; entries omit
+ * `lastModified` when no real date is known (an invented date is worse than none).
+ * The strict `cmsSitemap()` THROWS when the CMS is unreachable, so a failed
+ * regeneration keeps serving the last good sitemap instead of silently dropping
+ * every CMS URL; the CMS pushes changes instantly via app/api/revalidate on
+ * create/update/publish/unpublish/delete.
  * `noIndex` pages (e.g. paid `/lp/*` landing pages, draft/hidden pages) are
  * EXCLUDED — both by never listing /lp here and by dropping any CMS feed item
  * flagged `noIndex`.
@@ -75,6 +79,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteConfig.url}/contact`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/services`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteConfig.url}/service-areas`, changeFrequency: "weekly", priority: 0.9 },
+    // Reserved slug: /garage-door-motors-perth is a static route (app/garage-door-motors-perth).
+    // A CMS page published under the same slug would be shadowed by it — don't create one.
+    { url: `${siteConfig.url}/garage-door-motors-perth`, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteConfig.url}/cost-guides`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${siteConfig.url}/calculator`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${siteConfig.url}/blog`, changeFrequency: "weekly", priority: 0.7 },
@@ -98,7 +105,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...caseStudySlugs.map((slug) => entry(`/case-studies/${slug}`, { changeFrequency: "monthly", priority: 0.6 })),
   ];
 
-  return [...staticRoutes, ...dynamic.filter((e): e is MetadataRoute.Sitemap[number] => e !== null)];
+  // Dedupe by URL, static routes winning — a CMS page published under a reserved static slug
+  // (e.g. /garage-door-motors-perth) must not produce a duplicate <url> entry.
+  const seen = new Set<string>();
+  return [...staticRoutes, ...dynamic.filter((e): e is MetadataRoute.Sitemap[number] => e !== null)].filter((e) => {
+    if (seen.has(e.url)) return false;
+    seen.add(e.url);
+    return true;
+  });
 }
 
 /** Resolve a site-relative path to an absolute URL, normalised to match siteConfig.url (no trailing slash). */

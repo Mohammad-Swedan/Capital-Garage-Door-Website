@@ -403,6 +403,68 @@ function parsePriceRange(label: string): { min?: number; max?: number } | null {
   return { min: Math.min(...nums), max: Math.max(...nums) };
 }
 
+/**
+ * Builds Product JSON-LD for the branded motor range (/garage-door-motors-perth).
+ *
+ * One node per model (Capital 1100N / Capital 1500N). The Offer carries the real
+ * supplied-and-installed price range as a PriceSpecification (same convention as
+ * `costGuideOffers`) plus the standard warranty as a WarrantyPromise. Deliberately
+ * NO aggregateRating: there are no per-product reviews, and attaching the site-wide
+ * rating here would violate Google's self-serving review-snippet rules.
+ */
+export function productSchema(product: {
+  name: string;
+  description: string;
+  image: string;
+  sku: string;
+  forceNewtons: number;
+  priceMin: number;
+  priceMax: number;
+  warrantyYears: number;
+  path: string;
+}) {
+  return compact({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    sku: product.sku,
+    description: product.description,
+    image: imageObject(product.image, product.name),
+    url: absUrl(product.path),
+    brand: { "@type": "Brand", name: siteConfig.name },
+    manufacturer: organizationRef(),
+    category: "Garage Door Opener",
+    additionalProperty: {
+      "@type": "PropertyValue",
+      name: "Rated lifting force",
+      value: product.forceNewtons,
+      unitCode: "NEW", // UN/CEFACT code for newton
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "AUD",
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+      description: "Supplied and installed in Perth",
+      priceSpecification: {
+        "@type": "PriceSpecification",
+        priceCurrency: "AUD",
+        minPrice: product.priceMin,
+        maxPrice: product.priceMax,
+      },
+      warranty: {
+        "@type": "WarrantyPromise",
+        durationOfWarranty: {
+          "@type": "QuantitativeValue",
+          value: product.warrantyYears,
+          unitCode: "ANN",
+        },
+      },
+      seller: providerRef(),
+    },
+  });
+}
+
 /** Builds Article JSON-LD for blog/guide articles (e.g. /blog/{slug}) — helps AEO/GEO surfacing. */
 export function blogArticleSchema(article: Article) {
   return compact({

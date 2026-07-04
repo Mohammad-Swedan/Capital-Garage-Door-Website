@@ -1,6 +1,6 @@
 import { landingPages } from "@/content/landing-pages";
 import type { LandingPage } from "@/types/landing-page";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapLandingPage } from "@/lib/cms/map-landing-page";
 
 /**
@@ -13,8 +13,8 @@ import { mapLandingPage } from "@/lib/cms/map-landing-page";
  *
  * The "lp" route group is single-type, so resolving by slug returns the LandingPage directly.
  * NOTE: LandingPages default to no-index (paid traffic only), so the slug feed is filtered by
- * templateType ONLY — filtering out no-index here would yield zero slugs and break the route
- * (app/lp/[slug]/page.tsx sets `dynamicParams = false`).
+ * templateType ONLY — filtering out no-index here would leave generateStaticParams nothing to
+ * prebuild. They are excluded from app/sitemap.ts regardless (noindex pages never belong there).
  */
 const CMS_ON = process.env.CMS_LANDING_PAGES === "on";
 
@@ -38,7 +38,7 @@ export async function getLandingPageBySlug(slug: string): Promise<LandingPage | 
 
 export async function getLandingPageSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "LandingPage").map((p) => p.slug);
   }
   return landingPages.map((page) => page.slug);

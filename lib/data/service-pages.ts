@@ -1,6 +1,6 @@
 import { servicePages } from "@/content/service-pages";
 import type { ServicePage } from "@/types/service-page";
-import { cmsResolve, cmsSitemap } from "@/lib/cms/client";
+import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapServicePage } from "@/lib/cms/map-service-page";
 
 /**
@@ -34,7 +34,7 @@ export async function getServicePageBySlug(slug: string): Promise<ServicePage | 
 
 export async function getServicePageSlugs(): Promise<string[]> {
   if (CMS_ON) {
-    const feed = await cmsSitemap();
+    const feed = await cmsSitemapSafe();
     return feed.filter((p) => p.templateType === "ServicePage" && !p.noIndex).map((p) => p.slug);
   }
   return servicePages.map((page) => page.slug);

@@ -1,0 +1,22 @@
+# Netlify build configuration for the Capital Garage Door site (Next.js 16).
+#
+# The @netlify/plugin-nextjs runtime handles the Next.js adapter (SSR/ISR
+# functions, static assets). `publish = ".next"` is what that plugin expects.
+#
+# NOTE: the CMS (ASP.NET, http://localhost:5179 in dev) is NOT reachable from
+# this build container, so every CMS_* cutover flag is intentionally left unset
+# here — the site builds from local content/*.ts. Set CMS_API_URL and the
+# individual CMS_* flags in the Netlify UI (Site settings → Environment) only
+# once the CMS is deployed to a public URL. The sitemap already tolerates an
+# unreachable CMS at build time (app/sitemap.ts).
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Pin the Node version so local dev and CI match a supported Netlify image.
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

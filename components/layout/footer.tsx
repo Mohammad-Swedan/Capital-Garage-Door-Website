@@ -146,6 +146,17 @@ export function Footer() {
               >
                 <img src="/images/social/instagram.svg" alt="" width={16} height={16} className="opacity-80" />
               </a>
+              {social.youtube && (
+                <a
+                  href={social.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="YouTube"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors hover:border-white/30 hover:bg-white/10"
+                >
+                  <img src="/images/social/youtube.svg" alt="" width={16} height={16} className="opacity-80" />
+                </a>
+              )}
             </div>
           </div>
         </Reveal>

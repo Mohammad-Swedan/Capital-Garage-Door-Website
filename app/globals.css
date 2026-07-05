@@ -774,19 +774,44 @@ html:not(.intro-seen) main {
   animation: none;
 }
 
-/* Drive-off layer: idle = at rest; shake = wiggle; approach/onway = off-screen left */
+/* Drive-off layer: idle = at rest; shake = wiggle; approach = drives off to the
+   left staying visible; onway = held off-screen left. The base transition also
+   powers the drive-back-in when the choice card is dismissed (onway -> idle). */
 .cgd-van-driveoff {
   transition: transform 0.6s ease, opacity 0.5s ease;
 }
 [data-phase="shake"] .cgd-van-driveoff {
   animation: cgd-van-shake 0.4s ease-in-out;
 }
-[data-phase="approach"] .cgd-van-driveoff,
-[data-phase="onway"] .cgd-van-driveoff {
-  transform: translateX(-120vw);
-  opacity: 0;
+/* Drive off: a one-shot keyframe (NOT a transition) — you can't reliably
+   transition *out of* the shake animation, the transform just snaps (which is
+   why the van used to vanish instantly). The van accelerates to the left
+   staying fully opaque, then fades only in the last stretch as it clears the
+   edge, so it reads as *driving away*. `forwards` holds the end frame until
+   `onway` takes over (both = off-screen left, opacity 0). */
+[data-phase="approach"] .cgd-van-driveoff {
+  animation: cgd-van-driveoff-go 0.85s cubic-bezier(0.55, 0, 0.85, 0.4) forwards;
 }
+@keyframes cgd-van-driveoff-go {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(-72vw) rotate(-1.5deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-125vw) rotate(-1.5deg);
+    opacity: 0;
+  }
+}
+/* Held off-screen while the choice card is up (matches the keyframe's end
+   frame; no transition = stays put). Drive-back-in on dismiss uses the base
+   transition (onway -> idle). */
 [data-phase="onway"] .cgd-van-driveoff {
+  transform: translateX(-125vw) rotate(-1.5deg);
+  opacity: 0;
   transition: none;
 }
 @keyframes cgd-van-shake {
@@ -865,6 +890,15 @@ html:not(.intro-seen) main {
   }
   .cgd-van-tilt {
     transform: none;
+  }
+  /* No big slide for reduced motion — the van fades out in place (gentle)
+     rather than driving off or snapping away instantly. */
+  [data-phase="approach"] .cgd-van-driveoff,
+  [data-phase="onway"] .cgd-van-driveoff {
+    animation: none;
+    transform: none;
+    opacity: 0;
+    transition: opacity 0.25s ease;
   }
 }
 

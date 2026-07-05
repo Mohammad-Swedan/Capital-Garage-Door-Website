@@ -104,9 +104,10 @@ export function Hero() {
     timeoutsRef.current.push(id);
   };
 
-  // Tap the van: shake → "approach" the viewer (stand-in for the reference
-  // design's drive-up video, since no video asset exists here) → "On Our
-  // Way!" → show the Call-or-Book choice card.
+  // Tap the van: shake → drive off to the left ("approach") → "On Our Way!" →
+  // show the Call-or-Book choice card. The drive-off motion + its duration live
+  // in the `.cgd-van-driveoff` rules in globals.css (kept in sync with the
+  // "approach" hold below).
   const handleVanClick = () => {
     if (vanLockedRef.current || vanPhase === "onway") return;
     clearIdleReset();
@@ -126,10 +127,13 @@ export function Hero() {
     setVanPhase("shake");
     queue(() => {
       setVanPhase("approach");
+      // Hold in "approach" long enough for the full drive-off to play (the
+      // 0.85s `cgd-van-driveoff-go` keyframe in globals.css) before the choice
+      // card springs in. Keep in sync with that animation's duration.
       queue(() => {
         setVanPhase("onway");
         vanLockedRef.current = false;
-      }, 600);
+      }, 850);
     }, 400);
   };
 

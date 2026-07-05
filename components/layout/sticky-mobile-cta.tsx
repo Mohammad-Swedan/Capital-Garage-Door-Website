@@ -12,6 +12,33 @@ const AiChatWidget = dynamic(
 );
 
 /**
+ * Session flag so the Smart Chat teaser tooltip appears at most **once per
+ * visit, across every page**. Each route renders its own StickyMobileCta, so a
+ * plain ref/state resets on navigation and the tooltip re-fires on every page
+ * (and again when returning home). sessionStorage survives navigations within
+ * the tab and clears when the tab closes — a returning visitor gets one fresh
+ * nudge next session, but never a repeat while browsing around the site.
+ */
+const TEASER_SEEN_KEY = "cgd-smartchat-teaser-seen";
+
+function teaserAlreadySeen() {
+  try {
+    return sessionStorage.getItem(TEASER_SEEN_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markTeaserSeen() {
+  try {
+    sessionStorage.setItem(TEASER_SEEN_KEY, "1");
+  } catch {
+    // sessionStorage can throw (private mode / disabled) — degrade gracefully
+    // to once-per-page-load rather than crashing the launcher.
+  }
+}
+
+/**
  * Fixed conversion launcher shared across the homepage hero and inner templated
  * pages. On mobile/tablet it's a full-width Call + Smart Chat bar; on desktop
  * (lg+) it's a single round Smart Chat bubble bottom-right (chat only, no Call).
@@ -39,6 +66,11 @@ export function StickyMobileCta() {
     setReducedMotion(
       window.matchMedia("(prefers-reduced-motion: reduce)").matches,
     );
+    // If the teaser already fired earlier this session (on any page), suppress
+    // it here so it never re-shows on navigation or when returning home.
+    if (teaserAlreadySeen()) {
+      hasShownTooltipRef.current = true;
+    }
     let raf = 0;
     const update = () => {
       raf = 0;
@@ -61,6 +93,9 @@ export function StickyMobileCta() {
         setShowTooltip(true);
         setBadgeVisible(true);
         hasShownTooltipRef.current = true;
+        // Persist immediately on show so navigating away mid-teaser still
+        // counts as "seen" — it appears exactly once per session, site-wide.
+        markTeaserSeen();
       }, 3000);
     }
     return () => window.clearTimeout(tooltipTimeoutRef.current);
@@ -74,12 +109,18 @@ export function StickyMobileCta() {
   useEffect(() => {
     if (!showTooltip) return;
 
+    // Effect-local so it isn't a render-scoped dep (setShowTooltip is stable,
+    // markTeaserSeen is module-level) — same "hide + persist" as dismissTooltip.
+    const hide = () => {
+      setShowTooltip(false);
+      markTeaserSeen();
+    };
     function handleClick(e: MouseEvent) {
       if (!wrapperRef.current?.contains(e.target as Node)) {
-        setShowTooltip(false);
+        hide();
       }
     }
-    const autoHide = window.setTimeout(() => setShowTooltip(false), 7000);
+    const autoHide = window.setTimeout(hide, 7000);
     document.addEventListener("click", handleClick);
     return () => {
       document.removeEventListener("click", handleClick);
@@ -87,10 +128,19 @@ export function StickyMobileCta() {
     };
   }, [showTooltip]);
 
+  // Every dismissal path (tap the X, tap outside, auto-hide, or open chat)
+  // also persists "seen", so once the user closes it, it stays closed on every
+  // subsequent page this session.
+  function dismissTooltip() {
+    setShowTooltip(false);
+    markTeaserSeen();
+  }
+
   function openChat() {
     setChatOpen(true);
     setShowTooltip(false);
     setBadgeVisible(false);
+    markTeaserSeen();
   }
 
   return (
@@ -116,10 +166,10 @@ export function StickyMobileCta() {
             <button
               type="button"
               aria-label="Dismiss"
-              onClick={() => setShowTooltip(false)}
-              className="absolute top-2.5 right-2.5 z-10 rounded-full p-1 text-foreground/45 transition-colors hover:bg-white/50 hover:text-foreground/70"
+              onClick={dismissTooltip}
+              className="absolute top-2 right-2 z-10 rounded-full p-1.5 text-foreground/50 transition-colors hover:bg-foreground/10 hover:text-foreground/80 active:bg-foreground/15"
             >
-              <X className="h-3.5 w-3.5" aria-hidden="true" />
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
             <p className="relative z-10 flex items-center gap-1.5 text-sm font-bold text-foreground">
               <span aria-hidden="true">👋</span> Smart Chat

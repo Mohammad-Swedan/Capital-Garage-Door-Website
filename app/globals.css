@@ -1060,20 +1060,25 @@ html:not(.intro-seen) main {
   }
 }
 
-/* Smart Chat tooltip: light frosted glass (see StickyMobileCta in
-   components/sections/hero.tsx). Plain CSS rather than Tailwind utilities
-   because the layered inset highlights + -webkit-backdrop-filter prefix
-   aren't expressible cleanly as arbitrary values. */
+/* Smart Chat tooltip: frosted glass (see StickyMobileCta in
+   components/layout/sticky-mobile-cta.tsx). Plain CSS rather than Tailwind
+   utilities because the layered inset highlights + -webkit-backdrop-filter
+   prefix aren't expressible cleanly as arbitrary values. */
 .cgd-glass-tooltip {
   /* No `position` here — it relies on Tailwind's `absolute` utility class in
      the markup. Setting it here would tie with that utility's specificity
      and (depending on stylesheet order) can silently override it back to
      `relative`, turning the tooltip into a real flex item that squeezes its
      siblings instead of floating above them. */
-  background: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  backdrop-filter: blur(22px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  /* Near-opaque, theme-aware fill derived from --background so it always
+     contrasts with the --foreground text. The old ~10%-white glass turned
+     dark over dark hero images and swallowed the dark text; this stays a
+     readable "white glass" on light pages (and a readable dark glass in dark
+     mode) whatever sits behind it. */
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
   border-radius: 28px;
   box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.18),
@@ -1096,11 +1101,11 @@ html:not(.intro-seen) main {
 }
 
 .cgd-glass-tooltip-pointer {
-  background: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  backdrop-filter: blur(22px) saturate(180%);
-  border-right: 1px solid rgba(255, 255, 255, 0.45);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border-right: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
 }
 
 /* Dark frosted glass card for the Service Area Map's floating "Perth-Wide

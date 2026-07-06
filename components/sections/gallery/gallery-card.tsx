@@ -36,7 +36,10 @@ export function GalleryCard({ item }: GalleryCardProps) {
             )}
           </p>
         )}
-        {item.description && <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>}
+        {/* Older CMS rows have no title, so title falls back to the caption — don't render the same sentence twice. */}
+        {item.description && item.description !== item.title && (
+          <p className="text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+        )}
       </div>
     </article>
   );

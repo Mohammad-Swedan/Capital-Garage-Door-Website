@@ -7,6 +7,9 @@ export const siteConfig = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://capitalgaragedoors.com.au",
   ogImage: "/images/og/default.jpg",
   locale: "en_AU",
+  // GA4 measurement ID — rendered once in app/layout.tsx (production only),
+  // which covers every route including CMS-created pages.
+  googleAnalyticsId: "G-9FTLPLVPL0",
 
   business: {
     legalName: "Capital Garage Door LLC",

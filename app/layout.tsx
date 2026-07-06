@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -109,6 +110,11 @@ export default async function RootLayout({
           </SiteChrome>
         </LazyMotionProvider>
       </body>
+      {/* gtag.js loads after hydration (Next third-parties), so it stays off the
+          intro/LCP critical path. Production-only so dev traffic never pollutes GA. */}
+      {process.env.NODE_ENV === "production" && (
+        <GoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
+      )}
     </html>
   );
 }

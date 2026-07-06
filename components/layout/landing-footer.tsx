@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Phone, Mail, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
+import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 import { siteConfig } from "@/config/site";
 
 /**
@@ -29,13 +30,9 @@ export function LandingFooter() {
             <Phone className="h-4 w-4 text-sky-300" aria-hidden="true" />
             {business.phoneDisplay}
           </a>
-          <a
-            href={`mailto:${business.email}`}
-            className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white"
-          >
+          <ObfuscatedEmail className="flex items-center gap-2 text-sm text-white/70 transition-colors hover:text-white">
             <Mail className="h-4 w-4 text-sky-300" aria-hidden="true" />
-            {business.email}
-          </a>
+          </ObfuscatedEmail>
         </div>
 
         <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/75">

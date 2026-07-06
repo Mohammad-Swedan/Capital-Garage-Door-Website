@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Phone, Mail, MapPin, Clock, Siren, FileText, MessageSquare, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
+import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { contactPointSchema, faqSchema } from "@/lib/seo/schema";
@@ -127,7 +128,7 @@ export default function ContactPage() {
       <ContactInfoCards
         cards={[
           { icon: Phone, label: "Call Now", value: business.phoneDisplay, href: `tel:${phone}` },
-          { icon: Mail, label: "Email", value: business.email, href: `mailto:${business.email}` },
+          { icon: Mail, label: "Email", value: <ObfuscatedEmail className="hover:text-cta" /> },
           { icon: MapPin, label: "Service Areas", value: "All Perth Suburbs" },
           { icon: Clock, label: "Business Hours", value: "Mon–Fri 8am–6pm · Sat 9am–3pm" },
           { icon: Siren, label: "Emergency Repairs", value: "24/7 Availability", href: `tel:${phone}`, badge: "24/7" },

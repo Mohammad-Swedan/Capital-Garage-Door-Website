@@ -49,6 +49,7 @@ export const siteConfig = {
   },
 
   nav: [
+    { label: "Home", href: "/" },
     { label: "Services", href: "/services" },
     { label: "Motors", href: "/garage-door-motors-perth" },
     { label: "Service Areas", href: "/service-areas" },

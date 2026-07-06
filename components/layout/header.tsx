@@ -23,8 +23,8 @@ export function Header() {
           <Logo className="text-2xl sm:text-3xl lg:text-2xl xl:text-3xl" />
         </Link>
 
-        {/* gap tightens at lg so all 8 items + Call Now fit a 1024px viewport. */}
-        <nav className="hidden items-center gap-4 lg:flex xl:gap-7">
+        {/* gap tightens at lg so all 9 items + Call Now fit a 1024px viewport. */}
+        <nav className="hidden items-center gap-3 lg:flex xl:gap-6">
           {siteConfig.nav.map((item) => (
             <Link
               key={item.href}

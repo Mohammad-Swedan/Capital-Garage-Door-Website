@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
@@ -6,7 +7,8 @@ import { cn } from "@/lib/utils";
 export interface ContactInfoCard {
   icon: LucideIcon;
   label: string;
-  value: string;
+  /** Plain text, or a node (e.g. an ObfuscatedEmail link) — nodes should omit `href`. */
+  value: ReactNode;
   href?: string;
   badge?: string;
 }

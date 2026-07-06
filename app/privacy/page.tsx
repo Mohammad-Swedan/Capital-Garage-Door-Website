@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
+import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
@@ -98,10 +99,7 @@ export default function PrivacyPage() {
             <h2 className="font-heading text-lg font-semibold text-foreground">Contact Us</h2>
             <p className="mt-2">
               If you have questions about this policy, contact us at{" "}
-              <a href={`mailto:${business.email}`} className="font-medium text-primary hover:underline">
-                {business.email}
-              </a>{" "}
-              or{" "}
+              <ObfuscatedEmail className="font-medium text-primary hover:underline" /> or{" "}
               <a href={`tel:${business.phone}`} className="font-medium text-primary hover:underline">
                 {business.phoneDisplay}
               </a>

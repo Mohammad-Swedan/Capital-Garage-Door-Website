@@ -104,6 +104,7 @@ export function ArticleHero({ article }: ArticleHeroProps) {
             <Image
               src={article.featuredImage}
               alt={article.featuredImageAlt}
+              title={article.title}
               fill
               sizes="(max-width: 1024px) 100vw, 56rem"
               className="object-cover"

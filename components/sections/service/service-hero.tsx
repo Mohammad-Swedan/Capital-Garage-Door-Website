@@ -101,6 +101,7 @@ export function ServiceHero({ hero }: ServiceHeroProps) {
                 path="hero.image"
                 src={hero.image}
                 alt={hero.imageAlt}
+                title={hero.imageAlt}
                 fill
                 sizes="(max-width: 1024px) 28rem, 30rem"
                 className="object-cover opacity-90"

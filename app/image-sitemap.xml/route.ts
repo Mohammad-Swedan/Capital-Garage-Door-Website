@@ -49,6 +49,29 @@ export async function GET() {
 
   const pages: PageImages[] = [];
 
+  // Home page — its real marketing images (hero van, coverage map, about photo)
+  // aren't in any content registry, so they're listed explicitly here.
+  pages.push({
+    loc: abs("/"),
+    images: [
+      {
+        url: abs("/images/van-speeding-light.png"),
+        title: "Capital Garage Door service van",
+        caption: "Capital Garage Door mobile service van covering Perth suburbs",
+      },
+      {
+        url: abs("/images/perth-map-white.png"),
+        title: "Perth service area map",
+        caption: "Map of Perth metro suburbs covered by Capital Garage Door",
+      },
+      {
+        url: "https://jadara-hub.b-cdn.net/capital-garage-door/premium-garage-door-about.webp",
+        title: "Premium sectional garage door installation",
+        caption: "Premium sectional garage door installed by Capital Garage Door in Perth",
+      },
+    ],
+  });
+
   for (const a of articles) {
     if (a.featuredImage) {
       pages.push({
@@ -78,7 +101,8 @@ export async function GET() {
     if (p.heroImage) {
       pages.push({
         loc: abs(`/problems/${p.slug}`),
-        images: [{ url: abs(p.heroImage), title: p.name }],
+        // Problems carry no dedicated alt field — the problem name doubles as caption.
+        images: [{ url: abs(p.heroImage), title: p.name, caption: p.name }],
       });
     }
   }

@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowRight } from "lucide-reac
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { Reveal } from "@/components/motion/reveal";
+import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 import { siteConfig } from "@/config/site";
 import { formatHour } from "@/lib/utils";
 
@@ -53,15 +54,11 @@ export function Footer() {
                 </span>
                 {business.phoneDisplay}
               </a>
-              <a
-                href={`mailto:${business.email}`}
-                className="group flex items-center gap-3 text-sm text-white/70 transition-colors hover:text-white"
-              >
+              <ObfuscatedEmail className="group flex items-center gap-3 text-sm text-white/70 transition-colors hover:text-white">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/5 transition-colors group-hover:border-white/30 group-hover:bg-white/10">
                   <Mail className="h-4 w-4 text-sky-300" aria-hidden="true" />
                 </span>
-                {business.email}
-              </a>
+              </ObfuscatedEmail>
               <div className="flex items-center gap-3 text-sm text-white/70">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/5">
                   <MapPin className="h-4 w-4 text-sky-300" aria-hidden="true" />

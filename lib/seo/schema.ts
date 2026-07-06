@@ -98,7 +98,6 @@ export function localBusinessSchema(
     legalName: business.legalName,
     url: siteConfig.url,
     telephone: business.phone,
-    email: business.email,
     priceRange: business.priceRange,
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     address,
@@ -155,7 +154,6 @@ export function organizationSchema() {
     logo: new URL("/images/logo-icon-512.png", siteConfig.url).toString(),
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     telephone: business.phone,
-    email: business.email,
     ...(sameAs.length > 0 ? { sameAs } : {}),
   };
 }
@@ -173,8 +171,10 @@ export function webSiteSchema() {
 
 /**
  * Builds Organization + ContactPoint JSON-LD for the /contact page so search
- * engines and AI assistants can read the canonical phone/email/contact method
- * (eligibility for the local knowledge panel's contact actions).
+ * engines and AI assistants can read the canonical phone/contact method
+ * (eligibility for the local knowledge panel's contact actions). Email is
+ * deliberately omitted from all JSON-LD — it would put the plain address in
+ * page source for spam harvesters (see components/ui/obfuscated-email.tsx).
  */
 export function contactPointSchema() {
   const { business } = siteConfig;
@@ -184,13 +184,11 @@ export function contactPointSchema() {
     "@type": "Organization",
     name: siteConfig.name,
     url: siteConfig.url,
-    email: business.email,
     telephone: business.phone,
     contactPoint: [
       {
         "@type": "ContactPoint",
         telephone: business.phone,
-        email: business.email,
         contactType: "customer service",
         areaServed: business.address.addressRegion,
         availableLanguage: ["English"],

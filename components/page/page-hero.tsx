@@ -106,6 +106,7 @@ export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: P
               <Image
                 src="/images/perth-map-white.png"
                 alt={`Map of ${areaLabel}`}
+                title={`Map of ${areaLabel}`}
                 fill
                 sizes="(max-width: 1024px) 28rem, 30rem"
                 className="object-contain p-8 opacity-80"

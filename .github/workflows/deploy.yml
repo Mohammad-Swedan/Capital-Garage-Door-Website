@@ -19,6 +19,10 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          # The default 30s connect timeout intermittently loses the race to the
+          # VPS ("dial tcp :22: i/o timeout") when the box is briefly busy; give the
+          # handshake more room. command_timeout covers the on-server build.
+          timeout: 120s
           command_timeout: 30m
           script: |
             set -e

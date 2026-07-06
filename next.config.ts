@@ -1,6 +1,18 @@
 import type { NextConfig } from "next";
 
+// Docker/self-hosted builds run the emitted standalone server (server.js).
+// Gated so the Netlify standby build keeps its default output untouched.
+const isDockerBuild = process.env.DOCKER_BUILD === "1";
+
 const nextConfig: NextConfig = {
+  ...(isDockerBuild
+    ? {
+        output: "standalone" as const,
+        // sharp powers production image optimization; force its platform
+        // binaries into the .next/standalone trace (Next docs' own pattern).
+        outputFileTracingIncludes: { "/*": ["node_modules/sharp/**/*"] },
+      }
+    : {}),
   // Lets the dev server's HMR websocket succeed when loading it from a phone
   // over LAN (e.g. http://10.102.77.150:3000) instead of localhost. Without
   // this, every reconnect attempt fails and retries indefinitely, burning

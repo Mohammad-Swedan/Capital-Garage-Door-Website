@@ -1,0 +1,31 @@
+# Frontend-only stack for the VPS. The CMS backend lives on MonsterASP —
+# there are no db/backend services here on purpose. The .env consumed below
+# is written on the server by .github/workflows/deploy.yml from GitHub
+# secrets; it is never committed (repo is public).
+name: capitalgd
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-https://capitalgaragedoors.com.au}
+    container_name: capitalgd_frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8082:3000" # only host nginx reaches it
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "/dev/null", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - capitalgd_net
+
+networks:
+  capitalgd_net:
+    driver: bridge

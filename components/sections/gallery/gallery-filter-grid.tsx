@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
@@ -38,6 +38,16 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
   const [type, setType] = useState(""); // "" = all types
   const [suburb, setSuburb] = useState(""); // "" = all suburbs
   const [page, setPage] = useState(1);
+  // Scroll target for pagination: jumping to a new page should bring the top of
+  // the results (the "Recent Work" heading) back into view, not leave the user
+  // stranded at the bottom where the Prev/Next buttons are.
+  const topRef = useRef<HTMLDivElement>(null);
+  const goToPage = (p: number) => {
+    setPage(p);
+    const reduce =
+      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    topRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  };
 
   // Stable option lists derived once from the full dataset.
   const categoryOptions = useMemo(
@@ -103,6 +113,8 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>
+        {/* Anchor the pagination scroll here; scroll-mt clears the sticky header. */}
+        <div ref={topRef} className="scroll-mt-24" />
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Recent Work</h2>
         </Reveal>
@@ -199,7 +211,7 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
             <button
               type="button"
               disabled={safePage <= 1}
-              onClick={() => setPage(safePage - 1)}
+              onClick={() => goToPage(safePage - 1)}
               className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-foreground transition-colors enabled:hover:border-[#0f4e9b]/25 enabled:hover:text-[#0f4e9b] disabled:opacity-40"
             >
               Prev
@@ -210,7 +222,7 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
             <button
               type="button"
               disabled={safePage >= totalPages}
-              onClick={() => setPage(safePage + 1)}
+              onClick={() => goToPage(safePage + 1)}
               className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-foreground transition-colors enabled:hover:border-[#0f4e9b]/25 enabled:hover:text-[#0f4e9b] disabled:opacity-40"
             >
               Next

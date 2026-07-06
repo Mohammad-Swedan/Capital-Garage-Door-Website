@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { whenIntroReady } from "@/lib/intro-ready";
+import { registerLenis } from "@/lib/smooth-scroll";
 
 /**
  * Global smooth scrolling (Lenis) bridged into GSAP's ticker so the pinned
@@ -73,6 +74,9 @@ export function SmoothScrollProvider() {
         lerp: 0.08,
         smoothWheel: true,
       });
+      // Expose it so components can scroll through Lenis (native scroll is
+      // otherwise cancelled by Lenis' per-frame re-apply). See lib/smooth-scroll.
+      registerLenis(lenis);
 
       // Keep ScrollTrigger in sync with Lenis' smoothed scroll position.
       const onScroll = () => ScrollTrigger.update();
@@ -95,6 +99,7 @@ export function SmoothScrollProvider() {
       classObserver.observe(root, { attributes: true, attributeFilter: ["class"] });
 
       cleanupRuntime = () => {
+        registerLenis(null);
         classObserver.disconnect();
         gsap.ticker.remove(raf);
         gsap.ticker.lagSmoothing(500, 33); // restore GSAP's default

@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { GalleryCard } from "@/components/sections/gallery/gallery-card";
+import { scrollToElement } from "@/lib/smooth-scroll";
 import { cn } from "@/lib/utils";
 import type { GalleryCategory, GalleryItem } from "@/types/gallery";
 
@@ -44,9 +45,8 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
   const topRef = useRef<HTMLDivElement>(null);
   const goToPage = (p: number) => {
     setPage(p);
-    const reduce =
-      typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    topRef.current?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    // Scroll through Lenis when it's active (native scroll is otherwise cancelled).
+    scrollToElement(topRef.current);
   };
 
   // Stable option lists derived once from the full dataset.

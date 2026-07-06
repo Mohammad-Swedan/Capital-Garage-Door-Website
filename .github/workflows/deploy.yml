@@ -1,0 +1,43 @@
+name: Deploy frontend to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          command_timeout: 30m
+          script: |
+            set -e
+            echo "Deploying capitalgd (frontend only)..."
+            mkdir -p /opt/capitalgd
+            if [ ! -d /opt/capitalgd/.git ]; then
+              git clone https://github.com/Mohammad-Swedan/Capital-Garage-Door-Website.git /opt/capitalgd
+            fi
+            cd /opt/capitalgd
+            git fetch origin
+            git reset --hard origin/main
+            git clean -fd
+            # Runtime secrets, kept out of git (repo is public).
+            cat > .env << 'ENVEOF'
+            NEXT_PUBLIC_SITE_URL=https://capitalgaragedoors.com.au
+            REVALIDATE_SECRET=${{ secrets.REVALIDATE_SECRET }}
+            ASSISTANT_PROXY_SECRET=${{ secrets.ASSISTANT_PROXY_SECRET }}
+            ENVEOF
+            docker compose up -d --build
+            docker image prune -f
+            docker compose ps
+            echo "Done."

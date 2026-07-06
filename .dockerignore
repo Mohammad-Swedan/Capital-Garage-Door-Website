@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.env*
+!.env.example
+.claude
+.playwright-mcp
+.github
+docs
+tsconfig.tsbuildinfo
+netlify.toml
+*.png

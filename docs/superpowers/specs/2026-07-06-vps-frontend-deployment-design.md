@@ -97,6 +97,24 @@ New `/etc/nginx/sites-available/capitalgd.conf` only:
 - **Stack:** `cd /opt/capitalgd && docker compose down` (touches nothing else).
 - **nginx:** remove the one symlink, `nginx -t`, reload.
 
+## Outcome (as executed, 2026-07-06)
+
+Two deviations from the plan above, both now the deployed reality:
+
+1. **No test-subdomain phase.** The dashboard edits landed on the live apex/`www` records
+   directly (proxied to the VPS), so the cutover happened early. The site briefly failed
+   over HTTPS because of deviation 2.
+2. **TLS is Full, not Flexible.** The zone's SSL mode remained **Full** (evidence: a 525 on
+   another proxied hostname in the zone), so instead of switching to Flexible the origin got
+   a **self-signed certificate** (`/etc/nginx/certs/capitalgd-selfsigned.{crt,key}`, SANs
+   apex/www/new) and the nginx blocks listen on 443 too. Net effect: the Cloudflare→origin
+   hop is encrypted — strictly better than the planned Flexible. The "later hardening" step
+   is now just swapping the self-signed cert for a Cloudflare Origin CA cert (+ Full strict).
+
+All verification in the section above was performed against the live domain and passed
+(pages, sitemap, admin, image optimizer, pricing API, revalidate webhook, AI chat, and the
+neighbouring stacks unaffected).
+
 ## Known trade-offs
 
 - Image builds run on the server (minutes of CPU; no swap configured — avoid deploying while

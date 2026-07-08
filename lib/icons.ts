@@ -28,6 +28,9 @@ import {
   Building2,
   Layers,
   HelpCircle,
+  BadgeCheck,
+  RefreshCw,
+  Home,
   type LucideIcon,
 } from "lucide-react";
 
@@ -62,6 +65,9 @@ export const iconMap: Record<string, LucideIcon> = {
   Building2,
   Layers,
   HelpCircle,
+  BadgeCheck,
+  RefreshCw,
+  Home,
 };
 
 export function resolveIcon(name: string): LucideIcon {

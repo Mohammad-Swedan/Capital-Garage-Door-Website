@@ -12,6 +12,13 @@ export interface Brand {
    * file paths in here (or upload to the media library and reference the CDN URL) to go live.
    */
   logo?: string;
+  /**
+   * Official manufacturer site. When set, the logo card links out to it — an
+   * E-E-A-T audit flagged the "Authorised Dealer" claims having zero outbound
+   * manufacturer links to corroborate them. Only add VERIFIED official
+   * domains; a wrong link is worse than none.
+   */
+  url?: string;
 }
 
 /**
@@ -22,9 +29,9 @@ export interface Brand {
  */
 export const BRANDS: Brand[] = [
   { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance.", logo: "/images/brands/avanti.webp" },
-  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia.", logo: "/images/brands/gliderol.webp" },
-  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems.", logo: "/images/brands/bd.webp" },
-  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design.", logo: "/images/brands/steel-line.webp" },
+  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia.", logo: "/images/brands/gliderol.webp", url: "https://www.gliderol.com.au/" },
+  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems.", logo: "/images/brands/bd.webp", url: "https://www.bnd.com.au/" },
+  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design.", logo: "/images/brands/steel-line.webp", url: "https://www.steel-line.com.au/" },
   { name: "Superlift", description: "Quality garage door solutions with professional installation and service.", logo: "/images/brands/superlift.webp" },
   { name: "Boss Openers", description: "Reliable garage door systems designed for Australian conditions.", logo: "/images/brands/boss-openers.webp" },
   { name: "Perth Windsor Doors", description: "Advanced garage door technology with superior performance and durability.", logo: "/images/brands/perth-windsor-doors.webp" },
@@ -43,7 +50,7 @@ const TRUST_PILLS = [
  * to a labelled placeholder when a brand has no logo yet.
  */
 function BrandLogo({ brand }: { brand: Brand }) {
-  return (
+  const card = (
     <div
       title={brand.description}
       className="relative mx-3 h-16 w-36 shrink-0 rounded-xl border border-border/60 bg-white shadow-sm sm:mx-4 sm:h-20 sm:w-44"
@@ -63,6 +70,22 @@ function BrandLogo({ brand }: { brand: Brand }) {
         </div>
       )}
     </div>
+  );
+
+  // Link out to the verified official manufacturer site when known — a
+  // machine-checkable corroboration of the "Authorised Dealer" claim.
+  return brand.url ? (
+    <a
+      href={brand.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${brand.name} official website`}
+      className="shrink-0 rounded-xl transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
+    >
+      {card}
+    </a>
+  ) : (
+    card
   );
 }
 

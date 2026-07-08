@@ -147,15 +147,15 @@ export const rollerDoorVsSectionalDoor: ComparisonPage = {
 
   relatedServices: [
     {
-      name: "Roller Door Repairs Perth",
-      href: "/roller-door-repairs-perth",
-      description: "Repairs and servicing for residential and commercial roller doors across Perth.",
+      name: "Roller Door Installation Perth",
+      href: "/roller-door-installation-perth",
+      description: "Supply and installation of new roller doors, sized and fitted for your garage opening.",
       icon: "Move",
     },
     {
-      name: "Garage Door Motors & Openers Perth",
-      href: "/garage-door-motors-perth",
-      description: "Belt-drive Capital motors with Wi-Fi control, supplied and installed — suits both door types.",
+      name: "Sectional Garage Doors Perth",
+      href: "/sectional-garage-doors-perth",
+      description: "Insulated sectional door supply and installation, with a range of panel finishes.",
       icon: "Layers",
     },
     {

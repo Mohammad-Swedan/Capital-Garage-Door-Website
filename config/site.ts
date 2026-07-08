@@ -101,6 +101,8 @@ export const siteConfig = {
       links: [
         { label: "Garage Door Repairs", href: "/garage-door-repairs-perth" },
         { label: "Garage Door Installation", href: "/garage-door-installation-perth" },
+        { label: "Roller Door Installation", href: "/roller-door-installation-perth" },
+        { label: "Sectional Garage Doors", href: "/sectional-garage-doors-perth" },
         { label: "Opener Repair", href: "/garage-door-opener-repair-perth" },
         { label: "Spring Repair", href: "/garage-door-spring-repair-perth" },
         { label: "Emergency Repairs", href: "/emergency-garage-door-repairs-perth" },

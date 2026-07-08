@@ -118,14 +118,11 @@ const HREF_FIXES: Record<string, { href: string; label?: string }> = {
     href: "/garage-door-maintenance-perth",
     label: "Garage Door Servicing & Maintenance Perth",
   },
-  "/roller-door-installation-perth": {
-    href: "/roller-door-repairs-perth",
-    label: "Roller Door Repairs Perth",
-  },
-  "/sectional-garage-doors-perth": {
-    href: "/garage-door-motors-perth",
-    label: "Garage Door Motors & Openers Perth",
-  },
+  // NOTE: /roller-door-installation-perth and /sectional-garage-doors-perth
+  // used to be repointed here while they 404'd — both are REAL pages now
+  // (built + imported via scripts/import-new-service-pages.ts), so they must
+  // never be rewritten again. The interim repoints on the comparison page are
+  // reversed by the page-specific rules below.
   "/emergency-garage-door-repair-cost-perth": {
     href: "/emergency-garage-door-repairs-perth",
     label: "Emergency Garage Door Repairs Perth",
@@ -632,6 +629,33 @@ async function main() {
       seenHrefs.add(key);
       changed = true;
       notes.push(`link added: ${add.href}`);
+    }
+
+    // Comparison page: while the two door-type pages didn't exist, their cards
+    // were interim-repointed at roller-repairs / the motors page. Now that
+    // /roller-door-installation-perth and /sectional-garage-doors-perth are
+    // real, restore the cards to their proper targets.
+    if (slug === "roller-door-vs-sectional-door") {
+      const restore: Record<string, { href: string; label: string }> = {
+        "/roller-door-repairs-perth": {
+          href: "/roller-door-installation-perth",
+          label: "Roller Door Installation Perth",
+        },
+        "/garage-door-motors-perth": {
+          href: "/sectional-garage-doors-perth",
+          label: "Sectional Garage Doors Perth",
+        },
+      };
+      for (const l of page.relatedLinks) {
+        const fix = l.staticHref ? restore[l.staticHref] : undefined;
+        if (!fix || seenHrefs.has(`${l.linkGroup}:${fix.href}`)) continue;
+        seenHrefs.delete(`${l.linkGroup}:${l.staticHref}`);
+        l.staticHref = fix.href;
+        l.labelOverride = fix.label;
+        seenHrefs.add(`${l.linkGroup}:${fix.href}`);
+        changed = true;
+        notes.push(`comparison card → ${fix.href}`);
+      }
     }
 
     // Cost guide: the "Garage Door Servicing Perth" card pointed at the

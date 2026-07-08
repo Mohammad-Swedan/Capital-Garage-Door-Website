@@ -13,8 +13,14 @@ import { getCaseStudySlugs } from "@/lib/data/case-studies";
  * XML sitemap for every public route.
  *
  * `lastModified` per dynamic entry comes from the CMS sitemap feed
- * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL; entries omit
- * `lastModified` when no real date is known (an invented date is worse than none).
+ * (`cmsSitemap()` → `updatedAt`), looked up by absolute URL. Hub/listing pages
+ * (/blog, /cost-guides, …) inherit the NEWEST child's lastmod — a real
+ * freshness signal for the page whose content actually changed. The remaining
+ * static pages carry the process start (≈ deploy) timestamp: their HTML is
+ * genuinely regenerated each deploy, and Google uses `lastmod` (unlike
+ * `changefreq`/`priority`, which it ignores — so those two fields are
+ * deliberately NOT emitted; an SEO audit flagged both points).
+ *
  * At RUNTIME we use the strict `cmsSitemap()` which THROWS when the CMS is
  * unreachable, so a failed regeneration keeps serving the last good sitemap
  * instead of silently dropping every CMS URL; the CMS pushes changes instantly
@@ -29,6 +35,10 @@ import { getCaseStudySlugs } from "@/lib/data/case-studies";
  * EXCLUDED — both by never listing /lp here and by dropping any CMS feed item
  * flagged `noIndex`.
  */
+
+// Evaluated once per server process / build — effectively the deploy time.
+const DEPLOYED_AT = new Date();
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Strict at runtime (keep last-good sitemap on a transient CMS failure); lenient during
   // `next build`, where a throw would abort the whole deploy and there is no prior sitemap.
@@ -68,52 +78,75 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     if (item.updatedAt) lastmodByUrl.set(url, item.updatedAt);
   }
 
-  /** Build a sitemap entry, attaching lastmod from the CMS feed when known. */
-  const entry = (
-    path: string,
-    opts: { changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number },
-  ): MetadataRoute.Sitemap[number] | null => {
+  /** Newest lastmod among a set of slugs (each rendered at `/${prefix}${slug}`), or undefined. */
+  const newestOf = (slugs: string[], prefix = ""): Date | undefined => {
+    let newest: number | undefined;
+    for (const slug of slugs) {
+      const iso = lastmodByUrl.get(absolute(`/${prefix}${slug}`));
+      if (!iso) continue;
+      const t = new Date(iso).getTime();
+      if (Number.isFinite(t) && (newest === undefined || t > newest)) newest = t;
+    }
+    return newest !== undefined ? new Date(newest) : undefined;
+  };
+
+  /** Newest lastmod across the whole CMS feed (for the home page). */
+  const newestOverall = (): Date | undefined => {
+    let newest: number | undefined;
+    for (const iso of lastmodByUrl.values()) {
+      const t = new Date(iso).getTime();
+      if (Number.isFinite(t) && (newest === undefined || t > newest)) newest = t;
+    }
+    return newest !== undefined ? new Date(newest) : undefined;
+  };
+
+  /** Build a sitemap entry for a dynamic (CMS-known) path. */
+  const entry = (path: string): MetadataRoute.Sitemap[number] | null => {
     const url = absolute(path);
     if (noIndexUrls.has(url)) return null; // never list noindex pages
     const lastModified = lastmodByUrl.get(url);
     return {
       url,
-      changeFrequency: opts.changeFrequency,
-      priority: opts.priority,
       ...(lastModified ? { lastModified: new Date(lastModified) } : {}),
     };
   };
 
+  /** Build a static-route entry with an explicit lastmod. */
+  const staticEntry = (path: string, lastModified: Date): MetadataRoute.Sitemap[number] => ({
+    url: path ? `${siteConfig.url}${path}` : siteConfig.url,
+    lastModified,
+  });
+
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: siteConfig.url, changeFrequency: "weekly", priority: 1 },
-    { url: `${siteConfig.url}/about`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteConfig.url}/contact`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteConfig.url}/services`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteConfig.url}/service-areas`, changeFrequency: "weekly", priority: 0.9 },
+    staticEntry("", newestOverall() ?? DEPLOYED_AT),
+    staticEntry("/about", DEPLOYED_AT),
+    staticEntry("/contact", DEPLOYED_AT),
+    staticEntry("/services", newestOf(servicePageSlugs) ?? DEPLOYED_AT),
+    staticEntry("/service-areas", newestOf(suburbPageSlugs) ?? DEPLOYED_AT),
     // Reserved slug: /garage-door-motors-perth is a static route (app/garage-door-motors-perth).
     // A CMS page published under the same slug would be shadowed by it — don't create one.
-    { url: `${siteConfig.url}/garage-door-motors-perth`, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteConfig.url}/cost-guides`, changeFrequency: "weekly", priority: 0.9 },
-    { url: `${siteConfig.url}/calculator`, changeFrequency: "monthly", priority: 0.6 },
-    { url: `${siteConfig.url}/blog`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${siteConfig.url}/problems`, changeFrequency: "weekly", priority: 0.6 },
-    { url: `${siteConfig.url}/case-studies`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${siteConfig.url}/gallery`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${siteConfig.url}/reviews`, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${siteConfig.url}/warranty`, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteConfig.url}/warranty-registration`, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${siteConfig.url}/privacy`, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${siteConfig.url}/terms`, changeFrequency: "yearly", priority: 0.2 },
+    staticEntry("/garage-door-motors-perth", DEPLOYED_AT),
+    staticEntry("/cost-guides", newestOf(costGuidePageSlugs) ?? DEPLOYED_AT),
+    staticEntry("/calculator", DEPLOYED_AT),
+    staticEntry("/blog", newestOf(blogSlugs, "blog/") ?? DEPLOYED_AT),
+    staticEntry("/problems", newestOf(problemSlugs, "problems/") ?? DEPLOYED_AT),
+    staticEntry("/case-studies", newestOf(caseStudySlugs, "case-studies/") ?? DEPLOYED_AT),
+    staticEntry("/gallery", DEPLOYED_AT),
+    staticEntry("/reviews", DEPLOYED_AT),
+    staticEntry("/warranty", DEPLOYED_AT),
+    staticEntry("/warranty-registration", DEPLOYED_AT),
+    staticEntry("/privacy", DEPLOYED_AT),
+    staticEntry("/terms", DEPLOYED_AT),
   ];
 
   const dynamic: Array<MetadataRoute.Sitemap[number] | null> = [
-    ...suburbPageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.9 })),
-    ...servicePageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.9 })),
-    ...comparisonPageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
-    ...costGuidePageSlugs.map((slug) => entry(`/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
-    ...blogSlugs.map((slug) => entry(`/blog/${slug}`, { changeFrequency: "monthly", priority: 0.5 })),
-    ...problemSlugs.map((slug) => entry(`/problems/${slug}`, { changeFrequency: "monthly", priority: 0.8 })),
-    ...caseStudySlugs.map((slug) => entry(`/case-studies/${slug}`, { changeFrequency: "monthly", priority: 0.6 })),
+    ...suburbPageSlugs.map((slug) => entry(`/${slug}`)),
+    ...servicePageSlugs.map((slug) => entry(`/${slug}`)),
+    ...comparisonPageSlugs.map((slug) => entry(`/${slug}`)),
+    ...costGuidePageSlugs.map((slug) => entry(`/${slug}`)),
+    ...blogSlugs.map((slug) => entry(`/blog/${slug}`)),
+    ...problemSlugs.map((slug) => entry(`/problems/${slug}`)),
+    ...caseStudySlugs.map((slug) => entry(`/case-studies/${slug}`)),
   ];
 
   // Dedupe by URL, static routes winning — a CMS page published under a reserved static slug

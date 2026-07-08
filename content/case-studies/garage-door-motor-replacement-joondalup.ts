@@ -72,9 +72,9 @@ export const garageDoorMotorReplacementJoondalup: CaseStudyPage = {
   ],
 
   relatedServices: [
-    { label: "Garage Door Motor Replacement Perth", href: "/garage-door-motor-replacement-perth" },
+    { label: "Garage Door Opener & Motor Repair Perth", href: "/garage-door-opener-repair-perth" },
     { label: "Garage Door Repairs Joondalup", href: "/garage-door-repairs-joondalup" },
-    { label: "Garage Door Servicing Perth", href: "/garage-door-servicing-perth" },
+    { label: "Garage Door Servicing & Maintenance Perth", href: "/garage-door-maintenance-perth" },
   ],
 
   faqs: [
@@ -101,7 +101,7 @@ export const garageDoorMotorReplacementJoondalup: CaseStudyPage = {
   ],
 
   seo: {
-    title: "Garage Door Motor Replacement in Joondalup | Capital Garage Door",
+    title: "Garage Door Motor Replacement in Joondalup | Case Study",
     description:
       "See how Capital Garage Door replaced a failed garage door motor for a residential customer in Joondalup — full diagnosis, solution, and completed work.",
   },

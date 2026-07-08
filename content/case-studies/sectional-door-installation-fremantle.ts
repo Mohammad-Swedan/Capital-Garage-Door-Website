@@ -72,7 +72,7 @@ export const sectionalDoorInstallationFremantle: CaseStudyPage = {
   relatedServices: [
     { label: "Garage Door Installation Perth", href: "/garage-door-installation-perth" },
     { label: "Garage Door Repairs Fremantle", href: "/garage-door-repairs-fremantle" },
-    { label: "Garage Door Motor Replacement Perth", href: "/garage-door-motor-replacement-perth" },
+    { label: "Garage Door Opener & Motor Repair Perth", href: "/garage-door-opener-repair-perth" },
   ],
 
   faqs: [

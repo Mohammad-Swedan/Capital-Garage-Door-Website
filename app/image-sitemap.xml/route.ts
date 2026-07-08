@@ -4,6 +4,7 @@ import { getCaseStudies } from "@/lib/data/case-studies";
 import { getServicePages } from "@/lib/data/service-pages";
 import { getProblems } from "@/lib/data/problems";
 import { getGalleryItems } from "@/lib/data/gallery";
+import { MOTOR_IMAGES, MOTORS_PATH } from "@/components/sections/motors/motor-data";
 
 /**
  * Google image sitemap (`/image-sitemap.xml`).
@@ -49,10 +50,12 @@ export async function GET() {
 
   const pages: PageImages[] = [];
 
-  // Home page — its real marketing images (hero van, coverage map, about photo)
-  // aren't in any content registry, so they're listed explicitly here.
+  // Home page — its real marketing images (hero van, coverage map) aren't in
+  // any content registry, so they're listed explicitly here. NOTE: `loc` uses
+  // siteConfig.url verbatim (no trailing slash) so it matches the canonical tag
+  // and sitemap.xml exactly — the two files disagreed before.
   pages.push({
-    loc: abs("/"),
+    loc: siteConfig.url,
     images: [
       {
         url: abs("/images/van-speeding-light.png"),
@@ -64,12 +67,31 @@ export async function GET() {
         title: "Perth service area map",
         caption: "Map of Perth metro suburbs covered by Capital Garage Door",
       },
+    ],
+  });
+
+  // About page — the premium-door photo is page-unique imagery (one page per
+  // image keeps the per-page relevance signal clean).
+  pages.push({
+    loc: abs("/about"),
+    images: [
       {
         url: "https://jadara-hub.b-cdn.net/capital-garage-door/premium-garage-door-about.webp",
         title: "Premium sectional garage door installation",
         caption: "Premium sectional garage door installed by Capital Garage Door in Perth",
       },
     ],
+  });
+
+  // Branded motor product page — unique, descriptively-named product imagery
+  // (a real "garage door motor Perth" image-search opportunity).
+  pages.push({
+    loc: abs(MOTORS_PATH),
+    images: Object.values(MOTOR_IMAGES).map((img) => ({
+      url: img.src,
+      title: "Capital garage door motor",
+      caption: img.alt,
+    })),
   });
 
   for (const a of articles) {

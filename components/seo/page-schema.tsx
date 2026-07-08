@@ -14,7 +14,7 @@ import {
   reviewSchemasFromServiceReviews,
   reviewSchemasFromReviews,
   aggregateFromServiceReviews,
-  localBusinessSchema,
+  BUSINESS_ID,
 } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { ServicePage } from "@/types/service-page";
@@ -178,6 +178,9 @@ export function PageSchema(props: PageSchemaProps) {
     case "service-suburb": {
       const page = props.data;
       const titleWithSuburb = `${page.service} ${page.suburb}`;
+      // The site-wide business node is already on every page (app/layout.tsx
+      // @graph); linking the provider by @id consolidates the entity instead of
+      // emitting a second, competing LocalBusiness per suburb page.
       const serviceLd = {
         "@context": "https://schema.org",
         "@type": "Service",
@@ -186,6 +189,7 @@ export function PageSchema(props: PageSchemaProps) {
         description: page.directAnswer,
         provider: {
           "@type": "HomeAndConstructionBusiness",
+          "@id": BUSINESS_ID,
           name: siteConfig.name,
           telephone: siteConfig.business.phone,
           url: siteConfig.url,
@@ -198,7 +202,6 @@ export function PageSchema(props: PageSchemaProps) {
       return (
         <Nodes
           nodes={[
-            localBusinessSchema(),
             serviceLd,
             page.faqs.length ? faqSchema(page.faqs) : null,
             speakableSchema(`/${page.slug}`),

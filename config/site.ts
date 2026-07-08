@@ -12,7 +12,15 @@ export const siteConfig = {
   googleAnalyticsId: "G-9FTLPLVPL0",
 
   business: {
-    legalName: "Capital Garage Door LLC",
+    // Registered trading name. IMPORTANT: no invented corporate suffix here —
+    // "LLC" is a US designation and was flagged in an SEO/trust audit. If the
+    // registered entity is e.g. "... Pty Ltd", set it here and it flows to the
+    // footer © line and all JSON-LD `legalName` fields.
+    legalName: "Capital Garage Door",
+    // Australian Business Number — displayed in the footer and emitted as
+    // schema.org `taxID` once filled in (TODO: set the real ABN; "Licensed &
+    // Insured" claims should be backed by a visible ABN/licence number).
+    abn: "",
     phone: "+61475333335",
     phoneDisplay: "0475 333 335",
     email: "info@capitalgaragedoors.com.au",
@@ -44,7 +52,10 @@ export const siteConfig = {
     facebook: "https://www.facebook.com/p/Capital-Garage-Door-Repairs-61581857974729/",
     instagram: "https://www.instagram.com/capitalgaragedoorperth1",
     youtube: "https://www.youtube.com/@CapitalGarageDoors",
-    google: "https://g.page/r/CRXCwS1W-cvEEAE",
+    // One canonical Google Business Profile link format sitewide — the same
+    // vanity token content/reviews.ts uses (an audit flagged two different
+    // g.page identifiers in play, which fragments the citation signal).
+    google: "https://g.page/r/CapitalGarageDoorPerth/review",
     yelp: "",
   },
 
@@ -67,8 +78,22 @@ export const siteConfig = {
         { label: "About Us", href: "/about" },
         { label: "Reviews", href: "/reviews" },
         { label: "Warranty", href: "/warranty" },
-        { label: "Blog", href: "/blog" },
+        { label: "Gallery", href: "/gallery" },
         { label: "Contact", href: "/contact" },
+      ],
+    },
+    {
+      // Sitewide inlinks for the content hubs — an audit found
+      // /roller-door-vs-sectional-door orphaned (0 inlinks) and the problems/
+      // case-studies hubs with a single inlink each.
+      title: "Resources",
+      links: [
+        { label: "Blog", href: "/blog" },
+        { label: "Cost Guides", href: "/cost-guides" },
+        { label: "Common Problems", href: "/problems" },
+        { label: "Case Studies", href: "/case-studies" },
+        { label: "Roller vs Sectional Doors", href: "/roller-door-vs-sectional-door" },
+        { label: "Price Calculator", href: "/calculator" },
       ],
     },
     {

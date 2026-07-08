@@ -7,7 +7,8 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Privacy Policy | Capital Garage Door",
-  description: "How Capital Garage Door collects, uses, and protects your information.",
+  description:
+    "How Capital Garage Door collects, uses and protects your personal information — what we store when you request a quote or booking, and how to reach us about it.",
   path: "/privacy",
 });
 

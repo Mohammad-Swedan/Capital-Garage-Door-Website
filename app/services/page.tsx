@@ -20,9 +20,9 @@ import type { FAQ } from "@/types";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Services Perth | Repairs, Installation & Servicing",
+  title: "Garage Door Services Perth | Repairs & Installation",
   description:
-    "Explore Capital Garage Door's full range of garage door services across Perth — repairs, new door installation, spring repair, opener repair, emergency call-outs, and maintenance. Local technicians, upfront quotes.",
+    "All Capital Garage Door services across Perth — repairs, new door installation, springs, openers, emergency call-outs and maintenance. Upfront quotes.",
   path: "/services",
 });
 

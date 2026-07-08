@@ -38,7 +38,10 @@ export function SmartCta() {
           <Reveal className="flex flex-col items-start gap-4 sm:gap-6">
             <div className="inline-flex items-center gap-1.5 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-3 py-1.5 text-[11px] font-semibold tracking-wide text-primary-foreground backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-xs">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-400 sm:h-4 sm:w-4" />
-              Trusted by 5,000+ Perth homeowners
+              {/* Keep this claim consistent with the About stats ("20+ years",
+                  "10k+ installed") — an audit flagged a conflicting
+                  "5,000+ homeowners" figure here. */}
+              Trusted by Perth homeowners for 20+ years
             </div>
 
             <h2 className="font-display text-3xl font-bold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-6xl">

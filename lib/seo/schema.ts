@@ -25,12 +25,28 @@ function compact<T extends Record<string, unknown>>(obj: T): T {
   return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as T;
 }
 
+/**
+ * Stable node ids for the site-wide entity graph. Every per-page reference to
+ * the business links back to the SAME `@id`, so search engines consolidate one
+ * entity instead of seeing many near-duplicate Organizations (an audit flagged
+ * that fragmentation as a Knowledge-Panel risk).
+ */
+export const BUSINESS_ID = `${siteConfig.url}/#business`;
+export const WEBSITE_ID = `${siteConfig.url}/#website`;
+
+/** Canonical Google Maps link for the physical base (used by `hasMap`). */
+function mapUrl() {
+  const { geo } = siteConfig.business;
+  return `https://www.google.com/maps/search/?api=1&query=${geo.latitude},${geo.longitude}`;
+}
+
 /** A reusable Organization reference for publisher/author/provider links (with sameAs). */
 function organizationRef() {
   const { business } = siteConfig;
   const sameAs = Object.values(siteConfig.social).filter(Boolean);
   return compact({
     "@type": "Organization",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     url: siteConfig.url,
     logo: {
@@ -46,6 +62,7 @@ function organizationRef() {
 function providerRef() {
   return {
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     telephone: siteConfig.business.phone,
     url: siteConfig.url,
@@ -62,16 +79,21 @@ export function imageObject(src: string, alt?: string) {
 }
 
 /**
- * Builds the site-wide LocalBusiness JSON-LD schema (NAP, hours, geo).
+ * Builds the site-wide entity graph: ONE `@graph` holding the business
+ * (HomeAndConstructionBusiness — also the brand Organization; LocalBusiness is
+ * an Organization subtype so a separate Organization node would only fragment
+ * the entity) and the WebSite, linked by stable `@id`s.
  *
  * Pass the live reviews summary to embed `aggregateRating` — this is what makes
  * Google show ⭐ star rich snippets against the brand across the site, not just
  * on /reviews. Omit it (or pass zero reviews) and the node is left off cleanly.
+ *
+ * `areaServed` is a GeoCircle around the Southern River base (Google's
+ * recommended shape for service-area businesses) instead of enumerating
+ * hundreds of City nodes — the full suburb directory keeps its own City list on
+ * /service-areas via `serviceAreasSchema`.
  */
-export function localBusinessSchema(
-  rating?: { ratingValue: number; reviewCount: number },
-  areaServedNames?: string[],
-) {
+export function siteGraphSchema(rating?: { ratingValue: number; reviewCount: number }) {
   const { business } = siteConfig;
 
   // Only emit address fields that are actually filled in — shipping empty
@@ -91,23 +113,22 @@ export function localBusinessSchema(
   // siteConfig.social.
   const sameAs = Object.values(siteConfig.social).filter(Boolean);
 
-  return {
-    "@context": "https://schema.org",
+  const businessNode = compact({
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     legalName: business.legalName,
     url: siteConfig.url,
+    logo: {
+      "@type": "ImageObject",
+      url: absUrl("/images/logo-icon-512.png"),
+    },
     telephone: business.phone,
     priceRange: business.priceRange,
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     address,
-    // When the served-suburb list is supplied (from the CMS service-area catalog),
-    // enumerate every suburb as a City — a stronger multi-suburb local signal than a
-    // single locality. Falls back to the head-office locality when none is passed.
-    areaServed:
-      areaServedNames && areaServedNames.length > 0
-        ? areaServedNames.map((name) => ({ "@type": "City", name }))
-        : { "@type": "City", name: business.address.addressLocality },
+    // ABN → schema.org taxID, only once it's actually set in config.
+    ...(business.abn ? { taxID: business.abn } : {}),
     ...(business.geo.latitude && business.geo.longitude
       ? {
           geo: {
@@ -115,8 +136,21 @@ export function localBusinessSchema(
             latitude: business.geo.latitude,
             longitude: business.geo.longitude,
           },
+          hasMap: mapUrl(),
+          // ~50 km service radius covers every suburb the site has a real
+          // landing page for (Butler → Baldivis) without the implausible
+          // 70–90 km overclaim the old exhaustive City list implied.
+          areaServed: {
+            "@type": "GeoCircle",
+            geoMidpoint: {
+              "@type": "GeoCoordinates",
+              latitude: business.geo.latitude,
+              longitude: business.geo.longitude,
+            },
+            geoRadius: 50000,
+          },
         }
-      : {}),
+      : { areaServed: { "@type": "City", name: business.address.addressLocality } }),
     ...(sameAs.length > 0 ? { sameAs } : {}),
     ...(rating && rating.reviewCount > 0
       ? {
@@ -137,35 +171,20 @@ export function localBusinessSchema(
         opens: h.opens,
         closes: h.closes,
       })),
-  };
-}
+  });
 
-/** Site-wide Organization JSON-LD (brand entity; sameAs links the Google/social profiles). */
-export function organizationSchema() {
-  const { business } = siteConfig;
-  const sameAs = Object.values(siteConfig.social).filter(Boolean);
-
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: siteConfig.name,
-    legalName: business.legalName,
-    url: siteConfig.url,
-    logo: new URL("/images/logo-icon-512.png", siteConfig.url).toString(),
-    image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
-    telephone: business.phone,
-    ...(sameAs.length > 0 ? { sameAs } : {}),
-  };
-}
-
-/** Site-wide WebSite JSON-LD. */
-export function webSiteSchema() {
-  return {
-    "@context": "https://schema.org",
+  const webSiteNode = {
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: siteConfig.name,
     url: siteConfig.url,
     inLanguage: "en-AU",
+    publisher: { "@id": BUSINESS_ID },
+  };
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [businessNode, webSiteNode],
   };
 }
 
@@ -182,6 +201,7 @@ export function contactPointSchema() {
   return compact({
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     url: siteConfig.url,
     telephone: business.phone,
@@ -510,6 +530,7 @@ export function aggregateReviewSchema(summary: ReviewsSummary, reviews: Review[]
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     url: siteConfig.url,
     telephone: siteConfig.business.phone,
@@ -585,6 +606,7 @@ export function serviceAreasSchema(regions: CoverageRegion[]) {
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: siteConfig.name,
     telephone: siteConfig.business.phone,
     url: new URL("/service-areas", siteConfig.url).toString(),
@@ -687,6 +709,33 @@ export function reviewSchemasFromServiceReviews(
       author: { "@type": "Person", name: r.name },
       reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
       reviewBody: r.text,
+    }),
+  );
+}
+
+/**
+ * Individual Review nodes for the homepage testimonial marquee, attached to the
+ * site-wide business entity by `@id`. Substantiates the aggregateRating with
+ * attributable, quotable review text (a schema-audit gap: ~8 testimonials were
+ * visible with no Review markup). Google won't show self-serving review stars
+ * for these, but AI/answer engines read them as citable evidence.
+ */
+export function testimonialReviewSchemas(
+  testimonials: { name: string; quote: string; rating: number; date?: string }[],
+) {
+  return testimonials.map((t) =>
+    compact({
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": BUSINESS_ID,
+        name: siteConfig.name,
+      },
+      author: { "@type": "Person", name: t.name },
+      reviewRating: { "@type": "Rating", ratingValue: t.rating, bestRating: 5, worstRating: 1 },
+      reviewBody: t.quote,
+      datePublished: t.date || undefined,
     }),
   );
 }

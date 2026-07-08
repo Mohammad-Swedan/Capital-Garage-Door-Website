@@ -13,52 +13,82 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
   },
 
   directAnswer:
-    "Garage door repair cost in Perth depends on the type of door, the problem, parts required, urgency, and site access. Minor adjustments are usually simpler, while motor, spring, cable, or track repairs may require replacement parts and more labour. The most accurate way to get a price is to tell us what's happening when you request a quote.",
+    "Most garage door repairs in Perth cost between $150 and $1,100. As a guide from our price list: broken springs run $240–$1,000 depending on the door and number of springs, a snapped cable is $280–$550, motor/opener repairs are $380–$490 (a full replacement is $770–$990 supplied and installed), an off-track door is $440–$770 and panel damage is $550–$1,100. After-hours emergency call-outs add a flat $500. Every job is quoted upfront before any work starts — no call-out fee to quote.",
 
+  // Ranges mirror components/sections/smart-calculator/pricing-data.ts (the
+  // single pricing source of truth, also seeded into the CMS catalog the live
+  // page pins) — keep them in sync when prices change.
   costTable: {
     heading: "Garage Door Repair Cost Guide",
     intro:
-      "Every repair is different, so we've broken down the most common jobs by what's involved rather than a single fixed price. Send us the details and we'll confirm a clear quote before any work begins.",
+      "These are the typical Perth price ranges from our own price list for the most common jobs. Your exact quote depends on the door and parts involved — we confirm it clearly before any work begins.",
     rows: [
       {
-        repairType: "Minor adjustment",
-        includes: "Realigning sensors, lubricating moving parts, tightening hardware, tension tweaks",
-        costFactors: "Door type, time on site",
-        nextStep: "Request a quick quote",
+        repairType: "Broken spring (single)",
+        includes: "Supply and fit of a new spring, re-tension and balance check",
+        costFactors: "Spring type and size, single vs double door",
+        nextStep: "Call for same-day replacement",
+        priceRange: "$240–$280",
       },
       {
-        repairType: "Remote issue",
-        includes: "Remote/sensor diagnosis, reprogramming, or replacing a faulty remote or receiver",
-        costFactors: "Remote model, opener compatibility",
-        nextStep: "Send us the opener brand",
+        repairType: "Broken springs (pair)",
+        includes: "Both springs replaced together for even balance",
+        costFactors: "Spring type; pairs wear together",
+        nextStep: "Call for same-day replacement",
+        priceRange: "$440–$550",
       },
       {
-        repairType: "Motor repair/replacement",
-        includes: "Diagnosing the opener motor, repairing or replacing it with a compatible unit",
-        costFactors: "Motor brand, age, door weight",
-        nextStep: "Book an inspection",
-      },
-      {
-        repairType: "Spring or cable repair",
-        includes: "Replacing a broken torsion or extension spring, or a frayed/snapped cable",
-        costFactors: "Spring type, single vs double door",
+        repairType: "Cable snapped or off the drum",
+        includes: "Replacing snapped or frayed cables and re-seating them on the drum",
+        costFactors: "One or both cables, drum condition",
         nextStep: "Describe the issue for a faster quote",
+        priceRange: "$280–$550",
       },
       {
-        repairType: "Track/roller repair",
-        includes: "Straightening or replacing bent tracks, worn rollers, or hinges",
+        repairType: "Motor / opener repair",
+        includes: "Diagnosing and repairing the opener motor, board or drive",
+        costFactors: "Opener brand, age and fault type",
+        nextStep: "Book an inspection",
+        priceRange: "$380–$490",
+      },
+      {
+        repairType: "Motor / opener replacement",
+        includes: "New opener supplied, fitted and programmed, old unit removed",
+        costFactors: "Motor model, door weight, rail type",
+        nextStep: "Get a supplied-and-installed quote",
+        priceRange: "$770–$990",
+      },
+      {
+        repairType: "Door off track / stuck",
+        includes: "Re-seating the door, straightening tracks, checking rollers",
         costFactors: "Damage extent, door size",
-        nextStep: "Request a quote for exact pricing",
+        nextStep: "Call now if the door is unsafe",
+        priceRange: "$440–$770",
       },
       {
-        repairType: "Emergency repair",
-        includes: "Same-day or after-hours response for a door stuck open, shut, or unsafe",
-        costFactors: "Time of day, callout urgency",
-        nextStep: "Call now for priority booking",
+        repairType: "Damaged panel / section",
+        includes: "Replacing a damaged panel or section to match the door",
+        costFactors: "Panel availability, door brand and colour",
+        nextStep: "Send a photo for a quote",
+        priceRange: "$550–$1,100",
+      },
+      {
+        repairType: "Service / tune-up",
+        includes: "Full tune-up: lubricate, re-tension, balance and safety check",
+        costFactors: "Door condition, any parts needed",
+        nextStep: "Book an annual service",
+        priceRange: "From $140 + parts",
+      },
+      {
+        repairType: "After-hours emergency call-out",
+        includes: "Priority after-hours response on top of the repair price",
+        costFactors: "Time of day, urgency",
+        nextStep: "Call now — 24/7",
+        priceRange: "+$500",
       },
     ],
     disclaimer:
-      "Final pricing depends on the cause, parts required, door size, and access — confirmed before any work begins. No call-out fee to quote.",
+      "Ranges are indicative for typical Perth homes; the final price depends on the cause, parts required, door size, and access — confirmed before any work begins. No call-out fee to quote.",
   },
 
   factors: {
@@ -190,20 +220,20 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
       icon: "Wrench",
     },
     {
-      name: "Garage Door Motor Replacement Perth",
-      href: "/garage-door-motor-replacement-cost-perth",
+      name: "Garage Door Motor Replacement Cost Perth",
+      href: "/blog/garage-door-motor-replacement-cost-perth",
       description: "Replace an ageing or faulty opener motor with a quieter, smart-compatible unit.",
       icon: "Cpu",
     },
     {
       name: "Emergency Garage Door Repairs Perth",
-      href: "/emergency-garage-door-repair-cost-perth",
+      href: "/emergency-garage-door-repairs-perth",
       description: "Same-day and after-hours response when your door is stuck, jammed, or unsafe.",
       icon: "Siren",
     },
     {
-      name: "Garage Door Servicing Perth",
-      href: "/garage-door-repairs-perth",
+      name: "Garage Door Servicing & Maintenance Perth",
+      href: "/garage-door-maintenance-perth",
       description: "Routine servicing to catch small issues before they become costly repairs.",
       icon: "Settings",
     },
@@ -251,6 +281,6 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
   seo: {
     title: "Garage Door Repair Cost Perth | Capital Garage Door",
     description:
-      "See what affects garage door repair pricing in Perth — common repair types, cost factors, and how to get an accurate quote from Capital Garage Door.",
+      "Garage door repair costs in Perth: springs $240–$1,000, cables $280–$550, motors $380–$990, off-track doors $440–$770. Real ranges, quoted upfront.",
   },
 };

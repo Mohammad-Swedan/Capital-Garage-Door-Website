@@ -42,7 +42,7 @@ export default async function ReviewsPage() {
       <PageHero
         eyebrow="Trusted Across Perth"
         title="Garage Door Reviews from Perth Customers"
-        subtitle="See what local customers say about Capital Garage Doors."
+        subtitle="See what local customers say about Capital Garage Door."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           { label: "Request a Quote", href: "/contact", variant: "outline", icon: <FileText className="h-4 w-4" aria-hidden="true" /> },
@@ -61,7 +61,7 @@ export default async function ReviewsPage() {
       />
 
       <CTASection
-        heading="Had a great experience with Capital Garage Doors?"
+        heading="Had a great experience with Capital Garage Door?"
         body="Your feedback helps other Perth homeowners find a garage door technician they can trust."
         buttons={[{ label: "Leave a Google Review", href: summary.googleWriteReviewUrl }]}
       />

@@ -33,7 +33,7 @@ export function Footer() {
       </div>
 
       <Container className="relative z-10 py-16 sm:py-20">
-        <Reveal className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-10">
+        <Reveal className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr] lg:gap-8">
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="inline-flex rounded-2xl bg-white p-3 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
@@ -85,8 +85,12 @@ export function Footer() {
               <ul className="mt-4 space-y-3">
                 {section.links.map((link) => (
                   <li key={link.href}>
+                    {/* prefetch={false}: ~20 footer links would otherwise fire
+                        route prefetches the moment the footer scrolls into
+                        view — wasted bandwidth on mobile for low-traffic links. */}
                     <Link
                       href={link.href}
+                      prefetch={false}
                       className="group inline-flex items-center gap-1.5 text-sm text-white/70 transition-colors hover:text-white"
                     >
                       {link.label}
@@ -163,10 +167,16 @@ export function Footer() {
         <Container className="flex flex-col items-center justify-between gap-4 py-6 text-xs text-white/70 sm:flex-row">
           <p>
             &copy; {year} {business.legalName}. All rights reserved.
+            {business.abn ? ` ABN ${business.abn}.` : ""}
           </p>
           <div className="flex items-center gap-6">
             {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="transition-colors hover:text-white">
+              <Link
+                key={link.href}
+                href={link.href}
+                prefetch={false}
+                className="transition-colors hover:text-white"
+              >
                 {link.label}
               </Link>
             ))}

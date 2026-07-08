@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { GetQuoteButton } from "@/components/page/cta-buttons";
+import { siteConfig } from "@/config/site";
 
 export function AboutSection() {
   return (
@@ -17,22 +18,26 @@ export function AboutSection() {
                 Who We Are
               </span>
             </div>
+            {/* Real profile URLs from siteConfig — these were placeholder links
+                to bare facebook.com/instagram.com on every page (audit finding). */}
             <div className="flex gap-3">
               <a
-                href="https://www.facebook.com/"
+                href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Capital Garage Door on Facebook"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
-                <img src="/images/social/facebook.svg" alt="Facebook" width={18} height={18} className="opacity-70 hover:opacity-100" />
+                <img src="/images/social/facebook.svg" alt="" width={18} height={18} className="opacity-70 hover:opacity-100" />
               </a>
               <a
-                href="https://www.instagram.com/"
+                href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Capital Garage Door on Instagram"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
-                <img src="/images/social/instagram.svg" alt="Instagram" width={18} height={18} className="opacity-70 hover:opacity-100" />
+                <img src="/images/social/instagram.svg" alt="" width={18} height={18} className="opacity-70 hover:opacity-100" />
               </a>
             </div>
           </div>

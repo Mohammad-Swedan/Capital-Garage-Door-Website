@@ -160,8 +160,8 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
 
   relatedServices: [
     {
-      label: "Garage Door Servicing Perth",
-      href: "/garage-door-servicing-perth",
+      label: "Garage Door Servicing & Maintenance Perth",
+      href: "/garage-door-maintenance-perth",
       description: "Scheduled maintenance visits to keep your door safe and reliable year-round.",
       icon: "ShieldCheck",
     },
@@ -172,31 +172,31 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
       icon: "Wrench",
     },
     {
-      label: "Garage Door Motor Replacement Perth",
-      href: "/garage-door-motor-replacement-perth",
-      description: "Opener and motor replacement, including smart Wi-Fi upgrades.",
+      label: "Garage Door Opener & Motor Repair Perth",
+      href: "/garage-door-opener-repair-perth",
+      description: "Opener and motor repair or replacement, including smart Wi-Fi upgrades.",
       icon: "Cpu",
     },
   ],
 
   relatedArticles: [
     {
-      slug: "garage-door-safety-checklist",
-      title: "Garage Door Safety Checklist",
-      excerpt: "The essential safety checks every Perth homeowner should run each month.",
-      category: "Safety",
+      slug: "garage-door-maintenance-tips-checklist",
+      title: "Garage Door Maintenance Tips & Checklist",
+      excerpt: "The essential maintenance checks every Perth homeowner should run each month.",
+      category: "Maintenance",
     },
     {
-      slug: "roller-door-vs-sectional-door",
-      title: "Roller Door vs. Sectional Door: Which Is Right for You?",
-      excerpt: "Comparing the two most popular garage door styles for Perth homes.",
+      slug: "sectional-vs-roller-vs-tilt-garage-doors",
+      title: "Sectional vs Roller vs Tilt Garage Doors",
+      excerpt: "Comparing the most popular garage door styles for Perth homes.",
       category: "Buying Guide",
     },
     {
-      slug: "best-garage-door-motors-australia",
-      title: "Best Garage Door Motors for Australian Homes",
-      excerpt: "What to look for in a motor, from chain-drive to smart Wi-Fi openers.",
-      category: "Buying Guide",
+      slug: "garage-door-motor-replacement-cost-perth",
+      title: "Garage Door Motor Replacement Cost Perth",
+      excerpt: "What a new opener costs supplied and installed, and when replacement beats repair.",
+      category: "Cost Guide",
     },
   ],
 
@@ -234,7 +234,7 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
   ],
 
   seo: {
-    title: "How Often Should You Service a Garage Door? | Capital Garage Door",
+    title: "How Often Should You Service a Garage Door? (Perth Guide)",
     description:
       "Find out how often your garage door needs servicing in Perth, what's included in a professional service, and the warning signs you shouldn't ignore.",
   },

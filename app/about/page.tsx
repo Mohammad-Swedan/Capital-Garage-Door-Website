@@ -11,7 +11,7 @@ import { TrustCards } from "@/components/page/trust-cards";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BrandsMarquee, BRANDS } from "@/components/sections/brands-marquee";
 import { buildMetadata } from "@/lib/seo/metadata";
-import { breadcrumbSchema, organizationSchema, aboutPageSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, aboutPageSchema } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
 import type { TrustReason } from "@/types";
 
@@ -62,10 +62,11 @@ export default function AboutPage() {
 
   return (
     <>
+      {/* The business/Organization entity is already emitted site-wide by
+          app/layout.tsx's @graph; aboutPageSchema links to it by @id. */}
       <JsonLd
         data={[
           breadcrumbSchema(breadcrumbs),
-          organizationSchema(),
           aboutPageSchema(BRANDS.map((b) => b.name)),
         ]}
       />

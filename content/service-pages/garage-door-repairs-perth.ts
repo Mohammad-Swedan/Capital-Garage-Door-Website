@@ -82,15 +82,20 @@ export const garageDoorRepairsPerth: ServicePage = {
     },
   ],
 
+  // Real Perth ranges from the calculator's pricing-data.ts (the same catalog
+  // the CMS pins render live) — an audit flagged the old "varies by fault"
+  // rows as the site's #1 content gap on its highest-commercial-intent pages.
   costGuidance: {
     intro:
-      "Every garage door and fault is different, so final pricing is confirmed after inspection. As a guide:",
+      "Typical Perth price ranges from our own price list. Your exact quote depends on the door and parts — confirmed upfront before any work begins:",
     rows: [
-      { label: "Minor adjustment", price: "From a low call-out rate", note: "Often resolved during the initial visit" },
-      { label: "Remote or motor issue", price: "Varies by fault", note: "Depends on repair vs. replacement" },
-      { label: "Track or roller repair", price: "Varies by damage", note: "Realignment vs. parts replacement" },
-      { label: "Spring or cable repair", price: "Varies by door size", note: "Pricing depends on spring type and door weight" },
-      { label: "Emergency repair", price: "Request a quote", note: "Same-day and after-hours response available" },
+      { label: "Broken spring (single)", price: "$240–$280", note: "Pairs are $440–$550, replaced together for balance" },
+      { label: "Cable snapped or off the drum", price: "$280–$550", note: "One or both cables, re-seated on the drum" },
+      { label: "Motor / opener repair", price: "$380–$490", note: "Full replacement $770–$990 supplied & installed" },
+      { label: "Door off track / stuck", price: "$440–$770", note: "Re-seat door, straighten tracks, check rollers" },
+      { label: "Damaged panel / section", price: "$550–$1,100", note: "Depends on panel availability and door brand" },
+      { label: "Service / tune-up", price: "From $140 + parts", note: "Annual lubrication, re-tension and safety check" },
+      { label: "After-hours emergency call-out", price: "+$500", note: "Flat surcharge on top of the repair price, confirmed before dispatch" },
     ],
   },
 
@@ -111,9 +116,9 @@ export const garageDoorRepairsPerth: ServicePage = {
       icon: "DoorOpen",
     },
     {
-      name: "Garage Door Motor Replacement Perth",
-      href: "/garage-door-motor-replacement-perth",
-      description: "Opener and motor replacement, including smart Wi-Fi upgrades.",
+      name: "Garage Door Opener & Motor Repair Perth",
+      href: "/garage-door-opener-repair-perth",
+      description: "Opener and motor repair or replacement, including smart Wi-Fi upgrades.",
       icon: "Cpu",
     },
     {
@@ -129,8 +134,8 @@ export const garageDoorRepairsPerth: ServicePage = {
       icon: "Siren",
     },
     {
-      name: "Garage Door Servicing Perth",
-      href: "/garage-door-servicing-perth",
+      name: "Garage Door Servicing & Maintenance Perth",
+      href: "/garage-door-maintenance-perth",
       description: "Preventive maintenance to catch issues before they become repairs.",
       icon: "ShieldCheck",
     },
@@ -217,7 +222,7 @@ export const garageDoorRepairsPerth: ServicePage = {
   },
 
   seo: {
-    title: "Garage Door Repairs Perth | Same-Day Service | Capital Garage Door",
+    title: "Garage Door Repairs Perth | Same-Day | Capital Garage Door",
     description:
       "Professional garage door repairs across Perth. Broken springs, faulty motors, off-track doors, and more — same-day service available. Get a free quote today.",
   },

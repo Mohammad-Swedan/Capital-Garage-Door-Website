@@ -147,15 +147,15 @@ export const rollerDoorVsSectionalDoor: ComparisonPage = {
 
   relatedServices: [
     {
-      name: "Roller Door Installation Perth",
-      href: "/roller-door-installation-perth",
-      description: "Supply and installation of new roller doors, sized and fitted for your garage opening.",
+      name: "Roller Door Repairs Perth",
+      href: "/roller-door-repairs-perth",
+      description: "Repairs and servicing for residential and commercial roller doors across Perth.",
       icon: "Move",
     },
     {
-      name: "Sectional Garage Doors Perth",
-      href: "/sectional-garage-doors-perth",
-      description: "Insulated sectional door supply and installation, with a range of panel finishes.",
+      name: "Garage Door Motors & Openers Perth",
+      href: "/garage-door-motors-perth",
+      description: "Belt-drive Capital motors with Wi-Fi control, supplied and installed — suits both door types.",
       icon: "Layers",
     },
     {
@@ -166,10 +166,10 @@ export const rollerDoorVsSectionalDoor: ComparisonPage = {
       icon: "DoorOpen",
     },
     {
-      name: "Garage Door Motor Replacement Perth",
-      href: "/garage-door-motor-replacement-perth",
+      name: "Garage Door Opener & Motor Repair Perth",
+      href: "/garage-door-opener-repair-perth",
       description:
-        "Replace an ageing or faulty motor with a quieter, smart-compatible opener — suits both door types.",
+        "Repair or replace an ageing or faulty motor with a quieter, smart-compatible opener.",
       icon: "Cpu",
     },
   ],
@@ -214,8 +214,8 @@ export const rollerDoorVsSectionalDoor: ComparisonPage = {
   },
 
   seo: {
-    title: "Roller Door vs Sectional Door: Which Is Better? | Capital Garage Door",
+    title: "Roller Door vs Sectional Door: Which Is Better? | Perth",
     description:
-      "Compare roller doors and sectional doors on design, cost, space, maintenance, and insulation to find the best fit for your Perth garage. Get expert advice today.",
+      "Compare roller doors and sectional doors on cost, space, insulation and maintenance to find the best fit for your Perth garage. Local expert advice.",
   },
 };

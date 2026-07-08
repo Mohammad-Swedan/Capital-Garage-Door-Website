@@ -158,6 +158,31 @@ export async function ServicesGrid() {
             View all services
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
           </Link>
+          {/* Exact-match anchors to the highest-intent pages. The bento cards
+              above are whole-card links, so their anchor text is diluted by the
+              description copy; these send an unambiguous relevance signal to the
+              dedicated pages instead of letting the homepage cannibalise their
+              queries (a live-SERP audit found "/" outranking the emergency page
+              for its own keyword). */}
+          <p className="max-w-2xl text-xs leading-relaxed text-white/50 sm:text-sm">
+            Most searched:{" "}
+            <Link href="/emergency-garage-door-repairs-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+              emergency garage door repairs Perth
+            </Link>
+            {", "}
+            <Link href="/garage-door-spring-repair-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+              garage door spring repair
+            </Link>
+            {", "}
+            <Link href="/garage-door-repair-cost-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+              garage door repair costs
+            </Link>
+            {" and "}
+            <Link href="/roller-door-vs-sectional-door" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+              roller vs sectional doors
+            </Link>
+            .
+          </p>
         </Reveal>
       </Container>
     </section>

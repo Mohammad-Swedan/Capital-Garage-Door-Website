@@ -15,14 +15,19 @@ import { FAQSection } from "@/components/sections/faq-section";
 import { CTASection } from "@/components/sections/cta-section";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
+import { formatHoursSummary } from "@/lib/utils";
 import type { BreadcrumbItem, FAQ, TrustReason } from "@/types";
 
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us | Request a Garage Door Quote in Perth",
   description:
-    "Request a free garage door repair, installation, or servicing quote in Perth. Call now or fill out the form and Capital Garage Doors will get back to you fast.",
+    "Request a free garage door repair, installation, or servicing quote in Perth. Call now or fill out the form and Capital Garage Door will get back to you fast.",
   path: "/contact",
 });
+
+// Derived from siteConfig so the Contact page can never show different hours
+// to the footer/JSON-LD again (an audit found three conflicting sets on-site).
+const HOURS_SUMMARY = formatHoursSummary(siteConfig.business.hours);
 
 const PERTH_SUBURBS = [
   "Joondalup",
@@ -68,8 +73,7 @@ const WHY_CONTACT_US: TrustReason[] = [
 const FAQS: FAQ[] = [
   {
     question: "How quickly will you respond?",
-    answer:
-      "We typically reply within the hour during business hours (Mon–Fri 8am–6pm, Sat 9am–3pm). Emergency requests are prioritised, with 24/7 emergency repairs available across Perth.",
+    answer: `We typically reply within the hour during business hours (${HOURS_SUMMARY}). Emergency requests are prioritised, with 24/7 emergency repairs available across Perth.`,
   },
   {
     question: "What details should I include in my quote request?",
@@ -113,7 +117,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Get Your Free Quote"
         title="Request a Garage Door Quote in Perth"
-        subtitle="Tell us what you need help with and Capital Garage Doors will get back to you as soon as possible."
+        subtitle="Tell us what you need help with and Capital Garage Door will get back to you as soon as possible."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           {
@@ -130,7 +134,7 @@ export default function ContactPage() {
           { icon: Phone, label: "Call Now", value: business.phoneDisplay, href: `tel:${phone}` },
           { icon: Mail, label: "Email", value: <ObfuscatedEmail className="hover:text-cta" /> },
           { icon: MapPin, label: "Service Areas", value: "All Perth Suburbs" },
-          { icon: Clock, label: "Business Hours", value: "Mon–Fri 8am–6pm · Sat 9am–3pm" },
+          { icon: Clock, label: "Business Hours", value: HOURS_SUMMARY },
           { icon: Siren, label: "Emergency Repairs", value: "24/7 Availability", href: `tel:${phone}`, badge: "24/7" },
         ]}
       />
@@ -180,12 +184,28 @@ export default function ContactPage() {
                   <ShieldCheck className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
-                  Backed by Capital Garage Doors
+                  Backed by Capital Garage Door
                 </h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                   No call-out fee to quote, replies within the hour during business hours, and every job is
                   licensed, insured, and warranty-backed.
                 </p>
+              </div>
+
+              {/* Google Maps embed for the Southern River base — a local-SEO
+                  audit flagged the address being disclosed with no map anywhere
+                  on-site. Lazy-loaded so it never competes with the form. */}
+              <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm ring-1 ring-foreground/5">
+                <iframe
+                  title={`Map showing the ${siteConfig.name} service base in ${siteConfig.business.address.addressLocality}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(
+                    `${siteConfig.name}, ${siteConfig.business.address.streetAddress}, ${siteConfig.business.address.addressLocality} ${siteConfig.business.address.addressRegion} ${siteConfig.business.address.postalCode}`,
+                  )}&output=embed`}
+                  className="h-64 w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
               </div>
             </aside>
           </div>
@@ -196,7 +216,7 @@ export default function ContactPage() {
 
       <TrustCards
         eyebrow="Why choose us"
-        title="Why Perth Trusts Capital Garage Doors"
+        title="Why Perth Trusts Capital Garage Door"
         reasons={WHY_CONTACT_US}
       />
 

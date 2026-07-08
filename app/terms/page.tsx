@@ -7,7 +7,8 @@ import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
   title: "Terms of Service | Capital Garage Door",
-  description: "The terms and conditions for using the Capital Garage Door website and services.",
+  description:
+    "The terms and conditions for Capital Garage Door's website, quotes, bookings and garage door services in Perth — warranty, payment and cancellation terms.",
   path: "/terms",
 });
 

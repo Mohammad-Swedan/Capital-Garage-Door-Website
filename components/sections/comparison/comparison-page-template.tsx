@@ -30,10 +30,12 @@ export function ComparisonPageTemplate({ data }: ComparisonPageTemplateProps) {
   return (
     <>
       <Container className="pt-6">
+        {/* Middle crumb points at the real cost-guides hub — the old "/guides"
+            URL never existed and 404'd from every comparison page (audit T3). */}
         <Breadcrumbs
           items={[
             { name: "Home", url: "/" },
-            { name: "Guides", url: "/guides" },
+            { name: "Guides", url: "/cost-guides" },
             { name: data.topicLabel, url: `/${data.slug}` },
           ]}
         />

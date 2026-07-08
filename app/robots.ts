@@ -13,6 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ["/admin", "/api"],
     },
     sitemap: [`${siteConfig.url}/sitemap.xml`, `${siteConfig.url}/image-sitemap.xml`],
-    host: siteConfig.url,
+    // No `host` directive: it was a Yandex-only extension deprecated in 2018
+    // and gets flagged as an invalid robots.txt line by auditing tools.
   };
 }

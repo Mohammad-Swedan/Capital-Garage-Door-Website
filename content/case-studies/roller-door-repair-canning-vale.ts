@@ -73,7 +73,7 @@ export const rollerDoorRepairCanningVale: CaseStudyPage = {
   relatedServices: [
     { label: "Roller Door Repairs Perth", href: "/roller-door-repairs-perth" },
     { label: "Garage Door Repairs Canning Vale", href: "/garage-door-repairs-canning-vale" },
-    { label: "Commercial Garage Door Servicing Perth", href: "/garage-door-servicing-perth" },
+    { label: "Garage Door Servicing & Maintenance Perth", href: "/garage-door-maintenance-perth" },
   ],
 
   faqs: [

@@ -26,7 +26,17 @@ const microItems = ["No call-out fee", "Same-day service", "All Perth suburbs"];
 
 type VanPhase = "idle" | "shake" | "approach" | "onway";
 
-export function Hero() {
+interface HeroProps {
+  /**
+   * Live review aggregate (same source as the site-wide JSON-LD and /reviews).
+   * Passed in from the server page so the visible widget can NEVER contradict
+   * the structured data — a hardcoded "4.9 · 247" here once did exactly that,
+   * which is a Google structured-data policy risk.
+   */
+  rating?: { value: number; count: number };
+}
+
+export function Hero({ rating }: HeroProps) {
   const [bookingOpen, setBookingOpen] = useState(false);
   const [bookingPath, setBookingPath] = useState<string | undefined>(undefined);
   const [vanPhase, setVanPhase] = useState<VanPhase>("idle");
@@ -193,7 +203,12 @@ export function Hero() {
               <h1
                 className="cgd-rise [animation-delay:220ms] text-balance font-display text-[clamp(1.625rem,4.2svh,2rem)] leading-[1.05] font-black tracking-tight text-foreground sm:text-4xl sm:leading-[1.05] lg:text-5xl"
               >
-                Perth&apos;s <span className="text-cta">#1</span> Garage Door
+                {/* The explicit {" "} before the <br /> matters: JSX strips the
+                    newline between "Garage Door" and <br/>, and text extractors
+                    (AI crawlers, RAG pipelines) were quoting the H1 as
+                    "Garage DoorRepair & Installation". Visually a trailing
+                    space before a line break renders identically. */}
+                Perth&apos;s <span className="text-cta">#1</span> Garage Door{" "}
                 <br />
                 <span className="relative inline-block text-cta">
                   Repair &amp; Installation
@@ -254,20 +269,24 @@ export function Hero() {
 
               {/* Trust strip */}
               <div className="cgd-rise [animation-delay:700ms] flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
-                  <span className="flex gap-0.5" aria-hidden="true">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-3.5 w-3.5 fill-amber-400 text-amber-400"
-                      />
-                    ))}
-                  </span>
-                  <span className="text-xs font-semibold text-muted-foreground">
-                    <span className="font-extrabold text-foreground">4.9</span>{" "}
-                    &middot; 247 Google Reviews
-                  </span>
-                </div>
+                {rating && rating.count > 0 && (
+                  <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
+                    <span className="flex gap-0.5" aria-hidden="true">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="h-3.5 w-3.5 fill-amber-400 text-amber-400"
+                        />
+                      ))}
+                    </span>
+                    <span className="text-xs font-semibold text-muted-foreground">
+                      <span className="font-extrabold text-foreground">
+                        {rating.value.toFixed(1)}
+                      </span>{" "}
+                      &middot; {rating.count} Google Reviews
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 rounded-full border border-foreground/8 bg-foreground/4 px-3.5 py-2">
                   <ShieldCheck
                     className="h-4 w-4 text-primary"
@@ -277,6 +296,19 @@ export function Hero() {
                     Licensed &amp; Insured
                   </span>
                 </div>
+                {/* Real, selectable phone digits above the fold — an audit found
+                    the only visible number was baked into the van image (cropped
+                    below the fold on phones), leaving mobile visitors with no
+                    readable number pre-scroll. */}
+                <a
+                  href={`tel:${siteConfig.business.phone}`}
+                  className="flex items-center gap-2 rounded-full border border-cta/25 bg-cta/5 px-3.5 py-2 transition-colors hover:bg-cta/10"
+                >
+                  <Phone className="h-3.5 w-3.5 text-cta" aria-hidden="true" />
+                  <span className="text-xs font-extrabold tracking-wide text-foreground">
+                    {siteConfig.business.phoneDisplay}
+                  </span>
+                </a>
               </div>
             </div>
 
@@ -307,14 +339,18 @@ export function Hero() {
                 onClick={handleVanClick}
                 onMouseMove={handleVanMove}
                 onMouseLeave={resetTilt}
-                aria-label="Tap for emergency service options"
+                aria-label="Tap for Emergency service options"
                 className="cgd-van-btn group/van relative block w-full cursor-pointer rounded-3xl outline-none focus-visible:ring-4 focus-visible:ring-cta/40"
               >
-                {/* "Tap for Emergency" floating label (CSS bob; hides on drive-off) */}
+                {/* "Tap for Emergency" floating label (CSS bob; hides on drive-off).
+                    The emoji is aria-hidden so the visible text ("Tap for
+                    Emergency") is contained verbatim in the accessible name —
+                    WCAG 2.5.3 label-in-name, needed for voice-control users on
+                    the page's primary urgency CTA. */}
                 <span className="cgd-van-label absolute -top-3 left-1/2 z-20">
                   <span className="cgd-van-label-bob flex flex-col items-center drop-shadow-[0_8px_16px_rgba(200,34,42,0.4)]">
                     <span className="whitespace-nowrap rounded-xl bg-cta px-3.5 py-2 text-[11px] font-black tracking-wide text-white uppercase sm:px-4 sm:text-xs">
-                      🚨 Tap for Emergency
+                      <span aria-hidden="true">🚨 </span>Tap for Emergency
                     </span>
                     <span className="-mt-[1px] border-[6px] border-transparent border-t-cta border-b-0" />
                   </span>
@@ -378,9 +414,13 @@ export function Hero() {
                   old auto-dispatch card used) */}
               <div className="cgd-van-success absolute top-1/2 left-1/2 z-30 flex w-[90%] flex-col gap-3 overflow-hidden rounded-2xl border border-white/40 bg-white/60 p-5 shadow-[0_30px_60px_rgba(13,31,69,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-2xl sm:w-80 dark:border-white/10 dark:bg-[#0d1f45]/50 dark:shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display text-lg font-bold text-foreground">
+                  {/* Deliberately NOT a heading: this card title sits before the
+                      page's first <h2> and was flagged as an h1→h3 heading-order
+                      skip; it's UI chrome (hidden 99% of the time), not document
+                      structure. */}
+                  <p className="font-display text-lg font-bold text-foreground">
                     Need Us Now?
-                  </h3>
+                  </p>
                   <button
                     type="button"
                     aria-label="Cancel"

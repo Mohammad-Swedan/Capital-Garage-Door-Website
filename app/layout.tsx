@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { DeferredGoogleAnalytics } from "@/components/analytics/deferred-analytics";
 import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -7,9 +7,8 @@ import { Footer } from "@/components/layout/footer";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LazyMotionProvider } from "@/components/motion/lazy-motion-provider";
 import { JsonLd } from "@/components/seo/json-ld";
-import { localBusinessSchema, organizationSchema, webSiteSchema } from "@/lib/seo/schema";
+import { siteGraphSchema } from "@/lib/seo/schema";
 import { getReviewsSummary } from "@/lib/data/reviews";
-import { getServiceAreaRegions } from "@/lib/data/service-area-regions";
 import { siteConfig } from "@/config/site";
 
 const heading = Poppins({
@@ -63,11 +62,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Live review aggregate → embedded in the site-wide LocalBusiness for ⭐ star rich snippets.
+  // Live review aggregate → embedded in the site-wide business node for ⭐ star
+  // rich snippets. This is the SAME figure the /reviews page and any on-page
+  // rating widget display (single source of truth — schema and visible numbers
+  // must never diverge; Google treats that as a structured-data violation).
   const summary = await getReviewsSummary();
-  // Served-suburb list → site-wide LocalBusiness areaServed (multi-suburb local signal).
-  const regions = await getServiceAreaRegions();
-  const suburbNames = Array.from(new Set(regions.flatMap((r) => r.suburbs.map((s) => s.name))));
 
   return (
     <html
@@ -77,16 +76,11 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
         <JsonLd
-          data={localBusinessSchema(
-            {
-              ratingValue: summary.averageRating,
-              reviewCount: summary.totalReviews,
-            },
-            suburbNames,
-          )}
+          data={siteGraphSchema({
+            ratingValue: summary.averageRating,
+            reviewCount: summary.totalReviews,
+          })}
         />
-        <JsonLd data={organizationSchema()} />
-        <JsonLd data={webSiteSchema()} />
         {/* Before first paint, add `.intro-seen` (which hides the welcome intro and
             skips the page-reveal animation) once it has already played this session
             (`cgd:welcomed`). The intro now plays on the first visit of every session
@@ -110,10 +104,12 @@ export default async function RootLayout({
           </SiteChrome>
         </LazyMotionProvider>
       </body>
-      {/* gtag.js loads after hydration (Next third-parties), so it stays off the
-          intro/LCP critical path. Production-only so dev traffic never pollutes GA. */}
+      {/* gtag.js loads on requestIdleCallback (was afterInteractive) — it was
+          the top unused-JS contributor and long-task source on mobile. The
+          pageview is queued synchronously so nothing is lost. Production-only
+          so dev traffic never pollutes GA. */}
       {process.env.NODE_ENV === "production" && (
-        <GoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
+        <DeferredGoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
       )}
     </html>
   );

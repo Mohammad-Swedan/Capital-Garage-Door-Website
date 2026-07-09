@@ -12,15 +12,13 @@ export const siteConfig = {
   googleAnalyticsId: "G-9FTLPLVPL0",
 
   business: {
-    // Registered trading name. IMPORTANT: no invented corporate suffix here —
-    // "LLC" is a US designation and was flagged in an SEO/trust audit. If the
-    // registered entity is e.g. "... Pty Ltd", set it here and it flows to the
-    // footer © line and all JSON-LD `legalName` fields.
-    legalName: "Capital Garage Door",
+    // Registered entity name, verified against the ABR (abr.business.gov.au,
+    // ABN 86 689 651 643 → "CAPITAL GARAGE DOOR PTY LTD"). Flows to the footer
+    // © line and all JSON-LD `legalName` fields.
+    legalName: "Capital Garage Door Pty Ltd",
     // Australian Business Number — displayed in the footer and emitted as
-    // schema.org `taxID` once filled in (TODO: set the real ABN; "Licensed &
-    // Insured" claims should be backed by a visible ABN/licence number).
-    abn: "",
+    // schema.org `taxID` (digits only there; see lib/seo/schema.ts).
+    abn: "86 689 651 643",
     phone: "+61475333335",
     phoneDisplay: "0475 333 335",
     email: "info@capitalgaragedoors.com.au",

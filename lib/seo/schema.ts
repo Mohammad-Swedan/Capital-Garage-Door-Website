@@ -127,8 +127,8 @@ export function siteGraphSchema(rating?: { ratingValue: number; reviewCount: num
     priceRange: business.priceRange,
     image: new URL(siteConfig.ogImage, siteConfig.url).toString(),
     address,
-    // ABN → schema.org taxID, only once it's actually set in config.
-    ...(business.abn ? { taxID: business.abn } : {}),
+    // ABN → schema.org taxID (digits only — display formatting stays in the UI).
+    ...(business.abn ? { taxID: business.abn.replace(/\s/g, "") } : {}),
     ...(business.geo.latitude && business.geo.longitude
       ? {
           geo: {

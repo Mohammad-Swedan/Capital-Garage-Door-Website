@@ -302,6 +302,15 @@ const SERVICE_PAGE_PINS: string[] = [
   "After-hours / emergency call-out",
 ];
 
+/** /problems/garage-door-wont-open cost table (the pre-existing problem page; new ones get pins at import). */
+const WONT_OPEN_PINS: string[] = [
+  "Remote (extra / replacement)",
+  "Motor / opener not working (repair)",
+  "Broken spring (single)",
+  "Cable snapped or off the drum",
+  "After-hours / emergency call-out",
+];
+
 /** New direct answer for the cost guide — states the actual ranges (the audit's #1 content gap). */
 const COST_GUIDE_DIRECT_ANSWER =
   "Most garage door repairs in Perth cost between $150 and $1,100. As a guide from our price list: broken springs run $240–$1,000 depending on the door and number of springs, a snapped cable is $280–$550, motor/opener repairs are $380–$490 (a full replacement is $770–$990 supplied and installed), an off-track door is $440–$770 and panel damage is $550–$1,100. After-hours emergency call-outs add a flat $500. Every job is quoted upfront before any work starts — no call-out fee to quote.";
@@ -685,6 +694,11 @@ async function main() {
     }
     if (slug === "garage-door-repairs-perth" && page.pricingRows.length === 0) {
       page.pricingRows = pinsFor(SERVICE_PAGE_PINS);
+      changed = true;
+      notes.push(`pricing pins: ${page.pricingRows.length}`);
+    }
+    if (slug === "garage-door-wont-open" && page.pricingRows.length === 0) {
+      page.pricingRows = pinsFor(WONT_OPEN_PINS);
       changed = true;
       notes.push(`pricing pins: ${page.pricingRows.length}`);
     }

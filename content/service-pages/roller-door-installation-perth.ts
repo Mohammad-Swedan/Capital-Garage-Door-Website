@@ -182,6 +182,18 @@ export const rollerDoorInstallationPerth: ServicePage = {
       description: "Heavy-duty roller shutters and doors for warehouses, workshops and shopfronts.",
       icon: "Building2",
     },
+    {
+      name: "Roller Doors Perth",
+      href: "/roller-doors-perth",
+      description: "Browse the door itself — colours, sizes and supplied-and-installed prices.",
+      icon: "Palette",
+    },
+    {
+      name: "Commercial Roller Doors Perth",
+      href: "/commercial-roller-doors-perth",
+      description: "High-cycle curtains, shutters and motors for warehouses and shopfronts.",
+      icon: "Warehouse",
+    },
   ],
 
   serviceAreas: [

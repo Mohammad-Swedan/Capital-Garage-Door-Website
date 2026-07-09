@@ -182,6 +182,18 @@ export const sectionalGarageDoorsPerth: ServicePage = {
       description: "Tight on headroom? A roller door might suit your garage better.",
       icon: "Move",
     },
+    {
+      name: "Custom Garage Doors Perth",
+      href: "/custom-garage-doors-perth",
+      description: "Cedar, slat and designer finishes built on a sectional base.",
+      icon: "Palette",
+    },
+    {
+      name: "Tilt Garage Doors Perth",
+      href: "/tilt-garage-doors-perth",
+      description: "One flush panel for architectural fronts and tight headroom.",
+      icon: "DoorOpen",
+    },
   ],
 
   serviceAreas: [

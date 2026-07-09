@@ -31,6 +31,11 @@ import {
   BadgeCheck,
   RefreshCw,
   Home,
+  Palette,
+  Ruler,
+  Warehouse,
+  Lock,
+  Truck,
   type LucideIcon,
 } from "lucide-react";
 
@@ -68,6 +73,11 @@ export const iconMap: Record<string, LucideIcon> = {
   BadgeCheck,
   RefreshCw,
   Home,
+  Palette,
+  Ruler,
+  Warehouse,
+  Lock,
+  Truck,
 };
 
 export function resolveIcon(name: string): LucideIcon {

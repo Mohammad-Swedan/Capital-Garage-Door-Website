@@ -13,7 +13,6 @@ import {
   speakableSchema,
   reviewSchemasFromServiceReviews,
   reviewSchemasFromReviews,
-  aggregateFromServiceReviews,
   BUSINESS_ID,
 } from "@/lib/seo/schema";
 import { siteConfig } from "@/config/site";
@@ -43,14 +42,19 @@ import type { Problem, ServiceSuburbPage } from "@/types";
  *
  * | kind          | nodes emitted                                                        |
  * |---------------|----------------------------------------------------------------------|
- * | service       | Service(+aggregateRating+image) · FAQPage · Review[] · speakable      |
+ * | service       | Service(+image) · FAQPage · Review[] · speakable                      |
  * | problem       | Article · Service · HowTo · FAQPage · speakable                       |
  * | article       | Article(+author/publisher/image) · FAQPage · speakable               |
  * | comparison    | Article · FAQPage · speakable                                         |
  * | cost-guide    | Article · Service(+Offers) · FAQPage · speakable                      |
  * | case-study    | Article(+image) · FAQPage                                             |
  * | service-suburb| LocalBusiness · Service · FAQPage · speakable                         |
- * | landing       | Service(+aggregateRating) · FAQPage · Review[] · speakable            |
+ * | landing       | Service · FAQPage · Review[] · speakable                              |
+ *
+ * No `aggregateRating`/`review` is attached to any `Service` node — Google's
+ * review-snippet feature only supports those properties on a fixed type list
+ * (LocalBusiness, Organization, Product, …), not `Service`. Review[] nodes
+ * point `itemReviewed` at the business `@id` instead (see `lib/seo/schema.ts`).
  *
  * BreadcrumbList is still emitted by `<Breadcrumbs>` (unchanged). LocalBusiness +
  * Organization + WebSite remain site-wide in `app/layout.tsx`.
@@ -106,15 +110,16 @@ export function PageSchema(props: PageSchemaProps) {
         icon: "Wrench",
         canonicalHref: `/problems/${problem.slug}`,
       };
-      // Attach an AggregateRating to the page's Service node when reviews are pinned,
-      // and emit each pinned review as its own Review node (star-rich-result eligible).
-      const rating = aggregateFromServiceReviews(problem.reviews);
+      // No aggregateRating on the page's Service node — Service isn't a
+      // Google-supported host type for review-snippet properties (same fix as
+      // serviceLandingSchema/landingPageSchema). Pinned reviews still surface
+      // as standalone Review nodes pointing at the business.
       const service = serviceSchema(pageAsService);
       return (
         <Nodes
           nodes={[
             articleSchema(problem),
-            rating ? { ...service, aggregateRating: rating } : service,
+            service,
             howToSchema(problem),
             ...reviewSchemasFromServiceReviews(problem.reviews),
             problem.faqs.length ? faqSchema(problem.faqs) : null,

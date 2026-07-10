@@ -286,11 +286,16 @@ export function articleSchema(problem: Problem) {
 /**
  * Builds Service JSON-LD for flat service landing pages (e.g. /garage-door-repairs-perth).
  *
- * When the page has pinned reviews, embeds `aggregateRating` (averaged from the
- * pinned reviews) so the Service node is eligible for ⭐ star rich results.
+ * Deliberately NO `aggregateRating`/`review` here: Google's review-snippet
+ * feature only supports those properties on a fixed list of types (LocalBusiness,
+ * Organization, Product, …) and `Service` isn't one of them — Search Console
+ * flagged it as "Invalid object type in field '<parent_node>'". The page's
+ * pinned reviews still surface as standalone Review nodes (see
+ * `reviewSchemasFromServiceReviews`, itemReviewed → the business `@id`); the
+ * business's own aggregateRating already lives once, site-wide, on the
+ * HomeAndConstructionBusiness node in `siteGraphSchema`.
  */
 export function serviceLandingSchema(data: ServicePage) {
-  const rating = aggregateFromServiceReviews(data.reviews);
   return compact({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -304,13 +309,11 @@ export function serviceLandingSchema(data: ServicePage) {
       name: siteConfig.business.address.addressLocality,
     },
     serviceType: data.serviceName,
-    ...(rating ? { aggregateRating: rating } : {}),
   });
 }
 
-/** Builds Service JSON-LD for Google Ads / paid landing pages (e.g. /lp/emergency-garage-door-repair). */
+/** Builds Service JSON-LD for Google Ads / paid landing pages (e.g. /lp/emergency-garage-door-repair). No `aggregateRating` — same reason as `serviceLandingSchema`. */
 export function landingPageSchema(data: LandingPage) {
-  const rating = aggregateFromReviews(data.reviews.items);
   return compact({
     "@context": "https://schema.org",
     "@type": "Service",
@@ -323,7 +326,6 @@ export function landingPageSchema(data: LandingPage) {
       name: siteConfig.business.address.addressLocality,
     },
     serviceType: data.serviceLabel,
-    ...(rating ? { aggregateRating: rating } : {}),
   });
 }
 
@@ -665,32 +667,6 @@ export function howToSchema(problem: Problem) {
       text,
     })),
   });
-}
-
-/** Average a list of {rating} into a 1-decimal AggregateRating, or null if empty. */
-function buildAggregateRating(ratings: number[]) {
-  const valid = ratings.filter((r) => typeof r === "number" && r > 0);
-  if (valid.length === 0) return null;
-  const avg = valid.reduce((sum, r) => sum + r, 0) / valid.length;
-  return {
-    "@type": "AggregateRating",
-    ratingValue: Math.round(avg * 10) / 10,
-    reviewCount: valid.length,
-    bestRating: 5,
-    worstRating: 1,
-  };
-}
-
-/** AggregateRating from the flat ServiceReview[] carried by a ServicePage. */
-export function aggregateFromServiceReviews(reviews: ServiceReview[] | undefined) {
-  if (!reviews || reviews.length === 0) return null;
-  return buildAggregateRating(reviews.map((r) => r.rating));
-}
-
-/** AggregateRating from full Review[] (landing pages). */
-export function aggregateFromReviews(reviews: Review[] | undefined) {
-  if (!reviews || reviews.length === 0) return null;
-  return buildAggregateRating(reviews.map((r) => r.rating));
 }
 
 /**

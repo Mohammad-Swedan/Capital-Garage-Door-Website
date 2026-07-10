@@ -87,7 +87,7 @@ export function PageSchema(props: PageSchemaProps) {
           nodes={[
             serviceLandingSchema(data),
             data.faqs.length ? faqSchema(data.faqs) : null,
-            ...reviewSchemasFromServiceReviews(data.reviews, data.serviceName),
+            ...reviewSchemasFromServiceReviews(data.reviews),
             speakableSchema(`/${data.slug}`),
           ]}
         />
@@ -116,7 +116,7 @@ export function PageSchema(props: PageSchemaProps) {
             articleSchema(problem),
             rating ? { ...service, aggregateRating: rating } : service,
             howToSchema(problem),
-            ...reviewSchemasFromServiceReviews(problem.reviews, problem.name),
+            ...reviewSchemasFromServiceReviews(problem.reviews),
             problem.faqs.length ? faqSchema(problem.faqs) : null,
             speakableSchema(`/problems/${problem.slug}`),
           ]}
@@ -217,7 +217,7 @@ export function PageSchema(props: PageSchemaProps) {
           nodes={[
             landingPageSchema(page),
             page.faqs.length ? faqSchema(page.faqs) : null,
-            ...reviewSchemasFromReviews(page.reviews.items, page.serviceLabel),
+            ...reviewSchemasFromReviews(page.reviews.items),
             speakableSchema(`/lp/${page.slug}`),
           ]}
         />

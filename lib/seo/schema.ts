@@ -458,18 +458,20 @@ export function productSchema(product: {
       value: product.forceNewtons,
       unitCode: "NEW", // UN/CEFACT code for newton
     },
+    // AggregateOffer (lowPrice/highPrice), not a plain Offer with only
+    // priceSpecification.minPrice/maxPrice — Google's Product validator
+    // requires `offers.price` or `offers.priceSpecification.price` on a plain
+    // Offer, which a min/max range never satisfies ("Search Console: 'price'
+    // or 'priceSpecification.price' must be specified"). AggregateOffer is
+    // schema.org/Google's documented way to represent a genuine price range.
     offers: {
-      "@type": "Offer",
+      "@type": "AggregateOffer",
       priceCurrency: "AUD",
+      lowPrice: product.priceMin,
+      highPrice: product.priceMax,
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
       description: "Supplied and installed in Perth",
-      priceSpecification: {
-        "@type": "PriceSpecification",
-        priceCurrency: "AUD",
-        minPrice: product.priceMin,
-        maxPrice: product.priceMax,
-      },
       warranty: {
         "@type": "WarrantyPromise",
         durationOfWarranty: {
@@ -693,19 +695,22 @@ export function aggregateFromReviews(reviews: Review[] | undefined) {
 
 /**
  * Builds a list of schema.org Review nodes from a page's pinned reviews, each
- * attached (via `itemReviewed`) to the page's Service so the reviews are
- * eligible for star rich results in context. Returns [] when there are none.
+ * attached (via `itemReviewed`) to the business entity so the reviews are
+ * eligible for star rich results. `itemReviewed` must be one of Google's
+ * supported review-snippet types (LocalBusiness/Organization/Product/…) —
+ * `Service` is NOT supported and was rejected by Search Console's Review
+ * validator ("Invalid object type in field itemReviewed"). Reference the
+ * same business `@id` as the site-wide graph (`siteGraphSchema`) and
+ * `testimonialReviewSchemas`, so Google consolidates one entity instead of
+ * seeing a second, competing node.
  */
-export function reviewSchemasFromServiceReviews(
-  reviews: ServiceReview[] | undefined,
-  itemReviewedName: string,
-) {
+export function reviewSchemasFromServiceReviews(reviews: ServiceReview[] | undefined) {
   if (!reviews || reviews.length === 0) return [];
   return reviews.map((r) =>
     compact({
       "@context": "https://schema.org",
       "@type": "Review",
-      itemReviewed: { "@type": "Service", name: itemReviewedName, provider: providerRef() },
+      itemReviewed: { "@type": "HomeAndConstructionBusiness", "@id": BUSINESS_ID, name: siteConfig.name },
       author: { "@type": "Person", name: r.name },
       reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
       reviewBody: r.text,
@@ -740,14 +745,14 @@ export function testimonialReviewSchemas(
   );
 }
 
-/** Review nodes from full Review[] (landing pages) — includes datePublished. */
-export function reviewSchemasFromReviews(reviews: Review[] | undefined, itemReviewedName: string) {
+/** Review nodes from full Review[] (landing pages) — includes datePublished. Same supported-type fix as `reviewSchemasFromServiceReviews`. */
+export function reviewSchemasFromReviews(reviews: Review[] | undefined) {
   if (!reviews || reviews.length === 0) return [];
   return reviews.map((r) =>
     compact({
       "@context": "https://schema.org",
       "@type": "Review",
-      itemReviewed: { "@type": "Service", name: itemReviewedName, provider: providerRef() },
+      itemReviewed: { "@type": "HomeAndConstructionBusiness", "@id": BUSINESS_ID, name: siteConfig.name },
       author: { "@type": "Person", name: r.customerName },
       reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
       reviewBody: r.text,

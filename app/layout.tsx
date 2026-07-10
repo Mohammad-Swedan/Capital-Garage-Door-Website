@@ -55,6 +55,13 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
   },
+  // Search-engine site verification. Bing also has public/BingSiteAuth.xml
+  // (same token) — either method satisfies its check.
+  verification: {
+    other: {
+      "msvalidate.01": "F65D580A0C2790DBD98822EC527E8365",
+    },
+  },
 };
 
 export default async function RootLayout({

@@ -221,9 +221,21 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
     },
     {
       name: "Garage Door Motor Replacement Cost Perth",
-      href: "/blog/garage-door-motor-replacement-cost-perth",
-      description: "Replace an ageing or faulty opener motor with a quieter, smart-compatible unit.",
+      href: "/garage-door-motor-replacement-cost-perth",
+      description: "What a new or repaired opener motor costs — supplied, installed, and programmed.",
       icon: "Cpu",
+    },
+    {
+      name: "Spring & Cable Replacement Cost Perth",
+      href: "/garage-door-spring-replacement-cost-perth",
+      description: "Pricing for broken springs and cables — a single spring, a matched pair, or a full set.",
+      icon: "Cable",
+    },
+    {
+      name: "Garage Door Servicing Cost Perth",
+      href: "/garage-door-service-cost-perth",
+      description: "What a regular service and safety check costs — the cheapest way to avoid repairs.",
+      icon: "ShieldCheck",
     },
     {
       name: "Emergency Garage Door Repairs Perth",

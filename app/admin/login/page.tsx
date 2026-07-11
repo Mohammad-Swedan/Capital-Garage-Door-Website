@@ -44,7 +44,7 @@ export default async function AdminLoginPage() {
               <br />
               Digital Presence
             </p>
-            <p className="mt-2 text-sm text-white/50">Capital Garage Door CMS</p>
+            <p className="mt-2 text-sm text-white/50">Capital Garage Doors CMS</p>
           </div>
         </div>
 
@@ -57,7 +57,7 @@ export default async function AdminLoginPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="font-heading text-base font-semibold text-foreground">
-                Capital Garage Door
+                Capital Garage Doors
               </span>
               <span className="rounded-md bg-cta px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-cta-foreground uppercase">
                 CMS

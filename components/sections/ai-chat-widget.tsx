@@ -354,7 +354,7 @@ export function AiChatWidget({
           </form>
           <p className="mt-2.5 flex items-center justify-center gap-1.5 text-center text-[10.5px] text-muted-foreground">
             <Sparkles className="h-3 w-3 shrink-0 text-primary/60" aria-hidden="true" />
-            Powered by Capital Garage Door knowledge base
+            Powered by Capital Garage Doors knowledge base
           </p>
         </div>
 

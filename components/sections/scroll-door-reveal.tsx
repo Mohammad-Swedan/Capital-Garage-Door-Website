@@ -360,7 +360,7 @@ export function ScrollDoorReveal() {
         <div className="relative z-0 w-full max-w-5xl aspect-[16/9] md:aspect-[21/9] md:max-h-[40vh] rounded-2xl overflow-hidden shadow-2xl border border-border/50 mx-auto my-8 shrink-0">
           <Image
             src={fallbackSrc}
-            alt="Capital Garage Door — open sectional garage door revealing a vehicle inside"
+            alt="Capital Garage Doors — open sectional garage door revealing a vehicle inside"
             fill
             sizes="100vw"
             className="object-cover"

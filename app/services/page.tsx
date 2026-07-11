@@ -22,7 +22,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Services Perth | Repairs & Installation",
   description:
-    "All Capital Garage Door services across Perth — repairs, new door installation, springs, openers, emergency call-outs and maintenance. Upfront quotes.",
+    "All Capital Garage Doors services across Perth — repairs, new door installation, springs, openers, emergency call-outs and maintenance. Upfront quotes.",
   path: "/services",
 });
 
@@ -87,7 +87,7 @@ export default async function ServicesPage() {
       <PageHero
         eyebrow="Perth-Wide Coverage"
         title="Garage Door Services in Perth"
-        subtitle="From everyday repairs to full installations, Capital Garage Door covers the complete range of residential and commercial garage door services across Perth — with local technicians, same-day options, and upfront quotes."
+        subtitle="From everyday repairs to full installations, Capital Garage Doors covers the complete range of residential and commercial garage door services across Perth — with local technicians, same-day options, and upfront quotes."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           { label: "Request a Quote", href: "/contact", variant: "outline", icon: <FileText className="h-4 w-4" aria-hidden="true" /> },

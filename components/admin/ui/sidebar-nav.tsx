@@ -175,7 +175,7 @@ export function AdminBrandLockup({
       {!collapsed && (
         <>
           <span className="font-heading text-sm font-semibold leading-tight text-sidebar-foreground">
-            Capital Garage Door
+            Capital Garage Doors
           </span>
           <span className="rounded-md bg-cta px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-cta-foreground uppercase">
             CMS

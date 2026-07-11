@@ -14,9 +14,9 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Service Areas Perth | Capital Garage Door",
+  title: "Garage Door Service Areas Perth | Capital Garage Doors",
   description:
-    "Capital Garage Door services Perth and surrounding suburbs — from Joondalup to Rockingham, Fremantle to Midland. Find your suburb and get a fast quote.",
+    "Capital Garage Doors services Perth and surrounding suburbs — from Joondalup to Rockingham, Fremantle to Midland. Find your suburb and get a fast quote.",
   path: "/service-areas",
 });
 
@@ -35,7 +35,7 @@ export default async function ServiceAreasPage() {
       <PageHero
         eyebrow="Perth-Wide Coverage"
         title="Garage Door Services Across Perth"
-        subtitle="Capital Garage Door services Perth and the surrounding suburbs — fast response, local technicians, and the same trusted standard wherever you are."
+        subtitle="Capital Garage Doors services Perth and the surrounding suburbs — fast response, local technicians, and the same trusted standard wherever you are."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           { label: "Request a Quote", href: "/contact", variant: "outline", icon: <FileText className="h-4 w-4" aria-hidden="true" /> },

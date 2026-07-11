@@ -291,7 +291,7 @@ export const garageDoorRepairCostPerth: CostGuidePage = {
   },
 
   seo: {
-    title: "Garage Door Repair Cost Perth | Capital Garage Door",
+    title: "Garage Door Repair Cost Perth | Capital Garage Doors",
     description:
       "Garage door repair costs in Perth: springs $240–$1,000, cables $280–$550, motors $380–$990, off-track doors $440–$770. Real ranges, quoted upfront.",
   },

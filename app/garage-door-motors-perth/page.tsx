@@ -255,7 +255,7 @@ export default function GarageDoorMotorsPage() {
           <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-12">
             <ServiceContactPanel serviceName="Garage Door Motor Installation" />
             <ServiceQuoteForm
-              serviceName="Capital Garage Door Motors"
+              serviceName="Capital Garage Doors Motors"
               heading="Get a Motor Quote"
             />
           </div>

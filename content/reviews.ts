@@ -143,7 +143,7 @@ export const reviews: Review[] = [
     id: "rev-karma-t",
     customerName: "Karma T.",
     rating: 5,
-    text: "Capital Garage Door was very quick to come over and immediately knew the problem. Within 30 minutes the job was done, plus he gave professional advice for future reference. Job well done!",
+    text: "Capital Garage Doors was very quick to come over and immediately knew the problem. Within 30 minutes the job was done, plus he gave professional advice for future reference. Job well done!",
     suburb: "",
     service: "Repairs",
     source: "Google",

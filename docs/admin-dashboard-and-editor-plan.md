@@ -106,7 +106,7 @@ round-trip pins it doesn't manage (`initial?.x ?? []`).
 
 ## A. Admin chrome restyle
 
-Goal: feel unmistakably like Capital Garage Door (same navy/red, Poppins/Open Sans, shadcn
+Goal: feel unmistakably like Capital Garage Doors (same navy/red, Poppins/Open Sans, shadcn
 components, rounded cards, soft shadows) while reading clearly as an internal tool — and staying
 `noindex`/robots-disallowed. The admin already imports `globals.css` (shared `<html>`), so the
 tokens are available; today's screens just don't use the component vocabulary.

@@ -1,9 +1,9 @@
 export const siteConfig = {
-  name: "Capital Garage Door",
-  shortName: "Capital Garage Door",
+  name: "Capital Garage Doors",
+  shortName: "Capital Garage Doors",
   tagline: "Trusted Garage Door Repair & Installation",
   description:
-    "Capital Garage Door provides professional garage door repair, installation, and maintenance services. Licensed, insured, and available for same-day service.",
+    "Capital Garage Doors provides professional garage door repair, installation, and maintenance services. Licensed, insured, and available for same-day service.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://capitalgaragedoors.com.au",
   ogImage: "/images/og/default.jpg",
   locale: "en_AU",

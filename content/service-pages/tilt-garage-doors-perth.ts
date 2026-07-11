@@ -33,7 +33,7 @@ export const tiltGarageDoorsPerth: ServicePage = {
   },
 
   directAnswer:
-    "Capital Garage Door installs and repairs tilt garage doors across Perth. A new tilt door typically costs $3,000–$5,000 supplied and installed; custom-clad and oversize doors range $5,000–$15,000, and replacing the pivot arms and springs on an older tilt door is $1,200–$1,800. A tilt door is a single rigid panel that swings up on counterweighted pivot arms — the style to pick when you want one uninterrupted face for architectural cladding, or when your garage has almost no headroom for tracks.",
+    "Capital Garage Doors installs and repairs tilt garage doors across Perth. A new tilt door typically costs $3,000–$5,000 supplied and installed; custom-clad and oversize doors range $5,000–$15,000, and replacing the pivot arms and springs on an older tilt door is $1,200–$1,800. A tilt door is a single rigid panel that swings up on counterweighted pivot arms — the style to pick when you want one uninterrupted face for architectural cladding, or when your garage has almost no headroom for tracks.",
 
   intro: {
     heading: "One Panel, Endless Finishes — and Repairs for the Old Ones",

@@ -222,7 +222,7 @@ export function ChatMode({
         </form>
         <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[10.5px] text-slate-400">
           <ReceiptText className="h-3 w-3 shrink-0 text-primary/50" aria-hidden="true" />
-          Powered by Capital Garage Door pricing &amp; knowledge base
+          Powered by Capital Garage Doors pricing &amp; knowledge base
         </p>
       </div>
     </div>

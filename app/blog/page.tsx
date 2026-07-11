@@ -18,7 +18,7 @@ import { siteConfig } from "@/config/site";
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Blog | Maintenance, Repairs & Cost Guides Perth",
   description:
-    "Practical guides on garage door servicing, repairs, motors, and costs for Perth homeowners — written by Capital Garage Door's local technicians.",
+    "Practical guides on garage door servicing, repairs, motors, and costs for Perth homeowners — written by Capital Garage Doors' local technicians.",
   path: "/blog",
 });
 

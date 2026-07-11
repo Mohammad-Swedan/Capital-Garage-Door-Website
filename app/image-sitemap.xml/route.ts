@@ -59,13 +59,13 @@ export async function GET() {
     images: [
       {
         url: abs("/images/van-speeding-light.png"),
-        title: "Capital Garage Door service van",
-        caption: "Capital Garage Door mobile service van covering Perth suburbs",
+        title: "Capital Garage Doors service van",
+        caption: "Capital Garage Doors mobile service van covering Perth suburbs",
       },
       {
         url: abs("/images/perth-map-white.png"),
         title: "Perth service area map",
-        caption: "Map of Perth metro suburbs covered by Capital Garage Door",
+        caption: "Map of Perth metro suburbs covered by Capital Garage Doors",
       },
     ],
   });
@@ -78,7 +78,7 @@ export async function GET() {
       {
         url: "https://jadara-hub.b-cdn.net/capital-garage-door/premium-garage-door-about.webp",
         title: "Premium sectional garage door installation",
-        caption: "Premium sectional garage door installed by Capital Garage Door in Perth",
+        caption: "Premium sectional garage door installed by Capital Garage Doors in Perth",
       },
     ],
   });

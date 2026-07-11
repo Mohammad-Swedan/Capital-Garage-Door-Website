@@ -3,7 +3,7 @@ import { SmartPriceCalculator } from "@/components/sections/smart-calculator";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Price Calculator Perth | Capital Garage Door",
+  title: "Garage Door Price Calculator Perth | Capital Garage Doors",
   description:
     "Get an instant cost estimate for garage door repairs, new door installations, motor replacements, and regular servicing across Perth. Free and no obligation.",
   path: "/calculator",

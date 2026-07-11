@@ -26,12 +26,12 @@ export const sectionalGarageDoorsPerth: ServicePage = {
     ],
     image:
       "https://jadara-hub.b-cdn.net/capital-garage-door/gallery/new-garage-doors-installed-perth.webp",
-    imageAlt: "Row of new timber-look sectional garage doors installed by Capital Garage Door in Perth",
+    imageAlt: "Row of new timber-look sectional garage doors installed by Capital Garage Doors in Perth",
     floatingCardLabel: "Free Measure & Quote",
   },
 
   directAnswer:
-    "Capital Garage Door supplies and installs sectional garage doors across Perth. A standard sectional door typically costs $3,000–$5,000 supplied and installed, including removal of your old door; oversize and custom doors range $5,000–$15,000. Sectional doors travel up and back along ceiling tracks in hinged panels, which makes them the quietest, best-insulated and most design-flexible option for most Perth homes — we measure your garage, help you choose panels and colours, and back the install with our lifetime workmanship warranty.",
+    "Capital Garage Doors supplies and installs sectional garage doors across Perth. A standard sectional door typically costs $3,000–$5,000 supplied and installed, including removal of your old door; oversize and custom doors range $5,000–$15,000. Sectional doors travel up and back along ceiling tracks in hinged panels, which makes them the quietest, best-insulated and most design-flexible option for most Perth homes — we measure your garage, help you choose panels and colours, and back the install with our lifetime workmanship warranty.",
 
   intro: {
     heading: "The Most Popular Garage Door Style in Perth — Done Right",
@@ -260,7 +260,7 @@ export const sectionalGarageDoorsPerth: ServicePage = {
   },
 
   seo: {
-    title: "Sectional Garage Doors Perth | Capital Garage Door",
+    title: "Sectional Garage Doors Perth | Capital Garage Doors",
     description:
       "Sectional garage doors supplied and installed across Perth — insulated panels, timber-look finishes and quiet belt-drive motors. Free measure and quote.",
   },

@@ -32,7 +32,7 @@ export const customGarageDoorsPerth: ServicePage = {
   },
 
   directAnswer:
-    "Capital Garage Door designs and installs custom garage doors across Perth, typically $5,000–$15,000 supplied and installed depending on size and material — cedar and timber battens, powder-coated aluminium slats, low-maintenance timber-look finishes, and glass or perforated infills. The door is built on a sectional or tilt base sized to your opening, the finish is matched to your façade, and the springs and opener are specified for the finished panel weight. Every design is quoted exactly before anything is ordered.",
+    "Capital Garage Doors designs and installs custom garage doors across Perth, typically $5,000–$15,000 supplied and installed depending on size and material — cedar and timber battens, powder-coated aluminium slats, low-maintenance timber-look finishes, and glass or perforated infills. The door is built on a sectional or tilt base sized to your opening, the finish is matched to your façade, and the springs and opener are specified for the finished panel weight. Every design is quoted exactly before anything is ordered.",
 
   intro: {
     heading: "The Door Is a Third of the Façade — Make It Count",

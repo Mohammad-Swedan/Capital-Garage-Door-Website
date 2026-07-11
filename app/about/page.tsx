@@ -47,7 +47,7 @@ const SYSTEM_FEATURES: TrustReason[] = [
 ];
 
 export const metadata: Metadata = buildMetadata({
-  title: "About Us | Capital Garage Door",
+  title: "About Us | Capital Garage Doors",
   description:
     "Perth's local garage door repair, installation & maintenance team — licensed, insured, and an authorized dealer for B&D, Steel-Line, Gliderol, Avanti and more.",
   path: "/about",
@@ -77,7 +77,7 @@ export default function AboutPage() {
 
       <PageHero
         eyebrow="Who We Are"
-        title="About Capital Garage Door"
+        title="About Capital Garage Doors"
         subtitle="Perth's trusted local team for garage door repairs, installations, and maintenance — licensed, insured, and built on honest pricing."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
@@ -97,7 +97,7 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
               <p>
-                Capital Garage Door started with a frustration every Perth homeowner knows: garage
+                Capital Garage Doors started with a frustration every Perth homeowner knows: garage
                 door problems strike at the worst possible time, and finding honest, fast help
                 shouldn&apos;t be this hard. So we built the kind of local team we&apos;d want to call
                 ourselves — upfront about pricing, quick to respond, and genuinely invested in getting

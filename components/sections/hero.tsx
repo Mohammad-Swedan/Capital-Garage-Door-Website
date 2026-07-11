@@ -396,7 +396,7 @@ export function Hero({ rating }: HeroProps) {
                     <div ref={tiltRef} className="cgd-van-tilt">
                       <Image
                         src="/images/van-speeding-light.png"
-                        alt="Capital Garage Door service van"
+                        alt="Capital Garage Doors service van"
                         width={2933}
                         height={1398}
                         priority

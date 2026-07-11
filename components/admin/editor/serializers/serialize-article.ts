@@ -90,7 +90,7 @@ export function seedBlankArticle(): Article {
     slug: "",
     category: "Guides",
     excerpt: "A short summary of what this article covers.",
-    author: "Capital Garage Door Team",
+    author: "Capital Garage Doors Team",
     publishedAt: "",
     updatedAt: "",
     readingTime: undefined,

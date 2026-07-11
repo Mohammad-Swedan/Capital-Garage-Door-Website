@@ -31,7 +31,7 @@ export const rollerDoorInstallationPerth: ServicePage = {
   },
 
   directAnswer:
-    "Capital Garage Door supplies and installs new roller doors across Perth for homes, garages, sheds and commercial premises. A standard residential roller door typically costs $3,000–$5,000 supplied and installed, including removal and disposal of the old door; larger commercial and custom doors range $5,000–$15,000. We measure your opening, recommend the right curtain and motor, and back every installation with our lifetime workmanship warranty.",
+    "Capital Garage Doors supplies and installs new roller doors across Perth for homes, garages, sheds and commercial premises. A standard residential roller door typically costs $3,000–$5,000 supplied and installed, including removal and disposal of the old door; larger commercial and custom doors range $5,000–$15,000. We measure your opening, recommend the right curtain and motor, and back every installation with our lifetime workmanship warranty.",
 
   intro: {
     heading: "New Roller Doors, Measured and Fitted Properly",
@@ -260,7 +260,7 @@ export const rollerDoorInstallationPerth: ServicePage = {
   },
 
   seo: {
-    title: "Roller Door Installation Perth | Capital Garage Door",
+    title: "Roller Door Installation Perth | Capital Garage Doors",
     description:
       "New roller doors supplied and installed across Perth — homes, sheds and commercial premises. Old-door removal, motor options and upfront quotes from $3,000.",
   },

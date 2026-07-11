@@ -17,9 +17,9 @@ import { siteConfig } from "@/config/site";
 import { REVIEW_SERVICE_OPTIONS } from "@/types/review";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Reviews Perth | Capital Garage Door",
+  title: "Garage Door Reviews Perth | Capital Garage Doors",
   description:
-    "Read genuine reviews from Perth customers about Capital Garage Door's repair, installation, and servicing work — then see why local homeowners trust us.",
+    "Read genuine reviews from Perth customers about Capital Garage Doors' repair, installation, and servicing work — then see why local homeowners trust us.",
   path: "/reviews",
 });
 
@@ -42,7 +42,7 @@ export default async function ReviewsPage() {
       <PageHero
         eyebrow="Trusted Across Perth"
         title="Garage Door Reviews from Perth Customers"
-        subtitle="See what local customers say about Capital Garage Door."
+        subtitle="See what local customers say about Capital Garage Doors."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           { label: "Request a Quote", href: "/contact", variant: "outline", icon: <FileText className="h-4 w-4" aria-hidden="true" /> },
@@ -61,7 +61,7 @@ export default async function ReviewsPage() {
       />
 
       <CTASection
-        heading="Had a great experience with Capital Garage Door?"
+        heading="Had a great experience with Capital Garage Doors?"
         body="Your feedback helps other Perth homeowners find a garage door technician they can trust."
         buttons={[{ label: "Leave a Google Review", href: summary.googleWriteReviewUrl }]}
       />

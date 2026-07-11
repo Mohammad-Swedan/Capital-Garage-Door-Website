@@ -19,7 +19,7 @@ import { siteConfig } from "@/config/site";
 import type { FAQ, TrustReason } from "@/types";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Motor Warranty | Capital Garage Door",
+  title: "Garage Door Motor Warranty | Capital Garage Doors",
   description:
     "Every garage door motor we install in Perth is backed by a 5-year warranty — extendable to 7 years with annual servicing. See what's covered and register your warranty online.",
   path: "/warranty",
@@ -94,7 +94,7 @@ const SHOWCASE: WarrantyShowcaseItem[] = [
   {
     title: "Premium Opener Motors",
     caption: "Quiet, reliable drive units chosen to last — and backed by our warranty.",
-    alt: "Capital Garage Door opener motor",
+    alt: "Capital Garage Doors opener motor",
   },
   {
     title: "Built-In Safety Sensors",

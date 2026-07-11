@@ -14,9 +14,9 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Gallery Perth | Capital Garage Door",
+  title: "Garage Door Gallery Perth | Capital Garage Doors",
   description:
-    "See recent garage door repairs, installations, and motor upgrades completed by Capital Garage Door across Perth suburbs.",
+    "See recent garage door repairs, installations, and motor upgrades completed by Capital Garage Doors across Perth suburbs.",
   path: "/gallery",
 });
 

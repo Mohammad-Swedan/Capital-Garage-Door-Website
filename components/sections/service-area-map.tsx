@@ -111,7 +111,7 @@ export function ServiceAreaMap() {
             <div className="relative aspect-[1448/1086] w-full overflow-hidden rounded-2xl border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.5)] sm:rounded-3xl">
               <Image
                 src="/images/perth-map-white.png"
-                alt="Map of Perth metro suburbs covered by Capital Garage Door"
+                alt="Map of Perth metro suburbs covered by Capital Garage Doors"
                 fill
                 sizes="(min-width: 1024px) 36rem, (min-width: 640px) 28rem, 90vw"
                 className="object-cover"

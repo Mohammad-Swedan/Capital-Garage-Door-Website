@@ -94,7 +94,7 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
 
       <TrustCards
         eyebrow="Why choose us"
-        title={`Why ${page.suburb} Chooses Capital Garage Door`}
+        title={`Why ${page.suburb} Chooses Capital Garage Doors`}
         reasons={page.whyChooseUs}
       />
 

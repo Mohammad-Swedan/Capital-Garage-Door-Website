@@ -13,7 +13,7 @@ interface WhyChooseProps {
 }
 
 /** Trust grid — kept to plain Reveal fade/slide-up rather than the homepage's scroll-linked sticky-numeral pattern, which is too heavy for an inner page. */
-export function WhyChoose({ heading = "Why Choose Capital Garage Door", items }: WhyChooseProps) {
+export function WhyChoose({ heading = "Why Choose Capital Garage Doors", items }: WhyChooseProps) {
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>

@@ -6,7 +6,7 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
   category: "Maintenance",
   excerpt:
     "Most residential garage doors need a service once a year — but high-use, commercial, and coastal Perth doors often need more. Here's how to tell what your door needs.",
-  author: "Capital Garage Door Team",
+  author: "Capital Garage Doors Team",
   publishedAt: "2026-01-12",
   updatedAt: "2026-05-18",
   featuredImage: "https://jadara-hub.b-cdn.net/capital-garage-door/4d804e09b10b497da43d4d92e26eea1b.png",
@@ -73,7 +73,7 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
     {
       type: "paragraph",
       text:
-        "A proper garage door service is more than a quick look. A thorough visit from a Capital Garage Door technician typically covers:",
+        "A proper garage door service is more than a quick look. A thorough visit from a Capital Garage Doors technician typically covers:",
     },
     {
       type: "list",
@@ -227,7 +227,7 @@ export const howOftenShouldYouServiceAGarageDoor: Article = {
         "Yes. A scheduled service is a small, predictable cost. Emergency repairs — especially for a broken spring or failed motor — typically cost several times more once the door has already failed.",
     },
     {
-      question: "Does Capital Garage Door service all garage door brands?",
+      question: "Does Capital Garage Doors service all garage door brands?",
       answer:
         "Yes, our technicians service all major garage door and opener brands across Perth, including chain-drive, belt-drive, and direct-drive motor systems.",
     },

@@ -94,9 +94,9 @@ export const sectionalDoorInstallationFremantle: CaseStudyPage = {
   ],
 
   seo: {
-    title: "Sectional Door Installation in Fremantle | Capital Garage Door",
+    title: "Sectional Door Installation Fremantle | Capital Garage Doors",
     description:
-      "See how Capital Garage Door replaced an old tilt door with a new insulated sectional garage door and automatic opener for a Fremantle homeowner.",
+      "See how Capital Garage Doors replaced an old tilt door with a new insulated sectional garage door and automatic opener for a Fremantle homeowner.",
   },
 
   updatedAt: "2026-03-15",

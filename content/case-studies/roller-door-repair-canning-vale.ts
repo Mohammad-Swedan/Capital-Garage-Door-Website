@@ -95,9 +95,9 @@ export const rollerDoorRepairCanningVale: CaseStudyPage = {
   ],
 
   seo: {
-    title: "Roller Door Repair in Canning Vale | Capital Garage Door",
+    title: "Roller Door Repair in Canning Vale | Capital Garage Doors",
     description:
-      "See how Capital Garage Door diagnosed and repaired a jamming commercial roller door in Canning Vale — track straightening, roller replacement, and full testing.",
+      "See how Capital Garage Doors diagnosed and repaired a jamming commercial roller door in Canning Vale — track straightening, roller replacement, and full testing.",
   },
 
   updatedAt: "2026-04-28",

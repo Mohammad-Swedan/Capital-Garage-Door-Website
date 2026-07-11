@@ -8,9 +8,9 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Register or Check Your Warranty | Capital Garage Door",
+  title: "Register or Check Your Warranty | Capital Garage Doors",
   description:
-    "Register your Capital Garage Door motor warranty or check your warranty status online. Enter your install details to activate your 5-year cover (extendable to 7 years).",
+    "Register your Capital Garage Doors motor warranty or check your warranty status online. Enter your install details to activate your 5-year cover (extendable to 7 years).",
   path: "/warranty-registration",
 });
 

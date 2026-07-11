@@ -21,7 +21,7 @@ const SmartCta = dynamic(() => import("@/components/sections/smart-cta").then(m 
 const ScrollDoorReveal = dynamic(() => import("@/components/sections/scroll-door-reveal").then(m => m.ScrollDoorReveal));
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Repairs Perth | Capital Garage Door",
+  title: "Garage Door Repairs Perth | Capital Garage Doors",
   description:
     "Perth's garage door repair experts — emergency & same-day repairs, new installs, roller doors, motors & servicing across all suburbs. Free upfront quotes.",
   path: "/",

@@ -12,7 +12,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Case Studies Perth | Capital Garage Door",
+  title: "Garage Door Case Studies Perth | Capital Garage Doors",
   description:
     "Real completed garage door repairs, motor replacements, and installations across Perth — see the problem, diagnosis, and solution for each job.",
   path: "/case-studies",

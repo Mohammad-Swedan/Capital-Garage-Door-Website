@@ -25,7 +25,7 @@ export function AboutSection() {
                 href={siteConfig.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Capital Garage Door on Facebook"
+                aria-label="Capital Garage Doors on Facebook"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
                 <img src="/images/social/facebook.svg" alt="" width={18} height={18} className="opacity-70 hover:opacity-100" />
@@ -34,7 +34,7 @@ export function AboutSection() {
                 href={siteConfig.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Capital Garage Door on Instagram"
+                aria-label="Capital Garage Doors on Instagram"
                 className="w-8 h-8 md:w-10 md:h-10 border border-border bg-background rounded-lg flex items-center justify-center cursor-pointer hover:bg-muted transition-colors shadow-sm"
               >
                 <img src="/images/social/instagram.svg" alt="" width={18} height={18} className="opacity-70 hover:opacity-100" />
@@ -47,7 +47,7 @@ export function AboutSection() {
               className="w-full h-full drop-shadow-2xl"
               preserveAspectRatio="none"
               role="img"
-              aria-label="Premium sectional garage door professionally installed by Capital Garage Door in Perth"
+              aria-label="Premium sectional garage door professionally installed by Capital Garage Doors in Perth"
             >
               <defs>
                 <clipPath
@@ -81,7 +81,7 @@ export function AboutSection() {
             </h2>
 
             <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-4 md:mb-8 max-w-lg">
-              For over 20 years, Capital Garage Door has repaired, serviced and installed garage doors, springs, motors and openers across Perth — from emergency same-day fixes to new roller and sectional doors for homes and businesses. Licensed, fully insured, and upfront on price, with no-surprise quotes.
+              For over 20 years, Capital Garage Doors has repaired, serviced and installed garage doors, springs, motors and openers across Perth — from emergency same-day fixes to new roller and sectional doors for homes and businesses. Licensed, fully insured, and upfront on price, with no-surprise quotes.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">

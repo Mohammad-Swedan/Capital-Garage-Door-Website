@@ -34,7 +34,7 @@ export const rollerDoorsPerth: ServicePage = {
   },
 
   directAnswer:
-    "A new garage roller door in Perth typically costs $3,000–$5,000 supplied and installed by Capital Garage Door, including removal of your old door; oversize and commercial curtains range $5,000–$15,000. Roller doors coil into a compact drum above the opening, so they're the best pick for tight headroom, short driveways and garages that need the ceiling clear — and the simple steel curtain makes them the most affordable door style. We measure your opening, match any Colorbond-style colour, and quote the exact door upfront.",
+    "A new garage roller door in Perth typically costs $3,000–$5,000 supplied and installed by Capital Garage Doors, including removal of your old door; oversize and commercial curtains range $5,000–$15,000. Roller doors coil into a compact drum above the opening, so they're the best pick for tight headroom, short driveways and garages that need the ceiling clear — and the simple steel curtain makes them the most affordable door style. We measure your opening, match any Colorbond-style colour, and quote the exact door upfront.",
 
   intro: {
     heading: "The Practical Choice for Perth Garages and Sheds",

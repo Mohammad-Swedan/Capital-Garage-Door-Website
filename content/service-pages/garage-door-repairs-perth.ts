@@ -16,17 +16,17 @@ export const garageDoorRepairsPerth: ServicePage = {
       { icon: "Building2", label: "Residential & Commercial" },
     ],
     image: "https://jadara-hub.b-cdn.net/capital-garage-door/422b9b76bdc5448b9ebb2c058509746c.png",
-    imageAlt: "Capital Garage Door technician repairing a residential garage door in Perth",
+    imageAlt: "Capital Garage Doors technician repairing a residential garage door in Perth",
     floatingCardLabel: "Same-Day Service Available",
   },
 
   directAnswer:
-    "Capital Garage Door provides professional garage door repairs across Perth, covering broken springs, faulty motors, remote issues, off-track doors, and doors that won't open or close. Most repairs are completed same-day, with a clear quote provided before any work begins.",
+    "Capital Garage Doors provides professional garage door repairs across Perth, covering broken springs, faulty motors, remote issues, off-track doors, and doors that won't open or close. Most repairs are completed same-day, with a clear quote provided before any work begins.",
 
   intro: {
     heading: "Professional Garage Door Repairs Across Perth",
     paragraphs: [
-      "A garage door that's stuck, noisy, or unresponsive is more than an inconvenience — it's a security and safety concern for your home or business. Capital Garage Door repairs all major garage door brands and opener systems for homeowners and businesses across the Perth metro area.",
+      "A garage door that's stuck, noisy, or unresponsive is more than an inconvenience — it's a security and safety concern for your home or business. Capital Garage Doors repairs all major garage door brands and opener systems for homeowners and businesses across the Perth metro area.",
       "Our technicians are equipped to diagnose and resolve the full range of garage door issues, from a simple remote fault to a broken torsion spring or a motor that's reached the end of its life. Every job starts with a proper inspection so the fix addresses the actual cause, not just the symptom.",
       "Whether your door won't open, won't close, has come off its track, or is making unusual noises, we'll get it assessed and repaired with minimal disruption — with workmanship backed by warranty support.",
     ],
@@ -218,11 +218,11 @@ export const garageDoorRepairsPerth: ServicePage = {
 
   cta: {
     heading: "Need Garage Door Repairs in Perth?",
-    subtitle: "Get a fast response and a clear quote from your local Capital Garage Door team.",
+    subtitle: "Get a fast response and a clear quote from your local Capital Garage Doors team.",
   },
 
   seo: {
-    title: "Garage Door Repairs Perth | Same-Day | Capital Garage Door",
+    title: "Garage Door Repairs Perth | Same-Day | Capital Garage Doors",
     description:
       "Professional garage door repairs across Perth. Broken springs, faulty motors, off-track doors, and more — same-day service available. Get a free quote today.",
   },

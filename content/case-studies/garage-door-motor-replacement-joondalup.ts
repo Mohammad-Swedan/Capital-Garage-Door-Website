@@ -103,7 +103,7 @@ export const garageDoorMotorReplacementJoondalup: CaseStudyPage = {
   seo: {
     title: "Garage Door Motor Replacement in Joondalup | Case Study",
     description:
-      "See how Capital Garage Door replaced a failed garage door motor for a residential customer in Joondalup — full diagnosis, solution, and completed work.",
+      "See how Capital Garage Doors replaced a failed garage door motor for a residential customer in Joondalup — full diagnosis, solution, and completed work.",
   },
 
   updatedAt: "2026-05-12",

@@ -12,7 +12,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Cost Guides Perth | Capital Garage Door",
+  title: "Garage Door Cost Guides Perth | Capital Garage Doors",
   description:
     "Browse our garage door cost guides — transparent pricing guidance for repairs, installation, motor replacement, and emergency call-outs across Perth.",
   path: "/cost-guides",

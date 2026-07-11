@@ -22,7 +22,7 @@ export function ServiceAreaGrid({ heading = "Areas We Service", areas }: Service
             {heading}
           </h2>
           <p className="mt-3 max-w-2xl text-muted-foreground">
-            Capital Garage Door provides this service across Perth, including:
+            Capital Garage Doors provides this service across Perth, including:
           </p>
         </Reveal>
 

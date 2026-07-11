@@ -6,7 +6,7 @@ export const problems: Problem[] = [
     name: "Garage Door Won't Open",
     h1: "Garage Door Won't Open?",
     heroSubtitle:
-      "If your garage door is stuck, not responding, or refusing to open, Capital Garage Door can inspect and repair the issue across Perth — same-day, in most cases.",
+      "If your garage door is stuck, not responding, or refusing to open, Capital Garage Doors can inspect and repair the issue across Perth — same-day, in most cases.",
     metaTitle: "Garage Door Won't Open? Causes, Fixes & Repairs Perth",
     metaDescription:
       "Garage door won't open? Common causes — broken springs, motor faults, snapped cables — what's safe to check yourself, and when to call. Same-day Perth repairs.",
@@ -131,7 +131,7 @@ export const problems: Problem[] = [
       {
         question: "Do you service all Perth suburbs?",
         answer:
-          "Yes, Capital Garage Door provides repairs and installations across all Perth suburbs, with same-day service available in most areas.",
+          "Yes, Capital Garage Doors provides repairs and installations across all Perth suburbs, with same-day service available in most areas.",
       },
     ],
     updatedAt: "2026-06-22",

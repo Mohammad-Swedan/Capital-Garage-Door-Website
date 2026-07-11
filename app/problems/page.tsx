@@ -12,7 +12,7 @@ import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Common Garage Door Problems | Capital Garage Door",
+  title: "Common Garage Door Problems | Capital Garage Doors",
   description:
     "Browse common garage door problems — won't open, won't close, stuck, noisy, or off-track — with causes, safe checks, and when to call a technician.",
   path: "/problems",

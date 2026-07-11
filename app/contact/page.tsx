@@ -21,7 +21,7 @@ import type { BreadcrumbItem, FAQ, TrustReason } from "@/types";
 export const metadata: Metadata = buildMetadata({
   title: "Contact Us | Request a Garage Door Quote in Perth",
   description:
-    "Request a free garage door repair, installation, or servicing quote in Perth. Call now or fill out the form and Capital Garage Door will get back to you fast.",
+    "Request a free garage door repair, installation, or servicing quote in Perth. Call now or fill out the form and Capital Garage Doors will get back to you fast.",
   path: "/contact",
 });
 
@@ -117,7 +117,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Get Your Free Quote"
         title="Request a Garage Door Quote in Perth"
-        subtitle="Tell us what you need help with and Capital Garage Door will get back to you as soon as possible."
+        subtitle="Tell us what you need help with and Capital Garage Doors will get back to you as soon as possible."
         ctas={[
           { label: "Call Now", href: `tel:${phone}`, icon: <Phone className="h-4 w-4" aria-hidden="true" /> },
           {
@@ -184,7 +184,7 @@ export default function ContactPage() {
                   <ShieldCheck className="h-5 w-5" aria-hidden="true" />
                 </span>
                 <h3 className="mt-4 font-heading text-base font-semibold text-foreground">
-                  Backed by Capital Garage Door
+                  Backed by Capital Garage Doors
                 </h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                   No call-out fee to quote, replies within the hour during business hours, and every job is
@@ -216,7 +216,7 @@ export default function ContactPage() {
 
       <TrustCards
         eyebrow="Why choose us"
-        title="Why Perth Trusts Capital Garage Door"
+        title="Why Perth Trusts Capital Garage Doors"
         reasons={WHY_CONTACT_US}
       />
 

@@ -33,7 +33,7 @@ export const commercialRollerDoorsPerth: ServicePage = {
   },
 
   directAnswer:
-    "Capital Garage Door supplies, installs, repairs and services commercial roller doors and shutters across Perth. New commercial and industrial doors typically range $5,000–$15,000+ supplied and installed depending on opening size, curtain spec and motor; a commercial roller door service starts around $280–$380. We spec curtains and windlocks to the site's wind exposure, match single- or three-phase motors to your daily cycle count, and respond fast to breakdowns — because a door that won't open is a business that can't trade.",
+    "Capital Garage Doors supplies, installs, repairs and services commercial roller doors and shutters across Perth. New commercial and industrial doors typically range $5,000–$15,000+ supplied and installed depending on opening size, curtain spec and motor; a commercial roller door service starts around $280–$380. We spec curtains and windlocks to the site's wind exposure, match single- or three-phase motors to your daily cycle count, and respond fast to breakdowns — because a door that won't open is a business that can't trade.",
 
   intro: {
     heading: "Doors That Earn Their Keep, Specified Properly",

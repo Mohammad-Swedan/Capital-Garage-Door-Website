@@ -84,7 +84,7 @@ export function mapArticle(dto: PageResolveDto): Article {
     slug: dto.slug,
     category: asString(data.category),
     excerpt: asString(data.excerpt),
-    author: asString(data.author, "Capital Garage Door Team"),
+    author: asString(data.author, "Capital Garage Doors Team"),
     publishedAt: asString(dto.publishedAt),
     updatedAt: asString(dto.updatedAt),
     readingTime: asString(data.readingTimeOverride) || undefined,

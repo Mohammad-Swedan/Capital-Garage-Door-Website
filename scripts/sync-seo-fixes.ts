@@ -28,6 +28,9 @@
  * CMS fires the revalidate webhook on update, so changes go live immediately.
  */
 
+export {}; // force module scope — an import/export-less file is a global script to TS, which on
+// this Windows checkout collides with itself under a clean `tsc --noEmit` (no tsbuildinfo cache).
+
 const CMS_API_URL = (process.env.CMS_API_URL ?? "http://localhost:5179").replace(/\/$/, "");
 const ADMIN_EMAIL = process.env.CMS_ADMIN_EMAIL ?? "admin@capitalgaragedoor.local";
 const ADMIN_PASSWORD = process.env.CMS_ADMIN_PASSWORD ?? "Admin#12345";
@@ -39,18 +42,18 @@ const ADMIN_PASSWORD = process.env.CMS_ADMIN_PASSWORD ?? "Admin#12345";
 /** slug → new seo title / description (only fields present are changed). */
 const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
   "garage-door-opener-repair-perth": {
-    title: "Garage Door Opener Repair Perth | Capital Garage Door",
+    title: "Garage Door Opener Repair Perth | Capital Garage Doors",
     description:
       "Garage door opener repair and installation across Perth. Motor faults, remotes and sensors, plus smart Wi-Fi upgrades. Fast local service — get a free quote.",
   },
   "garage-door-installation-perth": {
-    title: "Garage Door Installation Perth | Capital Garage Door",
+    title: "Garage Door Installation Perth | Capital Garage Doors",
   },
   "garage-door-spring-repair-perth": {
-    title: "Garage Door Spring Repair Perth | Capital Garage Door",
+    title: "Garage Door Spring Repair Perth | Capital Garage Doors",
   },
   "garage-door-maintenance-perth": {
-    title: "Garage Door Servicing Perth | Capital Garage Door",
+    title: "Garage Door Servicing Perth | Capital Garage Doors",
     description:
       "Garage door servicing and maintenance across Perth. Preventive tune-ups from $140 that catch problems early and keep your door quiet, safe and reliable.",
   },
@@ -63,7 +66,7 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
       "Compare roller doors and sectional doors on cost, space, insulation and maintenance to find the best fit for your Perth garage. Local expert advice.",
   },
   "garage-door-repairs-perth": {
-    title: "Garage Door Repairs Perth | Same-Day | Capital Garage Door",
+    title: "Garage Door Repairs Perth | Same-Day | Capital Garage Doors",
   },
   "residential-garage-doors-perth-buying-guide": {
     title: "Residential Garage Doors Perth: 2026 Buying Guide",
@@ -96,7 +99,7 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
   },
   "roller-door-repair-canning-vale": {
     description:
-      "See how Capital Garage Door diagnosed and repaired a jamming commercial roller door in Canning Vale — track straightening, roller replacement and testing.",
+      "See how Capital Garage Doors diagnosed and repaired a jamming commercial roller door in Canning Vale — track straightening, roller replacement and testing.",
   },
   "garage-door-repair-cost-perth": {
     description:

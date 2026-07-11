@@ -1,4 +1,4 @@
-# Capital Garage Door — CMS Architecture
+# Capital Garage Doors — CMS Architecture
 
 Status: **Design draft, not yet implemented.** This document is the full spec for the CMS we designed — backend in ASP.NET Core + SQL Server, content modeled as "template instances," editor app as a separate Next.js admin, public site fetching from the API instead of local `content/*.ts` files.
 

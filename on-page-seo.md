@@ -2,7 +2,7 @@
 
 **15 categories · 80+ items** — the complete on-page SEO spec for this repo, tailored to how *this* codebase builds pages. Read it before generating or substantially editing any page. Technical SEO that's already automated here (sitemap, robots, manifest, canonical) is noted so you don't redo it by hand.
 
-> **This is Capital Garage Door — a Next.js 16 + React 19 + Tailwind v4 marketing site for a Perth garage-door business.** Pages are data-driven and statically generated. Before writing routing/metadata/`<Image>` code, also read the relevant guide in `node_modules/next/dist/docs/` (Next 16 has breaking changes — `params` are async, etc.).
+> **This is Capital Garage Doors — a Next.js 16 + React 19 + Tailwind v4 marketing site for a Perth garage-door business.** Pages are data-driven and statically generated. Before writing routing/metadata/`<Image>` code, also read the relevant guide in `node_modules/next/dist/docs/` (Next 16 has breaking changes — `params` are async, etc.).
 
 ## How pages are built here (read this first)
 
@@ -31,7 +31,7 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 
 ## 1. Head & Metadata
 
-**In this repo:** every page's `generateMetadata`/`metadata` MUST go through `buildMetadata`. It sets canonical, OG (title/description/image/url/type/locale), Twitter (`summary_large_image`), and robots for you, and applies `title.absolute` so the root `" | Capital Garage Door"` template is **not** appended (titles are authored complete). It `console.warn`s in dev when a title >60 or description >160 chars — fix those.
+**In this repo:** every page's `generateMetadata`/`metadata` MUST go through `buildMetadata`. It sets canonical, OG (title/description/image/url/type/locale), Twitter (`summary_large_image`), and robots for you, and applies `title.absolute` so the root `" | Capital Garage Doors"` template is **not** appended (titles are authored complete). It `console.warn`s in dev when a title >60 or description >160 chars — fix those.
 
 - [ ] **Title tag** — 50–60 chars, primary keyword near the start. Authored in `seo.title` (content) — keyword-first, e.g. `"Garage Door Spring Repair Perth | Fast Same-Day Fix"`. Include the brand only if it fits.
 - [ ] **Meta description** — 150–160 chars, keyword + benefit + soft CTA. Authored in `seo.description`.
@@ -114,7 +114,7 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 **In this repo:** articles carry `author`, optional `authorTitle` + `authorBio` (renders the `AuthorBio` box + enriches Person schema), and `publishedAt` + `updatedAt` (both shown in the hero; "Updated" only when it differs).
 
 - [ ] **Author byline with a name** on every post.
-- [ ] **Author bio + credentials** — set `authorTitle` (e.g. "Capital Garage Door Technical Team") and `authorBio`; it links to `/about` where credentials live.
+- [ ] **Author bio + credentials** — set `authorTitle` (e.g. "Capital Garage Doors Technical Team") and `authorBio`; it links to `/about` where credentials live.
 - [ ] **Published date displayed** + **"Last updated"** when refreshed.
 - [ ] **Real stories, numbers, opinions** in the business's voice; **cite authoritative sources** (§8).
 - [ ] **About page** with company credentials + **Contact page** with real NAP (both exist; NAP comes from `config/site.ts`).

@@ -46,8 +46,13 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
     description:
       "Garage door opener repair and installation across Perth. Motor faults, remotes and sensors, plus smart Wi-Fi upgrades. Fast local service — get a free quote.",
   },
+  // Kept in lockstep with scripts/enhance-installation-page.ts (July 2026 GSC
+  // surge: adds the "replacement" + "installers" query clusters) — the two
+  // scripts must express the SAME desired state or re-runs fight each other.
   "garage-door-installation-perth": {
-    title: "Garage Door Installation Perth | Capital Garage Doors",
+    title: "Garage Door Installation & Replacement Perth | Installers",
+    description:
+      "New garage door installation & replacement across Perth. Local installers fit sectional, roller, tilt & custom doors and openers. Free measure & quote.",
   },
   "garage-door-spring-repair-perth": {
     title: "Garage Door Spring Repair Perth | Capital Garage Doors",

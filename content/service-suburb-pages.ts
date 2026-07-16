@@ -269,10 +269,10 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
     suburb: "Gosnells",
     region: "Perth, WA",
 
-    // Dedicated suburb pages for these neighbours don't exist yet — link to the
+    // Southern River has its own live page; the rest link to the
     // service-areas index instead of a flat URL that would 404.
     nearbySuburbs: [
-      { label: "Southern River", href: "/service-areas" },
+      { label: "Southern River", href: "/garage-door-repairs-southern-river" },
       { label: "Thornlie", href: "/service-areas" },
       { label: "Huntingdale", href: "/service-areas" },
       { label: "Maddington", href: "/service-areas" },
@@ -1028,7 +1028,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
     region: "Perth, WA",
 
     nearbySuburbs: [
-      { label: "Gosnells", href: "/service-areas" },
+      { label: "Gosnells", href: "/garage-door-repairs-gosnells" },
       { label: "Canning Vale", href: "/service-areas" },
       { label: "Huntingdale", href: "/service-areas" },
       { label: "Thornlie", href: "/service-areas" },

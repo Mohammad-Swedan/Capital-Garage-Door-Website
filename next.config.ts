@@ -109,6 +109,29 @@ const nextConfig: NextConfig = {
         destination: "/garage-door-repairs-perth",
         permanent: true,
       },
+      // Legacy pre-rebuild blog URLs. The old site used a /blogs/<slug> (plural)
+      // path; this build only has /blog/<slug>. GSC still has some of these
+      // indexed and ranking (e.g. /blogs/garage-door-repair-costs-perth was
+      // pulling the whole cost-query cluster before it started 404ing), so 301
+      // them to the matching live page to transfer the equity instead of losing
+      // it. Specific rules MUST precede the catch-all — Next matches in order.
+      {
+        source: "/blogs/garage-door-repair-costs-perth",
+        destination: "/garage-door-repair-cost-perth",
+        permanent: true,
+      },
+      {
+        // Singular-prefix variant of the same dead URL — also 404s today.
+        source: "/blog/garage-door-repair-costs-perth",
+        destination: "/garage-door-repair-cost-perth",
+        permanent: true,
+      },
+      {
+        // Any other legacy /blogs/* URL → the same slug under the live /blog hub.
+        source: "/blogs/:slug*",
+        destination: "/blog/:slug*",
+        permanent: true,
+      },
     ];
   },
 };

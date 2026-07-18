@@ -30,6 +30,37 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudyPage | 
   return caseStudies.find((page) => page.slug === slug);
 }
 
+/** True when a case study has at least one real (remote) job photo to show. */
+function hasRealPhoto(cs: CaseStudyPage): boolean {
+  return cs.images.some((img) => !!img.src && /^https?:\/\//.test(img.src));
+}
+
+/**
+ * Case studies to feature in a suburb page's "Recent work" section.
+ *
+ * If the page hand-picks `caseStudySlugs`, those are used in that order;
+ * otherwise every case study whose `suburb` matches the page is used
+ * (case-insensitive). In both cases only case studies with a real job photo are
+ * returned — placeholder-only entries are skipped so the section never shows an
+ * empty card. Empty result → the section hides itself.
+ */
+export async function getCaseStudiesForSuburbPage(page: {
+  suburb: string;
+  caseStudySlugs?: string[];
+}): Promise<CaseStudyPage[]> {
+  const all = await getCaseStudies();
+  const matched = page.caseStudySlugs?.length
+    ? page.caseStudySlugs
+        .map((slug) => all.find((c) => c.slug === slug))
+        .filter((c): c is CaseStudyPage => c !== undefined)
+    : (() => {
+        const suburb = page.suburb.trim().toLowerCase();
+        if (!suburb) return [];
+        return all.filter((c) => c.suburb.trim().toLowerCase() === suburb);
+      })();
+  return matched.filter(hasRealPhoto);
+}
+
 export async function getCaseStudySlugs(): Promise<string[]> {
   if (CMS_ON) {
     const feed = await cmsSitemapSafe();

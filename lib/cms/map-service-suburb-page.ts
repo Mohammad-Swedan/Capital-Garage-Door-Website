@@ -66,6 +66,7 @@ export function mapServiceSuburbPage(dto: PageResolveDto): ServiceSuburbPage {
       problem: asString(p.problem),
       solution: asString(p.solution),
     })),
+    caseStudySlugs: asArray<string>(data.caseStudySlugs).filter((s) => typeof s === "string"),
     seo: {
       title: dto.seoTitle,
       description: dto.seoDescription,

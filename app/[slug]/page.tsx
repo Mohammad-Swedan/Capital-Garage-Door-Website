@@ -12,6 +12,7 @@ import {
   getServiceSuburbPageBySlug,
   getServiceSuburbPageSlugs,
 } from "@/lib/data/service-suburb-pages";
+import { getCaseStudiesForSuburbPage } from "@/lib/data/case-studies";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 interface FlatLandingPageProps {
@@ -126,10 +127,11 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
 
   const suburbPage = await getServiceSuburbPageBySlug(slug);
   if (suburbPage) {
+    const caseStudies = await getCaseStudiesForSuburbPage(suburbPage);
     return (
       <>
         <PageSchema kind="service-suburb" data={suburbPage} />
-        <ServiceSuburbPageTemplate page={suburbPage} />
+        <ServiceSuburbPageTemplate page={suburbPage} caseStudies={caseStudies} />
       </>
     );
   }

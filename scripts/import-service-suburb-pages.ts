@@ -118,6 +118,9 @@ function toPayload(page: (typeof serviceSuburbPages)[number], status: "Published
       problem: p.problem,
       solution: p.solution,
     })),
+    // Optional hand-picked case studies for the "Recent work" section; when
+    // omitted the section auto-matches case studies by suburb.
+    caseStudySlugs: page.caseStudySlugs ?? [],
   };
 
   const relatedLinks = [

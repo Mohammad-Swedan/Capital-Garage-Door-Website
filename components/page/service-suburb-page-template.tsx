@@ -10,16 +10,22 @@ import { ProblemCards } from "@/components/page/problem-cards";
 import { ServiceAreaGrid } from "@/components/page/service-area-grid";
 import { CostGuidance } from "@/components/page/cost-guidance";
 import { TrustCards } from "@/components/page/trust-cards";
-import { LocalProof } from "@/components/page/local-proof";
+import { RecentWork } from "@/components/page/recent-work";
 import { RelatedServices } from "@/components/page/related-services";
 import { FAQSection } from "@/components/page/faq-section";
-import { CTASection } from "@/components/page/cta-section";
 import { SectionHeading } from "@/components/page/section-heading";
 import { QuoteForm } from "@/components/forms/quote-form";
 import type { BreadcrumbItem, ServiceSuburbPage } from "@/types";
+import type { CaseStudyPage } from "@/types/case-study";
 
 interface ServiceSuburbPageTemplateProps {
   page: ServiceSuburbPage;
+  /**
+   * Real completed-job case studies for the "Recent work" section (may be
+   * empty). Optional so the admin live-editor can render the template with just
+   * `page`; the public route always supplies the resolved list.
+   */
+  caseStudies?: CaseStudyPage[];
 }
 
 /**
@@ -29,7 +35,7 @@ interface ServiceSuburbPageTemplateProps {
  * — see app/[slug]/page.tsx, which picks this template or
  * ServicePageTemplate depending on which content registry matches the slug.
  */
-export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplateProps) {
+export function ServiceSuburbPageTemplate({ page, caseStudies = [] }: ServiceSuburbPageTemplateProps) {
   const titleWithSuburb = `${page.service} ${page.suburb}`;
 
   const breadcrumbs: BreadcrumbItem[] = [
@@ -98,11 +104,11 @@ export function ServiceSuburbPageTemplate({ page }: ServiceSuburbPageTemplatePro
         reasons={page.whyChooseUs}
       />
 
-      <LocalProof
+      <RecentWork
         eyebrow="Recent work"
         title={`Recent Garage Door Work Near ${page.suburb}`}
-        description="A snapshot of the kind of jobs we handle locally."
-        items={page.localProof}
+        description="Real completed jobs from around the area — tap through for the full story."
+        caseStudies={caseStudies}
       />
 
       <RelatedServices

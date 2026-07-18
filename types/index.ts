@@ -123,8 +123,10 @@ export interface TrustReason {
 }
 
 /**
- * A recent-work proof card. Placeholder until wired to CRM job /
- * case-study data — see content/service-suburb-pages.ts.
+ * @deprecated Legacy placeholder recent-work card. Superseded by real case
+ * studies shown in the suburb "Recent work" section (auto-matched by suburb or
+ * hand-picked via `ServiceSuburbPage.caseStudySlugs`). Kept for back-compat with
+ * older CMS payloads; no longer rendered.
  */
 export interface LocalProofItem {
   serviceType: string;
@@ -157,7 +159,13 @@ export interface ServiceSuburbPage {
   whyChooseUs: TrustReason[];
   relatedPages: LocalLink[];
   faqs: FAQ[];
-  localProof: LocalProofItem[];
+  /** @deprecated legacy placeholder recent-work; no longer rendered. */
+  localProof?: LocalProofItem[];
+  /**
+   * Explicit case-study slugs to feature in the "Recent work" section, in order.
+   * When omitted/empty, the section auto-matches case studies by `suburb`.
+   */
+  caseStudySlugs?: string[];
   seo: {
     title: string;
     description: string;

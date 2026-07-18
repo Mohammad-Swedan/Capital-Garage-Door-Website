@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Phone, FileText } from "lucide-react";
 import { Container } from "@/components/layout/container";
-import { Reveal } from "@/components/motion/reveal";
 import { PageHero } from "@/components/sections/page-hero";
-import { InternalLinkCard } from "@/components/sections/internal-link-card";
+import { CaseStudiesFilterGrid } from "@/components/sections/case-study/case-studies-filter-grid";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getCaseStudies } from "@/lib/data/case-studies";
@@ -47,26 +46,7 @@ export default async function CaseStudiesPage() {
         ]}
       />
 
-      <section className="bg-background py-14 sm:py-20">
-        <Container>
-          <Reveal>
-            <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-              All Case Studies
-            </h2>
-          </Reveal>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {caseStudies.map((caseStudy, index) => (
-              <Reveal key={caseStudy.slug} delay={index * 0.05}>
-                <InternalLinkCard
-                  href={`/case-studies/${caseStudy.slug}`}
-                  title={caseStudy.title}
-                  description={caseStudy.subtitle}
-                />
-              </Reveal>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <CaseStudiesFilterGrid caseStudies={caseStudies} />
     </>
   );
 }

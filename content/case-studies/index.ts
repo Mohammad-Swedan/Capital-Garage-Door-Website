@@ -1,16 +1,11 @@
 import type { CaseStudyPage } from "@/types/case-study";
-import { garageDoorMotorReplacementJoondalup } from "@/content/case-studies/garage-door-motor-replacement-joondalup";
-import { rollerDoorRepairCanningVale } from "@/content/case-studies/roller-door-repair-canning-vale";
-import { sectionalDoorInstallationFremantle } from "@/content/case-studies/sectional-door-installation-fremantle";
 
 /**
- * Registry of case-study pages (e.g. /case-studies/garage-door-motor-replacement-joondalup).
- * Add a new entry file + push it here to publish another completed job —
- * no routing or component changes required. Designed to later be replaced
- * by a CRM job export feeding the same CaseStudyPage shape.
+ * Local fallback registry of case-study pages (used only when the CMS is off /
+ * unreachable). The live source of truth is the CMS: the real case studies were
+ * created by scripts/import-case-studies-from-jobs.ts (with real Bunny CDN
+ * photos) and the original placeholder-image entries were deleted. This array is
+ * intentionally empty — regenerate it from the importer MANIFEST if an offline
+ * fallback is ever needed. Adding a new CMS case study needs no change here.
  */
-export const caseStudies: CaseStudyPage[] = [
-  garageDoorMotorReplacementJoondalup,
-  rollerDoorRepairCanningVale,
-  sectionalDoorInstallationFremantle,
-];
+export const caseStudies: CaseStudyPage[] = [];

@@ -6,7 +6,7 @@ import type { CostGuidePage } from "@/types/cost-guide";
 import type { Article } from "@/types/article";
 import type { CaseStudyPage } from "@/types/case-study";
 import type { LandingPage } from "@/types/landing-page";
-import type { Review, ReviewsSummary } from "@/types/review";
+import type { Review } from "@/types/review";
 import type { CoverageRegion } from "@/types/coverage-area";
 
 /* ------------------------------------------------------------------ *
@@ -529,36 +529,18 @@ export function caseStudySchema(data: CaseStudyPage) {
   });
 }
 
-/** Builds LocalBusiness + aggregateRating + review[] JSON-LD for the /reviews page (Google star rich snippets). */
-export function aggregateReviewSchema(summary: ReviewsSummary, reviews: Review[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": BUSINESS_ID,
-    name: siteConfig.name,
-    url: siteConfig.url,
-    telephone: siteConfig.business.phone,
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: summary.averageRating,
-      reviewCount: summary.totalReviews,
-    },
-    review: reviews.map((review) => ({
-      "@type": "Review",
-      author: {
-        "@type": "Person",
-        name: review.customerName,
-      },
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: review.rating,
-        bestRating: 5,
-      },
-      reviewBody: review.text,
-      datePublished: review.date,
-    })),
-  };
-}
+/*
+ * NOTE: there is intentionally no `aggregateReviewSchema` that emits a second
+ * `HomeAndConstructionBusiness` node (same `#business` @id) carrying its own
+ * `aggregateRating` + nested `review[]`. Google merges nodes by `@id`, so a page
+ * that also renders the site-wide `siteGraphSchema` (every page does, via the
+ * root layout) would give the business TWO aggregate ratings on one entity —
+ * Search Console reported this on /reviews as "review contains aggregate
+ * ratings" (8 invalid items). The `aggregateRating` lives ONCE, site-wide, on
+ * the `siteGraphSchema` business node; individual reviews are emitted as
+ * standalone `Review` nodes (`reviewSchemasFromReviews` / `testimonialReviewSchemas`)
+ * that reference that same `@id`.
+ */
 
 /** Builds CollectionPage JSON-LD for index/listing pages (e.g. /blog, /gallery). */
 export function collectionPageSchema({

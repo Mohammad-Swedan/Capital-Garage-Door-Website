@@ -11,7 +11,7 @@ import { FeaturedReviews } from "@/components/sections/reviews/featured-reviews"
 import { ReviewsFilterSection } from "@/components/sections/reviews/reviews-filter-section";
 import { TrustCards } from "@/components/page/trust-cards";
 import { getReviews, getFeaturedReviews, getReviewsSummary } from "@/lib/data/reviews";
-import { aggregateReviewSchema } from "@/lib/seo/schema";
+import { reviewSchemasFromReviews } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import { siteConfig } from "@/config/site";
 import { REVIEW_SERVICE_OPTIONS } from "@/types/review";
@@ -33,7 +33,17 @@ export default async function ReviewsPage() {
 
   return (
     <>
-      <JsonLd data={aggregateReviewSchema(summary, featuredReviews)} />
+      {/*
+        Emit the featured reviews as standalone Review nodes that reference the
+        site-wide business `@id` (same pattern as the homepage's
+        `testimonialReviewSchemas`). The business's single `aggregateRating`
+        already lives on the `#business` node from `siteGraphSchema` in the root
+        layout — do NOT render a second `#business` node here with its own
+        aggregateRating + nested reviews: Google merges by `@id` and reports the
+        duplicated aggregate rating as invalid ("review contains aggregate
+        ratings", 8 invalid items in Search Console).
+      */}
+      <JsonLd data={reviewSchemasFromReviews(featuredReviews)} />
 
       <Container className="pt-6">
         <Breadcrumbs items={[{ name: "Home", url: "/" }, { name: "Reviews", url: "/reviews" }]} />

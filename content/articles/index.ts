@@ -1,4 +1,5 @@
 import type { Article } from "@/types/article";
+import { garageDoorSpringsGuide } from "@/content/articles/garage-door-springs-guide";
 import { howOftenShouldYouServiceAGarageDoor } from "@/content/articles/how-often-should-you-service-a-garage-door";
 
 /**
@@ -6,4 +7,4 @@ import { howOftenShouldYouServiceAGarageDoor } from "@/content/articles/how-ofte
  * Add a new entry file + push it here to publish another article —
  * no routing or component changes required.
  */
-export const articles: Article[] = [howOftenShouldYouServiceAGarageDoor];
+export const articles: Article[] = [garageDoorSpringsGuide, howOftenShouldYouServiceAGarageDoor];

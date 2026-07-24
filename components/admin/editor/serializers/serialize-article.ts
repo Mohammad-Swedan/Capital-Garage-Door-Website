@@ -48,6 +48,10 @@ export function serializeArticle(
       category: str(draft.category),
       excerpt: str(draft.excerpt),
       author: str(draft.author),
+      // Optional byline credentials (AuthorBio box + Person JSON-LD). Not edited
+      // in place — round-tripped so saving in the editor doesn't strip them.
+      authorTitle: draft.authorTitle ? str(draft.authorTitle) : null,
+      authorBio: draft.authorBio ? str(draft.authorBio) : null,
       shortAnswer: str(draft.shortAnswer),
       // map-article reads these as optional overrides (null when absent).
       readingTimeOverride: draft.readingTime ? str(draft.readingTime) : null,

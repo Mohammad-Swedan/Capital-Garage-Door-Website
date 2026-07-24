@@ -109,6 +109,86 @@ const nextConfig: NextConfig = {
         destination: "/garage-door-repairs-perth",
         permanent: true,
       },
+      // ---------------------------------------------------------------------
+      // Legacy pre-rebuild top-level URLs (old site, pre 2026-07-06).
+      // The 2026-07-24 GSC export shows these still pulling ~3,800 impressions
+      // a quarter while returning 404 — /services/garage-doors alone is the
+      // site's #2 URL by impressions (2,322), and /book-an-appointment holds
+      // the best average position on the whole domain (7.35). 301 each to its
+      // closest live equivalent so the equity lands somewhere instead of dying.
+      // ---------------------------------------------------------------------
+      {
+        source: "/services/garage-doors",
+        destination: "/services",
+        permanent: true,
+      },
+      {
+        source: "/emergency-service",
+        destination: "/emergency-garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/new-installations",
+        destination: "/garage-door-installation-perth",
+        permanent: true,
+      },
+      {
+        source: "/commercial-services",
+        destination: "/commercial-garage-doors-perth",
+        permanent: true,
+      },
+      {
+        source: "/maintenance-service",
+        destination: "/garage-door-maintenance-perth",
+        permanent: true,
+      },
+      {
+        source: "/book-an-appointment",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        // Distinct from the /request-quote rule above — this is the old site's
+        // URL. The trailing-slash variant needs no rule of its own: with the
+        // default `trailingSlash: false`, Next 308s /request-a-quote/ to
+        // /request-a-quote first, and this rule then fires.
+        source: "/request-a-quote",
+        destination: "/contact",
+        permanent: true,
+      },
+      {
+        // Duplicate content: `garage-door-motor-replacement-cost-perth` exists
+        // in BOTH the `flat` and `blog` CMS route groups. Google indexed the
+        // blog copy (90 impressions, pos 19) and ignored the flat one (zero),
+        // but the blog copy quotes $450–$1,200 for a motor replacement and
+        // $150–$450 for a repair — the real price list (pricing-data.ts /
+        // CMS PricingItems) says $770–$990 and $380–$490, and the flat
+        // cost-guide page is pinned to it. Keep the accurate page, which also
+        // matches the rest of the cost-guide family at the top level, and
+        // point the blog URL at it. The blog copy is unpublished in the CMS so
+        // it leaves the sitemap.
+        source: "/blog/garage-door-motor-replacement-cost-perth",
+        destination: "/garage-door-motor-replacement-cost-perth",
+        permanent: true,
+      },
+      // Three placeholder case studies removed in 1842de8 — they still hold
+      // indexed impressions, so point each at the real job in the same suburb
+      // rather than letting them 404.
+      {
+        source: "/case-studies/sectional-door-installation-fremantle",
+        destination: "/case-studies/garage-door-cable-drum-repair-fremantle-perth",
+        permanent: true,
+      },
+      {
+        source: "/case-studies/garage-door-motor-replacement-joondalup",
+        destination: "/case-studies/garage-door-motor-installation-ellenbrook-perth",
+        permanent: true,
+      },
+      {
+        source: "/case-studies/roller-door-repair-canning-vale",
+        destination: "/case-studies/emergency-sectional-door-repair-canning-vale-perth",
+        permanent: true,
+      },
       // Legacy pre-rebuild blog URLs. The old site used a /blogs/<slug> (plural)
       // path; this build only has /blog/<slug>. GSC still has some of these
       // indexed and ranking (e.g. /blogs/garage-door-repair-costs-perth was

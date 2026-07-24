@@ -85,6 +85,11 @@ export function mapArticle(dto: PageResolveDto): Article {
     category: asString(data.category),
     excerpt: asString(data.excerpt),
     author: asString(data.author, "Capital Garage Doors Team"),
+    // Optional E-E-A-T byline fields (on-page-seo.md §10): they drive the AuthorBio
+    // box and enrich the Person JSON-LD with jobTitle/description. Left undefined
+    // when absent so articles without them render exactly as before.
+    authorTitle: asString(data.authorTitle) || undefined,
+    authorBio: asString(data.authorBio) || undefined,
     publishedAt: asString(dto.publishedAt),
     updatedAt: asString(dto.updatedAt),
     readingTime: asString(data.readingTimeOverride) || undefined,

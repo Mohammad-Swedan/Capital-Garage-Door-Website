@@ -198,6 +198,25 @@ export function CaseStudiesFilterGrid({ caseStudies }: CaseStudiesFilterGridProp
           </p>
         )}
 
+        {/*
+          Crawlable complete index. The visible grid above paginates client-side
+          (PAGE_SIZE = 12), so only the first page's links reach the server-rendered
+          HTML — leaving the other case studies with no crawlable inbound link from
+          their own hub (a 2026-07-24 audit found 8 of 20 unreachable this way).
+          This sr-only nav renders EVERY case study's link server-side, so search
+          engines discover and pass equity to all of them; screen-reader users get a
+          full index too. The links are real and also reachable via the filters above.
+        */}
+        <nav aria-label="All case studies" className="sr-only">
+          <ul>
+            {caseStudies.map((cs) => (
+              <li key={cs.slug}>
+                <a href={`/case-studies/${cs.slug}`}>{cs.title}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         {totalPages > 1 && (
           <div className="mt-10 flex items-center justify-center gap-3">
             <button

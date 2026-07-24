@@ -187,6 +187,34 @@ async function main() {
 
   console.log(`\nDone. ${updated} page(s) updated, ${skipped} unchanged.`);
 
+  // ---- Asset alt text — a separate entity from Page, joined in at resolve time (heroImage.altText
+  // etc.), so the page sweep above never touches it. Sweep the whole media library too. ----
+  let assetsUpdated = 0;
+  let assetsSkipped = 0;
+  let pageNumber = 1;
+  for (;;) {
+    const page = await api<{
+      items: { id: number; altText: string; category: string }[];
+      totalPages: number;
+    }>(`/api/admin/assets?pageNumber=${pageNumber}&pageSize=100`);
+    for (const asset of page.items ?? []) {
+      const nextAltText = renameBrand(asset.altText ?? "");
+      if (nextAltText === asset.altText) {
+        assetsSkipped++;
+        continue;
+      }
+      await api(`/api/admin/assets/${asset.id}`, {
+        method: "PUT",
+        body: JSON.stringify({ id: asset.id, altText: nextAltText, category: asset.category }),
+      });
+      console.log(`  ✓ asset #${asset.id}: alt text corrected`);
+      assetsUpdated++;
+    }
+    if (pageNumber >= (page.totalPages || 1)) break;
+    pageNumber++;
+  }
+  console.log(`Assets: ${assetsUpdated} updated, ${assetsSkipped} unchanged.`);
+
   // Reviews are separate entities (real customer quotes) — flag rather than silently rewrite.
   const reviews = await api<{ items: { id: number; customerName: string; text: string }[] }>(
     "/api/admin/reviews?pageSize=200",

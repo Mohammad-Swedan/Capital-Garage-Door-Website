@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DeferredGoogleAnalytics } from "@/components/analytics/deferred-analytics";
+import { DeferredGoogleAnalytics, DeferredMicrosoftClarity } from "@/components/analytics/deferred-analytics";
 import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -116,7 +116,10 @@ export default async function RootLayout({
           pageview is queued synchronously so nothing is lost. Production-only
           so dev traffic never pollutes GA. */}
       {process.env.NODE_ENV === "production" && (
-        <DeferredGoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
+        <>
+          <DeferredGoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
+          <DeferredMicrosoftClarity clarityId={siteConfig.microsoftClarityId} />
+        </>
       )}
     </html>
   );

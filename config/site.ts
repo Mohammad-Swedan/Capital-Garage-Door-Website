@@ -10,6 +10,10 @@ export const siteConfig = {
   // GA4 measurement ID — rendered once in app/layout.tsx (production only),
   // which covers every route including CMS-created pages.
   googleAnalyticsId: "G-9FTLPLVPL0",
+  // Microsoft Clarity project ID — session recordings + heatmaps. Loaded the
+  // same deferred (requestIdleCallback), production-only way as GA4 so it stays
+  // off the hydration/LCP critical path (see components/analytics).
+  microsoftClarityId: "xt3rqfr3i5",
 
   business: {
     // Registered entity name, verified against the ABR (abr.business.gov.au,

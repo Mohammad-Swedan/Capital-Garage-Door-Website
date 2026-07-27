@@ -46,3 +46,47 @@ export function DeferredGoogleAnalytics({ gaId }: { gaId: string }) {
 
   return null;
 }
+
+/**
+ * Microsoft Clarity (session recordings + heatmaps), loaded on
+ * `requestIdleCallback` for the same reason as gtag above — Clarity's tag is
+ * heavier than GA and would otherwise compete with hydration and the LCP on a
+ * perf-sensitive site.
+ *
+ * Clarity's own snippet installs a `window.clarity` command queue synchronously
+ * (mirroring gtag's dataLayer) and drains it when the tag arrives, so deferring
+ * the network load loses nothing functional — the recording just begins a moment
+ * later, once the main thread is idle. Any early `clarity("set", …)` calls are
+ * still captured because they land on the queue first.
+ */
+export function DeferredMicrosoftClarity({ clarityId }: { clarityId: string }) {
+  useEffect(() => {
+    if (!clarityId || document.getElementById("cgd-clarity")) return;
+
+    // Install the command-queue stub immediately (Clarity's canonical shim).
+    const w = window as Window & { clarity?: { q?: unknown[] } & ((...args: unknown[]) => void) };
+    if (!w.clarity) {
+      const clarity = function (...args: unknown[]) {
+        (clarity.q = clarity.q || []).push(args);
+      } as { q?: unknown[] } & ((...args: unknown[]) => void);
+      w.clarity = clarity;
+    }
+
+    const load = () => {
+      if (document.getElementById("cgd-clarity")) return;
+      const script = document.createElement("script");
+      script.id = "cgd-clarity";
+      script.async = true;
+      script.src = `https://www.clarity.ms/tag/${encodeURIComponent(clarityId)}`;
+      document.head.appendChild(script);
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(load, { timeout: 5000 });
+    } else {
+      window.setTimeout(load, 2500);
+    }
+  }, [clarityId]);
+
+  return null;
+}

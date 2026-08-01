@@ -65,6 +65,14 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
   "emergency-garage-door-repairs-perth": {
     title: "Emergency Garage Door Repairs Perth | 24/7 Response",
   },
+  // Description was 177 chars, so Google truncated it mid-sentence. The
+  // commercial cluster is the site's worst converter (1,719 impressions / 4
+  // clicks / avg position 36.5 in the 28 days to 2026-08-01), and a cut-off
+  // snippet is not helping.
+  "commercial-garage-doors-perth": {
+    description:
+      "Commercial & industrial garage doors in Perth — roller shutters and sectional doors supplied, installed, repaired and serviced. Fast response, low downtime.",
+  },
   "roller-door-vs-sectional-door": {
     title: "Roller Door vs Sectional Door: Which Is Better? | Perth",
     description:
@@ -138,8 +146,18 @@ const HREF_FIXES: Record<string, { href: string; label?: string }> = {
     href: "/emergency-garage-door-repairs-perth",
     label: "Emergency Garage Door Repairs Perth",
   },
-  "/garage-door-motor-replacement-cost-perth": {
-    href: "/blog/garage-door-motor-replacement-cost-perth",
+  // REVERSED 2026-08-02. This rule used to point the FLAT cost guide at the
+  // blog copy, because when it was written the flat URL didn't exist. That
+  // reversed in July: the blog copy was unpublished and 301'd to the flat page
+  // (next.config.ts), and the flat cost guide was created by
+  // scripts/import-new-cost-guide-pages.ts. The old rule was therefore
+  // rewriting good internal links into a URL that redirects straight back —
+  // every run added a redirect hop and stripped the flat page of the inlinks it
+  // needs. It shows: the flat page earned ZERO impressions in the 28 days to
+  // 2026-08-01 while the 301'd blog URL still earned 134 imp / 5 clicks at
+  // position 15.5. Point everything at the flat page; never flip this back.
+  "/blog/garage-door-motor-replacement-cost-perth": {
+    href: "/garage-door-motor-replacement-cost-perth",
     label: "Garage Door Motor Replacement Cost Perth",
   },
   "/blog/garage-door-safety-checklist": {
@@ -147,7 +165,7 @@ const HREF_FIXES: Record<string, { href: string; label?: string }> = {
     label: "Garage Door Maintenance & Safety Checklist",
   },
   "/blog/best-garage-door-motors-australia": {
-    href: "/blog/garage-door-motor-replacement-cost-perth",
+    href: "/garage-door-motor-replacement-cost-perth",
     label: "Garage Door Motor Replacement Cost Perth",
   },
   // The comparison lives at the flat URL, not under /blog.

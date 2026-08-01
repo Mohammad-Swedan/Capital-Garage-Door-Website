@@ -118,8 +118,16 @@ const nextConfig: NextConfig = {
       // closest live equivalent so the equity lands somewhere instead of dying.
       // ---------------------------------------------------------------------
       {
+        // Retargeted 2026-08-02. This URL is still the #4 URL site-wide by
+        // impressions (1,525 in the 28 days to 08-01, avg position 52.5) and it
+        // still ranks for roller doors perth (29.4), residential garage doors
+        // perth (31.1) and sectional garage doors perth (35.3) — in several
+        // cases ABOVE the real pages. It was pointing at /services, a listing
+        // hub that only manages 252 impressions itself, so a product-intent URL
+        // was handing its equity to a nav page. /garage-doors-perth is the
+        // matching product hub built for exactly that cluster.
         source: "/services/garage-doors",
-        destination: "/services",
+        destination: "/garage-doors-perth",
         permanent: true,
       },
       {

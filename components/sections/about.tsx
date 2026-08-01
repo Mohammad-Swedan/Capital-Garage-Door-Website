@@ -80,8 +80,27 @@ export function AboutSection() {
               Perth&apos;s Trusted <span className="text-primary">Garage Door</span> <span className="text-cta">Specialists</span>
             </h2>
 
+            {/* In-body links with exact-match anchors are deliberate. GSC (28 days
+                to 2026-08-01) shows the home page outranking its own spokes for
+                their head terms — "garage door repairs perth" home 250 imp @ 24.8
+                vs the repairs page at 41.5, and "emergency garage door repair"
+                home 220 imp @ 4.6 / 19 clicks vs the emergency page at 40.3 with
+                zero. The home page is the site's most-linked URL, so passing some
+                of that internally with the exact anchor is the low-risk lever. */}
             <p className="text-muted-foreground text-sm md:text-lg leading-relaxed mb-4 md:mb-8 max-w-lg">
-              For over 20 years, Capital Garage Doors has repaired, serviced and installed garage doors, springs, motors and openers across Perth — from emergency same-day fixes to new roller and sectional doors for homes and businesses. Licensed, fully insured, and upfront on price, with no-surprise quotes.
+              For over 20 years, Capital Garage Doors has handled{" "}
+              <Link href="/garage-door-repairs-perth" className="font-semibold text-foreground underline decoration-cta/40 underline-offset-4 transition-colors hover:decoration-cta">
+                garage door repairs in Perth
+              </Link>{" "}
+              — springs, motors, openers and off-track doors — alongside{" "}
+              <Link href="/emergency-garage-door-repairs-perth" className="font-semibold text-foreground underline decoration-cta/40 underline-offset-4 transition-colors hover:decoration-cta">
+                emergency garage door repairs
+              </Link>{" "}
+              and{" "}
+              <Link href="/garage-doors-perth" className="font-semibold text-foreground underline decoration-cta/40 underline-offset-4 transition-colors hover:decoration-cta">
+                new garage doors
+              </Link>{" "}
+              for homes and businesses. Licensed, fully insured, and upfront on price, with no-surprise quotes.
             </p>
 
             <div className="flex flex-wrap items-center gap-3">

@@ -155,6 +155,12 @@ export const tiltGarageDoorsPerth: ServicePage = {
 
   relatedServices: [
     {
+      name: "Garage Doors Perth",
+      href: "/garage-doors-perth",
+      description: "Compare all four door styles, prices and what's included before you choose.",
+      icon: "Home",
+    },
+    {
       name: "Sectional vs Roller vs Tilt: Full Comparison",
       href: "/blog/sectional-vs-roller-vs-tilt-garage-doors",
       description: "All three door styles compared on cost, space, noise and looks.",

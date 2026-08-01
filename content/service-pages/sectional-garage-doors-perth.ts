@@ -153,6 +153,12 @@ export const sectionalGarageDoorsPerth: ServicePage = {
 
   relatedServices: [
     {
+      name: "Garage Doors Perth",
+      href: "/garage-doors-perth",
+      description: "Compare all four door styles, prices and what's included before you choose.",
+      icon: "Home",
+    },
+    {
       name: "Roller Door vs Sectional Door: Which Is Better?",
       href: "/roller-door-vs-sectional-door",
       description: "Weigh up both styles on cost, space, insulation and looks before you decide.",

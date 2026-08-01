@@ -156,6 +156,12 @@ export const rollerDoorsPerth: ServicePage = {
 
   relatedServices: [
     {
+      name: "Garage Doors Perth",
+      href: "/garage-doors-perth",
+      description: "Compare all four door styles, prices and what's included before you choose.",
+      icon: "Home",
+    },
+    {
       name: "Roller Door Installation Perth",
       href: "/roller-door-installation-perth",
       description: "How the supply-and-install process works, step by step.",

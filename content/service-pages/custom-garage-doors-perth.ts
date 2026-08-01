@@ -149,6 +149,12 @@ export const customGarageDoorsPerth: ServicePage = {
 
   relatedServices: [
     {
+      name: "Garage Doors Perth",
+      href: "/garage-doors-perth",
+      description: "Compare all four door styles, prices and what's included before you choose.",
+      icon: "Home",
+    },
+    {
       name: "Our Work — Gallery",
       href: "/gallery",
       description: "Recent installs across Perth, including custom and designer doors.",

@@ -175,7 +175,18 @@ export default function GarageDoorMotorsPage() {
               >
                 opener repair service
               </Link>{" "}
-              can often save it.
+              can often save it. For the replacement figure on its own, see the{" "}
+              {/* /garage-door-motor-replacement-cost-perth had ZERO impressions in
+                  the 28 days to 2026-08-01 while its 301'd blog predecessor still
+                  earned 134 imp / 5 clicks at position 15.5 — the flat cost guide
+                  has never had an internal link pointing at it. */}
+              <Link
+                href="/garage-door-motor-replacement-cost-perth"
+                className="font-semibold text-primary hover:underline"
+              >
+                garage door motor replacement cost guide
+              </Link>
+              .
             </p>
           </div>
         </Container>

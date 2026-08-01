@@ -6,6 +6,7 @@ import { rollerDoorsPerth } from "@/content/service-pages/roller-doors-perth";
 import { tiltGarageDoorsPerth } from "@/content/service-pages/tilt-garage-doors-perth";
 import { customGarageDoorsPerth } from "@/content/service-pages/custom-garage-doors-perth";
 import { commercialRollerDoorsPerth } from "@/content/service-pages/commercial-roller-doors-perth";
+import { garageDoorsPerth } from "@/content/service-pages/garage-doors-perth";
 
 /**
  * Registry of flat service landing pages (e.g. /garage-door-repairs-perth).
@@ -20,4 +21,5 @@ export const servicePages: ServicePage[] = [
   tiltGarageDoorsPerth,
   customGarageDoorsPerth,
   commercialRollerDoorsPerth,
+  garageDoorsPerth,
 ];

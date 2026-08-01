@@ -29,6 +29,27 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 
 ---
 
+## 0. Live SEO data — pull real numbers before writing
+
+**Google Search Console, GA4, and DataForSEO are connected and verified working** (as of 2026-08-01) — don't guess keywords, search volume, or competitor rankings when this data is one command away. Credentials live in `~/.config/claude-seo/` (`google-api.json`, `dataforseo-api.json`), outside the repo. Scripts live in `C:\Users\Mohammad swedan\.claude\skills\seo\scripts\`; run them with `py -3.12` (not the default `python3`, which lacks the installed packages).
+
+| Question when creating/enhancing a page | Command |
+|---|---|
+| What's this URL/topic already ranking for, at what position, with what CTR? | `py -3.12 .../scripts/gsc_query.py --property "https://capitalgaragedoors.com.au/" --json` |
+| Is a specific page indexed / any coverage issues? | `py -3.12 .../scripts/gsc_inspect.py <url> --json` |
+| What organic traffic/engagement is a page or the site getting? | `py -3.12 .../scripts/ga4_report.py --property "properties/544287277" --json` |
+| Real search volume / difficulty / intent for candidate keywords | DataForSEO REST API — `curl -u "<login>:<password>" https://api.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live -d '...'` (credentials in `dataforseo-api.json`; see `references/tool-catalog.md` in the `seo-dataforseo` skill for endpoint shapes) |
+| What's actually ranking in the SERP for a target keyword (competitors, PAA, featured snippets) | DataForSEO `serp_organic_live_advanced` equivalent REST endpoint |
+
+**Practical use when writing a new page or rewriting an existing one:**
+- Before choosing a title/H1/primary keyword, check GSC for queries the site (or a near-duplicate page) already gets impressions for — a query sitting at position 8–15 with real impressions is a far better target than a guessed keyword with zero signal.
+- Before drafting FAQs, pull DataForSEO "People Also Ask" / related-keyword data for the target query instead of inventing questions.
+- After publishing or substantially rewriting a page, note it so a future GSC check can confirm the change moved the needle — this repo doesn't auto-track that.
+- **DataForSEO is metered** (account balance was ~$0.58 as of setup) — check balance via `GET /v3/appendix/user_data` before bulk operations (keyword lists, full backlink crawls); prefer bulk endpoints over N single calls.
+- PageSpeed Insights / CrUX (Core Web Vitals field data) are **not yet connected** — need a separate plain API key (same GCP project `totemic-access-504210-f6`, Credentials → API key). Ask the user if that's needed for a task.
+
+---
+
 ## 1. Head & Metadata
 
 **In this repo:** every page's `generateMetadata`/`metadata` MUST go through `buildMetadata`. It sets canonical, OG (title/description/image/url/type/locale), Twitter (`summary_large_image`), and robots for you, and applies `title.absolute` so the root `" | Capital Garage Doors"` template is **not** appended (titles are authored complete). It `console.warn`s in dev when a title >60 or description >160 chars — fix those.

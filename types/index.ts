@@ -108,11 +108,25 @@ export interface LocalProblem {
   icon: string;
 }
 
+/** One catalog-driven price row rendered in the suburb cost table. */
+export interface CostGuidanceRow {
+  label: string;
+  price: string;
+  note?: string;
+}
+
 /** Cost-guidance block: what the price depends on. */
 export interface CostGuidance {
   intro: string;
   factors: string[];
   note?: string;
+  /**
+   * Guide prices pinned from the CMS pricing catalog (`PagePricingRows`), mapped
+   * in lib/cms/map-service-suburb-page.ts. Absent/empty on pages with no pins —
+   * the cost table simply doesn't render. Prices are NEVER hand-written in
+   * content files; they always come from the catalog (see CLAUDE.md).
+   */
+  rows?: CostGuidanceRow[];
 }
 
 /** A reason-to-choose-us trust card. */

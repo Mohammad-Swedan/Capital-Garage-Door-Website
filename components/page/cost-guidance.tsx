@@ -16,11 +16,60 @@ interface CostGuidanceProps {
   ctaText: string;
 }
 
-/** Cost-guidance section: explains what price depends on, with a clear CTA. */
+/**
+ * Cost-guidance section: a crawlable guide-price table (when the page has
+ * pricing pins) plus what the final price depends on, and a clear CTA.
+ *
+ * Every SERP for these suburbs shows "{suburb} cost / prices / price list" in
+ * its related searches, so the table answers the top follow-up question on the
+ * page itself. Prices come from the CMS pricing catalog via
+ * lib/cms/map-service-suburb-page.ts — never hand-written.
+ */
 export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProps) {
+  const rows = data.rows ?? [];
   return (
     <section className="bg-muted/40">
       <Container className="py-12 sm:py-16">
+        {rows.length > 0 && (
+          <Reveal className="mb-10 overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-left text-sm sm:text-base">
+              <caption className="sr-only">{title} — guide prices</caption>
+              <thead>
+                <tr className="bg-primary/5">
+                  <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
+                    Repair
+                  </th>
+                  <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
+                    Guide Price
+                  </th>
+                  <th
+                    scope="col"
+                    className="hidden px-4 py-3 font-heading font-semibold text-foreground sm:table-cell sm:px-6 sm:py-4"
+                  >
+                    Notes
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row) => (
+                  <tr key={row.label} className="border-t border-border">
+                    <td className="px-4 py-3 font-medium text-foreground sm:px-6 sm:py-4">{row.label}</td>
+                    <td className="px-4 py-3 font-semibold whitespace-nowrap text-cta sm:px-6 sm:py-4">
+                      {row.price}
+                    </td>
+                    <td className="hidden px-4 py-3 text-muted-foreground sm:table-cell sm:px-6 sm:py-4">
+                      {row.note ?? "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p className="border-t border-border px-4 py-3 text-xs text-muted-foreground sm:px-6">
+              Guide prices only — the final cost is confirmed on inspection before any work begins.
+            </p>
+          </Reveal>
+        )}
+
         <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
           <div>
             <SectionHeading eyebrow={eyebrow} title={title} description={data.intro} />

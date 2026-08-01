@@ -1,4 +1,5 @@
 import type { ServiceSuburbPage } from "@/types";
+import { serviceSuburbPagesBatch2 } from "@/content/service-suburb-pages-batch2";
 
 /**
  * Service + Suburb landing pages (Page Type 2).
@@ -1272,4 +1273,9 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
         "Local garage door repairs & installation in Southern River, Perth — we're based right here. Springs, motors, tracks & remotes fixed fast. Free quotes.",
     },
   },
+
+  // Batch 2 (2026-08): 15 research-picked suburbs, defined in
+  // content/service-suburb-pages-batch2.ts (created in the CMS as drafts by
+  // scripts/import-suburb-pages-batch2.ts).
+  ...serviceSuburbPagesBatch2,
 ];

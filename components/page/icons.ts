@@ -20,6 +20,7 @@ import {
   LifeBuoy,
   CalendarCheck,
   Bell,
+  Building2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -50,6 +51,7 @@ const localIconMap: Record<string, LucideIcon> = {
   LifeBuoy,
   CalendarCheck,
   Bell,
+  Building2,
 };
 
 export function resolvePageIcon(name: string): LucideIcon {

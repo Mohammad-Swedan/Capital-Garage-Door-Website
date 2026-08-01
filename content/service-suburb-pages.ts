@@ -1,5 +1,6 @@
 import type { ServiceSuburbPage } from "@/types";
 import { serviceSuburbPagesBatch2 } from "@/content/service-suburb-pages-batch2";
+import { cockburnCentralPage } from "@/content/service-suburb-pages-cockburn-central";
 
 /**
  * Service + Suburb landing pages (Page Type 2).
@@ -1278,4 +1279,8 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
   // content/service-suburb-pages-batch2.ts (created in the CMS as drafts by
   // scripts/import-suburb-pages-batch2.ts).
   ...serviceSuburbPagesBatch2,
+
+  // Cockburn Central (2026-08): built from dedicated keyword research; owns the
+  // "cockburn" terms the Success page used to claim.
+  cockburnCentralPage,
 ];

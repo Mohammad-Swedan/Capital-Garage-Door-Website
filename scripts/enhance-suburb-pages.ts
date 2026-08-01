@@ -238,13 +238,17 @@ const PLANS: Record<string, SuburbPlan> = {
     paragraph:
       "Southern River's newer estates run big double sectional doors that get heavy daily use, and when a spring lets go the car's not going anywhere. We take same-day calls across Southern River, Harrisdale, Piara Waters, Riverton and out to Canning Vale, arriving with parts for B&D, Steel-Line, Centurion, Gliderol and Dominator doors plus Merlin, ATA and Chamberlain openers so most repairs are finished in one visit.",
   },
+  // Narrowed 2026-08: the Cockburn wording moved to
+  // /garage-door-repairs-cockburn-central so the two pages stop competing.
+  // scripts/import-cockburn-central-page.ts rewrites the LIVE page to match
+  // this desired state; keep all three in lockstep.
   "garage-door-repairs-success": {
     name: "Success",
     title: null, // pinned by sync-seo-fixes.ts
     description:
-      "Same-day garage door repairs in Success & Cockburn — springs, motors, cables & roller doors. Covering Atwell, Aubin Grove & Hammond Park. Free quotes.",
+      "Same-day garage door repairs in Success — springs, motors, cables & roller doors. Covering Atwell, Aubin Grove, Hammond Park & Beeliar. Free quotes.",
     paragraph:
-      "From Cockburn Gateway out through the newer streets of Success, Atwell, Aubin Grove, Hammond Park and Beeliar, we're in the Cockburn corridor most days — usually for broken springs, faulty motors or doors that have come off their tracks. We carry parts for B&D, Steel-Line, Centurion, Gliderol and Dominator doors plus Merlin, ATA and Chamberlain openers, so most repairs are completed same-day.",
+      "Through the newer streets of Success, Atwell, Aubin Grove, Hammond Park and Beeliar, we're in the area most days — usually for broken springs, faulty motors or doors that have come off their tracks. We carry parts for B&D, Steel-Line, Centurion, Gliderol and Dominator doors plus Merlin, ATA and Chamberlain openers, so most repairs are completed same-day.",
     caseStudySlugs: [
       "garage-door-cable-replacement-willetton-perth",
       "emergency-sectional-door-repair-canning-vale-perth",

@@ -85,8 +85,11 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
   "garage-door-motor-replacement-joondalup": {
     title: "Garage Door Motor Replacement in Joondalup | Case Study",
   },
+  // Narrowed from "Success & Cockburn" (2026-08): /garage-door-repairs-cockburn-central
+  // now owns the Cockburn terms. Keep in lockstep with scripts/enhance-suburb-pages.ts
+  // and scripts/import-cockburn-central-page.ts — do NOT restore "& Cockburn".
   "garage-door-repairs-success": {
-    title: "Garage Door Repairs Success & Cockburn | Same-Day Service",
+    title: "Garage Door Repairs Success | Same-Day Local Service",
   },
   "garage-door-motor-replacement-cost-perth": {
     title: "Garage Door Motor Replacement Cost Perth (2026 Guide)",

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ShieldCheck, ArrowRight, Star } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { Reveal } from "@/components/motion/reveal";
@@ -159,6 +159,22 @@ export function Footer() {
                 </a>
               )}
             </div>
+
+            {/* Review prompt. Google review count is the dominant local/map-pack
+                ranking factor and this business trails its Perth rivals badly
+                (77 reviews vs 643/603/244), yet the only review CTA on the site
+                was buried on /reviews. This puts the ask on every page. */}
+            {social.google && (
+              <a
+                href={social.google}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white"
+              >
+                <Star className="h-4 w-4 shrink-0 text-amber-400" aria-hidden="true" />
+                Happy with our work? Leave a Google review
+              </a>
+            )}
           </div>
         </Reveal>
       </Container>

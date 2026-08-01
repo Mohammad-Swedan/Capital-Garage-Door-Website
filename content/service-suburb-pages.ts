@@ -1056,7 +1056,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
       "Capital Garage Doors is based in Southern River and provides garage door repairs and installation across the suburb, including broken springs and cables, worn motors and openers, off-track and noisy doors, faulty remotes, and doors that won't open or close properly.",
 
     localIntro: [
-      "Southern River is our home suburb — our workshop is right here on Carnegie Parade, so there's no closer garage door team for local residents. From the newer estates near Southern River College to the larger semi-rural blocks toward the wetlands, we know the area's homes and the doors on them, and we can usually be on site fast with same-day and emergency options.",
+      "Southern River is our home suburb — our workshop is right here on Amrock Street, so there's no closer garage door team for local residents. From the newer estates near Southern River College to the larger semi-rural blocks toward the wetlands, we know the area's homes and the doors on them, and we can usually be on site fast with same-day and emergency options.",
       "Because Southern River has so many newer homes, we see a lot of modern sectional doors and automatic openers — along with the occasional larger custom or double door on the bigger blocks. Whether it's a snapped spring, a tired motor, an off-track roller or a remote that's stopped responding, we diagnose the real cause and fix it properly the first time. When a door is past its best, we also supply and install new units. We regularly service the neighbouring suburbs too, including Gosnells, Canning Vale, Huntingdale and Thornlie.",
       "Not sure whether you need a repair or a replacement? Tell us what you're seeing when you request a quote and we'll give you a clear recommendation and an honest estimate before we arrive — no guesswork and no surprise call-out fees.",
     ],
@@ -1217,7 +1217,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
       {
         question: "Are you based in Southern River?",
         answer:
-          "Yes. Capital Garage Doors is based in Southern River, on Carnegie Parade — so for local residents we're about as close as a garage door team gets, with fast same-day and emergency response.",
+          "Yes. Capital Garage Doors is based in Southern River, on Amrock Street — so for local residents we're about as close as a garage door team gets, with fast same-day and emergency response.",
       },
       {
         question: "Do you repair and install garage doors in Southern River?",

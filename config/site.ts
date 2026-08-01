@@ -27,7 +27,11 @@ export const siteConfig = {
     phoneDisplay: "0475 333 335",
     email: "info@capitalgaragedoors.com.au",
     address: {
-      streetAddress: "6 Carnegie Parade", // confirm exact street number/name matches the Google Business Profile
+      // Must match the Google Business Profile EXACTLY — a NAP mismatch between
+      // the site and the GBP weakens local/map-pack ranking. Verified against
+      // the live GBP on 2026-08-01 ("13 Amrock Street, Southern River WA 6110");
+      // the previous value here ("6 Carnegie Parade") did not match.
+      streetAddress: "13 Amrock Street",
       addressLocality: "Southern River",
       addressRegion: "WA",
       postalCode: "6110",

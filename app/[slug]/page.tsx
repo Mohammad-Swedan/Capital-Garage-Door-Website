@@ -97,10 +97,19 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
 
   const servicePage = await getServicePageBySlug(slug);
   if (servicePage) {
+    // Link matching chips in the "Areas We Service" grid to their suburb pages
+    // (hub→spoke internal links so suburb pages can outrank the homepage for
+    // "garage door repairs {suburb}"). Keyed by lowercased suburb name.
+    const suburbSlugs = await getServiceSuburbPageSlugs();
+    const areaLinks = Object.fromEntries(
+      suburbSlugs
+        .filter((s) => s.startsWith("garage-door-repairs-"))
+        .map((s) => [s.replace("garage-door-repairs-", "").replace(/-/g, " "), `/${s}`]),
+    );
     return (
       <>
         <PageSchema kind="service" data={servicePage} />
-        <ServicePageTemplate data={servicePage} />
+        <ServicePageTemplate data={servicePage} areaLinks={areaLinks} />
       </>
     );
   }

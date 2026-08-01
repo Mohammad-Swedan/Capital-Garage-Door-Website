@@ -20,6 +20,8 @@ import type { ServicePage } from "@/types/service-page";
 
 interface ServicePageTemplateProps {
   data: ServicePage;
+  /** Suburb-page links for the service-area grid, keyed by lowercased suburb name. */
+  areaLinks?: Record<string, string>;
 }
 
 /**
@@ -27,7 +29,7 @@ interface ServicePageTemplateProps {
  * new ServicePage content entry (content/service-pages/) to ship another
  * page — no component changes needed.
  */
-export function ServicePageTemplate({ data }: ServicePageTemplateProps) {
+export function ServicePageTemplate({ data, areaLinks }: ServicePageTemplateProps) {
   return (
     <>
       <Container className="pt-6">
@@ -58,7 +60,7 @@ export function ServicePageTemplate({ data }: ServicePageTemplateProps) {
 
       <ServiceRelatedLinks links={data.relatedServices} />
 
-      <ServiceAreaGrid areas={data.serviceAreas} />
+      <ServiceAreaGrid areas={data.serviceAreas} areaLinks={areaLinks} />
 
       <ReviewCards reviews={data.reviews} />
 

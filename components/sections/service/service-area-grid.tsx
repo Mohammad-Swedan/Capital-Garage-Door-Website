@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
@@ -10,10 +11,18 @@ import { serviceItemTemplates } from "@/components/admin/editor/item-templates";
 interface ServiceAreaGridProps {
   heading?: string;
   areas: string[];
+  /**
+   * Suburb-page links keyed by lowercased suburb name (e.g. "canning vale" →
+   * "/garage-door-repairs-canning-vale"). When a chip's name matches, it renders
+   * as a link to that suburb page — the hub→spoke internal links that let suburb
+   * pages outrank the homepage for "garage door repairs {suburb}". Omitted in
+   * the admin live-editor (chips stay plain text there).
+   */
+  areaLinks?: Record<string, string>;
 }
 
 /** Suburb coverage grid, reinforcing local relevance for SEO/GEO and visitor trust. */
-export function ServiceAreaGrid({ heading = "Areas We Service", areas }: ServiceAreaGridProps) {
+export function ServiceAreaGrid({ heading = "Areas We Service", areas, areaLinks }: ServiceAreaGridProps) {
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>
@@ -34,14 +43,32 @@ export function ServiceAreaGrid({ heading = "Areas We Service", areas }: Service
               itemTemplate={serviceItemTemplates.serviceArea}
               addLabel="Add suburb"
               getKey={(area, i) => area || i}
-              renderItem={(area, index) => (
-                <li className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground">
-                  <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-                  <EditableText path={`serviceAreas[${index}]`} singleLine placeholder="Suburb…">
-                    {area}
-                  </EditableText>
-                </li>
-              )}
+              renderItem={(area, index) => {
+                const href = areaLinks?.[area.trim().toLowerCase()];
+                const chip = (
+                  <>
+                    <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                    <EditableText path={`serviceAreas[${index}]`} singleLine placeholder="Suburb…">
+                      {area}
+                    </EditableText>
+                  </>
+                );
+                return (
+                  <li className="rounded-xl border border-border bg-card text-sm font-medium text-foreground">
+                    {href ? (
+                      <Link
+                        href={href}
+                        prefetch={false}
+                        className="flex items-center gap-2 px-4 py-3 transition-colors hover:text-primary"
+                      >
+                        {chip}
+                      </Link>
+                    ) : (
+                      <span className="flex items-center gap-2 px-4 py-3">{chip}</span>
+                    )}
+                  </li>
+                );
+              }}
             />
           </ul>
         </Reveal>

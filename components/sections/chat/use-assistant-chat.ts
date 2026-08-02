@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import { track } from "@/lib/analytics";
 import type { AssistantReply, ChatAction } from "./types";
 
 /**
@@ -30,11 +31,16 @@ const FALLBACK_REPLY =
   "Sorry, I'm having trouble connecting right now. For a fast answer, tap Call us below and the team will help straight away.";
 const ERROR_ACTIONS: ChatAction[] = [{ type: "call", label: "Call us" }];
 
-/** Fire a GA/GTM dataLayer event for CTA interactions (no-op if no dataLayer is present). */
+/**
+ * Fire an analytics event for chat CTA interactions.
+ *
+ * This used to push a plain object straight onto `dataLayer`, which only Google
+ * Tag Manager reads — and no GTM container is installed, so every event it fired
+ * was discarded (GA4 held zero custom events on 2026-08-02). It now delegates to
+ * `track()`, which emits to GA4 directly as well as to the dataLayer.
+ */
 export function trackChatEvent(event: string, params: Record<string, unknown>) {
-  if (typeof window === "undefined") return;
-  const w = window as unknown as { dataLayer?: Record<string, unknown>[] };
-  w.dataLayer?.push({ event, ...params });
+  track(event, params);
 }
 
 /** Stable per-tab conversation id so the backend can upsert one logged transcript per visit. */
@@ -85,6 +91,11 @@ export function useAssistantChat(): UseAssistantChat {
   const sendMessage = useCallback(async (text: string): Promise<boolean> => {
     const trimmed = text.trim();
     if (!trimmed) return false;
+
+    // Engagement signal: how many visitors actually converse with the assistant,
+    // and on which pages. `turn` separates "opened it and typed once" from a
+    // real back-and-forth.
+    track("chat_message", { turn: messagesRef.current.filter((m) => m.role === "user").length + 1 });
 
     const userMessage: ChatMessage = { id: nextMessageId(), role: "user", text: trimmed };
     // Send the full conversation (incl. this turn) so the assistant has context.

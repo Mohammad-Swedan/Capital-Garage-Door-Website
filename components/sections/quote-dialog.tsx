@@ -4,6 +4,7 @@ import * as React from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { QuoteFrame } from "@/components/sections/quote-frame";
 import type { QuoteEmbedPrefill } from "@/lib/booking-embed";
@@ -29,8 +30,35 @@ export function QuoteDialog({ trigger, open, onOpenChange, prefill }: QuoteDialo
   // instead of showing a stale wizard from the previous session.
   const [sessionKey, setSessionKey] = React.useState(0);
 
+  // Analytics must fire on BOTH open paths, which is easy to get wrong: most
+  // callers (GetQuoteButton, the hero, the in-chat overlay) drive `open` as a
+  // controlled prop, and the primitive never calls `onOpenChange` for those —
+  // so tracking only inside `handleOpenChange` silently misses nearly every real
+  // open. The effect covers controlled use, `handleOpenChange` covers the
+  // uncontrolled `trigger` use, and the ref keeps it to one event per open.
+  const openedRef = React.useRef(false);
+  const trackOpen = React.useCallback(() => {
+    if (openedRef.current) return;
+    openedRef.current = true;
+    // Intent only — the quote widget is cross-origin and sends no
+    // quote-complete message (verified in its bundle, see lib/booking-embed.ts),
+    // so submissions are visible only in the booking CRM. `service_id` lets
+    // repair vs installation vs emergency intent be split in reports.
+    track("quote_open", { service_id: prefill?.serviceId ?? null });
+  }, [prefill?.serviceId]);
+
+  React.useEffect(() => {
+    if (open) trackOpen();
+    else openedRef.current = false;
+  }, [open, trackOpen]);
+
   const handleOpenChange = (next: boolean) => {
-    if (next) setSessionKey((key) => key + 1);
+    if (next) {
+      setSessionKey((key) => key + 1);
+      trackOpen();
+    } else {
+      openedRef.current = false;
+    }
     onOpenChange?.(next);
   };
 

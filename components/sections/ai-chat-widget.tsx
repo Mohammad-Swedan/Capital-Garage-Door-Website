@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sheet";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 import { ChatActions } from "@/components/sections/chat/chat-actions";
 import { ChatSuggestions } from "@/components/sections/chat/chat-suggestions";
 import type { ChatAction, ChatOverlay } from "@/components/sections/chat/types";
@@ -96,6 +97,13 @@ export function AiChatWidget({
   const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
   const sendTimersRef = useRef<number[]>([]);
+
+  // Fire once per open, from here rather than from each trigger — the sheet is
+  // opened by the sticky mobile bar, the desktop bubble and the hero, all of
+  // which share this single instance.
+  useEffect(() => {
+    if (open) track("chat_open", {});
+  }, [open]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });

@@ -90,6 +90,32 @@ There are **no local lead forms or server actions** anymore — the old `submitQ
 
 The business email is **never rendered as plaintext** (anti-spam-harvester): every "email us" surface uses `components/ui/obfuscated-email.tsx` (`ObfuscatedEmail`), which base64-decodes the address in `useEffect` so it exists only in the browser DOM, not the served HTML. `email` is deliberately omitted from all JSON-LD (`lib/seo/schema.ts`) for the same reason — keep the address out of `config/site.ts`-rendered output. If the email changes, update both `siteConfig.business.email` and the `ENCODED` constant in the component.
 
+### Analytics & conversion tracking
+
+**`lib/analytics.ts` `track(event, params)` is the only way this site emits an analytics event.** Added 2026-08-02, after a GA4 query found the property held *nothing but automatic events* (`page_view`, `session_start`, `scroll`, `first_visit`, `user_engagement`) — no call, quote, booking, chat or calculator signal existed, so there was no way to answer "which pages produce leads?".
+
+`track()` pushes **both** shapes on purpose:
+- `dataLayer.push({ event, ...params })` — a plain object, which is what **Google Tag Manager** reads. `gtag.js` ignores plain objects, so it is inert today and goes live the day a GTM container is added, **with no code change**. (Ads is planned, hence this shape.)
+- `gtag("event", …)` pushed as an `arguments` object — which is what actually delivers to **GA4 today, without GTM**.
+
+**This dual push is the whole point.** The pre-existing `trackChatEvent` did only the first, so every chat CTA event it fired for months was silently discarded. It now delegates to `track()`.
+
+| Event | Fired from | Notes |
+|---|---|---|
+| `call_click` | `components/analytics/interaction-tracking.tsx` | **one delegated `document` listener**, not per-component — `tel:` links live in 20+ components plus CMS content, so per-call-site wiring guarantees drift. Matching on `href` also survives restyling, which a GTM CSS-selector trigger would not (Tailwind class strings change). |
+| `email_click` | same listener | `mailto:` from `ObfuscatedEmail`. |
+| `quote_open` | `quote-dialog.tsx` | intent only — see limitation below. |
+| `booking_open` | `booking-dialog.tsx` | intent only. |
+| `chat_open` | `ai-chat-widget.tsx` | effect on the `open` prop, so all three triggers are covered by one place. |
+| `chat_message` | `chat/use-assistant-chat.ts` | carries `turn`. |
+| `calculator_complete` | `smart-calculator/calculator-mode.tsx` | carries service/problem/price and `price_source` (whether the live CMS catalog or the baked fallback drove the range). |
+
+**Gotcha the dialogs encode:** `QuoteDialog`/`BookingDialog` are usually driven by a parent setting `open` (GetQuoteButton, BookNowButton, the hero, the in-chat overlays), and Base UI does **not** call `onOpenChange` for externally-controlled opens. Tracking inside `handleOpenChange` alone therefore misses nearly every real open — verified in a browser, it fired zero events. Both dialogs now track from an effect on `open` *and* from `handleOpenChange` (for uncontrolled `trigger` use), with a ref keeping it to one event per open.
+
+**What this deliberately cannot measure** — do not promise otherwise: the quote/booking widgets are a third-party cross-origin iframe that emits **no completion message** (verified in its bundle, see `lib/booking-embed.ts`), so `quote_open`/`booking_open` record intent and submissions exist only in the booking CRM. Phone calls placed by *reading* the number rather than tapping it are invisible to any client-side analytics.
+
+`InteractionTracking` is mounted in `app/layout.tsx` **outside** the production-only analytics gate so events can be verified in dev (`track()` is harmless when gtag never loads — entries just sit unread in the array).
+
 ### Motion & performance (sensitive)
 
 `framer-motion` is loaded lazily through `LazyMotionProvider`; GSAP + Lenis power the smooth-scroll and the garage-door intro/reveal animations. These areas are performance-tuned — consult the auto-memory notes (first-load performance, ScrollDoorReveal rendering) before touching the intro, scroll, or canvas-reveal code. `next.config.ts` enables `experimental.inlineCss` (prod only) and restricts image `qualities` to `[60, 75]`.

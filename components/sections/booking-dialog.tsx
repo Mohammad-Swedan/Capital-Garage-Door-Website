@@ -4,6 +4,7 @@ import * as React from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { Loader2, XIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 
 const BOOKING_ORIGIN = "https://booking-system-cgd.netlify.app";
@@ -30,8 +31,31 @@ export function BookingDialog({ trigger, open, onOpenChange, path }: BookingDial
   // state instead of showing a stale iframe from the previous session.
   const [sessionKey, setSessionKey] = React.useState(0);
 
+  // See the matching comment in quote-dialog.tsx: most callers drive `open` as a
+  // controlled prop and the primitive never calls `onOpenChange` for those, so
+  // tracking only in `handleOpenChange` would miss almost every real open.
+  const openedRef = React.useRef(false);
+  const trackOpen = React.useCallback(() => {
+    if (openedRef.current) return;
+    openedRef.current = true;
+    // Intent only. The booking app is cross-origin and emits no completion
+    // message (it does not send the `cgd:booking-complete` event BookingFrame
+    // listens for), so a finished booking is visible only in the CRM.
+    track("booking_open", { path: path ?? "/" });
+  }, [path]);
+
+  React.useEffect(() => {
+    if (open) trackOpen();
+    else openedRef.current = false;
+  }, [open, trackOpen]);
+
   const handleOpenChange = (next: boolean) => {
-    if (next) setSessionKey((key) => key + 1);
+    if (next) {
+      setSessionKey((key) => key + 1);
+      trackOpen();
+    } else {
+      openedRef.current = false;
+    }
     onOpenChange?.(next);
   };
 

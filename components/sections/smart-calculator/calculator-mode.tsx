@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -12,6 +12,7 @@ import {
   Zap,
   type LucideIcon,
 } from "lucide-react";
+import { track } from "@/lib/analytics";
 import { OptionCard } from "./option-card";
 import { SuburbInput } from "./suburb-input";
 import { PricePanel } from "./price-panel";
@@ -215,6 +216,25 @@ export function CalculatorMode({
 
   const estimate = useMemo(() => calculateEstimate(form, catalog), [form, catalog]);
   const hasSelection = form.serviceType !== "";
+
+  // A completed estimate is the strongest on-site intent signal short of a call,
+  // so it is worth knowing which pages produce them. Keyed on `finished`, which
+  // only ever flips true once per session, so this fires once.
+  const trackedComplete = useRef(false);
+  useEffect(() => {
+    if (!finished || trackedComplete.current) return;
+    trackedComplete.current = true;
+    track("calculator_complete", {
+      service_type: form.serviceType || null,
+      problem_id: form.problemId || null,
+      emergency: form.emergency === true,
+      // Whether the live CMS price list drove the headline range or the baked-in
+      // fallback did — tells us if the catalog is actually being hit.
+      price_source: estimate.priceSource,
+      price_min: estimate.minPrice,
+      price_max: estimate.maxPrice,
+    });
+  }, [finished, form, estimate]);
   const issues = form.serviceType ? ISSUE_OPTIONS[form.serviceType as ServiceType] : [];
 
   const scenario: PricingScenario | undefined =

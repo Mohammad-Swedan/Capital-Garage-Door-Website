@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DeferredGoogleAnalytics, DeferredMicrosoftClarity } from "@/components/analytics/deferred-analytics";
+import { InteractionTracking } from "@/components/analytics/interaction-tracking";
 import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
@@ -110,6 +111,10 @@ export default async function RootLayout({
             {children}
           </SiteChrome>
         </LazyMotionProvider>
+        {/* One delegated listener that tracks every tel:/mailto: click site-wide.
+            Renders nothing; mounted outside the production-only analytics gate
+            below so the events can be verified in dev. */}
+        <InteractionTracking />
       </body>
       {/* gtag.js loads on requestIdleCallback (was afterInteractive) — it was
           the top unused-JS contributor and long-task source on mobile. The

@@ -1,6 +1,7 @@
 import type { ServiceSuburbPage } from "@/types";
 import { serviceSuburbPagesBatch2 } from "@/content/service-suburb-pages-batch2";
 import { cockburnCentralPage } from "@/content/service-suburb-pages-cockburn-central";
+import { atwellPage } from "@/content/service-suburb-pages-atwell";
 import { serviceSuburbPagesBatch3 } from "@/content/service-suburb-pages-batch3";
 
 /**
@@ -1284,6 +1285,10 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
   // Cockburn Central (2026-08): built from dedicated keyword research; owns the
   // "cockburn" terms the Success page used to claim.
   cockburnCentralPage,
+
+  // Atwell (2026-08): the Cockburn cluster's biggest uncaptured term (45 imp)
+  // plus the installation intent already ranking 7.9 via the homepage.
+  atwellPage,
 
   // Batch 3 (2026-08): 15 southern-corridor suburbs (Canning River / southern
   // growth / Armadale), each with a catalog-driven guide-price table.

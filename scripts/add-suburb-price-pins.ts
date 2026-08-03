@@ -22,6 +22,10 @@
  * Production (explicit): CMS_API_URL=https://cgd.runasp.net CMS_ADMIN_PASSWORD=… npx tsx scripts/add-suburb-price-pins.ts
  */
 
+// No imports needed — this export makes the file a module so its top-level
+// consts don't collide with other scripts' in the build's global type check.
+export {};
+
 const CMS_API_URL = (process.env.CMS_API_URL ?? "http://localhost:5179").replace(/\/$/, "");
 const ADMIN_EMAIL = process.env.CMS_ADMIN_EMAIL ?? "admin@capitalgaragedoor.local";
 const ADMIN_PASSWORD = process.env.CMS_ADMIN_PASSWORD ?? "Admin#12345";

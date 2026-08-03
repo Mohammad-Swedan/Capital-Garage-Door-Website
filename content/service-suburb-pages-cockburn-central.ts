@@ -280,6 +280,24 @@ export const cockburnCentralPage: ServiceSuburbPage = {
       answer:
         "Broken torsion springs, by a wide margin. Cockburn's estate homes have large double doors that cycle several times a day, and springs are a wear item — they eventually snap, almost always without warning. Worn lift cables, burnt-out openers and doors that have jumped their tracks make up most of the rest. All of these are typically same-day repairs.",
     },
+    // The last three FAQs mirror the live PAA questions on the Cockburn SERPs
+    // (2026-08-04 DataForSEO pull): repair-vs-replace, service frequency,
+    // lifespan. Added to the prod CMS by scripts/enhance-cockburn-central-page.ts.
+    {
+      question: "Is it worth repairing a garage door, or is it better to replace it?",
+      answer:
+        "In most cases a repair is the economical choice — springs, cables, rollers, sensors and even motors can be replaced individually, and a well-made door has plenty of life beyond any single failed part. Replacement starts to make sense when the door itself is structurally tired: rusted or cracked panels, a frame twisted out of square, or repeated failures on a door that's decades old. We give you an honest assessment on site — most Cockburn Central call-outs end in a same-day repair, and if a replacement genuinely is the smarter option we'll say so and quote it without pressure.",
+    },
+    {
+      question: "How often should a garage door be serviced?",
+      answer:
+        "Once a year for a typical Cockburn Central home — an annual service keeps the door balanced, quiet and safe, and catches wear before it becomes a breakdown. Doors that work harder need attention sooner: busy family homes near the station precinct where the door cycles several times a day, and the coastal-side doors around Spearwood, Coogee and Munster where salt air attacks springs and fittings. High-cycle commercial rollers in Bibra Lake and Jandakot are usually put on a scheduled maintenance program rather than serviced ad hoc.",
+    },
+    {
+      question: "How long do garage doors, springs and openers last?",
+      answer:
+        "A quality garage door lasts 15–30 years when it's serviced regularly. The wear parts are shorter-lived: torsion springs are rated in cycles rather than years — around ten thousand opens for standard springs, which is roughly 7–10 years in an average home but noticeably less for the hard-working double doors in Cockburn Central's estates — and openers typically give 10–15 years. If the door itself is sound, replacing a worn spring or motor buys the rest of the door many more years of service.",
+    },
   ],
 
   // Real completed jobs from the surrounding southern corridor.

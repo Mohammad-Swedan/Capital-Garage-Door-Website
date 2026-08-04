@@ -215,9 +215,48 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        // The old "5 Reasons Your Garage Door Makes Noise" post. The catch-all
+        // below would send it to /blog/noisy-garage-door-causes-fixes, which
+        // has never existed in this build — a 301 into a 404. The live page
+        // covering that exact topic is the problem page.
+        source: "/blogs/noisy-garage-door-causes-fixes",
+        destination: "/problems/noisy-garage-door",
+        permanent: true,
+      },
+      {
+        // The old site also exposed its posts by numeric id (/blogs/1 … /blogs/25).
+        // None of those ids exist here, so the catch-all turned all ~24 of them
+        // into 301→404 chains (found in a Semrush crawl, 2026-08-04). They carry
+        // no measurable impressions individually, so the blog hub is the right
+        // landing point rather than 24 guessed slug mappings.
+        source: "/blogs/:id(\\d+)",
+        destination: "/blog",
+        permanent: true,
+      },
+      {
         // Any other legacy /blogs/* URL → the same slug under the live /blog hub.
         source: "/blogs/:slug*",
         destination: "/blog/:slug*",
+        permanent: true,
+      },
+      // Three more pre-rebuild top-level URLs that were still 404ing outright
+      // (no rule at all) — same Semrush crawl. Their siblings in this list are
+      // worth 465–805 impressions a quarter each, so these are not dead weight.
+      {
+        source: "/garage-door-repairs",
+        destination: "/garage-door-repairs-perth",
+        permanent: true,
+      },
+      {
+        source: "/motor-automation",
+        destination: "/garage-door-motors-perth",
+        permanent: true,
+      },
+      {
+        // Matches the /book-an-appointment rule above — both were the old
+        // site's booking entry points.
+        source: "/book-now",
+        destination: "/contact",
         permanent: true,
       },
     ];

@@ -165,19 +165,22 @@ export function SuburbSearch({ regions }: SuburbSearchProps) {
                         <li key={`${suburb.region}-${suburb.slug}`}>
                           <Link
                             href={suburb.href}
-                            className="group flex items-center gap-2.5 rounded-xl border border-[#0f4e9b]/25 bg-[#0f4e9b]/5 px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:border-cta/40 hover:text-cta focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
+                            aria-label={`${suburb.name} — view the local garage door page`}
+                            className="group flex items-center gap-2.5 rounded-xl border border-[#0f4e9b]/30 bg-[#0f4e9b]/6 px-4 py-3 text-sm font-semibold text-primary shadow-xs transition-all duration-150 hover:-translate-y-0.5 hover:border-[#0f4e9b]/55 hover:bg-[#0f4e9b]/10 hover:shadow-md focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
                           >
-                            <MapPin className="h-4 w-4 shrink-0 text-primary transition-colors group-hover:text-cta" aria-hidden="true" />
-                            <span className="flex-1">
+                            <MapPin className="h-4 w-4 shrink-0 text-[#0f4e9b]" aria-hidden="true" />
+                            <span className="flex-1 underline-offset-2 group-hover:underline">
                               {suburb.name}
-                              <span className="block text-xs font-normal text-muted-foreground">
-                                Local page · {suburb.region}
+                              <span className="block text-xs font-normal text-muted-foreground no-underline">
+                                View local page · {suburb.region}
                               </span>
                             </span>
-                            <ArrowUpRight
-                              className="h-4 w-4 shrink-0 text-muted-foreground/50 transition-all group-hover:translate-x-0.5 group-hover:text-cta"
+                            <span
+                              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#0f4e9b]/12 text-[#0f4e9b] transition-colors group-hover:bg-cta group-hover:text-cta-foreground"
                               aria-hidden="true"
-                            />
+                            >
+                              <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-px group-hover:-translate-y-px" />
+                            </span>
                           </Link>
                         </li>
                       ) : (

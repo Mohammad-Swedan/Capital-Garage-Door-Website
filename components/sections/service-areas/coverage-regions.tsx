@@ -12,6 +12,32 @@ interface CoverageRegionsProps {
 const CHIP_BASE = "flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-3 text-sm font-medium text-foreground";
 
 /**
+ * One corridor sentence per CMS region, keyed by the region's exact name. These carry the
+ * corridor keywords GSC shows this page already ranking for ("garage door repairs perth
+ * northern suburbs" pos ~10, "southern suburbs", "east perth") — every suburb named here is
+ * confirmed present in that region's CMS suburb list; don't invent localities. A region the
+ * map doesn't know simply renders without an intro.
+ */
+const REGION_INTROS: Record<string, string> = {
+  "Inner Perth":
+    "Garage door repairs in and around the city — East Perth, Victoria Park, South Perth, Bayswater and the inner ring, usually our shortest travel times of all.",
+  "Northern Suburbs":
+    "Same-day garage door repairs across Perth's northern suburbs — Joondalup, Wanneroo, Morley, Ellenbrook and the whole northern corridor.",
+  "Southern Suburbs":
+    "Our busiest corridor: garage door repairs in Perth's southern suburbs — Canning Vale, Thornlie, Gosnells, Baldivis, Rockingham, down to Mandurah.",
+  "Coastal Suburbs":
+    "Fremantle, Success, Atwell, Scarborough and the coastal strip — where salt air is hard on springs and hardware, so doors here see us often.",
+  "Western Suburbs":
+    "Nedlands, Claremont, Cottesloe, Mosman Park and the western suburbs — repairs, motor upgrades and new door installations.",
+  "Northern Coastal":
+    "Clarkson, Butler, Mullaloo, Sorrento and the beachside suburbs north of Hillarys, right up the northern coastal corridor.",
+  "Swan Valley & North-East":
+    "Aveley, Brabham, Dayton, The Vines and the Swan Valley growth belt — plenty of newer homes with builder-grade doors coming due for service.",
+  "Eastern Suburbs & Hills":
+    "Midland, Swan View, Greenmount and up into the Perth Hills — the eastern suburbs are covered on daily runs.",
+};
+
+/**
  * Suburb directory grouped by region. Suburbs with a dedicated page (CMS `href`)
  * render as links to their local-SEO page; the rest are plain coverage chips.
  */
@@ -29,6 +55,11 @@ export function CoverageRegions({ regions }: CoverageRegionsProps) {
           {regions.map((region, regionIndex) => (
             <Reveal key={region.name} delay={regionIndex * 0.05}>
               <h3 className="font-heading text-lg font-semibold text-primary">{region.name}</h3>
+              {REGION_INTROS[region.name] && (
+                <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                  {REGION_INTROS[region.name]}
+                </p>
+              )}
               <ul className="mt-4 grid gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {region.suburbs.map((suburb) =>
                   suburb.href ? (

@@ -52,7 +52,9 @@ export type AnalyticsEvent =
   /** A visitor sent a message to the AI assistant. */
   | "chat_message"
   /** The price calculator produced a finished estimate. */
-  | "calculator_complete";
+  | "calculator_complete"
+  /** A settled query in the /service-areas suburb finder — `results: 0` = demand we don't list. */
+  | "suburb_search";
 
 interface DataLayerWindow extends Window {
   dataLayer?: unknown[];

@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { track } from "@/lib/analytics";
+import { BOOKING_EMBED_ORIGIN, parseBookingCompletion } from "@/lib/booking-embed";
 
 /**
  * Site-wide conversion-click tracking, via ONE delegated listener on `document`.
@@ -22,6 +23,10 @@ import { track } from "@/lib/analytics";
  * Mounted unconditionally (not inside layout.tsx's production-only analytics
  * gate) so the events can be verified locally — `track()` is a no-op in effect
  * when gtag never loads, since the queued entries just sit unread.
+ *
+ * It also listens for the booking app's completion postMessages, which is what
+ * turns `quote_open`/`booking_open` (intent) into `quote_submit`/`booking_submit`
+ * (an actual lead, attributed to the page it came from).
  */
 export function InteractionTracking() {
   useEffect(() => {
@@ -50,8 +55,23 @@ export function InteractionTracking() {
       }
     };
 
+    // Lead completions reported by the embedded booking app (cross-origin iframe).
+    // Same delegation argument as the click listener: quote and booking frames are
+    // mounted by half a dozen components, so one listener at the window beats
+    // wiring each surface.
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin !== BOOKING_EMBED_ORIGIN) return;
+      const completion = parseBookingCompletion(event.data);
+      if (!completion) return;
+      track(completion.event, completion.params);
+    };
+
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+    window.addEventListener("message", onMessage);
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("message", onMessage);
+    };
   }, []);
 
   return null;

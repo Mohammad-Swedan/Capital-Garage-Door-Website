@@ -29,12 +29,14 @@
  *
  * ## What this deliberately cannot measure
  *
- * The quote and booking widgets are a third-party app in a cross-origin iframe
- * (booking-system-cgd.netlify.app) that emits no completion message — verified
- * in its bundle, see lib/booking-embed.ts. So `quote_open`/`booking_open` record
- * *intent*, never a submission. Submissions exist only in the booking CRM. Phone
- * calls placed by reading the number off the screen rather than tapping it are
- * likewise invisible to any client-side analytics.
+ * Phone calls placed by reading the number off the screen rather than tapping it
+ * are invisible to any client-side analytics — `call_click` counts taps only.
+ *
+ * Quote and booking SUBMISSIONS are measured (`quote_submit`/`booking_submit`),
+ * via a postMessage the booking app posts to us; see parseBookingCompletion in
+ * lib/booking-embed.ts. That message carries no personal data, so a lead's
+ * identity still exists only in the booking CRM — analytics answers "which page
+ * produced a lead", never "who".
  */
 
 /** Events the site emits. Keep this list and CLAUDE.md's table in sync. */
@@ -54,7 +56,11 @@ export type AnalyticsEvent =
   /** The price calculator produced a finished estimate. */
   | "calculator_complete"
   /** A settled query in the /service-areas suburb finder — `results: 0` = demand we don't list. */
-  | "suburb_search";
+  | "suburb_search"
+  /** A quote request was actually SUBMITTED in the embedded booking widget — a real lead. */
+  | "quote_submit"
+  /** A booking was completed in the embedded booking widget — a real lead. */
+  | "booking_submit";
 
 interface DataLayerWindow extends Window {
   dataLayer?: unknown[];

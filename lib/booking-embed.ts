@@ -3,6 +3,10 @@
  * (https://booking-system-cgd.netlify.app/embed/quote — a separate app, not this repo).
  * Every "request a quote" surface on the site renders this embed instead of a local form,
  * so quote requests land directly in the CRM.
+ *
+ * The widget also posts back: `booking-widget-resize` (height, handled by
+ * components/sections/quote-frame.tsx) and the two completion messages parsed by
+ * `parseBookingCompletion` below.
  */
 
 export const BOOKING_EMBED_ORIGIN = "https://booking-system-cgd.netlify.app";
@@ -70,4 +74,38 @@ export function bookingServiceIdFor(text?: string): number | undefined {
     return BOOKING_SERVICE_IDS.repair;
   }
   return undefined;
+}
+
+/**
+ * Narrow an untrusted `MessageEvent.data` to one of the booking app's completion
+ * messages and map it to the analytics event it should produce. Returns null for
+ * anything else — notably `{ type: "booking-widget-resize" }`, which the widget
+ * posts on every height change and must never be counted as a lead.
+ *
+ * `name`/`phone`/`ref` from a booking are dropped on purpose: they exist for the
+ * in-chat confirmation UI (components/sections/chat/in-chat-booking.tsx), and
+ * personal data must never reach analytics.
+ *
+ * Callers MUST check `event.origin === BOOKING_EMBED_ORIGIN` first — this
+ * function trusts the shape, not the sender.
+ */
+export function parseBookingCompletion(
+  data: unknown,
+): { event: "quote_submit" | "booking_submit"; params: Record<string, unknown> } | null {
+  if (!data || typeof data !== "object") return null;
+  const type = (data as { type?: unknown }).type;
+
+  if (type === "cgd:quote-complete") {
+    const serviceId = (data as { serviceId?: unknown }).serviceId;
+    return {
+      event: "quote_submit",
+      params: typeof serviceId === "number" ? { service_id: serviceId } : {},
+    };
+  }
+
+  if (type === "cgd:booking-complete") {
+    return { event: "booking_submit", params: {} };
+  }
+
+  return null;
 }

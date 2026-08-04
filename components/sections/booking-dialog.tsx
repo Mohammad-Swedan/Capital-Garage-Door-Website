@@ -38,9 +38,9 @@ export function BookingDialog({ trigger, open, onOpenChange, path }: BookingDial
   const trackOpen = React.useCallback(() => {
     if (openedRef.current) return;
     openedRef.current = true;
-    // Intent only. The booking app is cross-origin and emits no completion
-    // message (it does not send the `cgd:booking-complete` event BookingFrame
-    // listens for), so a finished booking is visible only in the CRM.
+    // Intent only — the matching completion is `booking_submit`, tracked
+    // centrally in components/analytics/interaction-tracking.tsx from the
+    // booking app's `cgd:booking-complete` postMessage.
     track("booking_open", { path: path ?? "/" });
   }, [path]);
 

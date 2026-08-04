@@ -11,7 +11,9 @@ import { ChevronLeft, Loader2 } from "lucide-react";
  *     { type: "cgd:booking-complete", ref, name, phone },
  *     "<our-site-origin>"
  *   );
- * Until that ships, the manual back/close button is the fallback — no functional gap.
+ * The booking app sends this from its confirmation screen (src/pages/customer/
+ * ConfirmationPage.tsx, via src/utils/parentNotify.ts). The manual back/close
+ * button remains the fallback if the message is ever missed.
  */
 
 const BOOKING_URL = "https://booking-system-cgd.netlify.app/";

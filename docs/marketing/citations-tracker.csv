@@ -1,0 +1,23 @@
+site,url,tier,cost,status,live_url,date_submitted,date_verified,notes
+Bing Places,https://www.bingplaces.com,1,free,not_started,,,,Can import from Google Business Profile; also unlocks Bing Webmaster Tools link reporting
+Apple Business Connect,https://businessconnect.apple.com,1,free,not_started,,,,Feeds Apple Maps + Siri; needs an Apple ID; phone verification
+Yellow Pages AU,https://www.yellowpages.com.au,1,free tier,not_started,,,,Strongest AU directory; decline the paid upsell
+White Pages AU,https://www.whitepages.com.au,1,free tier,not_started,,,,Same operator as Yellow Pages; separate submission
+TrueLocal,https://www.truelocal.com.au,1,free,not_started,,,,Long-established AU directory
+Localsearch,https://www.localsearch.com.au,1,free tier,not_started,,,,AU-owned; expect an upsell phone call
+StartLocal,https://www.startlocal.com.au,1,free,not_started,,,,Quick form
+AussieWeb,https://www.aussieweb.com.au,1,free tier,not_started,,,,Older directory; low effort
+Yelp AU,https://biz.yelp.com,1,free,not_started,,,,Search first — claim an existing listing rather than creating a duplicate
+Hotfrog AU,https://www.hotfrog.com.au,1,free,not_started,,,,Accepts description + images
+Cylex AU,https://www.cylex.net.au,1,free,not_started,,,,Fast; low individual value
+Word of Mouth,https://www.wordofmouth.com.au,1,free,not_started,,,,Review-led AU directory; can also collect reviews
+Oneflare,https://www.oneflare.com.au,optional,paid leads,not_started,,,,Lead marketplace — charges per lead; citation value only
+hipages,https://www.hipages.com.au,optional,paid leads,not_started,,,,Lead marketplace — charges per lead; citation value only
+ServiceSeeking,https://www.serviceseeking.com.au,optional,paid leads,not_started,,,,Lead marketplace — charges per lead; citation value only
+Google Business Profile,https://www.google.com/maps?cid=14180702000236315157,owned,free,needs_review,,,,Already owned — fix name to plural "Capital Garage Doors" and verify NAP
+Facebook,https://www.facebook.com/p/Capital-Garage-Door-Repairs-61581857974729/,owned,free,needs_review,,,,Already owned — verify NAP matches the master block
+Instagram,https://www.instagram.com/capitalgaragedoorperth1,owned,free,needs_review,,,,Already owned — verify NAP in bio
+YouTube,https://www.youtube.com/@CapitalGarageDoors,owned,free,needs_review,,,,Already owned — verify NAP in the channel About tab
+B&D Doors,https://www.bnd.com.au,supplier,free,not_started,,,,Dealer/stockist locator listing request — highest-value link type
+Steel-Line,https://www.steel-line.com.au,supplier,free,not_started,,,,Dealer/stockist locator listing request
+Centurion Systems,https://www.centsys.com.au,supplier,free,not_started,,,,Dealer/stockist locator listing request

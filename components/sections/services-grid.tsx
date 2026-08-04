@@ -166,6 +166,10 @@ export async function ServicesGrid() {
               for its own keyword). */}
           <p className="max-w-2xl text-xs leading-relaxed text-white/50 sm:text-sm">
             Most searched:{" "}
+            <Link href="/garage-door-repairs-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+              garage door repairs Perth
+            </Link>
+            {", "}
             <Link href="/emergency-garage-door-repairs-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
               emergency garage door repairs Perth
             </Link>

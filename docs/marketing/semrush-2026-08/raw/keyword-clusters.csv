@@ -1,0 +1,107 @@
+# Semrush AU db, pulled 2026-08-05. volume;cpc;kd;intent (0=commercial-ish/unknown,1=informational,2=navigational,3=transactional per Semrush coding in source pulls)
+
+# --- phrase_these batch: perth-modified + suburb + product terms ---
+keyword;volume;cpc;competition;kd
+garage doors perth;1300;5.34;0.86;50
+garage door repairs perth;880;16.59;0.83;47
+garage door repair perth;590;16.59;0.83;49
+roller doors perth;590;5.76;0.76;41
+garage door installation perth;480;6.81;0.34;43
+roller door repairs perth;390;14.86;0.67;30
+sectional garage doors perth;320;3.67;0.88;30
+commercial roller doors perth;320;4.38;0.77;11
+garage door service perth;320;10.92;0.72;37
+garage door openers perth;210;5.35;0.40;17
+garage door repairs mandurah;210;5.74;0.67;14
+custom garage doors perth;170;2.02;0.88;37
+emergency garage door repairs perth;170;8.63;0.19;16
+garage door motors perth;140;5.10;1.00;15
+garage door replacement perth;140;6.38;0.92;46
+b&d garage doors perth;140;1.07;0.16;23
+garage door repairs joondalup;110;9.84;0.98;3
+garage door repairs rockingham;90;8.95;0.91;12
+garage door prices perth;90;2.88;0.91;14
+garage door repairs fremantle;70;10.38;0.63;2
+garage door remote replacement;1000;1.50;1.00;16
+
+# --- phrase_related "garage door repairs perth" (localized-SERP national terms) ---
+keyword;volume;cpc;kd
+garage door repair;5400;10.75;28
+garage door repairs;3600;10.75;20
+roller door repairs;2900;10.26;28
+roller doors;2900;2.23;27
+garage door service;1600;9.35;28
+garage door fix near me;1300;9.46;18
+garage door installation;1300;5.36;22
+garage door repair near me;1300;9.46;20
+garage door repairs near me;1300;8.84;20
+garage doors near me;1300;5.48;42
+garage door servicing;1000;9.35;28
+industrial roller doors;1000;2.62;14
+roller doors near me;1000;3.68;35
+commercial roller doors;880;3.16;13
+fixing roller doors;880;10.26;13
+garage door fitters;880;5.36;44
+garage door replacement;880;4.50;40
+installation for garage doors;880;4.53;7
+roller door installation;880;4.10;12
+roller garage doors;880;2.62;15
+electric garage doors;720;2.47;30
+garage door maintenance;720;8.64;10
+garage door opener repair;720;8.50;33
+garage door service near me;720;8.88;25
+
+# --- phrase_related "roller door repairs" extras ---
+keyword;volume;cpc;kd
+roller a door;2400;2.23;21
+roller door doctor;880;1.79;32
+roller door repair;720;10.26;22
+roller door repairs near me;720;7.30;28
+fix garage door;590;9.36;9
+fix garage door near me;590;7.94;39
+
+# --- phrase_related "garage door opener" (motors/openers/remotes cluster) ---
+keyword;volume;cpc;kd
+remote door openers;1900;0.98;20
+garage garage door opener;1600;2.32;16
+roller door motor;1600;1.96;12
+garage door motor;1300;3.19;15
+garage door remote control;1300;0.98;20
+garage remote control;1300;0.85;25
+sectional garage door;1300;2.07;14
+sectional garage doors;1300;2.05;16
+smart garage door opener;1300;0.94;29
+garage door opener remote;1000;0.90;14
+garage door openers;1000;2.32;8
+merlin roller door opener;1000;1.18;11
+roller door motors;1000;1.96;8
+spare garage door opener;1000;1.50;15
+merlin door opener;880;1.28;14
+merlin garage door openers;880;1.28;22
+automatic garage door;720;2.90;10
+gdo remote;720;1.03;9
+automatic garage door opener;590;2.33;12
+centurion garage door remote;590;1.38;6
+garage door electric motor;590;2.50;17
+remote control for garage doors;590;0.91;16
+remote control garage door opener;590;1.02;17
+
+# --- phrase_questions "garage door" (help-hub cluster, aggregate ~8k/mo) ---
+keyword;volume;cpc;kd
+how to secure garage door;3600;0;18
+how to fix garage door sensor;1300;0;0
+how to set up garage door remote;1300;0.37;18
+how to program remote control for garage door;1000;0.43;18
+how to program garage door remote;720;0.60;17
+how do you program a garage door opener;590;0.37;20
+how to program a garage door remote;390;0.46;17
+how do i manually open a garage door;260;0.38;10
+how do you manually open a garage door;260;1.17;24
+how do you reset a garage door opener;260;1.95;0
+how to manually open a garage door;260;0.38;8
+how to open garage door manually;260;1.17;17
+how to program a remote for garage door;260;0.62;13
+how to program garage door opener;260;0.62;21
+how to reset garage door remote;260;1.95;6
+how to reset the garage door remote;260;1.95;9
+# + ~14 more program/reset/sync variants at 170-210/mo each, KD 7-28

@@ -1,11 +1,10 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { X } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { GalleryCard } from "@/components/sections/gallery/gallery-card";
-import { scrollToElement } from "@/lib/smooth-scroll";
 import { cn } from "@/lib/utils";
 import type { GalleryCategory, GalleryItem } from "@/types/gallery";
 
@@ -29,25 +28,17 @@ interface GalleryFilterGridProps {
 }
 
 /**
- * The public gallery: filter by category + type (free-text service) + suburb, then paginate. Filters
- * combine with AND and all option lists/counts are derived from the items themselves, so the gallery
- * is a self-describing showcase (distinct from the reusable media library it draws images from). The
- * "All" defaults mean the first page renders server-side; the controls are progressive enhancement.
+ * The public gallery: filter by category + type (free-text service) + suburb, then reveal the results
+ * a batch at a time as the visitor scrolls. Filters combine with AND and all option lists/counts are
+ * derived from the items themselves, so the gallery is a self-describing showcase (distinct from the
+ * reusable media library it draws images from). The "All" defaults mean the first batch renders
+ * server-side; the controls are progressive enhancement.
  */
 export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
   const [category, setCategory] = useState<CategoryFilter>("All");
   const [type, setType] = useState(""); // "" = all types
   const [suburb, setSuburb] = useState(""); // "" = all suburbs
-  const [page, setPage] = useState(1);
-  // Scroll target for pagination: jumping to a new page should bring the top of
-  // the results (the "Recent Work" heading) back into view, not leave the user
-  // stranded at the bottom where the Prev/Next buttons are.
-  const topRef = useRef<HTMLDivElement>(null);
-  const goToPage = (p: number) => {
-    setPage(p);
-    // Scroll through Lenis when it's active (native scroll is otherwise cancelled).
-    scrollToElement(topRef.current);
-  };
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   // Stable option lists derived once from the full dataset.
   const categoryOptions = useMemo(
@@ -74,10 +65,34 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
     [items, category, type, suburb],
   );
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const safePage = Math.min(page, totalPages);
-  const pageItems = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const shownCount = Math.min(visibleCount, filtered.length);
+  const pageItems = filtered.slice(0, shownCount);
+  const hasMore = shownCount < filtered.length;
   const hasFilters = category !== "All" || type !== "" || suburb !== "";
+
+  // Infinite scroll: a sentinel sitting just below the grid loads the next batch while it is still
+  // a full screen-and-a-half below the fold (1400px ≈ two card rows), so the next photos are
+  // requested and decoded well before the visitor reaches the end of the current ones — they should
+  // never see an empty gap. The sentinel is also a real button: if IntersectionObserver never fires
+  // (old browser, data-saver, keyboard-only navigation), the rest of the gallery is still reachable.
+  // Crawlability is NOT carried by this component — only the first batch is in the server HTML, and
+  // Googlebot does not scroll. Every gallery image is listed against /gallery in
+  // `app/image-sitemap.xml/route.ts`, which is how Google discovers all of them; keep it that way.
+  const sentinelRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el || !hasMore || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) setVisibleCount((c) => c + PAGE_SIZE);
+      },
+      { rootMargin: "1400px 0px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+    // Re-observing on every batch is deliberate: the observer only reports *changes* in
+    // intersection, so after the sentinel is pushed down it must be re-checked against the viewport.
+  }, [hasMore, shownCount]);
 
   // How many items a hypothetical selection would yield, respecting the other two active dimensions.
   const countMatching = (over: { category?: CategoryFilter; type?: string; suburb?: string }) => {
@@ -90,31 +105,29 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
     ).length;
   };
 
-  // Any filter change resets to page 1 (event-handler setState — not an effect).
+  // Any filter change collapses back to the first batch (event-handler setState — not an effect).
   const onCategory = (v: CategoryFilter) => {
     setCategory(v);
-    setPage(1);
+    setVisibleCount(PAGE_SIZE);
   };
   const onType = (v: string) => {
     setType(v);
-    setPage(1);
+    setVisibleCount(PAGE_SIZE);
   };
   const onSuburb = (v: string) => {
     setSuburb(v);
-    setPage(1);
+    setVisibleCount(PAGE_SIZE);
   };
   const clearAll = () => {
     setCategory("All");
     setType("");
     setSuburb("");
-    setPage(1);
+    setVisibleCount(PAGE_SIZE);
   };
 
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>
-        {/* Anchor the pagination scroll here; scroll-mt clears the sticky header. */}
-        <div ref={topRef} className="scroll-mt-24" />
         <Reveal>
           <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">Recent Work</h2>
         </Reveal>
@@ -178,16 +191,18 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
         </Reveal>
 
         {/* Result summary */}
-        <p className="mt-6 text-sm text-muted-foreground">
+        <p className="mt-6 text-sm text-muted-foreground" aria-live="polite">
           {filtered.length === 0
             ? "No jobs match these filters yet."
-            : `Showing ${(safePage - 1) * PAGE_SIZE + 1}–${Math.min(safePage * PAGE_SIZE, filtered.length)} of ${filtered.length} ${filtered.length === 1 ? "job" : "jobs"}`}
+            : `Showing ${shownCount} of ${filtered.length} ${filtered.length === 1 ? "job" : "jobs"}`}
         </p>
 
         {pageItems.length > 0 ? (
           <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {pageItems.map((item, index) => (
-              <Reveal key={item.id} delay={index * 0.05} className="h-full">
+              // Stagger within each batch only — an absolute index would give the 30th card a
+              // 1.5s delay and it would appear to load nothing.
+              <Reveal key={item.id} delay={(index % PAGE_SIZE) * 0.05} className="h-full">
                 <GalleryCard item={item} />
               </Reveal>
             ))}
@@ -206,26 +221,15 @@ export function GalleryFilterGrid({ items }: GalleryFilterGridProps) {
           </p>
         )}
 
-        {totalPages > 1 && (
-          <div className="mt-10 flex items-center justify-center gap-3">
+        {hasMore && (
+          <div className="mt-10 flex justify-center">
             <button
+              ref={sentinelRef}
               type="button"
-              disabled={safePage <= 1}
-              onClick={() => goToPage(safePage - 1)}
-              className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-foreground transition-colors enabled:hover:border-[#0f4e9b]/25 enabled:hover:text-[#0f4e9b] disabled:opacity-40"
+              onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+              className="rounded-full border border-border bg-card px-6 py-2 text-sm font-semibold text-foreground transition-colors hover:border-[#0f4e9b]/25 hover:text-[#0f4e9b]"
             >
-              Prev
-            </button>
-            <span className="text-sm font-medium text-muted-foreground tabular-nums">
-              Page {safePage} of {totalPages}
-            </span>
-            <button
-              type="button"
-              disabled={safePage >= totalPages}
-              onClick={() => goToPage(safePage + 1)}
-              className="rounded-full border border-border bg-card px-4 py-1.5 text-sm font-semibold text-foreground transition-colors enabled:hover:border-[#0f4e9b]/25 enabled:hover:text-[#0f4e9b] disabled:opacity-40"
-            >
-              Next
+              Load more work
             </button>
           </div>
         )}

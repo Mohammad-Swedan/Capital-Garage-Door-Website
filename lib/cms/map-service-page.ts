@@ -50,6 +50,10 @@ export function mapServicePage(dto: PageResolveDto): ServicePage {
     problems: asArray<any>(data.problems).map((p) => ({
       label: asString(p.label),
       icon: asString(p.icon),
+      // Optional problem-page slug — when set, ServiceProblemCards renders the
+      // chip as a link to /problems/{slug} (the hub→spoke inlink the 2026-08-05
+      // audit found missing: 5 of 8 problem pages had a single internal link).
+      ...(p.slug ? { slug: asString(p.slug) } : {}),
     })),
     includedItems: asArray<string>(data.includedItems),
     processSteps: asArray<any>(data.processSteps).map((s) => ({

@@ -85,6 +85,7 @@ export const siteConfig = {
         { label: "Reviews", href: "/reviews" },
         { label: "Warranty", href: "/warranty" },
         { label: "Gallery", href: "/gallery" },
+        { label: "Get a Quote", href: "/quote" },
         { label: "Contact", href: "/contact" },
       ],
     },

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Phone } from "lucide-react";
+import { Phone, FileText } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { HoverPrefetchLink } from "@/components/ui/hover-prefetch-link";
@@ -43,6 +43,16 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          {/* Quote CTA — xl-only so the 9 nav items + Call Now still fit a
+              1024px viewport; below xl the mobile menu + sticky CTA carry it. */}
+          <HoverPrefetchLink
+            href="/quote"
+            className="hidden min-h-11 items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-cta/60 hover:text-cta xl:flex"
+          >
+            <FileText className="h-3.5 w-3.5" aria-hidden="true" />
+            Get a Quote
+          </HoverPrefetchLink>
+
           {/* Always-visible call affordance. Below lg it collapses to an
               icon-only tel: button — an audit found mobile had NO way to call
               from the sticky header (hamburger only), a direct conversion leak
@@ -97,9 +107,17 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/quote"
+            onClick={() => setOpen(false)}
+            className="mt-3 flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-lg font-bold text-foreground"
+          >
+            <FileText className="h-5 w-5" aria-hidden="true" />
+            Get a Quote
+          </Link>
           <a
             href={`tel:${siteConfig.business.phone}`}
-            className="mt-3 flex items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-lg font-bold text-cta-foreground"
+            className="flex items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-lg font-bold text-cta-foreground"
           >
             <Phone className="h-5 w-5" aria-hidden="true" />
             {siteConfig.business.phoneDisplay}

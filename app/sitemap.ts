@@ -128,6 +128,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     staticEntry("/garage-door-motors-perth", DEPLOYED_AT),
     staticEntry("/cost-guides", newestOf(costGuidePageSlugs) ?? DEPLOYED_AT),
     staticEntry("/calculator", DEPLOYED_AT),
+    staticEntry("/quote", DEPLOYED_AT),
     staticEntry("/blog", newestOf(blogSlugs, "blog/") ?? DEPLOYED_AT),
     staticEntry("/problems", newestOf(problemSlugs, "problems/") ?? DEPLOYED_AT),
     staticEntry("/case-studies", newestOf(caseStudySlugs, "case-studies/") ?? DEPLOYED_AT),

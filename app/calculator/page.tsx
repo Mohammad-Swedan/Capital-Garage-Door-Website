@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SmartPriceCalculator } from "@/components/sections/smart-calculator";
+import { CalculatorSeoContent } from "@/components/sections/calculator-seo-content";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildMetadata({
@@ -27,6 +28,11 @@ export default function CalculatorPage() {
       >
         <SmartPriceCalculator />
       </div>
+
+      {/* Crawlable content below the full-viewport tool — how it works, real
+          guide prices (from pricing-data.ts) and a FAQ. Fixes the audit's
+          "low word count": the route previously served zero readable text. */}
+      <CalculatorSeoContent />
     </div>
   );
 }

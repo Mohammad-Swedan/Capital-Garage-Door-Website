@@ -13,9 +13,8 @@ import {
   speakableSchema,
   reviewSchemasFromServiceReviews,
   reviewSchemasFromReviews,
-  BUSINESS_ID,
+  providerRef,
 } from "@/lib/seo/schema";
-import { siteConfig } from "@/config/site";
 import type { ServicePage } from "@/types/service-page";
 import type { ComparisonPage } from "@/types/comparison-page";
 import type { CostGuidePage } from "@/types/cost-guide";
@@ -192,13 +191,7 @@ export function PageSchema(props: PageSchemaProps) {
         name: titleWithSuburb,
         serviceType: page.service,
         description: page.directAnswer,
-        provider: {
-          "@type": "HomeAndConstructionBusiness",
-          "@id": BUSINESS_ID,
-          name: siteConfig.name,
-          telephone: siteConfig.business.phone,
-          url: siteConfig.url,
-        },
+        provider: providerRef(),
         areaServed: {
           "@type": "City",
           name: `${page.suburb}, ${page.region}`,

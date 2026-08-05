@@ -58,14 +58,41 @@ function organizationRef() {
   });
 }
 
-/** A provider reference (HomeAndConstructionBusiness) for Service nodes. */
-function providerRef() {
+/**
+ * The business PostalAddress, emitting only the fields that are filled in
+ * (shipping empty `streetAddress`/`postalCode` strings is worse for local SEO
+ * than omitting them). Shared by the site-wide graph AND every reference stub.
+ */
+function businessPostalAddress() {
+  const { address: a } = siteConfig.business;
+  const address: Record<string, string> = {
+    "@type": "PostalAddress",
+    addressLocality: a.addressLocality,
+    addressRegion: a.addressRegion,
+    addressCountry: a.addressCountry,
+  };
+  if (a.streetAddress) address.streetAddress = a.streetAddress;
+  if (a.postalCode) address.postalCode = a.postalCode;
+  return address;
+}
+
+/**
+ * A provider reference (HomeAndConstructionBusiness) for Service nodes.
+ *
+ * Google consolidates this with the full site-wide node by `@id`, but the stub
+ * still carries `address` so each JSON-LD item is valid IN ISOLATION —
+ * third-party validators (Semrush site audit) and naive AI crawlers evaluate
+ * items one at a time and flagged every address-less LocalBusiness stub as
+ * "address required" (75 items, 2026-08-05).
+ */
+export function providerRef() {
   return {
     "@type": "HomeAndConstructionBusiness",
     "@id": BUSINESS_ID,
     name: siteConfig.name,
     telephone: siteConfig.business.phone,
     url: siteConfig.url,
+    address: businessPostalAddress(),
   };
 }
 
@@ -96,17 +123,7 @@ export function imageObject(src: string, alt?: string) {
 export function siteGraphSchema(rating?: { ratingValue: number; reviewCount: number }) {
   const { business } = siteConfig;
 
-  // Only emit address fields that are actually filled in — shipping empty
-  // `streetAddress`/`postalCode` strings is worse for local SEO than omitting
-  // them. Locality/region/country are always present.
-  const address: Record<string, string> = {
-    "@type": "PostalAddress",
-    addressLocality: business.address.addressLocality,
-    addressRegion: business.address.addressRegion,
-    addressCountry: business.address.addressCountry,
-  };
-  if (business.address.streetAddress) address.streetAddress = business.address.streetAddress;
-  if (business.address.postalCode) address.postalCode = business.address.postalCode;
+  const address = businessPostalAddress();
 
   // `sameAs` (links to the business's social/Google profiles) is a real local
   // ranking signal — populated automatically as soon as the URLs are set in
@@ -596,6 +613,7 @@ export function serviceAreasSchema(regions: CoverageRegion[]) {
     name: siteConfig.name,
     telephone: siteConfig.business.phone,
     url: new URL("/service-areas", siteConfig.url).toString(),
+    address: businessPostalAddress(),
     areaServed: regions.flatMap((region) =>
       region.suburbs.map((suburb) => ({
         "@type": "City",
@@ -668,7 +686,12 @@ export function reviewSchemasFromServiceReviews(reviews: ServiceReview[] | undef
     compact({
       "@context": "https://schema.org",
       "@type": "Review",
-      itemReviewed: { "@type": "HomeAndConstructionBusiness", "@id": BUSINESS_ID, name: siteConfig.name },
+      itemReviewed: {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": BUSINESS_ID,
+        name: siteConfig.name,
+        address: businessPostalAddress(),
+      },
       author: { "@type": "Person", name: r.name },
       reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
       reviewBody: r.text,
@@ -694,6 +717,7 @@ export function testimonialReviewSchemas(
         "@type": "HomeAndConstructionBusiness",
         "@id": BUSINESS_ID,
         name: siteConfig.name,
+        address: businessPostalAddress(),
       },
       author: { "@type": "Person", name: t.name },
       reviewRating: { "@type": "Rating", ratingValue: t.rating, bestRating: 5, worstRating: 1 },
@@ -710,7 +734,12 @@ export function reviewSchemasFromReviews(reviews: Review[] | undefined) {
     compact({
       "@context": "https://schema.org",
       "@type": "Review",
-      itemReviewed: { "@type": "HomeAndConstructionBusiness", "@id": BUSINESS_ID, name: siteConfig.name },
+      itemReviewed: {
+        "@type": "HomeAndConstructionBusiness",
+        "@id": BUSINESS_ID,
+        name: siteConfig.name,
+        address: businessPostalAddress(),
+      },
       author: { "@type": "Person", name: r.customerName },
       reviewRating: { "@type": "Rating", ratingValue: r.rating, bestRating: 5, worstRating: 1 },
       reviewBody: r.text,

@@ -61,6 +61,23 @@ export async function getCaseStudiesForSuburbPage(page: {
   return matched.filter(hasRealPhoto);
 }
 
+/**
+ * Latest completed jobs for the home page's "Recent work" section — newest
+ * first by `updatedAt`, real-photo entries only. Failure-safe (`[]` on any
+ * CMS error) so the home page never depends on this section rendering.
+ */
+export async function getRecentCaseStudies(limit = 3): Promise<CaseStudyPage[]> {
+  try {
+    const all = await getCaseStudies();
+    return all
+      .filter(hasRealPhoto)
+      .sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""))
+      .slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
 export async function getCaseStudySlugs(): Promise<string[]> {
   if (CMS_ON) {
     const feed = await cmsSitemapSafe();

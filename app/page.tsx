@@ -10,6 +10,8 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getServices } from "@/lib/data/services";
 import { getReviewsSummary } from "@/lib/data/reviews";
 import { getTestimonials } from "@/lib/data/testimonials";
+import { getRecentCaseStudies } from "@/lib/data/case-studies";
+import { HomeRecentWork } from "@/components/sections/home-recent-work";
 import { servicesItemListSchema, faqSchema, testimonialReviewSchemas } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { FAQ } from "@/types";
@@ -77,10 +79,11 @@ const HOME_FAQS: FAQ[] = [
 
 export default async function Home() {
   // Services ItemList structured data (helps search engines understand what we offer on "/").
-  const [services, summary, testimonials] = await Promise.all([
+  const [services, summary, testimonials, recentWork] = await Promise.all([
     getServices(),
     getReviewsSummary(),
     getTestimonials(),
+    getRecentCaseStudies(3),
   ]);
   const servicesList = servicesItemListSchema(
     services.map((s) => ({ name: s.name, url: s.canonicalHref, image: s.image })),
@@ -102,6 +105,7 @@ export default async function Home() {
       <Testimonials />
       <SmartCta />
       <CalculatorCta />
+      <HomeRecentWork caseStudies={recentWork} />
       <FAQSection faqs={HOME_FAQS} heading="Garage Door FAQs" />
       {/* gsap + ScrollTrigger only load once the user scrolls near this last
           section, keeping them out of the initial main-thread work. */}

@@ -16,7 +16,9 @@ import { NextResponse, type NextRequest } from "next/server";
 /** Listing pages rendered from each route group's page set (keys = backend `ToRouteKey()`). */
 const LISTINGS_BY_ROUTE_GROUP: Record<string, string[]> = {
   blog: ["/blog"],
-  "case-studies": ["/case-studies"],
+  // "/" — the home page's "Recent work" section shows the newest case studies
+  // (getRecentCaseStudies), so a new job page must refresh the home page too.
+  "case-studies": ["/case-studies", "/"],
   problems: ["/problems"],
   // "flat" spans ServicePage/ComparisonPage/CostGuidePage/ServiceSuburbPage templates — the
   // payload doesn't say which, so refresh all three flat listings.

@@ -40,8 +40,12 @@ Legend: ✅ = already in citations-pack Tier 1 · 🆕 = new prospect from this 
 | upbusinesses.com | 6 | ace, edenroc | 🆕 |
 | whatsyourhours.com | 21 | slideandglide | 🆕 |
 | top4.online | 12 | tower | 🆕 |
+| pinkpages.com.au | — | (On-Page Checker prospect 2026-08-05) | 🆕 AU directory |
+| auzzi.com.au | — | (On-Page Checker prospect 2026-08-05) | 🆕 AU business directory |
 | hotfrog.com.au | — | (not seen but standard) | ✅ pack #10 |
 | Bing Places / Apple / Localsearch / StartLocal / AussieWeb / Yelp / Cylex / WoM | — | — | ✅ pack #1–12 |
+
+> 2026-08-05: Semrush's On-Page SEO Checker ideas export independently re-suggested **archipro, truelocal, oneflare, top4, homeone and atozpages** as backlink sources for our money pages — treat those six as raised-priority within their sections.
 
 ## B. Perth/WA content & community sites (real editorial targets, free pitch)
 

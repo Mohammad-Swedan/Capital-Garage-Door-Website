@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { PageHero } from "@/components/sections/page-hero";
 import { InternalLinkCard } from "@/components/sections/internal-link-card";
+import { CostGuidesSeoContent } from "@/components/sections/cost-guides-seo-content";
 import { Breadcrumbs } from "@/components/seo/breadcrumbs";
 import { getCostGuidePages } from "@/lib/data/cost-guides";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -12,9 +13,9 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Cost Guides Perth | Capital Garage Doors",
+  title: "Garage Door Costs & Prices Perth | Capital Garage Doors",
   description:
-    "Browse our garage door cost guides — transparent pricing guidance for repairs, installation, motor replacement, and emergency call-outs across Perth.",
+    "Real Perth garage door prices from our own price list — repair, spring and motor replacement, servicing and new door installation costs, explained in detail.",
   path: "/cost-guides",
 });
 
@@ -66,6 +67,8 @@ export default async function CostGuidesPage() {
           </div>
         </Container>
       </section>
+
+      <CostGuidesSeoContent />
     </>
   );
 }

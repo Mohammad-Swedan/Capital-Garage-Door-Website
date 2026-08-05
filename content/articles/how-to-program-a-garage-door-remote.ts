@@ -23,8 +23,9 @@ export const howToProgramAGarageDoorRemote: Article = {
   publishedAt: "2026-08-05",
   updatedAt: "2026-08-05",
   featuredImage:
-    "https://jadara-hub.b-cdn.net/capital-garage-door/gallery/garage-door-motor-installation-perth.webp",
-  featuredImageAlt: "Technician programming a garage door remote to a wall-mounted opener in Perth",
+    "https://jadara-hub.b-cdn.net/capital-garage-door/motors/capital-garage-door-motor-accessories-kit.png",
+  featuredImageAlt:
+    "Garage door opener kit laid out with two remotes, wall control and smartphone app — the remotes you program to the motor",
   shortAnswer:
     "Nearly all Australian garage door openers program the same way: press the learn (or SET/CODE) button on the motor's powerhead until its light blinks, then within about 10 seconds press the remote button you want to use, twice on most brands. The motor's light flashing or clicking confirms the pairing. The learn button lives on the powerhead — the unit on the ceiling or wall — not on the wall switch, so you'll need a step ladder. If the remote still won't pair, the motor's memory may be full, the remote may use the wrong code protocol, or the receiver may be failing.",
   contentBlocks: [

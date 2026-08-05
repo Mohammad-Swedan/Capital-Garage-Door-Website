@@ -58,10 +58,10 @@ export const siteConfig = {
     facebook: "https://www.facebook.com/p/Capital-Garage-Door-Repairs-61581857974729/",
     instagram: "https://www.instagram.com/capitalgaragedoorperth1",
     youtube: "https://www.youtube.com/@CapitalGarageDoors",
-    // One canonical Google Business Profile link format sitewide — the same
-    // vanity token content/reviews.ts uses (an audit flagged two different
-    // g.page identifiers in play, which fragments the citation signal).
-    google: "https://g.page/r/CapitalGarageDoorPerth/review",
+    // One canonical Google Business Profile link sitewide — the verified CID
+    // URL (same as content/reviews.ts + the citations pack). The previous
+    // g.page vanity token didn't resolve (Semrush broken-link, 2026-08-05).
+    google: "https://www.google.com/maps?cid=14180702000236315157",
     yelp: "",
   },
 

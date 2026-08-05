@@ -18,8 +18,13 @@ import type { Review, ReviewsSummary } from "@/types/review";
 export const reviewsSummary: ReviewsSummary = {
   averageRating: 5.0,
   totalReviews: 24,
-  googleProfileUrl: "https://g.page/r/CapitalGarageDoorPerth/reviews",
-  googleWriteReviewUrl: "https://g.page/r/CapitalGarageDoorPerth/review",
+  // Verified-working GBP link (curl 200 + used by the citations pack). The old
+  // g.page/r/CapitalGarageDoorPerth vanity token was invented and resolved for
+  // nobody — Semrush flagged it as the site's one broken external link
+  // (2026-08-05). If the user extracts the official "Ask for reviews" short
+  // link from the GBP dashboard, swap it into googleWriteReviewUrl only.
+  googleProfileUrl: "https://www.google.com/maps?cid=14180702000236315157",
+  googleWriteReviewUrl: "https://www.google.com/maps?cid=14180702000236315157",
 };
 
 export const reviews: Review[] = [

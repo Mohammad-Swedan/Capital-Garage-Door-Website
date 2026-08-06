@@ -37,7 +37,8 @@ export const services: Service[] = [
     shortDescription: "Safe replacement of broken torsion and extension springs.",
     description:
       "Broken springs are dangerous to handle yourself. Our trained technicians safely replace torsion and extension springs with proper tools.",
-    image: "https://jadara-hub.b-cdn.net/capital-garage-door/f6fc0640098c46ad850e452b484793b1.png",
+    image:
+      "https://jadara-hub.b-cdn.net/capital-garage-door/heroes/garage-door-torsion-spring-replacement-perth.webp",
     icon: "Settings",
     canonicalHref: "/garage-door-spring-repair-perth",
   },

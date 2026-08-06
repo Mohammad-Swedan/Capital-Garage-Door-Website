@@ -2,15 +2,33 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Phone, FileText } from "lucide-react";
+import dynamic from "next/dynamic";
+import { Phone, FileText, CalendarCheck } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
 import { HoverPrefetchLink } from "@/components/ui/hover-prefetch-link";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
+// Heavy iframe dialogs — loaded only when a menu CTA is tapped.
+const BookingDialog = dynamic(
+  () => import("@/components/sections/booking-dialog").then((m) => m.BookingDialog),
+  { ssr: false }
+);
+const QuoteDialog = dynamic(
+  () => import("@/components/sections/quote-dialog").then((m) => m.QuoteDialog),
+  { ssr: false }
+);
+
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  // The header renders on EVERY page — never mount (= fetch) the dialog chunks
+  // until a CTA is actually tapped; keep them mounted afterwards so the iframe
+  // survives close/reopen.
+  const [bookingMounted, setBookingMounted] = useState(false);
+  const [quoteMounted, setQuoteMounted] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95">
@@ -96,34 +114,56 @@ export function Header() {
       </Container>
 
       {open && (
-        <div className="cgd-menu-fade fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col items-center justify-center gap-7 bg-background/98 backdrop-blur-xl lg:hidden">
-          {siteConfig.nav.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="font-display text-2xl text-foreground transition-colors hover:text-cta"
+        <div className="cgd-menu-fade fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-background/98 backdrop-blur-xl lg:hidden">
+          {/* Nav links — scrollable middle so short phones never clip the list. */}
+          <nav className="flex flex-1 flex-col items-center justify-center gap-5 overflow-y-auto px-6 py-8">
+            {siteConfig.nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="py-0.5 font-display text-xl text-foreground transition-colors hover:text-cta sm:text-2xl"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Conversion pair pinned to the bottom, thumb-reach zone. Calling is
+              already covered by the always-visible header phone button and the
+              sticky mobile CTA bar — the menu's job is quote + booking. */}
+          <div className="mx-auto grid w-full max-w-sm grid-cols-2 gap-3 px-6 pb-[max(2rem,env(safe-area-inset-bottom))]">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                setQuoteMounted(true);
+                setQuoteOpen(true);
+              }}
+              className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-primary/25 bg-primary/5 px-4 py-3.5 text-base font-bold text-primary transition-all active:scale-95"
             >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            href="/quote"
-            onClick={() => setOpen(false)}
-            className="mt-3 flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-lg font-bold text-foreground"
-          >
-            <FileText className="h-5 w-5" aria-hidden="true" />
-            Get a Quote
-          </Link>
-          <a
-            href={`tel:${siteConfig.business.phone}`}
-            className="flex items-center gap-2 rounded-full bg-cta px-7 py-3.5 text-lg font-bold text-cta-foreground"
-          >
-            <Phone className="h-5 w-5" aria-hidden="true" />
-            {siteConfig.business.phoneDisplay}
-          </a>
+              <FileText className="h-4.5 w-4.5" aria-hidden="true" />
+              Get a Quote
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                setBookingMounted(true);
+                setBookingOpen(true);
+              }}
+              className="flex min-h-12 items-center justify-center gap-2 rounded-full bg-cta px-4 py-3.5 text-base font-bold text-cta-foreground shadow-[0_4px_20px_rgba(200,34,42,0.3)] transition-all active:scale-95"
+            >
+              <CalendarCheck className="h-4.5 w-4.5" aria-hidden="true" />
+              Book Now
+            </button>
+          </div>
         </div>
       )}
+
+      {/* Outside the menu conditional so they survive the menu closing. */}
+      {quoteMounted && <QuoteDialog open={quoteOpen} onOpenChange={setQuoteOpen} />}
+      {bookingMounted && <BookingDialog open={bookingOpen} onOpenChange={setBookingOpen} />}
     </header>
   );
 }

@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { DeferredGoogleAnalytics, DeferredMicrosoftClarity } from "@/components/analytics/deferred-analytics";
+import {
+  DeferredGoogleAnalytics,
+  DeferredGoogleTagManager,
+  DeferredMicrosoftClarity,
+} from "@/components/analytics/deferred-analytics";
 import { InteractionTracking } from "@/components/analytics/interaction-tracking";
 import { Poppins, Open_Sans, Archivo_Black } from "next/font/google";
 import "./globals.css";
@@ -83,6 +87,20 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col overflow-x-hidden">
+        {/* GTM noscript fallback — the script half loads deferred via
+            DeferredGoogleTagManager below (a client effect can't render
+            noscript, so this half lives here). Production-only like the rest. */}
+        {process.env.NODE_ENV === "production" && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${siteConfig.googleTagManagerId}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="Google Tag Manager"
+            />
+          </noscript>
+        )}
         <JsonLd
           data={siteGraphSchema({
             ratingValue: summary.averageRating,
@@ -123,6 +141,7 @@ export default async function RootLayout({
       {process.env.NODE_ENV === "production" && (
         <>
           <DeferredGoogleAnalytics gaId={siteConfig.googleAnalyticsId} />
+          <DeferredGoogleTagManager gtmId={siteConfig.googleTagManagerId} />
           <DeferredMicrosoftClarity clarityId={siteConfig.microsoftClarityId} />
         </>
       )}

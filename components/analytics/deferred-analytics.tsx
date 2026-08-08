@@ -48,6 +48,50 @@ export function DeferredGoogleAnalytics({ gaId }: { gaId: string }) {
 }
 
 /**
+ * Google Tag Manager, loaded on `requestIdleCallback` for the same reason as
+ * gtag above — keep googletagmanager.com off the hydration/LCP critical path.
+ *
+ * The stock GTM snippet is equivalent to this: push the `gtm.start` timing
+ * message onto `dataLayer`, then inject gtm.js. Deferring the script load loses
+ * nothing — when the container arrives it replays every message already queued
+ * on `dataLayer`, including the plain-object events `track()` (lib/analytics.ts)
+ * has been pushing all along. GA4 delivery is unaffected: it still goes through
+ * gtag.js above, NOT through GTM — do not add a GA4 configuration tag to this
+ * container or page views will double-count.
+ *
+ * The `<noscript>` iframe half of the snippet is server-rendered in
+ * app/layout.tsx (it can't come from a client effect).
+ */
+export function DeferredGoogleTagManager({ gtmId }: { gtmId: string }) {
+  useEffect(() => {
+    if (!gtmId || document.getElementById("cgd-gtm")) return;
+
+    // Queue GTM's start message immediately; the container reads it (and every
+    // other queued message) when the deferred script lands.
+    const w = window as Window & { dataLayer?: unknown[] };
+    w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+
+    const load = () => {
+      if (document.getElementById("cgd-gtm")) return;
+      const script = document.createElement("script");
+      script.id = "cgd-gtm";
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
+      document.head.appendChild(script);
+    };
+
+    if (typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(load, { timeout: 5000 });
+    } else {
+      window.setTimeout(load, 2500);
+    }
+  }, [gtmId]);
+
+  return null;
+}
+
+/**
  * Microsoft Clarity (session recordings + heatmaps), loaded on
  * `requestIdleCallback` for the same reason as gtag above — Clarity's tag is
  * heavier than GA and would otherwise compete with hydration and the LCP on a

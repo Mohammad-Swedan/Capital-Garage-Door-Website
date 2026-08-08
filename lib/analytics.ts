@@ -7,9 +7,9 @@
  *
  * 1. `dataLayer.push({ event, ...params })` — a plain object. This is the shape
  *    **Google Tag Manager** consumes. `gtag.js` ignores plain objects (it only
- *    reads `arguments` objects — see components/analytics/deferred-analytics.tsx),
- *    so this push is inert today and becomes live the day a GTM container is
- *    added, with no code change anywhere.
+ *    reads `arguments` objects — see components/analytics/deferred-analytics.tsx).
+ *    Since 2026-08-08 the GTM container GTM-PLPC3F3L is live (loaded deferred in
+ *    app/layout.tsx), so these pushes now feed GTM triggers directly.
  * 2. `gtag("event", name, params)` — pushed as an `arguments` object, which is
  *    what actually delivers the event to **GA4 right now**, with no GTM.
  *
@@ -82,7 +82,7 @@ export function track(event: AnalyticsEvent | string, params: Record<string, unk
 
   const payload = { page: window.location.pathname, ...params };
 
-  // Sink 1 — GTM (inert until a container exists).
+  // Sink 1 — GTM (container GTM-PLPC3F3L, live since 2026-08-08).
   w.dataLayer.push({ event, ...payload });
 
   // Sink 2 — GA4 today. gtag commands MUST be pushed as `arguments` objects;

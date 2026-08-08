@@ -14,6 +14,10 @@ export const siteConfig = {
   // same deferred (requestIdleCallback), production-only way as GA4 so it stays
   // off the hydration/LCP critical path (see components/analytics).
   microsoftClarityId: "xt3rqfr3i5",
+  // Google Tag Manager container — reads the plain-object dataLayer pushes that
+  // lib/analytics.ts track() has emitted since day one (they were inert until
+  // this container existed). Loaded deferred + production-only like GA4.
+  googleTagManagerId: "GTM-PLPC3F3L",
 
   business: {
     // Registered entity name, verified against the ABR (abr.business.gov.au,

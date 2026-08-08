@@ -95,8 +95,8 @@ The business email is **never rendered as plaintext** (anti-spam-harvester): eve
 **`lib/analytics.ts` `track(event, params)` is the only way this site emits an analytics event.** Added 2026-08-02, after a GA4 query found the property held *nothing but automatic events* (`page_view`, `session_start`, `scroll`, `first_visit`, `user_engagement`) — no call, quote, booking, chat or calculator signal existed, so there was no way to answer "which pages produce leads?".
 
 `track()` pushes **both** shapes on purpose:
-- `dataLayer.push({ event, ...params })` — a plain object, which is what **Google Tag Manager** reads. `gtag.js` ignores plain objects, so it is inert today and goes live the day a GTM container is added, **with no code change**. (Ads is planned, hence this shape.)
-- `gtag("event", …)` pushed as an `arguments` object — which is what actually delivers to **GA4 today, without GTM**.
+- `dataLayer.push({ event, ...params })` — a plain object, which is what **Google Tag Manager** reads. `gtag.js` ignores plain objects. **The GTM container `GTM-PLPC3F3L` is live (2026-08-08)**: `DeferredGoogleTagManager` in `components/analytics/deferred-analytics.tsx` loads it the same deferred, production-only way as gtag (the `<noscript>` iframe half is server-rendered in `app/layout.tsx`), so these pushes now feed GTM triggers directly. (Ads is the intended consumer.)
+- `gtag("event", …)` pushed as an `arguments` object — which is what actually delivers to **GA4, via gtag.js directly, NOT through GTM**. **Never add a GA4 configuration/Google-tag to the GTM container** — GA4 delivery already happens through gtag.js, and a second GA4 tag in GTM would double-count every page view and event. If GA4 is ever migrated into GTM, remove `DeferredGoogleAnalytics` in the same change.
 
 **This dual push is the whole point.** The pre-existing `trackChatEvent` did only the first, so every chat CTA event it fired for months was silently discarded. It now delegates to `track()`.
 

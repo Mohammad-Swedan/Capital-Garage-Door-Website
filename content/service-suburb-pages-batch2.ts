@@ -642,6 +642,7 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
       "Maddington is right in the middle of our busiest south-east patch — we're next door in Gosnells and Thornlie constantly, so a Maddington call-out slots straight into routes we already run every day.",
       "The suburb's mix keeps the work varied: established homes with doors on their original springs, newer builds toward Orange Grove, and the workshops and yards along Albany Highway whose roller doors take a commercial-grade beating.",
       "Same-day calls cover Maddington, Kenwick, Orange Grove and Beckenham, with Gosnells, Thornlie and Huntingdale immediately alongside.",
+      "Residential and commercial roller doors are half the work in Maddington — re-tensioning curtains that have gone slack, freeing doors that jam in their guides, replacing worn roller-door springs, and keeping the high-cycle commercial rollers along Albany Highway running. If your roller door has become heavy, crooked or noisy, that's usually tension or guide wear, and both are quick, well-priced fixes.",
       "We carry parts for all the major Australian brands, including B&D, Steel-Line, Centurion, Gliderol and Dominator, plus Merlin, ATA and Chamberlain openers, so most repairs are finished in a single visit.",
     ],
     specificFaq: {
@@ -654,9 +655,11 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
       "sectional-garage-door-repair-thornlie-perth",
     ],
     seo: {
-      title: "Garage Door Repairs Maddington | Same-Day Local Service",
+      // 2026-08-12 CTR refactor (SERP research: roller cluster + price/mobile
+      // related searches) — keep in lockstep with scripts/enhance-maddington-page.ts.
+      title: "Garage Door Repairs Maddington | Roller Doors & Same-Day",
       description:
-        "Same-day garage door repairs in Maddington — springs, motors, cables & roller doors. Covering Kenwick, Orange Grove & Beckenham. Call for a free quote.",
+        "Same-day garage door & roller door repairs in Maddington. Upfront guide prices, mobile techs nearby in Gosnells & Thornlie daily. Springs, motors, cables.",
     },
   }),
 

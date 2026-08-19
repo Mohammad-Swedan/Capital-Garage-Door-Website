@@ -128,9 +128,11 @@ const PLANS: Record<string, SuburbPlan> = {
   },
   "garage-door-repairs-clarkson": {
     name: "Clarkson",
-    title: "Garage Door Repairs Clarkson | Same-Day Coastal Service",
+    // 2026-08-19: desired state now owned jointly with scripts/enhance-clarkson-page.ts
+    // (CLARKSON_SEO) — keep the two in lockstep.
+    title: "Garage Door Repairs Clarkson | Same-Day Mobile Service",
     description:
-      "Same-day garage door repairs in Clarkson — springs, motors, cables & sectional doors. Also covering Mindarie, Kinross & Banksia Grove. Free quotes.",
+      "Same-day mobile garage door repairs in Clarkson — springs, cables, motors & jammed doors, prices agreed upfront. Also Mindarie, Merriwa & Quinns Rocks.",
     paragraph:
       "Clarkson's mix of established streets and newer pockets near Ocean Keys keeps us busy with everything from worn-out springs to full motor replacements — and the salt air off Mindarie Marina doesn't do door hardware any favours. We take same-day calls across Clarkson, Mindarie, Kinross, Merriwa, Banksia Grove and Tamala Park, with parts on board for B&D, Steel-Line, Centurion, Gliderol and Dominator doors plus Merlin, ATA and Chamberlain openers.",
     coastal: true,

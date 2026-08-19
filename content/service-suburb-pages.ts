@@ -2,6 +2,8 @@ import type { ServiceSuburbPage } from "@/types";
 import { serviceSuburbPagesBatch2 } from "@/content/service-suburb-pages-batch2";
 import { cockburnCentralPage } from "@/content/service-suburb-pages-cockburn-central";
 import { atwellPage } from "@/content/service-suburb-pages-atwell";
+import { daytonPage } from "@/content/service-suburb-pages-dayton";
+import { padburyPage } from "@/content/service-suburb-pages-padbury";
 import { serviceSuburbPagesBatch3 } from "@/content/service-suburb-pages-batch3";
 
 /**
@@ -1293,4 +1295,12 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
   // Batch 3 (2026-08): 15 southern-corridor suburbs (Canning River / southern
   // growth / Armadale), each with a catalog-driven guide-price table.
   ...serviceSuburbPagesBatch3,
+
+  // Dayton (2026-08): user-priority Swan Valley suburb on a wide-open SERP
+  // (no competitor has a dedicated Dayton page); new-build content angle.
+  daytonPage,
+
+  // Padbury (2026-08-19): northern Whitfords-corridor suburb — 73 imp/90d on the
+  // homepage, weak SERP; anchored by the real Padbury roller-door-tracks job.
+  padburyPage,
 ];

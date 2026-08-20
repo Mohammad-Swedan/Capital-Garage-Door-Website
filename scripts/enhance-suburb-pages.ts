@@ -94,9 +94,11 @@ const PLANS: Record<string, SuburbPlan> = {
   },
   "garage-door-repairs-butler": {
     name: "Butler",
-    title: "Garage Door Repairs Butler | Same-Day Coastal Service",
+    // 2026-08-20: desired state now owned jointly with scripts/enhance-butler-page.ts
+    // (BUTLER_SEO) — keep the two in lockstep.
+    title: "Garage Door Repairs Butler | Same-Day & Upfront Prices",
     description:
-      "Same-day garage door repairs in Butler — springs, motors, cables & sectional doors. Also covering Alkimos, Jindalee & Quinns Rocks. Call for a free quote.",
+      "Same-day garage door repairs in Butler with prices agreed upfront — springs, cables, motors & openers. Real local jobs. Also Alkimos, Jindalee & Quinns Rocks.",
     paragraph:
       "Butler and the surrounding coastal corridor are full of newer homes with sectional doors that cop salt air year-round, so corroded springs and sticky tracks are common calls for us. We provide same-day service across Butler, Alkimos, Jindalee, Merriwa, Quinns Rocks and Ridgewood, carrying parts for B&D, Steel-Line, Centurion, Gliderol and Dominator doors plus Merlin, ATA and Chamberlain openers.",
     coastal: true,

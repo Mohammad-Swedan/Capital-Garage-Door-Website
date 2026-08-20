@@ -1883,6 +1883,11 @@ export const JOBS: JobPage[] = [
       },
       costFaq("Butler", "motor"),
       {
+        question: "How long does a garage door motor last?",
+        answer:
+          "Ten to fifteen years is typical. The Avanti replaced on this job was the builder-fitted unit from when the home was built, so it had done its time. An out-of-balance door (weak springs) and coastal air both shorten a motor's life — which is why we test the door's balance before fitting a new opener, so the replacement starts on a healthy door.",
+      },
+      {
         question: "Which garage door openers do you install in Butler?",
         answer:
           "Chamberlain, Merlin, Superlift, B&D, Steel-Line, ATA and our own Capital 1100N and 1500N motors — matched to your door's size and how often it's used. All come with rolling-code remotes and safety reversal set up on the day.",

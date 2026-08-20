@@ -855,9 +855,12 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
         "It's the damp, not the salt. Kalamunda gets noticeably more rain and mist than the coastal plain, and moisture that sits on springs, hinges and cables corrodes them over the years — the same end result as sea air, just slower. An annual service (clean, inspect, lubricate) is the cheapest way to slow it down, and we fit corrosion-resistant parts when hardware does need replacing.",
     },
     seo: {
-      title: "Garage Door Repairs Kalamunda | Same-Day Hills Service",
+      // 2026-08-20 pre-publish refactor — lockstep with scripts/enhance-kalamunda-page.ts
+      // (KALAMUNDA_SEO): "garage doors kalamunda" is the head term (40 imp @ pos 1.1),
+      // and the SERP's PAA is new-door buying intent.
+      title: "Garage Doors & Repairs Kalamunda | Same-Day Hills Team",
       description:
-        "Same-day garage door repairs in Kalamunda — rusted springs, motors & older doors fixed fast. Covering Lesmurdie, Gooseberry Hill & Forrestfield. Free quotes.",
+        "Garage door repairs & new doors in Kalamunda — rusted springs, older hills doors fixed same-day, sectional doors supplied & installed. Upfront guide prices.",
     },
   }),
 ];

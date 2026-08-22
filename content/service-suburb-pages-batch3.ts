@@ -867,9 +867,12 @@ export const serviceSuburbPagesBatch3: ServiceSuburbPage[] = [
       "roller-door-off-track-repair-gosnells-perth",
     ],
     seo: {
-      title: "Garage Door Repairs Forrestdale | Same-Day & Commercial",
+      // 2026-08-22 pre-publish refactor — lockstep with scripts/enhance-forrestdale-page.ts
+      // (FORRESTDALE_SEO). The SERP's top related search is "RESIDENTIAL garage door
+      // repairs forrestdale", so the title now carries homes as well as commercial.
+      title: "Garage Door Repairs Forrestdale WA | Homes & Commercial",
       description:
-        "Garage door & commercial roller door repairs in Forrestdale — shed doors, Business Park units, springs & motors. Guide prices listed. Covering Haynes & Hilbert.",
+        "Mobile garage door repairs in Forrestdale WA — homes, sheds and Business Park roller doors, with guide prices listed. Also Harrisdale, Piara Waters & Haynes.",
     },
   }),
 

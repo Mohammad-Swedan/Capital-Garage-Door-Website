@@ -664,7 +664,7 @@ export const JOBS: JobPage[] = [
     slug: "garage-door-repairs-byford-roller-door-cable-off-drum-perth",
     suburb: "Byford",
     geo: { lat: -32.221, lng: 115.995 },
-    wireSuburbSlugs: ["garage-door-repairs-armadale"],
+    wireSuburbSlugs: ["garage-door-repairs-armadale", "garage-door-repairs-forrestdale"],
     title: "Garage Door Repairs in Byford: Roller Door Cable Off the Drum",
     subtitle:
       "A near-new roller door in Byford went crooked and jammed when a lift cable jumped off its drum. We re-seated and re-tensioned the cables, levelled the curtain and had the door running smoothly again the same afternoon.",
@@ -707,7 +707,7 @@ export const JOBS: JobPage[] = [
       ],
     },
     partsUsed: ["Cable re-seat & re-tension (no parts required)", "Curtain level & travel check", "Opener limit & safety-reversal reset"],
-    relatedServices: [L.roller, L.repairs, L.suburb("Armadale", "garage-door-repairs-armadale"), L.offTrack, L.maintenance],
+    relatedServices: [L.roller, L.repairs, L.suburb("Armadale", "garage-door-repairs-armadale"), L.suburb("Forrestdale", "garage-door-repairs-forrestdale"), L.offTrack, L.maintenance],
     faqs: [
       {
         question: "Why does a roller door cable come off the drum?",
@@ -724,6 +724,11 @@ export const JOBS: JobPage[] = [
         question: "Do you service Byford's newer estates?",
         answer:
           "Yes — Byford, The Glades, Redgum Brook, Mundijong, Serpentine, Darling Downs and the whole Armadale–Byford corridor are covered by our same-day mobile service. Newer roller and sectional doors benefit from a service every 12–18 months to keep cables and limits in tune.",
+      },
+      {
+        question: "What is the average lifespan of a garage door?",
+        answer:
+          "The curtain or panels usually last 20 to 30 years; it is the moving parts that wear out. Springs are rated in open-close cycles — roughly 7 to 10 years of normal family use — with cables, rollers and hinges on a similar clock and openers lasting 10 to 15. A near-new door like this Byford one should give decades of service, which is exactly why a jumped cable is worth a service call rather than a replacement quote.",
       },
       {
         question: "Does a door that jumped its cable need new parts?",

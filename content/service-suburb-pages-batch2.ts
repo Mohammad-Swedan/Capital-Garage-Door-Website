@@ -781,9 +781,12 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
       "emergency-sectional-door-repair-canning-vale-perth",
     ],
     seo: {
-      title: "Garage Door Repairs Riverton | Same-Day Local Service",
+      // 2026-08-22 pre-publish refactor — lockstep with scripts/enhance-riverton-page.ts
+      // (RIVERTON_SEO). Postcode in the title mirrors the organic #1 (Express uses
+      // "Riverton 6148 Perth"); the SERP's PAA is cost/worth-repairing intent.
+      title: "Garage Door Repairs Riverton 6148 | Same-Day Local Team",
       description:
-        "Same-day garage door repairs in Riverton — springs, motors, cables & sectional doors. Covering Shelley, Rossmoyne, Parkwood & Lynwood. Free quotes.",
+        "Same-day residential garage door repairs in Riverton WA 6148 — springs, cables, motors & off-track doors, prices upfront. Also Shelley, Rossmoyne & Lynwood.",
     },
   }),
 

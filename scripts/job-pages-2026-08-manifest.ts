@@ -875,7 +875,7 @@ export const JOBS: JobPage[] = [
     slug: "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
     suburb: "Lynwood",
     geo: { lat: -32.04, lng: 115.93 },
-    wireSuburbSlugs: ["garage-door-repairs-lynwood", "garage-door-repairs-cannington"],
+    wireSuburbSlugs: ["garage-door-repairs-lynwood", "garage-door-repairs-riverton", "garage-door-repairs-cannington"],
     title: "Garage Door Repairs in Lynwood: Steel-Line Motor Replaced",
     subtitle:
       "A Lynwood sectional door was opening only half-way and behaving unpredictably. The Steel-Line opener was the culprit — we replaced it with a new Superlift motor, set the limits properly and had the door running full travel the same visit.",
@@ -917,7 +917,7 @@ export const JOBS: JobPage[] = [
       ],
     },
     partsUsed: ["Superlift garage door opener", "Remote programming", "Limit, force & safety-reversal set-up"],
-    relatedServices: [L.opener, L.stuckHalf, L.motors, L.motorCost, L.suburb("Cannington", "garage-door-repairs-cannington")],
+    relatedServices: [L.opener, L.stuckHalf, L.motors, L.motorCost, L.suburb("Riverton", "garage-door-repairs-riverton"), L.suburb("Cannington", "garage-door-repairs-cannington")],
     faqs: [
       {
         question: "Why does my garage door only open half-way?",
@@ -928,6 +928,16 @@ export const JOBS: JobPage[] = [
         question: "Can a Steel-Line opener be repaired instead of replaced?",
         answer:
           "Sometimes — remotes, sensors and limit resets are quick fixes. But when the drive is weak and the limits won't hold on an older unit, you're paying to chase faults on tired electronics. We'll tell you honestly which it is; here a new Superlift was the better value.",
+      },
+      {
+        question: "How long does a garage door motor last?",
+        answer:
+          "Ten to fifteen years is typical, and this Steel-Line unit had done its time. What shortens it is a door that has drifted out of balance: weak springs leave the opener lifting weight it was never designed for, so it runs hot and wears its drive out early. We test the door's balance before fitting any new opener, so the replacement starts on a healthy door.",
+      },
+      {
+        question: "What are the signs a garage door opener is failing?",
+        answer:
+          "Intermittent operation is the big one — it works today and stops half-way tomorrow, exactly as this Lynwood door did. Others: the travel limits drift so the door no longer closes fully or bounces back up, the motor sounds like it is straining, the light flickers or the remote needs several presses. None of those mean the door itself is bad; they mean the opener is at the end of its life or the door needs rebalancing.",
       },
       costFaq("Lynwood", "motor"),
       residentialFaq("Lynwood"),

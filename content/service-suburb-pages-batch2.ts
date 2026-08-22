@@ -699,9 +699,12 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
       "emergency-sectional-door-repair-canning-vale-perth",
     ],
     seo: {
-      title: "Garage Door Repairs Huntingdale | Same-Day Service",
+      // 2026-08-22 pre-publish refactor — lockstep with scripts/enhance-huntingdale-page.ts
+      // (HUNTINGDALE_SEO). "WA" is deliberate: Huntingdale VIC 3166 exists and the
+      // organic #1 (Otto's) titles its page "Garage Door Repairs Huntingdale WA".
+      title: "Garage Door Repairs Huntingdale WA | Same-Day Service",
       description:
-        "Same-day garage door repairs in Huntingdale — springs, motors, cables & sectional doors. Covering Gosnells, Thornlie & Southern River. Free quotes.",
+        "Same-day residential garage door repairs in Huntingdale WA 6110 — springs, cables, motors, prices agreed upfront. Also Gosnells, Thornlie & Southern River.",
     },
   }),
 

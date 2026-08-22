@@ -490,7 +490,7 @@ export const JOBS: JobPage[] = [
       ],
     },
     partsUsed: ["Superlift garage door opener", "Torsion springs (pair)", "Remote programming", "Balance & safety-reversal test"],
-    relatedServices: [L.opener, L.motors, L.springs, L.motorCost, L.springCost, L.suburb("Lathlain", "garage-door-repairs-lathlain")],
+    relatedServices: [L.suburb("Belmont", "garage-door-repairs-belmont"), L.opener, L.motors, L.springs, L.motorCost, L.springCost, L.suburb("Lathlain", "garage-door-repairs-lathlain")],
     faqs: [
       {
         question: "Why replace the springs when I only asked for a new motor?",
@@ -507,11 +507,23 @@ export const JOBS: JobPage[] = [
         answer:
           "Superlift is a quiet, belt-and-chain sectional door opener with LED lighting, soft start/stop, rolling-code remotes and battery-backup options — a solid mid-range replacement for older Avanti, Gliderol and ATA units. We also supply our own Capital 1100N/1500N motors and Merlin and Chamberlain units.",
       },
+      {
+        question: "How long does a garage door motor last?",
+        answer:
+          "Ten to fifteen years is typical, and this Belmont Avanti was at the end of that road. What shortens it is exactly what we found here: a door that has gone out of balance. Weak springs leave the opener lifting weight it was never designed to carry, so it runs hot, wears its gears and dies years early. Replacing the springs at the same time is what makes the new motor last its full life.",
+      },
+      {
+        question: "Is it cheaper to repair or replace a garage door opener?",
+        answer:
+          "On a mid-life opener with a single fault — a capacitor, a gear set, a limit switch or a remote — a repair is much cheaper and we will do exactly that. Once an older unit's drive or logic board fails, the parts cost approaches a new opener that comes with a full warranty, quieter operation and rolling-code remotes, which is where this Belmont Avanti had landed. We test the door's balance first either way, because an out-of-balance door is what kills openers early.",
+      },
       costFaq("Belmont", "motor"),
       sameDayFaq("Belmont", "Cloverdale, Kewdale, Redcliffe, Rivervale, Ascot and Lathlain"),
     ],
     seo: {
-      title: "Garage Door Repairs Belmont | New Motor & Springs Fitted",
+      // Differentiated from the suburb page (which owns "Garage Door Repairs
+      // Belmont WA") so the two don't compete for the same head term.
+      title: "Garage Door Motor & Springs Replaced in Belmont, Perth",
       description:
         "A failing Avanti opener on a Belmont sectional door replaced with a Superlift motor plus new torsion springs, balanced and tested in one visit. Real job photos.",
     },

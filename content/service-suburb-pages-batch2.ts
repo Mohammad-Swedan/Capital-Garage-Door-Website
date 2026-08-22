@@ -411,9 +411,12 @@ export const serviceSuburbPagesBatch2: ServiceSuburbPage[] = [
       "garage-door-lift-cable-replacement-bayswater-perth",
     ],
     seo: {
-      title: "Garage Door Repairs Belmont | Same-Day Local Service",
+      // 2026-08-22 pre-publish refactor — lockstep with scripts/enhance-belmont-page.ts
+      // (BELMONT_SEO). "WA 6104" is deliberate: Belmont also exists in NSW/VIC and
+      // "garage door repairs belmont nsw" is in the SERP's related searches.
+      title: "Garage Door Repairs Belmont WA | Same-Day Mobile Service",
       description:
-        "Same-day garage door repairs in Belmont — springs, motors & commercial roller doors. Covering Cloverdale, Redcliffe, Ascot & Kewdale. Free quotes.",
+        "Same-day mobile garage door repairs in Belmont WA 6104 — springs, motors, cables plus commercial roller doors in Kewdale. Upfront guide prices, real local jobs.",
     },
   }),
 

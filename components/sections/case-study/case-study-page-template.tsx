@@ -11,6 +11,7 @@ import { CaseStudyHero } from "@/components/sections/case-study/case-study-hero"
 import { JobSummaryCards } from "@/components/sections/case-study/job-summary-cards";
 import { DetailSection } from "@/components/sections/case-study/detail-section";
 import { BeforeAfterGallery } from "@/components/sections/case-study/before-after-gallery";
+import { RelatedServices } from "@/components/page/related-services";
 import type { CaseStudyPage } from "@/types/case-study";
 
 interface CaseStudyPageTemplateProps {
@@ -53,6 +54,18 @@ export function CaseStudyPageTemplate({ data }: CaseStudyPageTemplateProps) {
       {/* Render the FAQ so it matches the FAQPage JSON-LD emitted for this route
           (PageSchema kind="case-study"). Guarded — older entries may omit faqs. */}
       {data.faqs?.length ? <FAQSection faqs={data.faqs} /> : null}
+
+      {/* Every case study carries relatedServices (its suburb page + the money
+          pages the job maps to), set by the job importers — but nothing rendered
+          them, so case studies were internal-link dead ends. Guarded for older
+          entries with an empty list. */}
+      {data.relatedServices?.length ? (
+        <RelatedServices
+          eyebrow="Explore more"
+          title={data.suburb ? `Garage Door Services in ${data.suburb} & Across Perth` : "Related Garage Door Services"}
+          links={data.relatedServices}
+        />
+      ) : null}
 
       <SmartCta />
 

@@ -778,7 +778,7 @@ export const JOBS: JobPage[] = [
     slug: "garage-door-repairs-aveley-opener-replacement-perth",
     suburb: "Aveley",
     geo: { lat: -31.783, lng: 115.984 },
-    wireSuburbSlugs: ["garage-door-repairs-ellenbrook"],
+    wireSuburbSlugs: ["garage-door-repairs-ellenbrook", "garage-door-repairs-dayton"],
     title: "Garage Door Repairs in Aveley: Gliderol Opener Replaced with a Superlift",
     subtitle:
       "The original Gliderol Glidermatic opener on an Aveley sectional door stopped operating. We replaced it with a new Superlift motor on the existing rail line, programmed the remotes and tested the door the same visit.",
@@ -820,7 +820,7 @@ export const JOBS: JobPage[] = [
       ],
     },
     partsUsed: ["Superlift garage door opener", "Door arm & rail bracket", "Remote programming", "Limit, force & safety-reversal set-up"],
-    relatedServices: [L.opener, L.motors, L.motorCost, L.suburb("Ellenbrook", "garage-door-repairs-ellenbrook"), L.motorDead, L.remotes],
+    relatedServices: [L.opener, L.motors, L.motorCost, L.suburb("Ellenbrook", "garage-door-repairs-ellenbrook"), L.suburb("Midland", "garage-door-repairs-midland"), L.motorDead, L.remotes],
     faqs: [
       {
         question: "Can you replace a Gliderol Glidermatic opener with a different brand?",
@@ -831,6 +831,16 @@ export const JOBS: JobPage[] = [
         question: "How long does a garage door opener replacement take?",
         answer:
           "Around one to two hours on site for a straightforward swap like this one, including programming remotes and setting the limits. If the door also needs springs or cables it's still usually a same-day job.",
+      },
+      {
+        question: "Is it worth repairing an old garage door opener?",
+        answer:
+          "It depends entirely on the fault and the unit's age. A capacitor, a gear set, a limit switch or a remote on a mid-life opener is a genuine repair and we will do it. But on a builder-fitted unit of this Glidermatic's vintage the drive is worn, parts support has dried up, and a board replacement costs a large share of a new opener that comes with a full warranty and rolling-code remotes. We tell you which side of that line your opener sits on before quoting.",
+      },
+      {
+        question: "My garage door opener has stopped — is it the motor or the power?",
+        answer:
+          "Check the power point first: if the opener's light is dead and the wall button does nothing either, it is the unit or its supply, not your remote. If the light works but the door will not move, the drive or the gears have usually failed. And if the door itself is very heavy to lift on the manual release, the springs are the real problem and the opener has simply been overworked. We run all three checks on arrival before recommending anything.",
       },
       costFaq("Aveley", "motor"),
       {

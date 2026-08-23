@@ -807,9 +807,12 @@ export const serviceSuburbPagesBatch3: ServiceSuburbPage[] = [
     ],
     caseStudySlugs: SOUTHERN_CASES,
     seo: {
-      title: "Garage Door Repairs Piara Waters | Same-Day Service",
+      // 2026-08-23 pre-publish refactor — lockstep with scripts/enhance-piara-waters-page.ts
+      // (PIARA_WATERS_SEO). This SERP competes on price transparency (Jim's ranks on
+      // "No hidden fees, upfront pricing"), which the old title never mentioned.
+      title: "Garage Door Repairs Piara Waters | Same-Day, Upfront Prices",
       description:
-        "Same-day garage door repairs in Piara Waters — springs, motors & smart openers on estate homes. Guide prices listed. Covering Harrisdale, Forrestdale & Treeby.",
+        "Same-day garage door repairs in Piara Waters — estate-home springs, cables, motors and dusty sensors, guide prices listed. Also Harrisdale & Forrestdale.",
     },
   }),
 

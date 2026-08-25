@@ -1649,7 +1649,7 @@ export const JOBS: JobPage[] = [
       ],
     },
     partsUsed: ["Re-track & realignment (no parts required)", "Roller & cable inspection", "Opener limit & safety-reversal reset", "Lubrication service"],
-    relatedServices: [L.offTrack, L.repairs, L.suburb("Rockingham", "garage-door-repairs-rockingham"), L.suburb("Baldivis", "garage-door-repairs-baldivis"), L.emergency],
+    relatedServices: [L.offTrack, L.repairs, L.suburb("Rockingham", "garage-door-repairs-rockingham"), L.suburb("Baldivis", "garage-door-repairs-baldivis"), L.emergency, L.maintenance, L.repairCost],
     faqs: [
       {
         question: "Why did my garage door come off its track?",
@@ -1660,6 +1660,16 @@ export const JOBS: JobPage[] = [
         question: "Can I push a garage door back onto its track myself?",
         answer:
           "We'd advise against it. The panels are heavy, the springs are under tension, and forcing a sagging door bends panels and hinges. Leave it where it is, don't run the opener, and call — an off-track door is a same-day job for us across Secret Harbour and Rockingham.",
+      },
+      {
+        question: "How long does it take to re-track a garage door?",
+        answer:
+          "Usually under an hour once we are on site, as on this Secret Harbour job. The time goes into finding out why it came off — a bent track, a worn or corroded roller, a slack cable or a loose fixing — because putting the panels back without fixing the cause just means it happens again. If a part does need replacing we carry rollers, brackets and cables on the van, so it stays a single visit.",
+      },
+      {
+        question: "Is it cheaper to repair or replace a door that keeps coming off its track?",
+        answer:
+          "Repair, in almost every case. A door that repeatedly jumps its track is telling you a specific part has worn — most often the rollers or a track fixing — and replacing that part costs a fraction of a new door. Replacement only becomes the sensible option when panels have been creased by repeated jams or the frame itself has been pulled out of square. We inspect the whole door before quoting either way.",
       },
       costFaq("Secret Harbour", "repair"),
       {

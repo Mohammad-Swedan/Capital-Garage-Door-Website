@@ -751,9 +751,13 @@ export const serviceSuburbPagesBatch3: ServiceSuburbPage[] = [
     ],
     caseStudySlugs: SOUTHERN_CASES,
     seo: {
-      title: "Garage Door Repairs Harrisdale | Same-Day Local Service",
+      // 2026-08-25 pre-publish refactor — lockstep with scripts/enhance-harrisdale-page.ts
+      // (HARRISDALE_SEO). Same price-transparency battleground as Piara Waters
+      // (Jim's ranks on "No hidden fees, upfront pricing"); "fixed price" also
+      // differentiates the title from the neighbouring Piara Waters page.
+      title: "Garage Door Repairs Harrisdale | Same-Day, Fixed Prices",
       description:
-        "Same-day garage door repairs in Harrisdale — springs, motors & smart Wi-Fi openers on estate homes. Guide prices listed. Covering Piara Waters & Forrestdale.",
+        "Same-day garage door repairs in Harrisdale — estate-home springs, cables and smart Wi-Fi openers, quoted as a fixed price. Also Piara Waters & Forrestdale.",
     },
   }),
 

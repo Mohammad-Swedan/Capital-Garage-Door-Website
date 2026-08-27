@@ -30,7 +30,7 @@ export const bAndDGarageDoorsPerth: BrandPage = {
   },
   quickFacts: [
     { label: "Origin", value: "Australia (founded Sydney, 1946)" },
-    { label: "Warranty", value: "Market-leading 10-year warranty" },
+    { label: "Warranty", value: "10-year manufacturer warranty" },
     { label: "Known for", value: "Roll-A-Door, Panelift & the Designer Series" },
     { label: "Door types", value: "Roller, sectional & commercial" },
     { label: "What we do", value: "Supply, install, service & repair" },
@@ -42,7 +42,7 @@ export const bAndDGarageDoorsPerth: BrandPage = {
     paragraphs: [
       "B&D has been Australia's best-known garage door name since it was founded in Sydney in 1946, and nowhere is that more visible than on Perth's established brick-and-tile suburbs. The original Roll-A-Door — the compact steel roller door B&D is credited with inventing — became the default fit on homes built through the 1970s, 80s and 90s, and it's still the badge most Perth homeowners picture when they think 'garage door'. That long run in the market is why we still see so many Roll-A-Doors on daily call-outs across the metro area, from Thornlie to Kalamunda.",
       "B&D says it is the only manufacturer that makes both its doors and its openers in-house, and backs new doors and openers with a market-leading 10-year warranty. Alongside the classic Roll-A-Door roller range, the Panelift sectional line (including the Panelift Seville) and the Sheer Panel finish Designer Series cover newer residential builds, while the Series 2 Commercial Roller Door and ToughPanel sectional range extend the same engineering to sheds and small commercial sites. The Controll-A-Door Power Drive and Smart Pro opener ranges, paired with the B&D App, add smartphone control to compatible doors.",
-      "Age is the main thing working against an older Roll-A-Door: decades of use wear the torsion spring, corrode the curtain guides and stretch the Nylofelt running strips B&D pioneered. None of that is unusual — it is simply what a 20 or 30-year-old roller door needs, and it is almost always a straightforward same-day repair rather than a reason to replace the door. Newer Panelift sectional and Designer Series doors face different age-related issues, mostly around panel hinges and the Smart Pro opener, which is why we check the whole door — not just the fault reported — on every call-out.",
+      "Age is the main thing working against an older Roll-A-Door: decades of use wear the torsion spring, corrode the curtain guides and stretch the Nylofelt running strips B&D pioneered. None of that is unusual — it is simply what a 20 or 30-year-old roller door needs, and it is almost always a straightforward same-day repair rather than a reason to replace the door. Newer Panelift sectional and Designer Series doors face different age-related wear: hinges, rollers and the opener's travel limits are the usual wear points on any sectional door, which is why we check the whole door — not just the fault reported — on every call-out.",
     ],
   },
   services: [

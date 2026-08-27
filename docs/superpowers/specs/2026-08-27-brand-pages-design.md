@@ -101,7 +101,7 @@ export interface BrandPage {
 }
 ```
 
-Files: `content/brands/entities.ts` (all 39 entities), `content/brands/motors/<slug>.ts`, `content/brands/doors/<slug>.ts`, `content/brands/index.ts` (exports `brandPages: BrandPage[]`). `entities.ts` must stay import-free of server code — the header (client) imports it for logos.
+Files: `content/brands/entities.ts` (30 entities — 9 brands carry both kinds, so the two hubs show 39 tiles), `content/brands/motors/<slug>.ts`, `content/brands/doors/<slug>.ts`, `content/brands/index.ts` (exports `brandPages: BrandPage[]`). `entities.ts` must stay import-free of server code — the header (client) imports it for logos.
 
 ## 6. Brand page anatomy (`components/sections/brands/brand-page-template.tsx`)
 

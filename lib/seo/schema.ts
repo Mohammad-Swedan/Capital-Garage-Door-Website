@@ -814,3 +814,19 @@ export function brandPageSchema({ page, entity, rendered }: ResolvedBrandPage) {
   });
   return [service, webPage];
 }
+
+/**
+ * Brand hub JSON-LD (/garage-door-brands-perth, /garage-door-motor-brands-perth): a CollectionPage
+ * for the hub itself plus an ItemList of the brand guides it links to. FAQPage is emitted
+ * separately at the route level so hubs without FAQs don't ship an empty node; BreadcrumbList
+ * comes from `<Breadcrumbs>` inside the template.
+ */
+export function brandHubSchemas(
+  hub: { slug: string; name: string; seo: { description: string } },
+  items: { name: string; url: string; image?: string }[],
+) {
+  return [
+    collectionPageSchema({ name: hub.name, description: hub.seo.description, path: `/${hub.slug}` }),
+    servicesItemListSchema(items, `/${hub.slug}`),
+  ];
+}

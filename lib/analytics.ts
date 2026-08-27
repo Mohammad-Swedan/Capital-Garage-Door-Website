@@ -57,6 +57,8 @@ export type AnalyticsEvent =
   | "calculator_complete"
   /** A settled query in the /service-areas suburb finder — `results: 0` = demand we don't list. */
   | "suburb_search"
+  /** A settled query in a brand hub's finder — `results: 0` = a brand we don't list yet. */
+  | "brand_search"
   /** A quote request was actually SUBMITTED in the embedded booking widget — a real lead. */
   | "quote_submit"
   /** A booking was completed in the embedded booking widget — a real lead. */

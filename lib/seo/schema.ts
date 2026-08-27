@@ -8,6 +8,7 @@ import type { CaseStudyPage } from "@/types/case-study";
 import type { LandingPage } from "@/types/landing-page";
 import type { Review } from "@/types/review";
 import type { CoverageRegion } from "@/types/coverage-area";
+import type { ResolvedBrandPage } from "@/types/brand";
 
 /* ------------------------------------------------------------------ *
  * Shared helpers
@@ -767,4 +768,41 @@ export function speakableSchema(path: string, extraSelectors: string[] = []) {
       cssSelector: ["h1", ...extraSelectors],
     },
   };
+}
+
+/* ------------------------------------------------------------------ *
+ * Brand pages
+ * ------------------------------------------------------------------ */
+
+/**
+ * Brand page JSON-LD: a Service (what WE do for the brand — provider = the business by @id) plus
+ * a WebPage whose `about` is the manufacturer Brand (sameAs = the verified official site). No
+ * Product/Offer (we don't sell the third-party brand as a product) and no aggregateRating on the
+ * Service (unsupported host type — GSC rejected it on another site).
+ */
+export function brandPageSchema({ page, entity, rendered }: ResolvedBrandPage) {
+  const noun = page.kind === "motor" ? "garage door motor" : "garage door";
+  const service = compact({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: page.hero.h1,
+    serviceType: `${entity.name} ${noun} repairs, service and ${page.kind === "motor" ? "replacement" : "installation"}`,
+    description: rendered.directAnswer,
+    url: absUrl(`/${page.slug}`),
+    provider: providerRef(),
+    areaServed: { "@type": "City", name: siteConfig.business.address.addressLocality },
+  });
+  const webPage = compact({
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    url: absUrl(`/${page.slug}`),
+    name: page.seo.title,
+    about: compact({
+      "@type": "Brand",
+      name: entity.name,
+      sameAs: entity.url,
+      logo: entity.logo ? absUrl(entity.logo) : undefined,
+    }),
+  });
+  return [service, webPage];
 }

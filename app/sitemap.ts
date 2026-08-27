@@ -8,6 +8,7 @@ import { getComparisonPageSlugs } from "@/lib/data/comparison-pages";
 import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
 import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
 import { getCaseStudySlugs } from "@/lib/data/case-studies";
+import { getBrandHub, getBrandPages } from "@/lib/data/brands";
 
 /**
  * XML sitemap for every public route.
@@ -54,6 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     costGuidePageSlugs,
     suburbPageSlugs,
     caseStudySlugs,
+    brandPagesAll,
   ] = await Promise.all([
     readCmsFeed(),
     getArticleSlugs(),
@@ -63,6 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getCostGuidePageSlugs(),
     getServiceSuburbPageSlugs(),
     getCaseStudySlugs(),
+    getBrandPages(),
   ]);
 
   // Index the CMS feed by absolute URL for lastmod lookup, skipping noindex pages.
@@ -88,6 +91,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       if (Number.isFinite(t) && (newest === undefined || t > newest)) newest = t;
     }
     return newest !== undefined ? new Date(newest) : undefined;
+  };
+
+  /**
+   * Brand pages are local content (no CMS feed entry), so their lastmod comes from the content
+   * file's own `updatedAt`; each hub inherits the newest of its kind.
+   */
+  const newestBrand = (kind: "door" | "motor"): Date | undefined => {
+    const ds = brandPagesAll
+      .filter((p) => p.kind === kind)
+      .map((p) => new Date(p.updatedAt).getTime())
+      .filter((t) => Number.isFinite(t));
+    return ds.length ? new Date(Math.max(...ds)) : undefined;
   };
 
   /** Newest lastmod across the whole CMS feed (for the home page). */
@@ -125,7 +140,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     staticEntry("/service-areas", newestOf(suburbPageSlugs) ?? DEPLOYED_AT),
     // Reserved slug: /garage-door-motors-perth is a static route (app/garage-door-motors-perth).
     // A CMS page published under the same slug would be shadowed by it — don't create one.
+    // The same applies to every brand slug and to the two brand hubs below: they resolve from
+    // local content in app/[slug], ahead of the CMS registries.
     staticEntry("/garage-door-motors-perth", DEPLOYED_AT),
+    staticEntry(`/${getBrandHub("door").slug}`, newestBrand("door") ?? DEPLOYED_AT),
+    staticEntry(`/${getBrandHub("motor").slug}`, newestBrand("motor") ?? DEPLOYED_AT),
     staticEntry("/cost-guides", newestOf(costGuidePageSlugs) ?? DEPLOYED_AT),
     staticEntry("/calculator", DEPLOYED_AT),
     staticEntry("/quote", DEPLOYED_AT),
@@ -141,6 +160,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   const dynamic: Array<MetadataRoute.Sitemap[number] | null> = [
+    ...brandPagesAll.map((p) => ({ url: absolute(`/${p.slug}`), lastModified: new Date(p.updatedAt) })),
     ...suburbPageSlugs.map((slug) => entry(`/${slug}`)),
     ...servicePageSlugs.map((slug) => entry(`/${slug}`)),
     ...comparisonPageSlugs.map((slug) => entry(`/${slug}`)),

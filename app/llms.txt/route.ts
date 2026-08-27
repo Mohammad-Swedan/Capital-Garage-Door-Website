@@ -6,6 +6,7 @@ import { getProblems } from "@/lib/data/problems";
 import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
 import { getComparisonPageSlugs } from "@/lib/data/comparison-pages";
 import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
+import { getBrandHub, getBrandPages } from "@/lib/data/brands";
 
 /**
  * `/llms.txt` — the llmstxt.org convention: a concise, markdown-shaped index of
@@ -27,7 +28,7 @@ function titleFromSlug(slug: string): string {
 }
 
 export async function GET() {
-  const [services, articles, problems, costGuideSlugs, comparisonSlugs, suburbSlugs] =
+  const [services, articles, problems, costGuideSlugs, comparisonSlugs, suburbSlugs, brandPagesAll] =
     await Promise.all([
       getServices(),
       getArticles(),
@@ -35,6 +36,7 @@ export async function GET() {
       getCostGuidePageSlugs(),
       getComparisonPageSlugs(),
       getServiceSuburbPageSlugs(),
+      getBrandPages(),
     ]);
 
   const url = siteConfig.url;
@@ -62,6 +64,11 @@ export async function GET() {
     "",
     "## Buying Guides & Comparisons",
     ...comparisonSlugs.map((slug) => `- [${titleFromSlug(slug)}](${url}/${slug})`),
+    "",
+    "## Garage Door & Motor Brands",
+    `- [${getBrandHub("door").name}](${url}/${getBrandHub("door").slug})`,
+    `- [${getBrandHub("motor").name}](${url}/${getBrandHub("motor").slug})`,
+    ...brandPagesAll.map((p) => `- [${p.hero.h1}](${url}/${p.slug})`),
     "",
     "## Common Problems",
     ...problems.map((p) => `- [${p.name}](${url}/problems/${p.slug})`),

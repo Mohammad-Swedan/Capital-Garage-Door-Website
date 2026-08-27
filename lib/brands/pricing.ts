@@ -35,16 +35,21 @@ export function buildPricingRows(
     const live = catalog.find(
       (r) => normalize(r.scenario ?? "") === target && r.priceMin != null && r.priceMax != null,
     );
-    const min = live ? (live.priceMin as number) : scenario.priceMin;
-    const max = live ? (live.priceMax as number) : scenario.priceMax;
-    if (min == null || max == null) continue; // per-unit / open-ended scenarios have no range
+    const min = live ? live.priceMin : scenario.priceMin;
+    const max = live ? live.priceMax : scenario.priceMax;
+    if (min == null) continue; // per-unit scenarios have no headline figure at all
+    // Open-ended scenarios (e.g. "Service / tune-up", From $140 + parts) carry no upper bound, so
+    // they show their authored label instead of a range — the same rule as the CMS page mapper's
+    // priceLabel(). Dropping them instead would silently shorten the guide-price table AND make
+    // any {{price:id}} token pinned to one throw.
+    const label = live?.priceLabel ?? scenario.priceLabel;
     rows.push({
       id,
       label: scenario.scenario,
-      price: formatRange(min, max),
+      price: max == null ? (label ?? `From ${formatRange(min, min)}`) : formatRange(min, max),
       note: live?.note ?? scenario.publicNote,
       min,
-      max,
+      max: max ?? min,
       source: live ? "catalog" : "baked",
     });
   }
@@ -53,12 +58,19 @@ export function buildPricingRows(
 
 const TOKEN = /\{\{price:([a-z0-9-]+)\}\}/g;
 
-/** Replace `{{price:<id>}}` with the resolved range. Unknown id = content bug → throw. */
+/**
+ * Replace `{{price:<id>}}` with the resolved range. Unknown id = content bug → throw.
+ *
+ * Open-ended prices are authored sentence-style for the table ("From $140 + parts"); every token
+ * in the brand copy sits mid-sentence ("…a full service is {{price:service}}, and…"), so the
+ * leading "From" is lowercased unless the token genuinely starts a sentence.
+ */
 export function renderPriceTokens(copy: string, rows: ResolvedPriceRow[]): string {
-  return copy.replace(TOKEN, (_m, id: string) => {
+  return copy.replace(TOKEN, (_m: string, id: string, offset: number) => {
     const row = rows.find((r) => r.id === id);
     if (!row) throw new Error(`Price token "${id}" is not in this page's pricingPins`);
-    return row.price;
+    const startsSentence = offset === 0 || /(^|[.!?])\s+$/.test(copy.slice(0, offset));
+    return startsSentence ? row.price : row.price.replace(/^From /, "from ");
   });
 }
 

@@ -14,6 +14,7 @@ import {
   reviewSchemasFromServiceReviews,
   reviewSchemasFromReviews,
   providerRef,
+  brandPageSchema,
 } from "@/lib/seo/schema";
 import type { ServicePage } from "@/types/service-page";
 import type { ComparisonPage } from "@/types/comparison-page";
@@ -22,6 +23,7 @@ import type { Article } from "@/types/article";
 import type { CaseStudyPage } from "@/types/case-study";
 import type { LandingPage } from "@/types/landing-page";
 import type { Problem, ServiceSuburbPage } from "@/types";
+import type { ResolvedBrandPage } from "@/types/brand";
 
 /**
  * Centralised, route-level JSON-LD emitter for every detail-page template.
@@ -49,6 +51,7 @@ import type { Problem, ServiceSuburbPage } from "@/types";
  * | case-study    | Article(+image) · FAQPage                                             |
  * | service-suburb| LocalBusiness · Service · FAQPage · speakable                         |
  * | landing       | Service · FAQPage · Review[] · speakable                              |
+ * | brand         | Service · WebPage(about: Brand) · FAQPage · speakable                 |
  *
  * No `aggregateRating`/`review` is attached to any `Service` node — Google's
  * review-snippet feature only supports those properties on a fixed type list
@@ -66,7 +69,8 @@ export type PageSchemaProps =
   | { kind: "cost-guide"; data: CostGuidePage }
   | { kind: "case-study"; data: CaseStudyPage }
   | { kind: "service-suburb"; data: ServiceSuburbPage }
-  | { kind: "landing"; data: LandingPage };
+  | { kind: "landing"; data: LandingPage }
+  | { kind: "brand"; data: ResolvedBrandPage };
 
 /** Emit one `<JsonLd>` per node; arrays are flattened so each node is its own script tag. */
 function Nodes({ nodes }: { nodes: Array<object | null | undefined> }) {
@@ -217,6 +221,19 @@ export function PageSchema(props: PageSchemaProps) {
             page.faqs.length ? faqSchema(page.faqs) : null,
             ...reviewSchemasFromReviews(page.reviews.items),
             speakableSchema(`/lp/${page.slug}`),
+          ]}
+        />
+      );
+    }
+
+    case "brand": {
+      const r = props.data;
+      return (
+        <Nodes
+          nodes={[
+            ...brandPageSchema(r),
+            r.rendered.faqs.length ? faqSchema(r.rendered.faqs) : null,
+            speakableSchema(`/${r.page.slug}`, ["#direct-answer"]),
           ]}
         />
       );

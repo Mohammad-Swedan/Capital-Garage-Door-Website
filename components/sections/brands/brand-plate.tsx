@@ -35,7 +35,9 @@ export function BrandPlate({ entity, quickFacts, kind }: BrandPlateProps) {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,31,69,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,31,69,0.06)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_80%_80%_at_50%_0%,black_30%,transparent_90%)]" />
         <span className="cgd-brand-plate-sheen absolute inset-y-0 -left-1/3 w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent" />
       </div>
-      <div className="-mt-16 flex justify-center">
+      {/* The mark overlaps the band's bottom ~64px. It isn't interactive, so it must not swallow
+          the pointer — otherwise it masks a third of the band's hover target for the sheen. */}
+      <div className="pointer-events-none -mt-16 flex justify-center">
         <BrandMark entity={entity} size="xl" priority className="ring-4 ring-card" />
       </div>
       <div className="px-6 pt-4 pb-6 sm:px-8">

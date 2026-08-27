@@ -1,3 +1,5 @@
+import type { NavMenuKey } from "@/config/nav-menus";
+
 export const siteConfig = {
   name: "Capital Garage Doors",
   shortName: "Capital Garage Doors",
@@ -69,17 +71,23 @@ export const siteConfig = {
     yelp: "",
   },
 
+  // 10 items. `menu` opts an item into a header mega-menu — the panel's content
+  // lives in config/nav-menus.ts (NAV_MENUS), keyed by this value, never by the
+  // label. `Home` is hidden below `xl` in the desktop nav (the logo links home)
+  // so the row never wraps at 1024 px — re-measure at 1024/1280 before adding an
+  // 11th item.
   nav: [
     { label: "Home", href: "/" },
-    { label: "Services", href: "/services" },
-    { label: "Motors", href: "/garage-door-motors-perth" },
+    { label: "Services", href: "/services", menu: "services" },
+    { label: "Doors", href: "/garage-doors-perth", menu: "doors" },
+    { label: "Motors", href: "/garage-door-motors-perth", menu: "motors" },
     { label: "Service Areas", href: "/service-areas" },
     { label: "Price Calculator", href: "/calculator" },
     { label: "Gallery", href: "/gallery" },
     { label: "Blog", href: "/blog" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
-  ],
+  ] as const satisfies readonly { label: string; href: string; menu?: NavMenuKey }[],
 
   footerNav: [
     {
@@ -105,6 +113,8 @@ export const siteConfig = {
         { label: "Case Studies", href: "/case-studies" },
         { label: "Roller vs Sectional Doors", href: "/roller-door-vs-sectional-door" },
         { label: "Price Calculator", href: "/calculator" },
+        { label: "Garage Door Brands", href: "/garage-door-brands-perth" },
+        { label: "Motor Brands", href: "/garage-door-motor-brands-perth" },
       ],
     },
     {

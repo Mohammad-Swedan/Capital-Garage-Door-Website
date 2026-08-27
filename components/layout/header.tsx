@@ -3,10 +3,21 @@
 import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { Phone, FileText, CalendarCheck } from "lucide-react";
+import { Phone, FileText, CalendarCheck, ChevronDown, ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
+import { MegaMenu, navBrandEntity } from "@/components/layout/mega-menu";
+import { BrandMark } from "@/components/sections/brands/brand-mark";
 import { HoverPrefetchLink } from "@/components/ui/hover-prefetch-link";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { NAV_MENUS, type NavMenuKey } from "@/config/nav-menus";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +33,9 @@ const QuoteDialog = dynamic(
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  // Mobile only — one accordion group expanded at a time. Reset whenever the
+  // overlay closes so reopening the menu always starts from the flat list.
+  const [openMenu, setOpenMenu] = useState<NavMenuKey | null>(null);
   const [bookingOpen, setBookingOpen] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   // The header renders on EVERY page — never mount (= fetch) the dialog chunks
@@ -37,31 +51,68 @@ export function Header() {
           href="/"
           className="flex items-center"
           aria-label={siteConfig.name}
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false);
+            setOpenMenu(null);
+          }}
         >
           <Logo className="text-2xl sm:text-3xl lg:text-2xl xl:text-3xl" />
         </Link>
 
-        {/* gap tightens at lg so all 9 items + Call Now fit a 1024px viewport.
-            HoverPrefetchLink: these 9 links sit in the viewport on every page
+        {/* gap tightens at lg so all 10 items + Call Now fit a 1024px viewport
+            (`Home` is xl-only — the logo already links home).
+            HoverPrefetchLink: these links sit in the viewport on every page
             load — default prefetching fired ~968 KB of route payloads at load
             time, starving the LCP resource on mobile. Prefetch now waits for
-            hover/touch intent. */}
-        <nav className="hidden items-center gap-3 lg:flex xl:gap-6">
-          {siteConfig.nav.map((item) => (
-            <HoverPrefetchLink
-              key={item.href}
-              href={item.href}
-              className="group relative whitespace-nowrap py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {item.label}
-              <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-cta transition-transform duration-300 ease-out group-hover:scale-x-100" />
-            </HoverPrefetchLink>
-          ))}
-        </nav>
+            hover/touch intent, and the three mega-menu panels stay unmounted
+            (so their brand logos never load) until a trigger opens. */}
+        {/* flex-none: the Base UI root ships `flex-1`, which makes the nav
+            absorb every spare pixel and pushes the CTA cluster past the
+            container edge at 1280. Natural width + the container's
+            justify-between spaces the three groups instead. */}
+        <NavigationMenu align="center" className="hidden max-w-none flex-none lg:flex" aria-label="Main">
+          <NavigationMenuList className="gap-0.5 xl:gap-1">
+            {siteConfig.nav.map((item) =>
+              "menu" in item ? (
+                <NavigationMenuItem key={item.href} value={item.menu}>
+                  <NavigationMenuTrigger className="whitespace-nowrap px-1 text-sm font-medium text-muted-foreground hover:bg-transparent hover:text-foreground focus:bg-transparent data-open:bg-transparent data-open:text-foreground data-open:hover:bg-transparent data-open:focus:bg-transparent data-popup-open:bg-transparent data-popup-open:text-foreground data-popup-open:hover:bg-transparent">
+                    <span className="relative">
+                      {item.label}
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-x-0 -bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-cta transition-transform duration-300 ease-out group-hover/navigation-menu-trigger:scale-x-100 group-data-popup-open/navigation-menu-trigger:scale-x-100"
+                      />
+                    </span>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <MegaMenu menu={NAV_MENUS[item.menu]} />
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ) : (
+                <NavigationMenuItem
+                  key={item.href}
+                  className={cn(item.href === "/" && "hidden xl:flex")}
+                >
+                  <NavigationMenuLink
+                    render={<HoverPrefetchLink href={item.href} />}
+                    className="group/navlink relative whitespace-nowrap rounded-lg px-1 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent"
+                  >
+                    {item.label}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-1 bottom-0 h-0.5 origin-left scale-x-0 rounded-full bg-cta transition-transform duration-300 ease-out group-hover/navlink:scale-x-100"
+                    />
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              )
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
 
-        <div className="flex items-center gap-3">
-          {/* Quote CTA — xl-only so the 9 nav items + Call Now still fit a
+        {/* shrink-0: at 1280 the 10-item nav + both CTAs fill the row exactly
+            — without this the two buttons get squeezed and wrap to two lines. */}
+        <div className="flex shrink-0 items-center gap-3">
+          {/* Quote CTA — xl-only so the nav items + Call Now still fit a
               1024px viewport; below xl the mobile menu + sticky CTA carry it. */}
           <HoverPrefetchLink
             href="/quote"
@@ -88,7 +139,10 @@ export function Header() {
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open ? "true" : "false"}
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => {
+              setOpen((value) => !value);
+              setOpenMenu(null);
+            }}
             className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
           >
             <span
@@ -115,18 +169,130 @@ export function Header() {
 
       {open && (
         <div className="cgd-menu-fade fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col bg-background/98 backdrop-blur-xl lg:hidden">
-          {/* Nav links — scrollable middle so short phones never clip the list. */}
-          <nav className="flex flex-1 flex-col items-center justify-center gap-5 overflow-y-auto px-6 py-8">
-            {siteConfig.nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="py-0.5 font-display text-xl text-foreground transition-colors hover:text-cta sm:text-2xl"
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Nav links — scrollable middle so short phones never clip the list.
+              `m-auto` on the inner column centres the list when it fits and lets
+              it scroll from the top when an accordion is expanded (flex
+              `justify-center` would clip the first rows instead). */}
+          <nav
+            aria-label="Main"
+            className="flex flex-1 flex-col overflow-y-auto px-6 py-8"
+          >
+            <div className="m-auto flex w-full max-w-xs flex-col gap-4">
+              {siteConfig.nav.map((item) => {
+                if (!("menu" in item)) {
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="py-0.5 font-display text-xl text-foreground transition-colors hover:text-cta sm:text-2xl"
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                }
+
+                const menu = NAV_MENUS[item.menu];
+                const expanded = openMenu === item.menu;
+                const panelId = `mobile-nav-${item.menu}`;
+
+                return (
+                  <div key={item.href}>
+                    <div className="flex items-center justify-between gap-2">
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="py-0.5 font-display text-xl text-foreground transition-colors hover:text-cta sm:text-2xl"
+                      >
+                        {item.label}
+                      </Link>
+                      <button
+                        type="button"
+                        aria-expanded={expanded ? "true" : "false"}
+                        aria-controls={panelId}
+                        aria-label={`${expanded ? "Hide" : "Show"} ${item.label} links`}
+                        onClick={() =>
+                          setOpenMenu((value) => (value === item.menu ? null : item.menu))
+                        }
+                        className="-mr-2 flex min-h-11 min-w-11 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        <ChevronDown
+                          className={cn(
+                            "h-5 w-5 transition-transform duration-300",
+                            expanded && "rotate-180"
+                          )}
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+
+                    {expanded && (
+                      <div
+                        id={panelId}
+                        className="mt-3 flex flex-col gap-4 border-l-2 border-cta/40 pl-4"
+                      >
+                        {menu.columns.map((column) => (
+                          <div key={column.title}>
+                            <p className="mb-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                              {column.title}
+                            </p>
+                            <ul className="flex flex-col">
+                              {column.links.map((link) => (
+                                <li key={link.href}>
+                                  <Link
+                                    href={link.href}
+                                    onClick={() => setOpen(false)}
+                                    className="flex min-h-11 items-center text-base text-muted-foreground transition-colors hover:text-cta"
+                                  >
+                                    {link.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+
+                        {menu.brands && (
+                          <div>
+                            <p className="mb-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                              {menu.brands.title}
+                            </p>
+                            <ul className="grid grid-cols-2 gap-2">
+                              {menu.brands.items.map((brand) => {
+                                const entity = navBrandEntity(brand.entity);
+                                if (!entity) return null;
+                                return (
+                                  <li key={brand.href}>
+                                    <Link
+                                      href={brand.href}
+                                      onClick={() => setOpen(false)}
+                                      className="flex min-h-11 items-center gap-2 rounded-xl border border-border/60 bg-background/60 p-1.5 transition-colors hover:border-cta/40"
+                                    >
+                                      <BrandMark entity={entity} size="sm" />
+                                      <span className="text-xs font-semibold leading-tight text-foreground">
+                                        {entity.name}
+                                      </span>
+                                    </Link>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                            <Link
+                              href={menu.brands.allHref}
+                              onClick={() => setOpen(false)}
+                              className="mt-2 flex min-h-11 items-center gap-1 text-base font-semibold text-primary transition-colors hover:text-cta"
+                            >
+                              {menu.brands.allLabel}
+                              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </nav>
 
           {/* Conversion pair pinned to the bottom, thumb-reach zone. Calling is

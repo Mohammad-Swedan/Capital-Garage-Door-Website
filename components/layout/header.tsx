@@ -17,7 +17,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { NAV_MENUS, type NavMenuKey } from "@/config/nav-menus";
+import { NAV_MENUS, navMenuHrefs, type NavMenuKey } from "@/config/nav-menus";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +30,11 @@ const QuoteDialog = dynamic(
   () => import("@/components/sections/quote-dialog").then((m) => m.QuoteDialog),
   { ssr: false }
 );
+
+// Computed once at module load — every href reachable through NAV_MENUS
+// (columns, brand tiles, "all brands" links, per-menu footer links),
+// deduplicated. See navMenuHrefs() for why this exists.
+const SITE_SECTION_LINKS = navMenuHrefs();
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -46,6 +51,24 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95">
+      {/* Crawlable, always server-rendered regardless of breakpoint. Base UI
+          mounts a mega-menu panel's content only once its trigger opens, and
+          the mobile accordion only once expanded, so without this list every
+          NAV_MENUS link (all 12 brand pages, both brand hubs, /garage-doors-perth…)
+          would have no sitewide inlink except the footer. Visually hidden, but
+          real anchors — tabbable, and crawlable by search engines. */}
+      <nav aria-label="Site sections" className="sr-only">
+        <ul>
+          {SITE_SECTION_LINKS.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} prefetch={false}>
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <Container className="flex h-16 items-center justify-between">
         <Link
           href="/"
@@ -174,7 +197,7 @@ export function Header() {
               it scroll from the top when an accordion is expanded (flex
               `justify-center` would clip the first rows instead). */}
           <nav
-            aria-label="Main"
+            aria-label="Mobile"
             className="flex flex-1 flex-col overflow-y-auto px-6 py-8"
           >
             <div className="m-auto flex w-full max-w-xs flex-col gap-4">
@@ -226,69 +249,73 @@ export function Header() {
                       </button>
                     </div>
 
-                    {expanded && (
-                      <div
-                        id={panelId}
-                        className="mt-3 flex flex-col gap-4 border-l-2 border-cta/40 pl-4"
-                      >
-                        {menu.columns.map((column) => (
-                          <div key={column.title}>
-                            <p className="mb-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-                              {column.title}
-                            </p>
-                            <ul className="flex flex-col">
-                              {column.links.map((link) => (
-                                <li key={link.href}>
-                                  <Link
-                                    href={link.href}
-                                    onClick={() => setOpen(false)}
-                                    className="flex min-h-11 items-center text-base text-muted-foreground transition-colors hover:text-cta"
-                                  >
-                                    {link.label}
-                                  </Link>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        ))}
+                    {/* Always rendered (never conditionally mounted) and toggled
+                        via `hidden` so `aria-controls={panelId}` above always
+                        resolves to a real element, collapsed or not. */}
+                    <div
+                      id={panelId}
+                      className={cn(
+                        "mt-3 flex flex-col gap-4 border-l-2 border-cta/40 pl-4",
+                        !expanded && "hidden"
+                      )}
+                    >
+                      {menu.columns.map((column) => (
+                        <div key={column.title}>
+                          <p className="mb-1.5 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                            {column.title}
+                          </p>
+                          <ul className="flex flex-col">
+                            {column.links.map((link) => (
+                              <li key={link.href}>
+                                <HoverPrefetchLink
+                                  href={link.href}
+                                  onClick={() => setOpen(false)}
+                                  className="flex min-h-11 items-center text-base text-muted-foreground transition-colors hover:text-cta"
+                                >
+                                  {link.label}
+                                </HoverPrefetchLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
 
-                        {menu.brands && (
-                          <div>
-                            <p className="mb-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
-                              {menu.brands.title}
-                            </p>
-                            <ul className="grid grid-cols-2 gap-2">
-                              {menu.brands.items.map((brand) => {
-                                const entity = navBrandEntity(brand.entity);
-                                if (!entity) return null;
-                                return (
-                                  <li key={brand.href}>
-                                    <Link
-                                      href={brand.href}
-                                      onClick={() => setOpen(false)}
-                                      className="flex min-h-11 items-center gap-2 rounded-xl border border-border/60 bg-background/60 p-1.5 transition-colors hover:border-cta/40"
-                                    >
-                                      <BrandMark entity={entity} size="sm" />
-                                      <span className="text-xs font-semibold leading-tight text-foreground">
-                                        {entity.name}
-                                      </span>
-                                    </Link>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                            <Link
-                              href={menu.brands.allHref}
-                              onClick={() => setOpen(false)}
-                              className="mt-2 flex min-h-11 items-center gap-1 text-base font-semibold text-primary transition-colors hover:text-cta"
-                            >
-                              {menu.brands.allLabel}
-                              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                            </Link>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                      {menu.brands && (
+                        <div>
+                          <p className="mb-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
+                            {menu.brands.title}
+                          </p>
+                          <ul className="grid grid-cols-2 gap-2">
+                            {menu.brands.items.map((brand) => {
+                              const entity = navBrandEntity(brand.entity);
+                              if (!entity) return null;
+                              return (
+                                <li key={brand.href}>
+                                  <HoverPrefetchLink
+                                    href={brand.href}
+                                    onClick={() => setOpen(false)}
+                                    className="flex min-h-11 items-center gap-2 rounded-xl border border-border/60 bg-background/60 p-1.5 transition-colors hover:border-cta/40"
+                                  >
+                                    <BrandMark entity={entity} size="sm" />
+                                    <span className="text-xs font-semibold leading-tight text-foreground">
+                                      {entity.name}
+                                    </span>
+                                  </HoverPrefetchLink>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          <HoverPrefetchLink
+                            href={menu.brands.allHref}
+                            onClick={() => setOpen(false)}
+                            className="mt-2 flex min-h-11 items-center gap-1 text-base font-semibold text-primary transition-colors hover:text-cta"
+                          >
+                            {menu.brands.allLabel}
+                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                          </HoverPrefetchLink>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}

@@ -37,18 +37,15 @@ function PanelLink({
   href,
   children,
   className,
-  onNavigate,
 }: {
   href: string;
   children: React.ReactNode;
   className?: string;
-  onNavigate?: () => void;
 }) {
   return (
     <NavigationMenuLink
       closeOnClick
       render={<HoverPrefetchLink href={href} />}
-      onClick={onNavigate}
       className={cn(LINK_CLASS, className)}
     >
       {children}
@@ -81,7 +78,6 @@ function ColumnTitle({ id, children }: { id: string; children: React.ReactNode }
 
 interface MegaMenuProps {
   menu: NavMenu;
-  onNavigate?: () => void;
 }
 
 /**
@@ -90,7 +86,7 @@ interface MegaMenuProps {
  * nobody hovers the nav on — the same "intent first" rule the header's
  * HoverPrefetchLink follows for route payloads.
  */
-export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
+export function MegaMenu({ menu }: MegaMenuProps) {
   const brands = menu.brands;
 
   return (
@@ -100,8 +96,7 @@ export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
           <NavigationMenuLink
             closeOnClick
             render={<HoverPrefetchLink href="/garage-door-motors-perth" />}
-            onClick={onNavigate}
-            className="group/featured flex-col items-stretch gap-0 self-start overflow-hidden rounded-2xl border border-border/70 bg-muted/40 p-0 transition-all hover:-translate-y-0.5 hover:border-cta/40 hover:bg-muted/60 hover:shadow-md focus-visible:ring-2! focus-visible:ring-cta/70!"
+            className="group/featured flex-col items-stretch gap-0 self-start overflow-hidden rounded-2xl! border border-border/70 bg-muted/40 p-0 transition-all hover:-translate-y-0.5 hover:border-cta/40 hover:bg-muted/60 hover:shadow-md focus-visible:ring-2! focus-visible:ring-cta/70!"
           >
             <Image
               src={MOTOR_IMAGES.studio.src}
@@ -134,9 +129,7 @@ export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
             <ul aria-labelledby={`nav-${menu.key}-col-${index}`} className="flex flex-col gap-0.5">
               {column.links.map((link) => (
                 <li key={link.href} className="flex">
-                  <PanelLink href={link.href} onNavigate={onNavigate}>
-                    {link.label}
-                  </PanelLink>
+                  <PanelLink href={link.href}>{link.label}</PanelLink>
                 </li>
               ))}
             </ul>
@@ -155,8 +148,7 @@ export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
                     <NavigationMenuLink
                       closeOnClick
                       render={<HoverPrefetchLink href={item.href} />}
-                      onClick={onNavigate}
-                      className="w-full items-center gap-2.5 rounded-xl border border-border/60 bg-background p-2 transition-all hover:-translate-y-0.5 hover:border-cta/40 hover:bg-muted/50 hover:shadow-sm focus-visible:ring-2! focus-visible:ring-cta/70!"
+                      className="w-full items-center gap-2.5 rounded-xl! border border-border/60 bg-background p-2 transition-all hover:-translate-y-0.5 hover:border-cta/40 hover:bg-muted/50 hover:shadow-sm focus-visible:ring-2! focus-visible:ring-cta/70!"
                     >
                       <BrandMark entity={entity} size="sm" />
                       <span className="text-xs font-semibold leading-tight text-foreground">
@@ -168,11 +160,7 @@ export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
               })}
             </ul>
             <div className="mt-3 flex">
-              <PanelLink
-                href={brands.allHref}
-                onNavigate={onNavigate}
-                className="font-semibold text-foreground"
-              >
+              <PanelLink href={brands.allHref} className="font-semibold text-foreground">
                 {brands.allLabel}
                 <ArrowRight className="ml-1 size-3.5 transition-transform duration-300 group-hover/link:translate-x-0.5" aria-hidden="true" />
               </PanelLink>
@@ -182,11 +170,7 @@ export function MegaMenu({ menu, onNavigate }: MegaMenuProps) {
       </div>
 
       <div className="mt-6 flex justify-end border-t border-border/60 pt-4">
-        <PanelLink
-          href={menu.footer.href}
-          onNavigate={onNavigate}
-          className="text-sm font-bold text-primary hover:text-cta"
-        >
+        <PanelLink href={menu.footer.href} className="text-sm font-bold text-primary hover:text-cta">
           {menu.footer.label}
           <ArrowRight className="ml-1 size-3.5 transition-transform duration-300 group-hover/link:translate-x-0.5" aria-hidden="true" />
         </PanelLink>

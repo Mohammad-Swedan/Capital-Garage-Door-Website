@@ -1,3 +1,5 @@
+import { BRAND_ENTITIES } from "@/content/brands/entities";
+
 export type NavMenuKey = "services" | "doors" | "motors";
 
 export interface NavMenuLink {
@@ -128,3 +130,35 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
     footer: { label: "Capital 1100N & 1500N motors", href: "/garage-door-motors-perth" },
   },
 };
+
+const BRAND_NAME_BY_SLUG = new Map(BRAND_ENTITIES.map((entity) => [entity.slug, entity.name]));
+
+/**
+ * Every link reachable through NAV_MENUS, deduplicated by href — feeds the
+ * header's `sr-only` "Site sections" nav. Base UI mounts a mega-menu panel's
+ * content only once its trigger opens, and the mobile accordion only once
+ * expanded, so none of this is otherwise present in the server-rendered HTML
+ * — including all 12 brand pages and hubs like /garage-doors-perth, which had
+ * no other sitewide inlink.
+ */
+export function navMenuHrefs(): { label: string; href: string }[] {
+  const seen = new Map<string, string>();
+  const add = (href: string, label: string) => {
+    if (!seen.has(href)) seen.set(href, label);
+  };
+
+  for (const menu of Object.values(NAV_MENUS)) {
+    for (const column of menu.columns) {
+      for (const link of column.links) add(link.href, link.label);
+    }
+    if (menu.brands) {
+      for (const item of menu.brands.items) {
+        add(item.href, BRAND_NAME_BY_SLUG.get(item.entity) ?? item.entity);
+      }
+      add(menu.brands.allHref, menu.brands.allLabel);
+    }
+    add(menu.footer.href, menu.footer.label);
+  }
+
+  return Array.from(seen, ([href, label]) => ({ href, label }));
+}

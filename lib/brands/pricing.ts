@@ -5,8 +5,13 @@ import type { CostGuidanceRow } from "@/types";
 export interface ResolvedPriceRow extends CostGuidanceRow {
   /** pricing-data.ts scenario id. */
   id: string;
-  min: number;
-  max: number;
+  /**
+   * Only set when the row resolved to a real min–max range. Open-ended ("From $140 + parts") and
+   * per-unit ("$95 each + $120 to attend & program") scenarios render their authored label instead,
+   * and carry no numbers rather than a fabricated bound.
+   */
+  min?: number;
+  max?: number;
   source: "catalog" | "baked";
 }
 
@@ -18,10 +23,17 @@ export function formatRange(min: number, max: number): string {
 }
 
 /**
- * Pins → guide-price rows. The baked pricing-data.ts range is the fallback; a live catalog row
+ * Pins → guide-price rows. The baked pricing-data.ts entry is the fallback; a live catalog row
  * whose `scenario` equals the baked scenario name (case/punctuation-insensitive) overrides it —
  * the same exact-name rule the calculator uses, without its keyword fallback (a brand page must
  * never show a neighbouring scenario's price).
+ *
+ * A scenario resolves to a range when it has BOTH bounds; otherwise it renders its authored
+ * `priceLabel` — that covers open-ended scenarios ("Service / tune-up", From $140 + parts) and
+ * per-unit ones ("Remote (extra / replacement)", $95 each + $120 to attend & program). A live row
+ * therefore counts as a match when it carries either a full range or a label. A pin that resolves
+ * to neither is a content bug and throws, like an unknown pin: a pinned scenario must always be
+ * visible in the table, never silently dropped so the copy and the table disagree.
  */
 export function buildPricingRows(
   pins: string[],
@@ -33,23 +45,25 @@ export function buildPricingRows(
     if (!scenario) throw new Error(`Unknown pricing pin "${id}" — must be a pricing-data.ts scenario id`);
     const target = normalize(scenario.scenario);
     const live = catalog.find(
-      (r) => normalize(r.scenario ?? "") === target && r.priceMin != null && r.priceMax != null,
+      (r) =>
+        normalize(r.scenario ?? "") === target &&
+        ((r.priceMin != null && r.priceMax != null) || Boolean(r.priceLabel)),
     );
     const min = live ? live.priceMin : scenario.priceMin;
     const max = live ? live.priceMax : scenario.priceMax;
-    if (min == null) continue; // per-unit scenarios have no headline figure at all
-    // Open-ended scenarios (e.g. "Service / tune-up", From $140 + parts) carry no upper bound, so
-    // they show their authored label instead of a range — the same rule as the CMS page mapper's
-    // priceLabel(). Dropping them instead would silently shorten the guide-price table AND make
-    // any {{price:id}} token pinned to one throw.
-    const label = live?.priceLabel ?? scenario.priceLabel;
+    const label = (live ? live.priceLabel : scenario.priceLabel) || undefined;
+    const hasRange = min != null && max != null;
+    if (!hasRange && !label) {
+      throw new Error(
+        `Pricing pin "${id}" resolved to neither a min–max range nor a priceLabel — it cannot be shown as a guide price`,
+      );
+    }
     rows.push({
       id,
       label: scenario.scenario,
-      price: max == null ? (label ?? `From ${formatRange(min, min)}`) : formatRange(min, max),
+      price: hasRange ? formatRange(min, max) : (label as string),
       note: live?.note ?? scenario.publicNote,
-      min,
-      max: max ?? min,
+      ...(hasRange ? { min, max } : {}),
       source: live ? "catalog" : "baked",
     });
   }

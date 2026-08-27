@@ -776,9 +776,10 @@ export function speakableSchema(path: string, extraSelectors: string[] = []) {
 
 /**
  * Brand page JSON-LD: a Service (what WE do for the brand — provider = the business by @id) plus
- * a WebPage whose `about` is the manufacturer Brand (sameAs = the verified official site). No
- * Product/Offer (we don't sell the third-party brand as a product) and no aggregateRating on the
- * Service (unsupported host type — GSC rejected it on another site).
+ * a WebPage whose `about` is the manufacturer Brand (sameAs = the verified official site) and which
+ * carries the page's speakable spec. No Product/Offer (we don't sell the third-party brand as a
+ * product) and no aggregateRating on the Service (unsupported host type — GSC rejected it on
+ * another site).
  */
 export function brandPageSchema({ page, entity, rendered }: ResolvedBrandPage) {
   const noun = page.kind === "motor" ? "garage door motor" : "garage door";
@@ -790,8 +791,11 @@ export function brandPageSchema({ page, entity, rendered }: ResolvedBrandPage) {
     description: rendered.directAnswer,
     url: absUrl(`/${page.slug}`),
     provider: providerRef(),
-    areaServed: { "@type": "City", name: siteConfig.business.address.addressLocality },
+    // Brand pages serve the whole metro, not the Southern River base other Service nodes name.
+    areaServed: { "@type": "City", name: "Perth" },
   });
+  // ONE WebPage node for this URL — the speakable spec lives on it rather than a second, competing
+  // WebPage from speakableSchema().
   const webPage = compact({
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -803,6 +807,10 @@ export function brandPageSchema({ page, entity, rendered }: ResolvedBrandPage) {
       sameAs: entity.url,
       logo: entity.logo ? absUrl(entity.logo) : undefined,
     }),
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "#direct-answer"],
+    },
   });
   return [service, webPage];
 }

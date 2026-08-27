@@ -6,6 +6,8 @@ import { siteConfig } from "@/config/site";
 interface ServiceQuoteFormProps {
   serviceName: string;
   heading?: string;
+  /** Optional line under the heading — brand pages pass their `cta.subtitle`. */
+  subtitle?: string;
 }
 
 /**
@@ -13,7 +15,11 @@ interface ServiceQuoteFormProps {
  * to the closest matching service. Owns the #quote anchor every "Request a Quote" CTA
  * scrolls to. Submissions land directly in the CRM.
  */
-export function ServiceQuoteForm({ serviceName, heading = "Request a Free Quote" }: ServiceQuoteFormProps) {
+export function ServiceQuoteForm({
+  serviceName,
+  heading = "Request a Free Quote",
+  subtitle,
+}: ServiceQuoteFormProps) {
   return (
     <div id="quote" className="scroll-mt-24 rounded-3xl border border-border bg-card p-6 shadow-[0_8px_32px_rgba(13,31,69,0.08)] sm:p-8">
       <div className="flex flex-col gap-1.5 sm:flex-row sm:items-baseline sm:justify-between">
@@ -28,6 +34,12 @@ export function ServiceQuoteForm({ serviceName, heading = "Request a Free Quote"
           Prefer to call? {siteConfig.business.phoneDisplay}
         </a>
       </div>
+
+      {subtitle && (
+        <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
+          {subtitle}
+        </p>
+      )}
 
       <div className="mt-6">
         <QuoteFrame

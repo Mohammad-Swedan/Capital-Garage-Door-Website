@@ -145,6 +145,7 @@ export function BrandPageTemplate({ resolved, caseStudies }: BrandPageTemplatePr
             <ServiceQuoteForm
               serviceName={`${entity.name} garage door ${noun}`}
               heading={page.cta.heading}
+              subtitle={page.cta.subtitle}
             />
           </div>
         </Container>

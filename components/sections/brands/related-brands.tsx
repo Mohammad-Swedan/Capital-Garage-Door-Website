@@ -29,9 +29,10 @@ export function RelatedBrands({ hub, brands }: RelatedBrandsProps) {
         />
         <nav aria-label={`Other ${hub.kind} brands`} className="mt-8">
           <ul className="flex flex-wrap gap-3">
+            {/* Reveal renders a <div>, so it must sit INSIDE the <li> — ul > div > li is invalid. */}
             {brands.map(({ entity, href }, i) => (
-              <Reveal key={entity.slug} delay={0.04 * i}>
-                <li>
+              <li key={entity.slug}>
+                <Reveal delay={0.04 * i}>
                   <Link
                     href={href}
                     className="group flex items-center gap-3 rounded-2xl border border-border bg-card py-2.5 pr-5 pl-2.5 text-sm font-semibold text-foreground shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#0f4e9b]/30 hover:text-[#0f4e9b] hover:shadow-md"
@@ -39,11 +40,11 @@ export function RelatedBrands({ hub, brands }: RelatedBrandsProps) {
                     <BrandMark entity={entity} size="sm" />
                     {entity.name}
                   </Link>
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             ))}
-            <Reveal delay={0.04 * brands.length}>
-              <li>
+            <li>
+              <Reveal delay={0.04 * brands.length}>
                 <Link
                   href={`/${hub.slug}`}
                   className="group flex h-full items-center gap-2 rounded-2xl border border-[#0f4e9b]/25 bg-[#0f4e9b]/8 px-5 py-2.5 text-sm font-bold text-[#0f4e9b] transition-all hover:-translate-y-0.5 hover:bg-[#0f4e9b]/12"
@@ -54,8 +55,8 @@ export function RelatedBrands({ hub, brands }: RelatedBrandsProps) {
                     aria-hidden="true"
                   />
                 </Link>
-              </li>
-            </Reveal>
+              </Reveal>
+            </li>
           </ul>
         </nav>
       </Container>

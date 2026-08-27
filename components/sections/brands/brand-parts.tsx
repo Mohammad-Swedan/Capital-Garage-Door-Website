@@ -15,32 +15,36 @@ const PARTS_LINKS = [
   { label: "Compare new doors across every brand", href: "/garage-doors-perth" },
 ];
 
+/**
+ * The only paths brand `parts` copy may reference inline, with the anchor text each one gets.
+ * An allow-list rather than a derivation: it keeps the anchor text deliberate, and a path-like
+ * token that isn't listed renders as plain text instead of becoming a link to a page that may not
+ * exist. (A later check script flags unknown paths.)
+ */
+const PROSE_LINKS: Record<string, string> = {
+  "/garage-doors-perth": "new garage doors in Perth",
+  "/garage-door-panel-replacement-perth": "panel replacement",
+  "/garage-door-installation-perth": "garage door installation",
+};
+
 /** Bare internal paths written in prose, e.g. "…see /garage-doors-perth." */
 const PATH_TOKEN = /(\/[a-z0-9]+(?:-[a-z0-9]+)+)/g;
 
-/** "/garage-doors-perth" → "garage doors in Perth" — reads as an anchor mid-sentence. */
-function labelForPath(path: string): string {
-  const words = path.slice(1).split("-");
-  const inPerth = words[words.length - 1] === "perth";
-  const base = (inPerth ? words.slice(0, -1) : words).join(" ");
-  return inPerth ? `${base} in Perth` : base;
-}
-
 /**
  * Content files write cross-references as bare paths ("…see /garage-doors-perth."), which would
- * otherwise render as a raw URL in the middle of a sentence. Turn them into real links so the
- * prose reads properly and the reference counts as an internal link.
+ * otherwise render as a raw URL in the middle of a sentence. Turn the allow-listed ones into real
+ * links so the prose reads properly and the reference counts as an internal link.
  */
 function renderProse(text: string) {
-  return text.split(PATH_TOKEN).map((part, i) =>
-    i % 2 === 1 ? (
+  return text.split(PATH_TOKEN).map((part, i) => {
+    const label = i % 2 === 1 ? PROSE_LINKS[part] : undefined;
+    if (!label) return part;
+    return (
       <Link key={i} href={part} className="font-semibold text-[#0f4e9b] hover:underline">
-        {labelForPath(part)}
+        {label}
       </Link>
-    ) : (
-      part
-    ),
-  );
+    );
+  });
 }
 
 /**

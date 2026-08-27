@@ -51,7 +51,7 @@ import type { ResolvedBrandPage } from "@/types/brand";
  * | case-study    | Article(+image) · FAQPage                                             |
  * | service-suburb| LocalBusiness · Service · FAQPage · speakable                         |
  * | landing       | Service · FAQPage · Review[] · speakable                              |
- * | brand         | Service · WebPage(about: Brand) · FAQPage · speakable                 |
+ * | brand         | Service · WebPage(about: Brand, +speakable) · FAQPage                  |
  *
  * No `aggregateRating`/`review` is attached to any `Service` node — Google's
  * review-snippet feature only supports those properties on a fixed type list
@@ -231,9 +231,10 @@ export function PageSchema(props: PageSchemaProps) {
       return (
         <Nodes
           nodes={[
+            // brandPageSchema's WebPage already carries the speakable spec — a second WebPage
+            // node from speakableSchema() would compete with it for the same URL.
             ...brandPageSchema(r),
             r.rendered.faqs.length ? faqSchema(r.rendered.faqs) : null,
-            speakableSchema(`/${r.page.slug}`, ["#direct-answer"]),
           ]}
         />
       );

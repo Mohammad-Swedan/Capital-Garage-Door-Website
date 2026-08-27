@@ -40,8 +40,9 @@ export function BrandFaults({ entity, faults }: BrandFaultsProps) {
               </>
             );
             return (
-              <Reveal key={fault.label} delay={0.04 * i} className="h-full">
-                <li className="h-full">
+              // Reveal renders a <div>, so it must sit INSIDE the <li> — ul > div > li is invalid.
+              <li key={fault.label} className="h-full">
+                <Reveal delay={0.04 * i} className="h-full">
                   {fault.problemSlug ? (
                     <Link
                       href={`/problems/${fault.problemSlug}`}
@@ -58,8 +59,8 @@ export function BrandFaults({ entity, faults }: BrandFaultsProps) {
                       {inner}
                     </div>
                   )}
-                </li>
-              </Reveal>
+                </Reveal>
+              </li>
             );
           })}
         </ul>

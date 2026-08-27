@@ -1,7 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import { BadgeCheck, Award, ShieldCheck, Image as PlaceholderIcon } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
+import { brandPageHref } from "@/lib/data/brands";
 
 export interface Brand {
   name: string;
@@ -13,12 +15,18 @@ export interface Brand {
    */
   logo?: string;
   /**
-   * Official manufacturer site. When set, the logo card links out to it — an
-   * E-E-A-T audit flagged the "Authorised Dealer" claims having zero outbound
-   * manufacturer links to corroborate them. Only add VERIFIED official
-   * domains; a wrong link is worse than none.
+   * Official manufacturer site. Used only as a fallback when no internal brand page exists for
+   * this entity — an E-E-A-T audit flagged the "Authorised Dealer" claims having zero outbound
+   * manufacturer links to corroborate them. Only add VERIFIED official domains; a wrong link is
+   * worse than none.
    */
   url?: string;
+  /**
+   * `BrandEntity.slug` from content/brands/entities.ts. When set and a door or motor guide page
+   * exists for it, the card links internally to that page instead of out to `url` — the
+   * manufacturer link now lives on the brand page's plate.
+   */
+  entity?: string;
 }
 
 /**
@@ -28,14 +36,14 @@ export interface Brand {
  * real brand logo.
  */
 export const BRANDS: Brand[] = [
-  { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance.", logo: "/images/brands/avanti.webp" },
-  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia.", logo: "/images/brands/gliderol.webp", url: "https://www.gliderol.com.au/" },
-  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems.", logo: "/images/brands/bd.webp", url: "https://www.bnd.com.au/" },
-  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design.", logo: "/images/brands/steel-line.webp", url: "https://www.steel-line.com.au/" },
-  { name: "Superlift", description: "Quality garage door solutions with professional installation and service.", logo: "/images/brands/superlift.webp" },
-  { name: "Boss Openers", description: "Reliable garage door systems designed for Australian conditions.", logo: "/images/brands/boss-openers.webp" },
-  { name: "Perth Windsor Doors", description: "Advanced garage door technology with superior performance and durability.", logo: "/images/brands/perth-windsor-doors.webp" },
-  { name: "Jaytech", description: "Premium garage door manufacturer with comprehensive warranty coverage.", logo: "/images/brands/jaytech.webp" },
+  { name: "Avanti", description: "Premium garage door solutions with innovative design and reliable performance.", logo: "/images/brands/avanti.webp", entity: "avanti" },
+  { name: "Gliderol", description: "Leading manufacturer of residential and commercial garage doors in Australia.", logo: "/images/brands/gliderol.webp", url: "https://www.gliderol.com.au/", entity: "gliderol" },
+  { name: "B&D", description: "Trusted Australian brand known for quality garage doors and automation systems.", logo: "/images/brands/bd.webp", url: "https://www.bnd.com.au/", entity: "b-and-d" },
+  { name: "Steel-Line", description: "Innovative garage door solutions with superior engineering and design.", logo: "/images/brands/steel-line.webp", url: "https://www.steel-line.com.au/", entity: "steel-line" },
+  { name: "Superlift", description: "Quality garage door solutions with professional installation and service.", logo: "/images/brands/superlift.webp", entity: "superlift" },
+  { name: "Boss Openers", description: "Reliable garage door systems designed for Australian conditions.", logo: "/images/brands/boss-openers.webp", entity: "boss" },
+  { name: "Perth Windsor Doors", description: "Advanced garage door technology with superior performance and durability.", logo: "/images/brands/perth-windsor-doors.webp", entity: "perth-windsor-doors" },
+  { name: "Jaytech", description: "Premium garage door manufacturer with comprehensive warranty coverage.", logo: "/images/brands/jaytech.webp", entity: "jaytech" },
 ];
 
 const TRUST_PILLS = [
@@ -72,8 +80,26 @@ function BrandLogo({ brand }: { brand: Brand }) {
     </div>
   );
 
-  // Link out to the verified official manufacturer site when known — a
-  // machine-checkable corroboration of the "Authorised Dealer" claim.
+  // An internal brand guide page takes priority over the external manufacturer link — the
+  // manufacturer link now lives on the brand page's plate. Fall back to linking out to the
+  // verified official site (a machine-checkable corroboration of the "Authorised Dealer" claim)
+  // for brands without a guide page yet.
+  const internal = brand.entity
+    ? (brandPageHref(brand.entity, "door") ?? brandPageHref(brand.entity, "motor"))
+    : undefined;
+
+  if (internal) {
+    return (
+      <Link
+        href={internal}
+        aria-label={`${brand.name} garage doors in Perth`}
+        className="shrink-0 rounded-xl transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
+      >
+        {card}
+      </Link>
+    );
+  }
+
   return brand.url ? (
     <a
       href={brand.url}
@@ -95,7 +121,10 @@ function BrandLogo({ brand }: { brand: Brand }) {
  * Two identical tracks (`.cgd-brand-track` / `.cgd-brand-track-2`, keyframes in app/globals.css)
  * chase each other for a seamless horizontal scroll, pure CSS (no JS, no video runtime). Pauses on
  * hover and goes static under `prefers-reduced-motion`. Logos render once the `logo` field is set on
- * a brand; until then each slot shows a labelled placeholder.
+ * a brand; until then each slot shows a labelled placeholder. A card with an `entity` and a live
+ * door or motor guide page links internally to it — internal brand pages take priority, and the
+ * manufacturer link now lives on the brand page's plate; only brands without a guide page still
+ * link out to `url`.
  */
 export function BrandsMarquee() {
   return (

@@ -19,6 +19,7 @@ import { MotorFeatureGrid } from "@/components/sections/motors/feature-grid";
 import { MotorHowItWorks } from "@/components/sections/motors/how-it-works";
 import { MotorWhatsInTheBox } from "@/components/sections/motors/whats-in-the-box";
 import { MotorInstallBand } from "@/components/sections/motors/install-band";
+import { BrandStrip } from "@/components/sections/brands/brand-strip";
 import {
   MOTOR_IMAGES,
   MOTOR_MODELS,
@@ -226,6 +227,12 @@ export default function GarageDoorMotorsPage() {
       <MotorHowItWorks />
       <MotorWhatsInTheBox />
       <MotorInstallBand />
+
+      <BrandStrip
+        kind="motor"
+        title="Already Have a Motor? We Service Every Brand"
+        description="Merlin, Chamberlain, B&D, Gliderol, Steel-Line, Boss and more — repaired, re-programmed or replaced with a Capital motor."
+      />
 
       <WarrantyTiers
         eyebrow="Backed for the long run"

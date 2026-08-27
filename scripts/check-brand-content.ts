@@ -17,6 +17,7 @@ import { BRAND_HUBS } from "../content/brands/hubs";
 import { brandPages } from "../content/brands";
 import { NAV_MENUS } from "../config/nav-menus";
 import { PRICING_BY_ID } from "../components/sections/smart-calculator/pricing-data";
+import { serviceSuburbPages } from "../content/service-suburb-pages";
 
 const DEALERS = new Set(["avanti", "b-and-d", "boss", "gliderol", "jaytech", "perth-windsor-doors", "steel-line", "superlift"]);
 const PROBLEMS = new Set([
@@ -24,6 +25,35 @@ const PROBLEMS = new Set([
   "garage-door-motor-not-responding", "garage-door-spring-or-cable-broken", "garage-door-off-track", "noisy-garage-door",
 ]);
 const STATIC_ROUTES = new Set(["/", "/services", "/service-areas", "/garage-door-motors-perth", "/cost-guides", "/calculator", "/quote", "/blog", "/problems", "/case-studies", "/gallery", "/reviews", "/warranty", "/warranty-registration", "/about", "/contact", "/privacy", "/terms"]);
+
+// Live sitemap flat slugs as of 2026-08-27 — CMS-only pages that exist in no local registry
+// (services, door types, cost guides). Refresh when routes change. Unioned into the URL set in
+// BOTH modes, so --offline can validate real hrefs without a network call, and live mode stays a
+// strict superset of it.
+const KNOWN_LIVE_ROUTES = new Set([
+  "/garage-door-repairs-perth",
+  "/commercial-garage-doors-perth",
+  "/commercial-roller-doors-perth",
+  "/custom-garage-doors-perth",
+  "/garage-door-installation-perth",
+  "/garage-door-maintenance-perth",
+  "/garage-door-opener-repair-perth",
+  "/garage-door-panel-replacement-perth",
+  "/garage-door-remote-replacement-perth",
+  "/garage-doors-perth",
+  "/garage-door-spring-repair-perth",
+  "/industrial-roller-doors-perth",
+  "/roller-door-installation-perth",
+  "/roller-door-repairs-perth",
+  "/roller-doors-perth",
+  "/sectional-garage-doors-perth",
+  "/tilt-garage-doors-perth",
+  "/roller-door-vs-sectional-door",
+  "/garage-door-motor-replacement-cost-perth",
+  "/garage-door-repair-cost-perth",
+  "/garage-door-service-cost-perth",
+  "/garage-door-spring-replacement-cost-perth",
+]);
 
 // Duplicated from `PROSE_LINKS` in components/sections/brands/brand-parts.tsx (not exported —
 // keep these three keys in lockstep with that file's allow-list). Door-page `parts.paragraphs`
@@ -46,18 +76,29 @@ async function liveUrls(): Promise<Set<string>> {
   for (const p of brandPages) urls.add(`/${p.slug}`);
   for (const h of Object.values(BRAND_HUBS)) urls.add(`/${h.slug}`);
   for (const slug of PROBLEMS) urls.add(`/problems/${slug}`);
+  for (const route of KNOWN_LIVE_ROUTES) urls.add(route);
+  for (const page of serviceSuburbPages) urls.add(`/${page.slug}`);
   if (offline) return urls;
   // This branch isn't deployed yet, so the production sitemap doesn't carry the new brand pages
   // or hubs — union the local registries above (already added) with whatever's live so hrefs to
   // pre-existing pages (services, cost guides, suburb pages, …) still validate against reality.
-  const xml = await (await fetch("https://capitalgaragedoors.com.au/sitemap.xml")).text();
-  for (const m of xml.matchAll(/<loc>https:\/\/capitalgaragedoors\.com\.au(\/[^<]*)<\/loc>/g)) urls.add(m[1]);
+  // A failed or empty fetch must throw rather than silently pass every href check.
+  const res = await fetch("https://capitalgaragedoors.com.au/sitemap.xml");
+  if (!res.ok) throw new Error(`Live sitemap fetch failed: HTTP ${res.status}`);
+  const xml = await res.text();
+  let parsed = 0;
+  for (const m of xml.matchAll(/<loc>https:\/\/capitalgaragedoors\.com\.au(\/[^<]*)<\/loc>/g)) {
+    urls.add(m[1]);
+    parsed++;
+  }
+  if (parsed === 0) throw new Error("sitemap parsed 0 URLs — network/captive-portal problem?");
   return urls;
 }
 
-/** Bare internal paths written in prose, e.g. "…see /garage-doors-perth." Single-segment only —
- * matches what components/sections/brands/brand-parts.tsx's own PATH_TOKEN regex extracts. */
-const PATH_TOKEN = /\/[a-z0-9]+(?:-[a-z0-9]+)*/g;
+/** Bare internal paths written in prose, e.g. "…see /garage-doors-perth." Identical to
+ * components/sections/brands/brand-parts.tsx's own PATH_TOKEN regex (one-or-more hyphenated
+ * segments) so single-segment paths like /blog never false-positive as unlisted references. */
+const PATH_TOKEN = /\/[a-z0-9]+(?:-[a-z0-9]+)+/g;
 
 (async () => {
   const urls = await liveUrls();

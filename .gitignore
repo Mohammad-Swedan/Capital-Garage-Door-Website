@@ -65,3 +65,6 @@ skills-lock.json
 .trae/
 .opencode/
 .roo/
+
+# Subagent-driven-development scratch (ledger, briefs, review packages)
+.superpowers/

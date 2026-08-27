@@ -1,0 +1,21 @@
+# Hörmann
+
+- official_url: https://www.4ddoors.com.au/ (4Ddoors is the exclusive Hörmann distributor for Australia/NZ; there is no dedicated hormann.com.au — www.hormann.com.au timed out/was unreachable in this pass, and the Australian market is served through this distributor site)
+- origin: Germany — headquartered in Steinhagen, North Rhine-Westphalia
+- ownership: family-owned; current leadership includes Thomas J. Hörmann, Martin J. Hörmann and Christoph Hörmann (per Wikipedia)
+- founded: 1935, by August Hörmann (per Wikipedia)
+- product_lines: garage doors (up-and-over, sectional, side-sliding), rolling shutters, entrance doors (steel front doors), industrial/commercial doors (high-speed doors), door operators and controls, loading dock technology, fire/smoke-tight door assemblies — no individual model names confirmed for the Australian range
+- kinds: door
+- door_types: sectional, roller (rolling shutters), commercial (industrial/high-speed and loading-dock doors)
+- smart_app: not stated
+- australian_made: no — manufactured in Germany/Europe/USA/emerging-market plants and imported/distributed in Australia via 4Ddoors; wa_made: no
+- accent_hex: #003764 (Hörmann's global branding uses a deep blue)
+- notes_for_copy:
+  - Germany's largest door producer and the world's fourth-biggest door manufacturer (Wikipedia); family-owned since founding in 1935; over 6,000 employees and 26 production plants across Europe, North America and Asia; annual revenue exceeds €1 billion
+  - In Australia/NZ, Hörmann product is sold exclusively through distributor 4Ddoors (4ddoors.com.au) — Hörmann has no direct Australian retail site
+  - Range spans residential garage doors (up-and-over, sectional, side-sliding) through to industrial high-speed doors, loading-dock technology and fire-rated door assemblies
+  - A premium European import brand — do not claim Australian or WA manufacturing
+  - A specific Australian warranty page exists on 4ddoors.com.au but its terms were not read in this pass — do not state a warranty figure
+- sources:
+  - https://www.4ddoors.com.au/page/4ddoors-powered-by-hormann
+  - https://en.wikipedia.org/wiki/H%C3%B6rmann

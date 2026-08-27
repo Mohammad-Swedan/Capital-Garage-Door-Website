@@ -1,0 +1,13 @@
+# Boss
+- official_url: not found — http://www.bossoperators.com.au/ resolves (HTTP 200) but serves an effectively empty page (`<html><head><title></title>...</head><body></body></html>`, confirmed on two separate fetch attempts including a plain curl); no usable content
+- origin: Australia (Brisbane) — per third-party retailer/directory pages only (not an official-site statement): "Boss Garage Door Openers was established in 1980 by Bob Kurzok and Paul Kurzok in Brisbane" and has "supplied over 500,000 garage door openers into the Australian market to date" (top4.com.au / atozpages.com.au business-directory listings)
+- ownership: not stated on any official Boss page (none reachable). Multiple third-party sources (search-engine summaries, magickey.com.au product listing titled "BOSS Steel Line") indicate Boss product lines are now sold through Steel-Line branches, but this repo's own steel-line.com.au fetch (checked directly) makes **no mention** of Boss or an acquisition — so the Steel-Line ownership/acquisition claim is **unverified against any primary source** and should not be stated as fact on the page.
+- founded: not stated on an official/primary source (third-party directory claims 1980 — unverified)
+- product_lines: not verifiable from an official source; third-party retail catalogues (National Garage, Remote Pro, AGG Doors) list Boss sectional/panel-tilt motors, roller door openers, and gate openers, plus remotes (BHT3, BHT4) and keypads (2211-L)
+- kinds: motor
+- door_types: not stated on an official source (retailer listings suggest sectional, tilt, roller and gate)
+- smart_app: not stated
+- australian_made: not stated (unverified third-party claim only) ; wa_made: no
+- accent_hex: #1e3a5f (approximate — no official branding source available to confirm; rough placeholder estimate only)
+- notes_for_copy: insufficient verified facts — directory tile only. The official Boss Openers domain (bossoperators.com.au) is dead/parked with no content; every fact above beyond "this is a garage door/gate opener remote brand sold by Australian resellers" comes from third-party retailer pages, not Boss's own site, and should be treated as unverified. Do not state an acquisition-by-Steel-Line claim, a 1980 founding date, or Australian manufacture as confirmed fact.
+- sources: ["http://www.bossoperators.com.au/ (dead/empty — checked directly via curl)", "https://www.steel-line.com.au/ (checked directly — makes no mention of Boss)", "https://www.top4.com.au/business/boss-garage-door-openers-72165 (third-party directory, not official)", "https://www.magickey.com.au/garage-door-opener/Boss-Steel-Line (third-party retailer, not official)"]

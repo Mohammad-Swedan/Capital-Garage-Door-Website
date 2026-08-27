@@ -1,0 +1,17 @@
+# Nice
+- official_url: https://www.niceforyou.com/au (global Nice S.p.A., Australia-localised) and https://www.niceaustralia.com.au/ (Australian operating entity — see ownership; both appear to be the same corporate family, not two unrelated companies)
+- origin: Italy (Nice S.p.A., "Via Callalta, 1 31046 Oderzo (TV) Italy") — with a genuine Australian manufacturing subsidiary (see below)
+- ownership: Nice Australia Home Automation Pty Ltd, based in Tonsley, South Australia — the niceaustralia.com.au footer links to niceforyou.com under "Our Brands," indicating it is part of the same Nice Group rather than an unrelated third party
+- founded: not stated (no founding year found on either fetched page)
+- product_lines: global site (niceforyou.com/au) covers automation for garage doors generically plus the "Nice Opera" installer programming/remote-diagnostics system; niceaustralia.com.au's locally-made "GDS" range — industrial-grade cast-iron gearboxes and motors for sliding gates, swing gates, chain sliders, belt-drive systems, boom gates, drive bolts, and "Industrial Door" products (no individual garage-door opener model names captured on the fetched pages)
+- kinds: motor
+- door_types: not itemised for residential garage doors on the fetched pages; the Australian GDS range is oriented to gates/industrial doors more than residential sectional/roller/tilt garage doors
+- smart_app: MyNice Welcome (control gates and garage doors from a smartphone via the IT4WIFI interface) — named on niceforyou.com/au, not repeated on niceaustralia.com.au
+- australian_made: yes, for the local GDS product range — "manufacture GDS products – industrial quality automatic gate drive systems made in Australia for Australian conditions" and "Developed and manufactured in Australia, the range of industrial grade, cast iron gearboxes and motors are used in the most rigorous applications." (Global Nice S.p.A. products themselves are Italian-made, not Australian.) ; wa_made: no (South Australia-based)
+- accent_hex: #e2001a (approximate — Nice's commonly-recognised red/orange brand colour; not confirmed via either fetched page's CSS)
+- notes_for_copy:
+  - Two facets of the same Nice Group worth distinguishing in copy: the global Italian-engineered automation brand (niceforyou.com), and Nice Australia Home Automation Pty Ltd (Tonsley, SA), which actually manufactures a locally-made "GDS" gate/industrial-door drive range in Australia.
+  - MyNice Welcome app enables smartphone control of gates and garage doors via the IT4WIFI interface.
+  - The Australian-made claim applies specifically to the GDS gate/industrial range, not confirmed for residential garage-door openers — do not extend the "made in Australia" claim to residential sectional/roller/tilt openers without further verification.
+  - Nice Opera is the installer-facing programming/remote-diagnostics system named on the global site.
+- sources: ["https://www.niceforyou.com/au/solutions/automation-for-garage-doors", "https://www.niceaustralia.com.au/"]

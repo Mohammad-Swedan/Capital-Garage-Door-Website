@@ -1,0 +1,19 @@
+# Marantec
+- official_url: https://www.marantec.com/en/ (global site; no dedicated Australian storefront found — Australian buyers reach the range via resellers such as remoteopeners.com.au and magickey.com.au, neither of which is official)
+- origin: Germany (Marienfeld) — "Remser Brook 11, 33428 Marienfeld, Deutschland"
+- ownership: not stated as a parent company; site notes the related MFZ product line is "now sold under the Marantec brand" (i.e., MFZ was absorbed into Marantec, not a separate current owner)
+- founded: 1989 — "Marantec was founded in 1989 in Marienfeld (Germany)."
+- product_lines: Comfort 300 Series (360, 370, 380), Comfort 200 Series (260, 270, 280), Comfort 260 accu (battery/solar), Comfort Speed Series
+- kinds: motor
+- door_types: sectional, swing (hinged), tilt/canopy — "sectional door, a swing door or a tilt/canopy door"
+- smart_app: maveo (for door/gate control)
+- australian_made: no ; wa_made: no — "Quality Made in Germany," ISO 9001 certified
+- accent_hex: #ffffff with dark-grey/black secondary (approximate — site emphasises "masterpieces in white" / "chic white color" product design; not a confirmed brand-identity hex)
+- notes_for_copy:
+  - Genuinely German-engineered and German-made — "Quality Made in Germany," ISO 9001 certified — a strong, verifiable heritage/quality claim.
+  - Founded 1989, so a well-established European manufacturer (not Australian-founded — be accurate about this, don't imply local origin).
+  - Patented "blueline technology" claimed to reduce standby energy consumption "to almost zero."
+  - Covers all three main door types relevant to this business: sectional, swing/hinged, and tilt/canopy doors.
+  - maveo app for smart/remote door and gate control — distinct app name from myQ/TaHoma, worth naming precisely.
+  - No confirmed Australian distributor/importer site — only third-party Australian retailers stock parts/remotes, so keep local-availability claims modest.
+- sources: ["https://www.marantec.com/en/door-operators-in-the-private-sector/garage-door-openers"]

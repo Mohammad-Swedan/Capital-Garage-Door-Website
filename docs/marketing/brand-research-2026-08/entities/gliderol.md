@@ -1,0 +1,22 @@
+# Gliderol
+
+- official_url: https://gliderol.com.au/
+- origin: Australia
+- ownership: not stated (site copy is "Australian owned manufacturing company"; no parent named)
+- founded: 1974 (per gliderol.com.au marketing copy surfaced in search results — "Since 1974, Gliderol has been a trusted name")
+- product_lines: Essentials Series (roller), Genesis Series (sectional opener), sectional doors with window/motor upgrade options, Glidermatic GRD Heavy Duty & Dual roller door operator
+- kinds: both
+- door_types: roller, sectional
+- smart_app: not confirmed (no app name found in accessible content)
+- australian_made: yes ("Australian owned manufacturing company"); wa_made: not stated
+- accent_hex: #003a70 (approximate — Gliderol's site/branding uses a deep blue; not independently verified from a fetched page due to access blocks)
+- notes_for_copy:
+  - Direct WebFetch of gliderol.com.au and its subpages returned HTTP 403 (bot-blocked) every attempt — facts below come from third-party/search-cached copy, not a directly-read page; treat with more caution than other files here
+  - Positions itself as trusted since 1974, with production facilities in all major Australian capital cities for local manufacture and faster delivery
+  - Product range covers roller doors (Essentials Series entry range) and sectional doors, plus opener/automation lines (Genesis Series, Glidermatic GRD)
+  - Published warranty figures found via search (Gliderol's own warranty PDF, not independently re-verified here): 2 years electrical, 5 years tubular motors, 6 years mechanical, 10 years paint finish on doors (excl. Mini Roller Doors); openers commonly 5-year motor / 2-year electronics when serviced by an authorised distributor
+  - Do not state a specific ownership/parent — not found on an accessible official page
+- sources:
+  - https://gliderol.com.au/ (WebFetch blocked — HTTP 403; used WebSearch cached extract)
+  - https://gliderol.com.au/garage-doors/roller/ (WebFetch blocked — HTTP 403)
+  - https://gliderol.com.au/wp-content/uploads/2024/11/Gliderol-Warranty-Conditions-of-Sale-Statement.pdf (found via search, not independently fetched)

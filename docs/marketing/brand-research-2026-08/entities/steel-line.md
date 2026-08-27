@@ -1,0 +1,21 @@
+# Steel-Line
+
+- official_url: https://www.steel-line.com.au/
+- origin: Australia
+- ownership: not stated (site references a related entity "BX Bunka Australia"; no ownership statement found)
+- founded: not stated exactly (site: "For over 45 years we have manufactured, installed, serviced and repaired garage doors all across Australia")
+- product_lines: Custom Collection, Sectional Doors, Roller Doors, Tilt Doors, Specialty Doors (Louvre, Barn Style, Batten Sectional); materials Colorbond, DecoWood, UniCote LUX, Western Red Cedar, Acrylic, Polycarbonate Multiwall; Mammoth Modern Insulation; F-linX wireless technology platform; Sectional and Roller Door Openers
+- kinds: both
+- door_types: roller, sectional, tilt, commercial
+- smart_app: F-linX (named as a "wireless technology platform" — no distinct consumer app name confirmed)
+- australian_made: yes (self-described as "Australia's largest garage door manufacturer"); wa_made: has a Perth branch at 62 Triumph Ave, Wangara WA 6065 (steel-line.com.au/garage-doors-perth/) — not explicitly stated as a manufacturing plant vs. branch/showroom
+- accent_hex: #4a4a4a (site/logo skews grey/dark grey)
+- notes_for_copy:
+  - Describes itself as "Australia's largest garage door manufacturer," over 45 years in business, with offices in every state capital and several regional areas
+  - Full door-type range: roller, sectional, tilt, custom, commercial roller shutters (aluminium and steel), counterweight, folding, industrial roller doors
+  - F-linX is Steel-Line's named wireless opener/automation platform
+  - Has a dedicated Perth branch (62 Triumph Ave, Wangara WA) with separate sales (1300 767 900) and service ((08) 9408 2106) lines
+  - Warranty exists (dedicated Warranty + Warranty Registration pages linked from the site) but no specific year figures were found on the pages read
+- sources:
+  - https://www.steel-line.com.au/
+  - https://www.steel-line.com.au/garage-doors-perth/

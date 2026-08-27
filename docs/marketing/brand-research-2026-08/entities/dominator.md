@@ -1,0 +1,21 @@
+# Dominator
+
+- official_url: https://www.dominatornsw.com.au/ (NSW dealer/network site; parent brand site https://www.dominator.co.nz/)
+- origin: New Zealand (Dominator's manufacturing facilities are in Christchurch and Auckland, NZ, per dominator.co.nz); operates in Australia through state networks such as Dominator NSW
+- ownership: not stated on dominatornsw.com.au; B&D Australia acquired "Dominator New Zealand" in 2005 per Wikipedia's B&D Australia article — not independently confirmed on a Dominator-owned page, so treat as background only, not a page-ready claim
+- founded: not stated on the pages read (dominatornsw.com.au notes "an average of 25 years experience per team member," not a company founding year)
+- product_lines: Milano, Nevada, Sierra (sectional door styles, per dominatornsw.com.au); Kinetic (sectional and premium folded garage doors, per dominator.co.nz); Flex-A-Door, steel sectional, insulated sectional, roller, tilting and industrial doors; openers include Merlin- and ATA/Dominator-branded units; MyQ connected-home integration mentioned
+- kinds: both
+- door_types: roller, sectional, tilt, commercial/industrial
+- smart_app: MyQ (referenced as a connected-home integration on dominatornsw.com.au)
+- australian_made: not stated (manufacturing facilities described are in NZ); wa_made: no evidence of a WA presence found
+- accent_hex: #002d5c (navy blue, per dominatornsw.com.au branding)
+- notes_for_copy:
+  - Dominator's core manufacturing is New Zealand-based (Christchurch and Auckland); Australian presence is via state dealer networks (e.g., Dominator NSW), so avoid claiming WA-based manufacturing
+  - "10Yr Total Confidence Warranty" stated on dominator.co.nz
+  - Door styles referenced on the Australian (NSW) site: Milano, Nevada, Sierra; NZ site also names the Kinetic sectional/folded range
+  - No confirmed Perth/WA branch or dealer found in this research pass — treat Dominator as a brand-awareness tile rather than a locally-stocked line unless the client confirms local supply
+- sources:
+  - https://www.dominatornsw.com.au/
+  - https://www.dominator.co.nz/about-us
+  - https://en.wikipedia.org/wiki/B%26D_Australia (background only, for the 2005 acquisition note — not a Dominator-owned source)

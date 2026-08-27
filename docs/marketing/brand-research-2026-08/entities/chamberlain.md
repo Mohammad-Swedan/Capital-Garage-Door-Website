@@ -1,0 +1,19 @@
+# Chamberlain
+- official_url: https://www.chamberlaindiy.com.au/
+- origin: USA (parent Chamberlain Group), Australian DIY storefront run from Australia (Lane Cove NSW / Macquarie Park mentioned as office locations)
+- ownership: Chamberlain Group — "Chamberlain is the 'Do It Yourself' brand of the Chamberlain Group, the world's largest manufacturer of automatic garage door openers and accessories."
+- founded: not stated on chamberlaindiy.com.au
+- product_lines: RollerLift CR655MYQ, RollerLift Plus CR855MYQ (roller doors); SectionalLift CS65MYQ, SectionalLift Plus CS105MYQ (sectional doors); myQ Smart Home connectivity kits, remotes, keypads, LED lights, battery backup accessories
+- kinds: motor
+- door_types: roller, sectional
+- smart_app: myQ ("myQ Smart Home technology" / "myQ Connected Home")
+- australian_made: not stated ; wa_made: no
+- accent_hex: #0092bc (approximate — myQ teal-blue, consistent across the Chamberlain/myQ family; not confirmed via site CSS)
+- notes_for_copy:
+  - Positioned as the DIY brand of Chamberlain Group, "the world's largest manufacturer of automatic garage door openers and accessories."
+  - Product range is explicitly split by door type: RollerLift (roller) and SectionalLift (sectional), each in a standard and "Plus" tier for single vs double garage.
+  - Every current model in the range is myQ-enabled ("MYQ" suffix on every model code).
+  - myQ app lets owners open remotely for deliveries and monitor activity while away.
+  - Products are compliant to Australian and New Zealand standard AS/NZS 60335-2-95.
+  - Chamberlain (DIY, self-install/retail) is a distinct storefront from LiftMaster (the Australian-distributed "Professional" range) — don't conflate the two brand pages.
+- sources: ["https://www.chamberlaindiy.com.au/about-us/", "https://www.chamberlaindiy.com.au/garage-door-openers/"]

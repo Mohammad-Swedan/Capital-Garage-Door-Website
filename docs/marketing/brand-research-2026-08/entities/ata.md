@@ -1,0 +1,19 @@
+# ATA (Automatic Technology Australia)
+- official_url: https://www.automatictechnology.com/au
+- origin: Australia
+- ownership: part of the B&D Group (B&D Australia logo/branding shown in the site footer)
+- founded: 1978 — "Opening doors since 1978, we design and build powerful, reliable control systems." Also: "With over 60 live patents, our world-class engineering team have been innovating over 45 years."
+- product_lines: "Dave" (flagship commercial door operator, offered with high- and low-power cartridge options); GDO 6V5 EasyRoller (residential roller door opener); residential and commercial opener ranges generally
+- kinds: motor
+- door_types: roller (residential — EasyRoller); commercial doors (Dave)
+- smart_app: none stated
+- australian_made: yes — "Engineered in Australia. Proven worldwide." ; wa_made: no (no WA-specific manufacturing claim)
+- accent_hex: #f2b705 (approximate — black-and-yellow/gold brand palette observed on-site; exact hex not confirmed via CSS)
+- notes_for_copy:
+  - Part of the B&D Group — a sibling/related brand to B&D, one of Australia's best-known door manufacturers.
+  - "Engineered in Australia" is an explicit, on-site local-design/manufacture claim — safe to use.
+  - 45+ years of opener-engineering history, operating since 1978, holding 60+ live patents.
+  - Flagship product is "Dave," a commercial door operator with configurable power options — good for a commercial-angle callout.
+  - Residential range includes the EasyRoller for roller doors.
+  - No smart-app/connected feature stated on the fetched pages.
+- sources: ["https://www.automatictechnology.com/au"]

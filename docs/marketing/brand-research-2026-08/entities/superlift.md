@@ -1,0 +1,18 @@
+# Superlift
+- official_url: https://www.superliftgdo.com.au/
+- origin: Australia (Forrestfield, Western Australia)
+- ownership: not stated on-site
+- founded: not stated as a specific year — "For over 30 years, Superlift has developed one of the most reliable and efficient Garage Door Opener ranges on the market."
+- product_lines: RDO-6 (roller door opener), RDO-5 (roller door opener), SDO-5 (sectional/tilt door opener), SSLG-2 (swing gate opener)
+- kinds: motor
+- door_types: roller, sectional, tilt (SDO-5 opener covers sectional/tilt doors)
+- smart_app: not stated
+- australian_made: not stated ; wa_made: not stated as manufacture — the company is WA-headquartered (Forrestfield) with sales/service across Perth, Sydney and Melbourne ("Supplying & Servicing Australia-Wide"), but no explicit "made in WA" manufacturing claim was found
+- accent_hex: #1a5fb4 (approximate — blue tones observed in on-site branding; exact hex not confirmed via CSS)
+- notes_for_copy:
+  - Genuinely WA-headquartered (Forrestfield) — a real local-roots story for a Perth audience, even though manufacture location isn't explicitly stated.
+  - 30+ years in the market, positioned on reliability/efficiency of its opener range.
+  - Named range covers roller doors (RDO-5/RDO-6), sectional/tilt doors (SDO-5) and swing gates (SSLG-2) — a full residential opener line.
+  - Services Perth, Sydney and Melbourne — a national footprint with a WA base, useful framing for "local company, national reach."
+  - No smart-app/connected feature mentioned on the homepage — do not claim app control for this brand.
+- sources: ["https://www.superliftgdo.com.au/"]

@@ -1,0 +1,18 @@
+# Avanti
+- official_url: https://avantigdo.com/ (Avanti Garage Door Openers Inc. — the genuine active global manufacturer site; NOTE: avantiautomation.com.au, the candidate "Australian" URL, is a **dead/parked GoDaddy domain** — confirmed directly via curl: it redirects to a generic parking lander with no real content. Do not use avantiautomation.com.au as a source or link target.)
+- origin: Philippines (Clark Freeport Zone, Pampanga) — manufacturer HQ; distributed into Australia (including Perth) by third-party resellers (perthgaragedoor.com.au, slideandglide.com.au, remotepro.com.au, wholesalegaragedoors.com.au — none of these are the official site)
+- ownership: not stated (no parent company named on avantigdo.com)
+- founded: not stated as a specific year — "With a legacy spanning over three decades, we've been at the forefront of garage door openers, gate openers, and cutting-edge accessories."
+- product_lines: SDO4 (sectional door opener), RDO1 and RDO10C (roller door openers), D5-EVO (sliding gate motor), Vantage (swing gate motor)
+- kinds: motor
+- door_types: sectional, roller
+- smart_app: not stated
+- australian_made: no (manufactured in the Philippines, per site HQ address) ; wa_made: no
+- accent_hex: #0057a8 (approximate — no confirmed on-site palette; rough estimate only)
+- notes_for_copy:
+  - "Global leader in garage door openers and accessories" claim, "trusted by millions," manufacturing includes nine injection-moulding machines (90–450 tonnes) — a genuine manufacturer, not a private-label reseller badge.
+  - Explicitly claims distribution reach into Australia — "From the bustling streets of Sydney to the serene landscapes of Perth, our products are recognized and trusted" — safe to cite as a stated (if promotional) distribution claim.
+  - Named model range covers both sectional (SDO4) and roller (RDO1, RDO10C) doors, plus sliding (D5-EVO) and swing (Vantage) gate motors.
+  - No smart-app integration named on-site — do not imply myQ-style app control for this brand.
+  - Also operates in Europe, South Africa, UK, New Zealand and Southeast Asia per the site — a genuinely international brand, not Australia-founded.
+- sources: ["https://avantigdo.com/", "https://avantigdo.com/about-us/"]

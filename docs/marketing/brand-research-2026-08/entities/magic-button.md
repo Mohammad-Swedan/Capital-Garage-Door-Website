@@ -1,0 +1,18 @@
+# Magic Button
+- official_url: https://www.liftmaster.com.au/ (Magic Button is the registered brand of Liftmaster Electronics Pty Ltd — no separate Magic Button-only domain found)
+- origin: Australia
+- ownership: Liftmaster Electronics Pty Ltd (est. 1969) — "Liftmasters has the registered name of Magic Button." Manufactured and assembled by the same company that distributes LiftMaster Professional openers (see the `liftmaster` entity).
+- founded: 1969 (Liftmaster Electronics Pty Ltd; per a third-party retail description, "Magic Button, established in 1969, is the oldest locally branded residential garage door opener in the Australian market" — not itself a statement on liftmaster.com.au, flagged as third-party)
+- product_lines: Magic Button Radio Control Hand Transmitter, Magic Button electronic controls/PCBs, Magic Button "Performance Range" (controls, intensive-use equipment, hydraulic motors); third-party retail listings (not the official site) additionally reference Magic Button 800N/1000N overhead openers and a 24VDC roller door opener
+- kinds: motor
+- door_types: roller, sectional (per third-party retail listings — not confirmed in this wording on liftmaster.com.au itself)
+- smart_app: none stated
+- australian_made: yes — "Liftmaster assembles and manufactures 'Magic Button' electronic controls, printed circuit boards... developed and manufactured in Australia to meet and exceed local environment conditions, functionality requirements, supply voltages and Australian design standards." ; wa_made: no
+- accent_hex: #003876 (approximate — no distinct brand palette found separate from the parent LiftMaster/Liftmaster Electronics site; treat as a rough estimate)
+- notes_for_copy:
+  - Australian-designed and Australian-manufactured controls — the strongest "local-made" claim among the motor brands researched here.
+  - Oldest locally-branded residential garage door opener name in the Australian market (per third-party sourcing — not an on-site claim, use cautiously).
+  - Same parent company as the LiftMaster Professional range (Liftmaster Electronics Pty Ltd, Sydney, est. 1969).
+  - No smart-app/connected features mentioned.
+  - Products described include hand transmitters/remote controls and PCB-level electronic controls for openers and gate motors.
+- sources: ["https://www.liftmaster.com.au/about.html", "https://www.liftmaster.com.au/"]

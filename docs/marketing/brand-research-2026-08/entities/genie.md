@@ -1,0 +1,17 @@
+# Genie
+- official_url: https://www.geniecompany.com/ (US-focused site; no confirmed Australian distributor/storefront found — see notes)
+- origin: USA
+- ownership: GMI Holdings Inc. — "© 2024 GMI Holdings Inc." Site also notes: "In 1994, Genie joined forces with the Overhead Door Corporation" (historical relationship, per search-result summary of the site, not necessarily still current — treat the Overhead Door Corporation link as historical/unconfirmed-current).
+- founded: not stated as a specific year on the fetched page
+- product_lines: model numbers referenced include 1035 (Chain Drive 500), 3053, 4064 Pro, 6172, 3120L Professional, 7055 Professional; split into "Residential Products" and "Commercial Products" categories
+- kinds: motor
+- door_types: not itemised by door type on the fetched pages
+- smart_app: Aladdin Connect by Genie — "Monitor and control your garage door from anywhere using your smart device."
+- australian_made: no (US company) ; wa_made: no
+- accent_hex: #005baa (approximate — blue, consistent with the "BenchSentryGenie_Logo...BlueText" asset name seen on-site; exact hex not confirmed via CSS)
+- notes_for_copy:
+  - No confirmed official Australian distributor or Australia-specific storefront was found for Genie — the official site (geniecompany.com) and its store are US/Home Depot-oriented, and Australian availability appears limited to imports (Ubuy, eBay AU) and legacy remotes noted as discontinued by an Australian reseller (magickey.com.au). Keep any "available in Perth" framing modest/qualified, or treat this brand primarily as a recognition/directory tile rather than a strong local-availability page.
+  - Aladdin Connect by Genie is the named smart-app for remote monitoring/control.
+  - Owned by GMI Holdings Inc.; historically linked to Overhead Door Corporation (1994) per third-party summary — do not state the Overhead Door Corporation link as a current fact without re-verifying on-site.
+  - Range is split into residential and commercial opener product lines with named model numbers.
+- sources: ["https://www.geniecompany.com/"]

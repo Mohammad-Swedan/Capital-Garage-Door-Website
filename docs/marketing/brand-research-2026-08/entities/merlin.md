@@ -1,0 +1,19 @@
+# Merlin
+- official_url: https://www.gomerlin.com.au/
+- origin: Australia / New Zealand (site: "we've tested Merlin garage door and gate openers across the Tasman"; parent Chamberlain Group is US-headquartered — see ownership)
+- ownership: not explicitly stated on gomerlin.com.au as running text, but the site is a Chamberlain-family property (myQ branding throughout, warranty registration hosted on a chamberlaingroupanz.my.site.com domain) — treat as "Chamberlain Group (ANZ)" but flag as inferred, not a direct on-site statement
+- founded: not stated (site says "For over 40 years, we've tested Merlin garage door and gate openers across the Tasman")
+- product_lines: Commander range for sectional doors — Commander Ultimate MJ3800MYQ, Commander Platinum II MS137MYQ, Commander Extreme II MS127MYQ, Commander Elite II MS107MYQ, Commander Elite MS105MYQ, Commander Essential MS65MYQ; also Roller and Tilt door opener ranges (named on-site but individual model names not captured beyond Commander); SilentDrive Elite myQ mentioned in a customer testimonial for a roller door; myQ connectivity across the range
+- kinds: motor
+- door_types: roller, sectional, tilt
+- smart_app: myQ ("myQ Connectivity" / "myQ Smart Garage Light")
+- australian_made: not stated ; wa_made: no
+- accent_hex: #1c4fa1 (approximate — blue, consistent with myQ/Chamberlain-family blue branding; not confirmed via CSS)
+- notes_for_copy:
+  - Backed by "a network of trusted local dealers" across Australia and New Zealand — an Australia-based support team, not a DIY-only brand.
+  - Commander range covers sectional doors at multiple tiers (Essential through Ultimate) with myQ smart connectivity built in on the myQ-branded models.
+  - Also offers Roller and Tilt door opener ranges alongside the sectional Commander line.
+  - myQ app enables remote open/close, real-time notifications, scheduling and temporary access sharing.
+  - No Australian-made or manufacturing-location claim found on-site — do not claim local manufacture.
+  - 40+ years of Merlin openers tested/sold across Australia and NZ (exact founding year not given).
+- sources: ["https://www.gomerlin.com.au/", "https://www.gomerlin.com.au/products/", "https://www.gomerlin.com.au/garage-automation/sectional-door/"]

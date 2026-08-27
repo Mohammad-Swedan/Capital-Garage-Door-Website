@@ -1,0 +1,19 @@
+# Grifco
+- official_url: https://www.grifco.com.au/
+- origin: Australia (Somersby, NSW)
+- ownership: Chamberlain Group / Chamberlain Group ANZ — inferred from warranty-registration links to "chamberlaingroupanz.my.site.com" and references to "Chamberlain Group ANZ" on-site; not a single explicit "Grifco is owned by Chamberlain Group" sentence, so treat as strongly-implied rather than a direct quote
+- founded: not stated as a specific year — "For over 110 years, Grifco has set the standard for large-scale commercial automation installations"
+- product_lines: E-Drive, M-Drive, EHD Drive, D-Drive, H-Drive, LR-Drive, S-Drive, LS-Drive, LG-Drive, Fire Shutter Operator
+- kinds: motor
+- door_types: commercial (roller shutters, roller doors, fire shutters, sectional doors)
+- smart_app: myQ ("myQ Connectivity" — remote access and real-time notifications)
+- australian_made: yes — "Grifco products are manufactured in Australia and tested in Somersby, NSW" ; wa_made: no
+- accent_hex: #009999 (approximate — teal/turquoise observed in logo and site design; exact hex not confirmed via CSS)
+- notes_for_copy:
+  - Explicitly Australian-manufactured and tested (Somersby, NSW) — a strong, on-site, quotable local-manufacture claim.
+  - 110+ years of commercial door/gate automation heritage claimed on-site.
+  - Positioned squarely as the commercial/industrial specialist: fire shutters, heavy-duty roller shutters, commercial sectional and roller doors — not a residential brand.
+  - Wide named product-line range (nine distinct "-Drive" model families plus a dedicated Fire Shutter Operator) — useful for a commercial-motor comparison table.
+  - myQ connectivity is available across (at least part of) the range, same ecosystem as Merlin/Chamberlain.
+  - Site branding ties it into the Chamberlain Group ANZ family (via the warranty-registration domain) — same corporate family as Merlin/Chamberlain, distinct product focus (commercial).
+- sources: ["https://www.grifco.com.au/"]

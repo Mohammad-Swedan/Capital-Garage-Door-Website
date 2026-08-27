@@ -1,0 +1,18 @@
+# DEA
+- official_url: https://www.deasystem.com/en/ (global site; no Australia-specific official page found — Australian buyers are served by third-party resellers such as remotepro.com.au, reidsremotes.com.au, samtonline.com.au and sungateaustralia.net, none of which are official)
+- origin: Italy — "DEA System SpA," headquartered at "Via della Tecnica, 6 36013 Piovene Rocchette (VI) ITALY"; site states "Safe and tested Italian production"
+- ownership: not stated as an external parent; site notes "Since 2013, the group has become stronger thanks to the collaboration with DEA HT, the high technology division" (an internal division, not a separate owner)
+- founded: not stated as a specific year on the fetched page
+- product_lines: overhead doors, sectional doors, sliding gates, swing gates, roller shutters, road barriers, retractable bollards, industrial accesses; NET-COM remote-control/diagnostics platform
+- kinds: motor
+- door_types: sectional, roller (shutters); also gates and barriers (not garage-door-specific)
+- smart_app: NET-COM — "the smart solution that allows you to remotely control the advanced management and diagnostics of automations for gates and doors" (a management/diagnostics platform rather than a consumer smartphone app in the myQ/TaHoma sense)
+- australian_made: no ; wa_made: no
+- accent_hex: #ffcc00 (approximate — yellow, referenced on-site via "Follow the yellow" professional-resources callout; exact brand hex not confirmed via CSS)
+- notes_for_copy:
+  - Italian-manufactured automation brand — "Safe and tested Italian production" is a direct, quotable claim.
+  - Covers a broad automation range (overhead/sectional doors, sliding and swing gates, roller shutters, barriers, bollards) — position as a full-property automation brand, not garage-door-only.
+  - NET-COM platform provides remote management and diagnostics for installed automations — frame it as a professional/installer-facing feature, not necessarily a consumer app.
+  - No confirmed Australian distributor/importer official site — Australian availability is via third-party resellers only; keep local-availability claims modest.
+  - No Australian-made claim — origin is explicitly Italian.
+- sources: ["https://www.deasystem.com/en/"]

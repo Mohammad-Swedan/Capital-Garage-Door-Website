@@ -1,0 +1,17 @@
+# Somfy
+- official_url: https://www.somfy.com.au/
+- origin: France (Somfy Group) — Australian operations confirmed via the .com.au domain, "your local Somfy Expert," and an "Australian Somfy Services" offering
+- ownership: "A Brand of Somfy® Group" — the .com.au site operates as part of/under the global Somfy Group
+- founded: not stated on the fetched page
+- product_lines: "Electric Garage doors" listed under the Gates and Garage Doors product category (specific model names not captured on the fetched page — would need a deeper products page to name motor models); TaHoma smart home hub for connected control
+- kinds: motor
+- door_types: not itemised beyond "electric garage doors" on the fetched page
+- smart_app: TaHoma — "Connect your devices with the TaHoma® smart home hub."
+- australian_made: no (French-origin group; no Australian manufacture claim found) ; wa_made: no
+- accent_hex: #0057b8 (approximate — Somfy's commonly-used blue; not confirmed via this page's CSS)
+- notes_for_copy:
+  - Global Somfy Group brand with a genuine Australian arm (somfy.com.au), including local Somfy Experts/services — a real (not reseller-only) Australian presence.
+  - TaHoma smart home hub is the named connected-control product — positions Somfy as a whole-home automation player, not just a garage motor brand, useful for a "smart home integration" angle.
+  - Product category on-site is "Electric Garage doors" under Gates and Garage Doors — confirms garage door motors are part of the current AU range, though specific model names weren't captured from the homepage and would need a follow-up products-page fetch before naming any model.
+  - No Australian-made or manufacturing-location claim found — origin is French/European.
+- sources: ["https://www.somfy.com.au/"]

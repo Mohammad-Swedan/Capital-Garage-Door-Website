@@ -1,0 +1,21 @@
+# Danmar
+
+- official_url: https://www.danmardoorswa.com.au/ (the candidate URL https://www.danmar.com.au/ returned a server error — this is the live WA site; a separate https://danmardoors.com.au/ "Your Vision, Our Expertise" also surfaced in search and appears to be a related/alternate domain, not independently verified)
+- origin: Perth, WA
+- ownership: not stated — privately owned
+- founded: not stated exactly; site states "over 35 years" in the garage door industry (≈1989-1990)
+- product_lines: Natural Timber Doors, Contemporary Aluminium Doors, Thermopanels, Flush Fit, Colorbond, Precious Metals, Side Slide Sectional Doors; named styles found via search: Heritage/Regency, Ranch/Georgian, Flatline/Cosmopolitan, Stanford, Ribline, Fineline/Settler, Mediterranean, Thermoflat, ExDF, Glasslite, Thermofine
+- kinds: door
+- door_types: sectional (incl. side-slide sectional), commercial
+- smart_app: none stated
+- australian_made: yes; wa_made: yes — "providing not only Perth but any city Australia wide with custom-built garage doors" (Perth-based manufacturer)
+- accent_hex: #333333 (charcoal, per site/logo styling)
+- notes_for_copy:
+  - Perth/WA-based, privately owned, 35+ years in the garage door industry
+  - Broad material range: natural timber, contemporary aluminium, Thermopanel insulation, Colorbond steel, "Precious Metals" (zinc/copper) finishes
+  - Also makes side-slide sectional doors and a commercial range for warehouses/workshops/retail/industrial
+  - Thermoflat is marketed as the flattest garage door on the market and a popular Perth installation; ExDF replaced an older Ply Panel design
+  - Also sold as a third-party stocked line by other retailers (e.g., Best Doors stocks "Australian-made Danmar timber garage doors") — so Danmar is both a direct Perth manufacturer and a wholesale-supplied brand elsewhere in Australia
+- sources:
+  - https://www.danmardoorswa.com.au/about/
+  - https://www.danmardoorswa.com.au/our-range/ (found via search; not independently re-fetched)

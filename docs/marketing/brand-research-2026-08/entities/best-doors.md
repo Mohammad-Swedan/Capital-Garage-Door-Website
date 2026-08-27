@@ -1,0 +1,21 @@
+# Best Doors
+
+- official_url: https://www.bestdoors.com.au/ (WebFetch blocked with HTTP 403 on every attempt against bestdoors.com.au and its subpages; facts below are drawn from WebSearch-indexed extracts of the same domain, not a directly-read page — treat with extra caution)
+- origin: Australia — branch network centred on Queensland and South Australia (Brisbane, Adelaide, Rockhampton, Gladstone, Bundaberg, Townsville, Cairns, Mackay, Toowoomba, Sunshine Coast)
+- ownership: not stated — described as a "family-owned Australian company"
+- founded: 1975 ("one of Australia's most successful garage door sales retailers and installers since 1975" — per search-indexed copy)
+- product_lines: sells a full range of garage doors, automatic openers, shutters and gates; stocks Australian-made Danmar timber garage doors; offers "Selections" brand designer garage doors; commercial/industrial range for retail and mining applications
+- kinds: door
+- door_types: roller, sectional (via stocked brands), commercial/industrial
+- smart_app: not stated
+- australian_made: not confirmed as a manufacturer in its own right — appears to operate primarily as a multi-brand sales/installation retailer (stocking Danmar and "Selections"-branded doors) rather than manufacturing under the Best Doors name; wa_made: no — no WA presence found
+- accent_hex: not stated (insufficient basis to estimate — page not directly accessible)
+- notes_for_copy:
+  - insufficient verified facts beyond what search indexing surfaced — the official site itself could not be read directly in this pass (403 on every fetch attempt)
+  - Family-owned, trading since 1975, with branches concentrated in Queensland and South Australia — no confirmed WA/Perth presence
+  - Functions largely as a retailer/installer stocking other manufacturers' product (notably Danmar timber doors) alongside its own "Selections" designer range, rather than manufacturing a full range itself
+  - Offers an extra month's warranty when customers register their warranty online (specific base warranty term not confirmed)
+  - Do not present as a WA-relevant or locally-manufactured brand without further verification
+- sources:
+  - https://bestdoors.com.au/about-us/ (WebFetch blocked — HTTP 403; facts via WebSearch cached extract)
+  - https://www.bestdoors.com.au/residential/garage-doors/timber-garage-doors/ (found via search, not independently fetched)

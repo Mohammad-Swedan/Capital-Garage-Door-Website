@@ -1,0 +1,22 @@
+# B&D
+
+- official_url: https://www.bnd.com.au/
+- origin: Australia (founded Botany, Sydney)
+- ownership: Dulux Group (part of Nippon Paint Holdings, Japan, since 2019) — per Wikipedia; not restated on bnd.com.au itself
+- founded: 1946 (per Wikipedia; bnd.com.au states "over 65 years" of operation, not an exact year)
+- product_lines: Roll-A-Door (Roll-A-Door Neo, Roll-A-Door Secure), Panelift (incl. Panelift Seville) sectional doors, Designer Series (Sheer Panel finish), Series 2 Commercial Roller Door, ToughPanel commercial sectional doors; openers: Controll-A-Door Power Drive (roller), Smart Pro (sectional); B&D App (smartphone control)
+- kinds: both
+- door_types: roller, sectional, commercial
+- smart_app: B&D App — "check your garage door, grant access to the postman or babysitter, and customise the settings"
+- australian_made: yes ("designed and tested in Australia") ; wa_made: not stated
+- accent_hex: #1a1a1a (site uses a dark/near-black primary with red accent on branding assets)
+- notes_for_copy:
+  - "Market-leading 10-year warranty" on both doors and openers (bnd.com.au)
+  - Claims to be the only manufacturer that makes both garage doors and openers in-house, and invented the Roll-A-Door and Nylofelt running strips
+  - Makes roller, sectional, designer-finish and commercial doors, plus the Controll-A-Door and Smart Pro opener ranges
+  - Owned by Dulux Group / Nippon Paint since the 2019 acquisition (Wikipedia) — do not use "independent Australian manufacturer" framing
+  - In 2005 B&D acquired Dominator New Zealand, its largest NZ competitor at the time (Wikipedia) — background only, do not conflate with the AU "Dominator NSW" network researched separately
+- sources:
+  - https://www.bnd.com.au/
+  - https://www.bnd.com.au/garage-doors/
+  - https://en.wikipedia.org/wiki/B%26D_Australia

@@ -2,8 +2,8 @@ import type { BrandPage } from "@/types/brand";
 
 /**
  * /gliderol-garage-doors-perth — Gliderol, Australian-owned since 1974, is a roller-door
- * specialist with a long-standing Wangara base and is a common fit across Perth's northern
- * suburbs on project homes from the 1980s–2000s building boom. This page owns the LOCAL
+ * specialist manufacturing across Australia's major capital cities, and is a common fit across
+ * Perth's northern suburbs on project homes from the 1980s–2000s building boom. This page owns the LOCAL
  * repair/service/install slice; FAQs mirror the Perth PAA set
  * (docs/marketing/brand-research-2026-08/paa/gliderol-garage-doors-perth.md). Dealer brand.
  * NOTE: gliderol.com.au blocked direct fetch (403) during research, so only one range
@@ -39,13 +39,13 @@ export const gliderolGarageDoorsPerth: BrandPage = {
     { label: "What we do", value: "Supply, install, service & repair" },
   ],
   directAnswer:
-    "Gliderol garage doors are supplied, installed, serviced and repaired across Perth by Capital Garage Doors, an authorised Gliderol dealer. Whether it's a corroded curtain guide on an older roller door or a full sectional replacement, most faults are fixed in a single same-day visit, and a routine service to keep the curtain, springs and track running smoothly is {{price:service}}.",
+    "Gliderol garage doors are supplied, installed, serviced and repaired across Perth by Capital Garage Doors, an authorised Gliderol dealer for both the roller and sectional ranges. Whether it's a corroded curtain guide on an older roller door, a Genesis Series opener that has stopped responding on a sectional door, or a full door replacement, most faults are fixed in a single same-day visit, and a routine service to keep the curtain, springs and track running smoothly is {{price:service}}.",
   intro: {
     heading: "Why Gliderol Roller Doors Are Common Across Perth's North",
     paragraphs: [
-      "Australian-owned since 1974 with a long-standing base at Wangara, Gliderol built its name on steel roller doors, and that history shows up clearly in Perth's northern suburbs. Project homes built through the 1980s, 90s and 2000s boom in areas around Joondalup, Clarkson and the wider northern corridor commonly carry a Gliderol curtain — an affordable, no-fuss roller door that has quietly done its job for decades.",
-      "The Essentials Series is Gliderol's entry-level roller range and the door we see most often, alongside sectional doors offered with window and motor upgrade options for homes wanting a step up. Gliderol manufactures in facilities across the major Australian capital cities, which historically meant faster local supply for dealers and a consistent product regardless of which state it was fitted in.",
-      "Decades of Perth sun and salt air are hard on any roller door, and Gliderol curtains are no exception: guides corrode, torsion springs lose tension, and the curtain can start binding or jumping in its tracks. None of that reflects badly on the door — it's simply what a roller door this age needs, and it's almost always a straightforward same-day fix.",
+      "Australian-owned since 1974, Gliderol built its name on steel roller doors and now manufactures across production facilities in Australia's major capital cities, supplying dealers nationwide rather than importing from overseas. That history shows up clearly in Perth's northern suburbs, where project homes built through the 1980s, 90s and 2000s boom in areas around Joondalup, Clarkson and the wider northern corridor commonly carry a Gliderol curtain — an affordable, no-fuss roller door that has quietly done its job for decades without needing a full replacement.",
+      "Beyond the Essentials Series roller doors we see most often, Gliderol's range extends to sectional doors offered with window and motor upgrade options, plus its own opener lines — the Genesis Series built for sectional doors and the heavier-duty Glidermatic GRD operator for roller doors that need extra torque. That breadth means a technician can usually match both the door and its motor to the same brand rather than mixing in an unrelated opener, which keeps warranty terms and parts sourcing simpler for the homeowner.",
+      "Decades of Perth sun and salt air are hard on any roller door, and Gliderol curtains are no exception: guides corrode, torsion springs lose tension, and the curtain can start binding or jumping in its tracks. None of that reflects badly on the door — it's simply what a roller door this age needs, and it's almost always a straightforward same-day fix. Sectional Gliderol doors face a different set of age-related issues, mostly around motor wear and panel hinges, which is why our technicians check the door and its opener together rather than treating the two as separate jobs.",
     ],
   },
   services: [

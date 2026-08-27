@@ -85,7 +85,7 @@ export const bossGarageDoorMotorsPerth: BrandPage = {
     repairWhen: [
       "The fault is a remote, keypad, sensor or gear kit rather than the motor's drive itself.",
       "The opener still lifts the door smoothly once the springs are re-tensioned — the drive is healthy.",
-      "You only need a remote coded or a keypad reprogrammed.",
+      "You only need a remote coded, a keypad reprogrammed, or a wall button paired to the opener.",
       "A repair at {{price:motor-repair}} restores a unit with years of working life left in it.",
     ],
     replaceWhen: [

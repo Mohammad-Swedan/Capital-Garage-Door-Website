@@ -5,7 +5,7 @@ import type { BrandPage } from "@/types/brand";
  * storefront (distinct from LiftMaster, the same group's professional range — the two must never
  * be conflated). Model names verified against
  * docs/marketing/brand-research-2026-08/entities/chamberlain.md. Angle: the self-install kit
- * bought online or at Bunnings, and the set-up/programming issues that follow a DIY fit — a
+ * bought online as a boxed kit, and the set-up/programming issues that follow a DIY fit — a
  * different emphasis to the Merlin page. FAQs mirror the Perth PAA set
  * (docs/marketing/brand-research-2026-08/paa/chamberlain-garage-door-motors-perth.md). Chamberlain
  * does not carry the special retail-network wording flag some other brands do (entities.ts) — keep
@@ -44,7 +44,7 @@ export const chamberlainGarageDoorMotorsPerth: BrandPage = {
   intro: {
     heading: "Perth's Most Common Self-Install Opener",
     paragraphs: [
-      "Chamberlain is the do-it-yourself brand of the Chamberlain Group, the same company behind the professional-grade LiftMaster range — but sold as a boxed kit through Bunnings and online rather than fitted by an installer network. That makes it one of the most common openers Perth homeowners have installed themselves, usually the RollerLift on a roller door or the SectionalLift on a sectional one, both running the same myQ app as the rest of the Chamberlain Group family.",
+      "Chamberlain is the do-it-yourself brand of the Chamberlain Group, the same company behind the professional-grade LiftMaster range — but sold as a self-install boxed kit through its own online storefront rather than fitted by an installer network. That makes it one of the most common openers Perth homeowners have installed themselves, usually the RollerLift on a roller door or the SectionalLift on a sectional one, both running the same myQ app as the rest of the Chamberlain Group family.",
       "A well-set-up Chamberlain kit is a perfectly capable opener, but a self-install skips a few steps a technician does automatically: correctly setting travel and force limits, aligning the safety sensors so they can't be tripped by shadows, and torquing the header bracket into solid framing rather than plasterboard. Most of our Chamberlain call-outs trace back to one of those three, showing up as a door that reverses for no reason, stops short of the floor, or a myQ app that won't stay connected to home WiFi.",
       "Where the motor itself has failed — a stripped drive chain, a dead logic board, gears worn from years of dragging an unbalanced door — we replace it with a professionally installed unit and set it up properly the first time, including a workmanship warranty a self-install kit doesn't come with. Where the kit is basically sound, we correct the setup and hand it back working the way it should have from day one.",
     ],
@@ -115,7 +115,7 @@ export const chamberlainGarageDoorMotorsPerth: BrandPage = {
   decision: {
     repairWhen: [
       "The kit is under about ten years old and the fault is a sensor, a limit setting or a remote pairing issue.",
-      "The motor still lifts the door smoothly once travel limits and safety beams are corrected — a set-up fix, not a drive fault.",
+      "The motor still lifts the door smoothly once travel limits and safety beams are corrected, not a genuine drive fault.",
       "You only need the myQ app reconnected, a new remote coded or a wall button paired.",
       "A repair at {{price:motor-repair}} fixes a DIY set-up issue without buying a new unit.",
     ],

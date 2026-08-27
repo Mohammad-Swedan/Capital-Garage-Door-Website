@@ -162,6 +162,7 @@ export const bAndDGarageDoorMotorsPerth: BrandPage = {
   relatedBrands: ["gliderol", "steel-line", "boss", "ata"],
   relatedServices: [
     { label: "All garage door motor brands in Perth", href: "/garage-door-motor-brands-perth" },
+    { label: "B&D garage doors Perth", href: "/b-and-d-garage-doors-perth" },
     { label: "Garage door opener repair Perth", href: "/garage-door-opener-repair-perth" },
     { label: "Garage door remote replacement", href: "/garage-door-remote-replacement-perth" },
     { label: "Capital 1100N & 1500N motors", href: "/garage-door-motors-perth" },

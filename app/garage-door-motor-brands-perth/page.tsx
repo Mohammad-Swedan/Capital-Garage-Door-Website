@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/json-ld";
 import { BrandHubTemplate } from "@/components/sections/brands/brand-hub-template";
-import { buildHubProps } from "@/components/sections/brands/hub-data";
+import { buildHubProps } from "@/lib/brands/hub-data";
 import { getBrandHub } from "@/lib/data/brands";
 import { brandHubSchemas, faqSchema } from "@/lib/seo/schema";
 import { buildMetadata } from "@/lib/seo/metadata";

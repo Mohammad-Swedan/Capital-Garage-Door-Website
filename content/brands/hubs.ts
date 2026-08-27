@@ -9,7 +9,7 @@ export const BRAND_HUBS: Record<"door" | "motor", BrandHub> = {
     seo: {
       title: "Garage Door Brands Perth | Every Brand Serviced & Installed",
       description:
-        "Every garage door brand in Perth — Steel-Line, B&D, Gliderol, Centurion, Danmar & more. Find your brand, see what we repair, service and install, and get a same-day quote.",
+        "Every garage door brand in Perth — Steel-Line, B&D, Gliderol, Centurion, Danmar & more. Find your brand, see what we repair & install, get a same-day quote.",
     },
     hero: {
       h1: "Garage Door Brands in Perth — Every Brand We Service, Repair & Install",
@@ -66,7 +66,7 @@ export const BRAND_HUBS: Record<"door" | "motor", BrandHub> = {
     seo: {
       title: "Garage Door Motor & Opener Brands Perth | Repairs & Remotes",
       description:
-        "Merlin, Chamberlain, B&D, Gliderol, ATA, Boss & every other garage door motor brand in Perth — repaired, re-programmed or replaced same-day. Find your opener brand here.",
+        "Merlin, Chamberlain, B&D, Gliderol, ATA, Boss & every garage door motor brand in Perth — repaired, re-programmed or replaced same-day. Find yours here.",
     },
     hero: {
       h1: "Garage Door Motor & Opener Brands in Perth",

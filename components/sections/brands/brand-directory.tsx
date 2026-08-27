@@ -10,10 +10,12 @@ import { HoverPrefetchLink } from "@/components/ui/hover-prefetch-link";
 import { cn } from "@/lib/utils";
 import { BrandMark } from "./brand-mark";
 import { BRAND_HIGHLIGHT_EVENT } from "./brand-finder";
-import type { HubTile } from "./brand-hub-template";
-import type { BrandKind, BrandTag } from "@/types/brand";
+import type { BrandKind, BrandTag, HubTile } from "@/types/brand";
 
-// One dialog for the whole wall, pulled in only when a brand without a guide is tapped.
+// One dialog for the whole wall. Rendered unconditionally, so its chunk still loads on
+// hydration (a `next/dynamic` import isn't deferred by being unopened) — the same house pattern
+// as the QuoteDialog in components/page/cta-buttons.tsx. The win here is code-splitting the
+// dialog out of the main directory bundle, not deferring the request.
 const QuoteDialog = dynamic(
   () => import("@/components/sections/quote-dialog").then((m) => m.QuoteDialog),
   { ssr: false },

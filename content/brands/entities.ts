@@ -246,7 +246,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "marantec",
     name: "Marantec",
     kinds: ["motor"],
-    accent: "#ffffff",
+    accent: "#1f4f8f",
     url: "https://www.marantec.com/en/",
     origin: "Germany",
     founded: 1989,

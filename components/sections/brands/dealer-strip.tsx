@@ -8,14 +8,17 @@ import { BrandMark } from "./brand-mark";
 import type { BrandEntity, BrandKind } from "@/types/brand";
 
 interface DealerStripProps {
-  /** Every brand entity — the dealership claim isn't kind-specific, so it isn't filtered by kind. */
+  /** Every brand entity, both kinds — filtered to this hub's kind below. */
   entities: BrandEntity[];
   kind: BrandKind;
 }
 
 /**
- * The eight brands Capital is an authorised dealer for — the one claim on these hubs that is
- * about us rather than the manufacturers, so it sits apart from the wall.
+ * The brands Capital is an authorised dealer for, **scoped to this hub's kind** — the door hub
+ * shows the 4 door-dealer brands, the motor hub the 7 motor-dealer brands, so this strip's count
+ * always matches the hero stat and the "Authorised dealer" filter chip above it. (An earlier
+ * version showed all 8 dealer brands on both hubs, which quoted a different dealer count than
+ * the rest of the page.)
  *
  * Each card links to the deepest thing we have for that brand: its guide for this hub's kind,
  * failing that its guide for the other kind, failing that the manufacturer's own site (an
@@ -23,8 +26,9 @@ interface DealerStripProps {
  */
 export function DealerStrip({ entities, kind }: DealerStripProps) {
   const other: BrandKind = kind === "motor" ? "door" : "motor";
+  const dealerNoun = kind === "motor" ? "opener" : "door";
   const dealers = entities
-    .filter((e) => e.dealer)
+    .filter((e) => e.dealer && e.kinds.includes(kind))
     .map((entity) => {
       const internal = brandPageHref(entity.slug, kind) ?? brandPageHref(entity.slug, other);
       return { entity, internal, external: internal ? undefined : entity.url };
@@ -36,9 +40,9 @@ export function DealerStrip({ entities, kind }: DealerStripProps) {
     <section className="bg-background py-12 sm:py-16">
       <Container>
         <SectionHeading
-          eyebrow="Authorised dealer for"
+          eyebrow={`Authorised dealer for these ${dealerNoun} brands`}
           title="The brands we supply new, not just repair"
-          description="For these manufacturers we're an authorised dealer — new doors and openers, warranty-backed, fitted by our own technicians. Every other brand on this page we service and repair."
+          description={`For these ${dealerNoun} brands we're an authorised dealer — new stock, warranty-backed, fitted by our own technicians. Every other brand on this page we service and repair.`}
         />
 
         <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">

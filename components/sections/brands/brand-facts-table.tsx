@@ -3,8 +3,7 @@ import { Container } from "@/components/layout/container";
 import { SectionHeading } from "@/components/page/section-heading";
 import { siteConfig } from "@/config/site";
 import { BrandMark } from "./brand-mark";
-import type { HubTile } from "./brand-hub-template";
-import type { BrandKind, BrandTag } from "@/types/brand";
+import type { BrandKind, BrandTag, HubTile } from "@/types/brand";
 
 interface BrandFactsTableProps {
   kind: BrandKind;

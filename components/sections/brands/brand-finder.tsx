@@ -10,8 +10,7 @@ import { CallNowButton, GetQuoteButton } from "@/components/page/cta-buttons";
 import { track } from "@/lib/analytics";
 import { scrollToElement } from "@/lib/smooth-scroll";
 import { BrandMark } from "./brand-mark";
-import type { HubTile } from "./brand-hub-template";
-import type { BrandKind } from "@/types/brand";
+import type { BrandKind, HubTile } from "@/types/brand";
 
 interface BrandFinderProps {
   kind: BrandKind;
@@ -109,9 +108,14 @@ export function BrandFinder({ kind, tiles }: BrandFinderProps) {
         new CustomEvent(BRAND_HIGHLIGHT_EVENT, { detail: tile.entity.slug }),
       );
       // The directory clears its filter on the same event, so the tile is on screen by the time
-      // this runs on the next frame.
+      // this runs on the next frame. Move focus onto the tile itself (its link/button) in the
+      // same frame as the scroll — otherwise focus is silently left behind on the finder input.
       requestAnimationFrame(() => {
         scrollToElement(document.getElementById(`brand-${tile.entity.slug}`));
+        document
+          .getElementById(`brand-${tile.entity.slug}`)
+          ?.querySelector<HTMLElement>("a,button")
+          ?.focus({ preventScroll: true });
       });
     },
     [router],

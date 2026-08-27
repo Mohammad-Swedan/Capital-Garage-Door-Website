@@ -1,9 +1,8 @@
 import { buildPricingRows, renderPriceTokens } from "@/lib/brands/pricing";
 import { cmsPublicPricing } from "@/lib/cms/pricing-client";
 import { brandPageHref, getBrandEntities, getBrandHub } from "@/lib/data/brands";
-import type { HubTile } from "./brand-hub-template";
 import type { FAQ } from "@/types";
-import type { BrandEntity, BrandHub, BrandKind } from "@/types/brand";
+import type { BrandEntity, BrandHub, BrandKind, HubTile } from "@/types/brand";
 
 /**
  * Every scenario a hub FAQ can reference with a `{{price:id}}` token. Both hubs resolve all
@@ -19,7 +18,7 @@ export interface BrandHubProps {
   faqs: FAQ[];
   /** ItemList entries for the hub's JSON-LD — brands that have a real guide page. */
   items: { name: string; url: string; image?: string }[];
-  /** Every entity, both kinds (the dealer strip is a claim about us, not about this kind). */
+  /** Every entity, both kinds — DealerStrip filters this down to the hub's kind itself. */
   entities: BrandEntity[];
 }
 

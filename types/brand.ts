@@ -137,6 +137,12 @@ export interface BrandHub {
   faqs: FAQ[];
 }
 
+/** One brand on a hub: the entity plus its guide page for this hub's kind, when one exists. */
+export interface HubTile {
+  entity: BrandEntity;
+  href?: string;
+}
+
 /** A brand page with runtime data resolved (prices, tokens, related brands, area links). */
 export interface ResolvedBrandPage {
   page: BrandPage;

@@ -15,20 +15,14 @@ import { BrandFactsTable } from "./brand-facts-table";
 import { BadgeGuide } from "./badge-guide";
 import { DealerStrip } from "./dealer-strip";
 import type { FAQ } from "@/types";
-import type { BrandEntity, BrandHub } from "@/types/brand";
-
-/** One brand on a hub: the entity plus its guide page for this hub's kind, when one exists. */
-export interface HubTile {
-  entity: BrandEntity;
-  href?: string;
-}
+import type { BrandEntity, BrandHub, HubTile } from "@/types/brand";
 
 interface BrandHubTemplateProps {
   hub: BrandHub;
   tiles: HubTile[];
   /** Hub FAQs with `{{price:*}}` tokens already resolved by the route. */
   faqs: FAQ[];
-  /** Every brand entity, both kinds — the dealer strip is a claim about us, not about this kind. */
+  /** Every brand entity, both kinds — DealerStrip filters this down to the hub's kind itself. */
   entities: BrandEntity[];
 }
 

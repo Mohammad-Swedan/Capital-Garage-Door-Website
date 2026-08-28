@@ -43,7 +43,7 @@ export const grifcoGarageDoorMotorsPerth: BrandPage = {
     { label: "What we do", value: "Service, repair & replace" },
   ],
   directAnswer:
-    "Grifco commercial door and shutter motors are repaired, serviced and replaced across Perth by Capital Garage Doors, covering the warehouses, strata complexes and workshops where the brand is most often fitted. Most faults on the E-Drive, M-Drive and other Drive-series operators — a motor that won't respond, a control-board fault, a fire shutter that won't reset — are diagnosed on site. When a unit has genuinely reached the end of its life, a full commercial replacement is quoted against {{price:commercial-roller}}, supplied and installed.",
+    "Grifco commercial door and shutter motors are repaired, serviced and replaced across Perth by Capital Garage Doors, covering the warehouses, strata complexes and workshops where the brand is most often fitted. Most faults on the E-Drive, M-Drive and other Drive-series operators — a motor that won't respond, a control-board fault, a fire shutter that won't reset — are diagnosed on site. When a unit has genuinely reached the end of its life, commercial roller-door motor replacement work is typically {{price:commercial-roller}}, supplied and installed.",
   intro: {
     heading: "Grifco: Australian-Made Commercial Door Automation",
     paragraphs: [

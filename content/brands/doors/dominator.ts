@@ -128,7 +128,7 @@ export const dominatorGarageDoorsPerth: BrandPage = {
     {
       question: "Can you supply a new Dominator garage door in Perth, or only service existing ones?",
       answer:
-        "We primarily service, repair and replace existing Dominator doors across Perth rather than operating as a Dominator supply outlet. If you'd like a new door in a similar sectional style, we supply and install a comparable range — see our full options at /garage-doors-perth — and we're upfront if a genuine Dominator panel needs to be specially sourced.",
+        "We primarily service, repair and replace existing Dominator doors across Perth rather than operating as a Dominator supply outlet. If you'd like a new door in a similar sectional style, we supply and install a comparable range — see our full new-door range for Perth — and we're upfront if a genuine Dominator panel needs to be specially sourced.",
     },
     {
       question: "Do you service Dominator doors across all of Perth?",

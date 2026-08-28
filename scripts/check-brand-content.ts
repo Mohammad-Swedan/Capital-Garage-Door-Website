@@ -100,6 +100,15 @@ async function liveUrls(): Promise<Set<string>> {
  * segments) so single-segment paths like /blog never false-positive as unlisted references. */
 const PATH_TOKEN = /\/[a-z0-9]+(?:-[a-z0-9]+)+/g;
 
+/** Every other plain-text-rendered field on a brand page: a raw path here shows up verbatim on
+ * the page (and in FAQPage JSON-LD for the faqs case) with no link — always a content bug. Unlike
+ * `parts.paragraphs`, NONE of these may contain a path token, not even the PARTS_PROSE_LINKS set. */
+function checkNoPathTokens(where: string, field: string, text: string) {
+  for (const token of text.match(PATH_TOKEN) ?? []) {
+    fail(`${where}: ${field} references a raw path ${token} (renders as plain text — rewrite as prose)`);
+  }
+}
+
 (async () => {
   const urls = await liveUrls();
   const entityBySlug = new Map(BRAND_ENTITIES.map((e) => [e.slug, e]));
@@ -152,6 +161,15 @@ const PATH_TOKEN = /\/[a-z0-9]+(?:-[a-z0-9]+)+/g;
         }
       }
     }
+    checkNoPathTokens(where, "directAnswer", p.directAnswer);
+    for (const paragraph of p.intro.paragraphs) checkNoPathTokens(where, "intro.paragraphs", paragraph);
+    checkNoPathTokens(where, "costIntro", p.costIntro);
+    for (const factor of p.costFactors) checkNoPathTokens(where, "costFactors", factor);
+    for (const line of p.decision?.repairWhen ?? []) checkNoPathTokens(where, "decision.repairWhen", line);
+    for (const line of p.decision?.replaceWhen ?? []) checkNoPathTokens(where, "decision.replaceWhen", line);
+    checkNoPathTokens(where, "cta.heading", p.cta.heading);
+    checkNoPathTokens(where, "cta.subtitle", p.cta.subtitle);
+    for (const f of p.faqs) checkNoPathTokens(where, "faqs[].answer", f.answer);
     for (const r of p.relatedBrands) {
       if (!entityBySlug.has(r)) fail(`${where}: relatedBrands unknown ${r}`);
     }

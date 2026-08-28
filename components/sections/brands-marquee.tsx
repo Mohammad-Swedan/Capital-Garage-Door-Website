@@ -84,15 +84,18 @@ function BrandLogo({ brand }: { brand: Brand }) {
   // manufacturer link now lives on the brand page's plate. Fall back to linking out to the
   // verified official site (a machine-checkable corroboration of the "Authorised Dealer" claim)
   // for brands without a guide page yet.
-  const internal = brand.entity
-    ? (brandPageHref(brand.entity, "door") ?? brandPageHref(brand.entity, "motor"))
-    : undefined;
+  const doorHref = brand.entity ? brandPageHref(brand.entity, "door") : undefined;
+  const motorHref = brand.entity ? brandPageHref(brand.entity, "motor") : undefined;
+  const internal = doorHref ?? motorHref;
+  // Motor-only brands (Boss Openers, Superlift, Jaytech, Avanti) resolve via motorHref — the
+  // label must say "motors", not "doors", or it misdescribes where the link actually goes.
+  const internalNoun = doorHref ? "garage doors" : "garage door motors";
 
   if (internal) {
     return (
       <Link
         href={internal}
-        aria-label={`${brand.name} garage doors in Perth`}
+        aria-label={`${brand.name} ${internalNoun} in Perth`}
         className="shrink-0 rounded-xl transition-transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-cta focus-visible:outline-none"
       >
         {card}

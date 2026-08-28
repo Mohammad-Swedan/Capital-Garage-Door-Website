@@ -61,7 +61,7 @@ export function Header() {
         <ul>
           {SITE_SECTION_LINKS.map((link) => (
             <li key={link.href}>
-              <Link href={link.href} prefetch={false}>
+              <Link href={link.href} prefetch={false} tabIndex={-1}>
                 {link.label}
               </Link>
             </li>

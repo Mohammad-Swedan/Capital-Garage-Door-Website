@@ -126,7 +126,7 @@ export const gliderolGarageDoorsPerth: BrandPage = {
     {
       question: "Where are Gliderol garage doors made?",
       answer:
-        "Gliderol describes itself as an Australian-owned manufacturing company with production in the major Australian capital cities, a setup it has used since 1974 to keep supply local rather than importing doors from overseas.",
+        "Gliderol describes itself as an Australian-owned manufacturing company, a name it says has been trusted since 1974, with production facilities in each of Australia's major capital cities. That local manufacturing base covers its full range, from the Essentials Series roller doors most common on Perth homes to its sectional doors and opener lines. We can confirm exact model details for your door when we quote a repair, service or replacement.",
     },
     {
       question: "Do you service Gliderol doors installed by someone else?",

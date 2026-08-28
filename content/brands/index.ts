@@ -11,6 +11,15 @@ import { gliderolGarageDoorsPerth } from "@/content/brands/doors/gliderol";
 import { centurionGarageDoorsPerth } from "@/content/brands/doors/centurion";
 import { danmarGarageDoorsPerth } from "@/content/brands/doors/danmar";
 import { taureanGarageDoorsPerth } from "@/content/brands/doors/taurean";
+import { centurionGarageDoorMotorsPerth } from "@/content/brands/motors/centurion";
+import { avantiGarageDoorMotorsPerth } from "@/content/brands/motors/avanti";
+import { ataGarageDoorMotorsPerth } from "@/content/brands/motors/ata";
+import { superliftGarageDoorMotorsPerth } from "@/content/brands/motors/superlift";
+import { liftmasterGarageDoorMotorsPerth } from "@/content/brands/motors/liftmaster";
+import { grifcoGarageDoorMotorsPerth } from "@/content/brands/motors/grifco";
+import { jaytechGarageDoorMotorsPerth } from "@/content/brands/motors/jaytech";
+import { dominatorGarageDoorsPerth } from "@/content/brands/doors/dominator";
+import { windsorGarageDoorsPerth } from "@/content/brands/doors/perth-windsor-doors";
 
 /**
  * Registry of brand pages. Add a file under content/brands/motors or content/brands/doors and
@@ -30,4 +39,13 @@ export const brandPages: BrandPage[] = [
   centurionGarageDoorsPerth,
   danmarGarageDoorsPerth,
   taureanGarageDoorsPerth,
+  centurionGarageDoorMotorsPerth,
+  avantiGarageDoorMotorsPerth,
+  ataGarageDoorMotorsPerth,
+  superliftGarageDoorMotorsPerth,
+  liftmasterGarageDoorMotorsPerth,
+  grifcoGarageDoorMotorsPerth,
+  jaytechGarageDoorMotorsPerth,
+  dominatorGarageDoorsPerth,
+  windsorGarageDoorsPerth,
 ];

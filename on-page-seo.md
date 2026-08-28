@@ -189,6 +189,8 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 | Comparison | ✅ | ✅ | Article · speakable | ✅ | `#quote` |
 | Cost-guide | ✅ | ✅ | Article · Service(+Offers) · speakable | ✅ | `#quote` |
 | Service-suburb | ✅ | ✅ | LocalBusiness · Service · speakable | ✅ | `#quote` |
+| Brand page | ✅ hero | ✅ | Service · WebPage(about: Brand, +speakable) | ✅ | `#quote` form + `tel:` |
+| Brand hub | ✅ | ✅ | CollectionPage · ItemList | ✅ | `tel:` + quote |
 | Blog post | ✅ | ✅ | Article(Person) | ✅ (required) | in-body links + related |
 | Case study | ✅ | ✅ | Article | ✅ if `faqs` set | — |
 | Index/listing | ✅ | ✅ | CollectionPage (+ ItemList for /services) | optional | — |

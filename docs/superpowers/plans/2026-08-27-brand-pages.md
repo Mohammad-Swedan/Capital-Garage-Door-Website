@@ -68,7 +68,7 @@
 - Consumes: `PRICING_BY_ID` (`components/sections/smart-calculator/pricing-data.ts`), `CmsPublicPricingItem` + `cmsPublicPricing()` (`lib/cms/pricing-client.ts`), `getCaseStudies()` (`lib/data/case-studies.ts`), `getServiceSuburbPageSlugs()` (`lib/data/service-suburb-pages.ts`), `CostGuidance`/`CostGuidanceRow`/`LocalLink`/`FAQ` (`types/index.ts`), `CaseStudyPage` (`types/case-study.ts`).
 - Produces (used by every later task): everything exported from `types/brand.ts` and `lib/data/brands.ts` below.
 
-- [ ] **Step 1: Write `types/brand.ts`**
+- [x] **Step 1: Write `types/brand.ts`**
 
 ```ts
 import type { CostGuidance, FAQ, LocalLink } from "@/types";
@@ -225,7 +225,7 @@ export interface ResolvedBrandPage {
 }
 ```
 
-- [ ] **Step 2: Write the failing tests for the pricing helper**
+- [x] **Step 2: Write the failing tests for the pricing helper**
 
 `lib/brands/__tests__/pricing.test.ts`:
 
@@ -279,12 +279,12 @@ test("assertNoLiteralPrices catches hand-written figures", () => {
 });
 ```
 
-- [ ] **Step 3: Run the test to verify it fails**
+- [x] **Step 3: Run the test to verify it fails**
 
 Run: `npx tsx --test "lib/brands/__tests__/pricing.test.ts"`
 Expected: FAIL — `Cannot find module '../pricing'`.
 
-- [ ] **Step 4: Write `lib/brands/pricing.ts`**
+- [x] **Step 4: Write `lib/brands/pricing.ts`**
 
 ```ts
 import { PRICING_BY_ID } from "@/components/sections/smart-calculator/pricing-data";
@@ -359,12 +359,12 @@ export function assertNoLiteralPrices(copy: string, where: string): void {
 }
 ```
 
-- [ ] **Step 5: Run the pricing tests to verify they pass**
+- [x] **Step 5: Run the pricing tests to verify they pass**
 
 Run: `npx tsx --test "lib/brands/__tests__/pricing.test.ts"`
 Expected: 6 passing. If `motor-replace` in `pricing-data.ts` no longer reads 770–990, update the expected strings in the test to the current baked range (the test asserts the baked value, not a fixed number policy).
 
-- [ ] **Step 6: Write the failing tests for the brand matcher**
+- [x] **Step 6: Write the failing tests for the brand matcher**
 
 `lib/brands/__tests__/match.test.ts`:
 
@@ -406,12 +406,12 @@ test("matchTerms replaces the name for ordinary-word brands", () => {
 });
 ```
 
-- [ ] **Step 7: Run to verify it fails**
+- [x] **Step 7: Run to verify it fails**
 
 Run: `npx tsx --test "lib/brands/__tests__/match.test.ts"`
 Expected: FAIL — `Cannot find module '../match'`.
 
-- [ ] **Step 8: Write `lib/brands/match.ts`**
+- [x] **Step 8: Write `lib/brands/match.ts`**
 
 ```ts
 import type { BrandEntity } from "@/types/brand";
@@ -430,12 +430,12 @@ export function textMentionsBrand(text: string, entity: BrandEntity): boolean {
 }
 ```
 
-- [ ] **Step 9: Run both test files to verify they pass**
+- [x] **Step 9: Run both test files to verify they pass**
 
 Run: `npx tsx --test "lib/brands/__tests__/*.test.ts"`
 Expected: 9 passing.
 
-- [ ] **Step 10: Create the registries and hub definitions**
+- [x] **Step 10: Create the registries and hub definitions**
 
 `content/brands/entities.ts` (Task 2 fills the array; keep the file client-safe — no server imports):
 
@@ -513,7 +513,7 @@ import type { BrandPage } from "@/types/brand";
 export const brandPages: BrandPage[] = [];
 ```
 
-- [ ] **Step 11: Write `lib/data/brands.ts`**
+- [x] **Step 11: Write `lib/data/brands.ts`**
 
 ```ts
 import { BRAND_ENTITIES } from "@/content/brands/entities";
@@ -660,7 +660,7 @@ export async function resolveBrandPage(page: BrandPage): Promise<ResolvedBrandPa
 }
 ```
 
-- [ ] **Step 12: Type-check and commit**
+- [x] **Step 12: Type-check and commit**
 
 Run: `npx tsc --noEmit`
 Expected: no errors (if `tsconfig.tsbuildinfo` shows phantom errors, delete it and re-run — see memory).
@@ -684,7 +684,7 @@ git commit -m "feat(brands): types, pricing/match helpers with tests, registries
 - Consumes: `BrandEntity` (Task 1).
 - Produces: `BRAND_ENTITIES` with all 39 entities; research files that Task 5 authors from.
 
-- [ ] **Step 1: Research every entity from its official site**
+- [x] **Step 1: Research every entity from its official site**
 
 For each brand below, `WebFetch` the official site (use `WebSearch` to find it when the candidate URL is unsure) and record in `docs/marketing/brand-research-2026-08/entities/<slug>.md`:
 
@@ -743,7 +743,7 @@ Entities and candidate URLs (verify each; replace when wrong):
 
 Set `matchTerms` for ordinary-word names: `boss` → `["Boss opener","Boss motor","Boss garage"]`, `guardian` → `["Guardian opener","Guardian motor","Guardian door"]`, `genie` → `["Genie opener","Genie motor"]`, `nice` → `["Nice motor","Nice opener","Nice automation"]`, `magic-button` → `["Magic Button"]`, `dea` → `["DEA motor","DEA opener","DEA System"]`. Aliases: `b-and-d` → `["B & D","B and D","BnD"]`, `steel-line` → `["Steel Line","Steelline"]`, `liftmaster` → `["Lift Master"]`, `hormann` → `["Hormann"]`.
 
-- [ ] **Step 2: Pull Perth PAA for the 12 Phase-1 page queries**
+- [x] **Step 2: Pull Perth PAA for the 12 Phase-1 page queries**
 
 Credentials: `~/.config/claude-seo/dataforseo-api.json` (`login`/`password`). One query per call (the live endpoint rejects batches). Save each result as `docs/marketing/brand-research-2026-08/paa/<page-slug>.md` with top-10 organic (domain · title · url), every PAA question, and related searches.
 
@@ -777,7 +777,7 @@ EOF
 
 Expected: 12 files, total cost ≈ $0.03. (Windows: run in Git Bash; replace `/tmp` with the scratchpad directory if `/tmp` is unwritable.)
 
-- [ ] **Step 3: Fill `content/brands/entities.ts`**
+- [x] **Step 3: Fill `content/brands/entities.ts`**
 
 One object per row of the table, e.g. (values must come from the research file — this is the shape, not the facts):
 
@@ -800,7 +800,7 @@ One object per row of the table, e.g. (values must come from the research file �
 
 Tags: `smart-app` only when the site names an app; `wa-made` only for brands manufacturing in WA (Centurion Garage Doors, Danmar, Perth Windsor Doors, Gryphon — confirm each on its site); `australian-made` only when stated.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `npx tsc --noEmit` — expected clean. Then a quick guard:
 
@@ -828,7 +828,7 @@ git commit -m "feat(brands): 30 researched brand entities + Perth PAA snapshots 
 - Consumes: `BrandEntity`.
 - Produces: `BrandMark({ entity, size?: "sm"|"md"|"lg"|"xl", className?, priority? })`, `monogramFor(name): string`, `BrandPlate({ entity, quickFacts: BrandQuickFact[], kind: BrandKind })`.
 
-- [ ] **Step 1: Write `brand-mark.tsx`**
+- [x] **Step 1: Write `brand-mark.tsx`**
 
 ```tsx
 import Image from "next/image";
@@ -904,7 +904,7 @@ export function BrandMark({ entity, size = "md", className, priority }: BrandMar
 }
 ```
 
-- [ ] **Step 2: Write `brand-plate.tsx`**
+- [x] **Step 2: Write `brand-plate.tsx`**
 
 Visual spec: a `rounded-3xl` card, white on light theme, with (top) a 40 % tall band tinted by `entity.accent` at ~10 % over a faint 44 px grid (reuse the PageHero grid recipe), the `BrandMark size="xl"` centred and overlapping the band's bottom edge; (middle) a `<dl>` of `quickFacts` in two columns on ≥sm (`dt` 11 px uppercase tracking-wide muted, `dd` 15 px semibold foreground); (bottom) a ribbon pill — "Authorised dealer" (emerald) when `entity.dealer`, else "Serviced & repaired in Perth" (primary); and, when `entity.url` is set, a small external link "Official {name} site ↗" with `target="_blank" rel="noopener noreferrer"`. A slow diagonal sheen (`.cgd-brand-plate-sheen`, 6 s, `translateX`) crosses the band once on mount and on hover; disabled under `prefers-reduced-motion`.
 
@@ -989,11 +989,11 @@ Append to `app/globals.css`:
 }
 ```
 
-- [ ] **Step 3: Verify in isolation**
+- [x] **Step 3: Verify in isolation**
 
 Add a temporary render to `app/garage-door-motors-perth/page.tsx`? No — keep the tree clean: run `npx tsc --noEmit` and `npx eslint components/sections/brands/brand-mark.tsx components/sections/brands/brand-plate.tsx`. Visual verification happens in Task 4 once a page renders.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add components/sections/brands/brand-mark.tsx components/sections/brands/brand-plate.tsx app/globals.css
@@ -1029,7 +1029,7 @@ git commit -m "feat(brands): BrandMark (logo/monogram) and BrandPlate hero card"
 16. **Claims:** the strings "authorised", "authorized" and "dealer" appear only on pages whose entity is a dealer brand. Centurion pages state they mean Centurion Garage Doors (Wangara, WA), not Centurion Systems gate motors.
 17. **Never** a literal `$` + digit anywhere in the file. Never a hyphen-free "B&D" alternative — write `B&D`.
 
-- [ ] **Step 1: Author each page — full reference example (Merlin)**
+- [x] **Step 1: Author each page — full reference example (Merlin)**
 
 `content/brands/motors/merlin.ts` — the shape every page follows. Model names below must match `docs/marketing/brand-research-2026-08/entities/merlin.md`; drop any that the research did not verify.
 
@@ -1194,7 +1194,7 @@ export const merlinGarageDoorMotorsPerth: BrandPage = {
 };
 ```
 
-- [ ] **Step 2: Register every page in `content/brands/index.ts`**
+- [x] **Step 2: Register every page in `content/brands/index.ts`**
 
 ```ts
 import type { BrandPage } from "@/types/brand";
@@ -1229,13 +1229,13 @@ export const brandPages: BrandPage[] = [
 
 (Agents A–C each add only their own imports/entries; agent D adds its three and the hub copy. Resolve the merge by re-reading the file before editing.)
 
-- [ ] **Step 3: Hub copy (agent D) — `content/brands/hubs.ts`**
+- [x] **Step 3: Hub copy (agent D) — `content/brands/hubs.ts`**
 
 `intro`: 2 paragraphs per hub (70–100 words) — doors: what "brand" means on a Perth door (the maker of the curtain/panels, often different from the motor), why knowing it matters (matching panels, springs, remotes), and that every brand is serviced regardless of who installed it. Motors: the opener brand is on the head-unit label, why it matters (remote compatibility, parts), and that repair-versus-replace is decided on the day. `faqs`: 6–7 each, answers 45–80 words, tokens allowed (`new-standard`, `motor-replace`, `service` are valid on hubs — the hub route resolves rows for exactly these three ids). Questions:
 - Doors: "What is the best garage door brand in Australia?" · "Gliderol or B&D — which is better?" · "Are B&D garage doors good?" · "What are the typical prices for a new garage door in Perth?" (token `new-standard`) · "Do you service brands you don't sell?" · "Can you match panels for an older door brand?" · "How do I find out what brand my garage door is?"
 - Motors: "What are the best brands of garage door openers in Australia?" · "How long does a garage door opener last?" · "How much does it cost to replace a garage door motor in Perth?" (token `motor-replace`) · "How can I tell if my garage door motor is failing?" · "Do you repair opener brands you don't sell?" · "Can I keep my existing remotes if the motor is replaced?" · "Belt drive or chain drive — which is better for Perth?"
 
-- [ ] **Step 4: Each agent verifies its files**
+- [x] **Step 4: Each agent verifies its files**
 
 Run: `npx tsc --noEmit` and this guard for every file you wrote:
 
@@ -1245,7 +1245,7 @@ grep -lniE 'authori[sz]ed|dealer' content/brands/motors/*.ts content/brands/door
 ```
 Expected: "no literal prices"; the second grep lists only dealer-brand files (`b-and-d.ts`, `gliderol.ts`, `steel-line.ts`, `boss.ts`).
 
-- [ ] **Step 5: Commit (one commit per agent, then the orchestrator merges index.ts)**
+- [x] **Step 5: Commit (one commit per agent, then the orchestrator merges index.ts)**
 
 ```bash
 git add content/brands
@@ -1266,7 +1266,7 @@ git commit -m "content(brands): phase-1 brand pages (<list>) + hub copy"
 - Consumes: `ResolvedBrandPage`, `resolveBrandPage`, `getBrandPageBySlug`, `getBrandPageSlugs`, `getCaseStudiesForBrand`, `getBrandHub` (Task 1); `BrandMark`, `BrandPlate` (Task 3); existing `Breadcrumbs`, `DirectAnswer`? — no: render the direct answer inline as the motors page does (`<p id="direct-answer">`); `CostGuidance` (`components/page/cost-guidance.tsx`, props `{ title, eyebrow?, data: CostGuidance, ctaText }`), `RecentWork` (`components/page/recent-work.tsx`, `{ eyebrow?, title, description?, caseStudies }`), `FAQSection` (`components/page/faq-section.tsx`, `{ eyebrow?, title, description?, faqs }`), `RelatedServices` (`components/page/related-services.tsx`, `{ eyebrow?, title, description?, links: LocalLink[] }`), `ServiceAreaGrid` (`components/page/service-area-grid.tsx`, `{ eyebrow?, title, description?, suburbs: LocalLink[] }`), `ServiceContactPanel({ serviceName })`, `ServiceQuoteForm({ serviceName, heading? })`, `StickyMobileCta`, `SectionHeading({ eyebrow?, title, description?, align?, as? })`, `Reveal`, `resolvePageIcon(name)` (`components/page/icons.ts`), `CallNowButton`/`RequestQuoteButton` (`components/page/cta-buttons.tsx`), `MOTOR_IMAGES` (`components/sections/motors/motor-data.ts`).
 - Produces: `BrandPageTemplate({ resolved: ResolvedBrandPage, caseStudies: CaseStudyPage[] })`, `brandPageSchema(resolved)`, `PageSchema kind="brand" data={resolved}`.
 
-- [ ] **Step 1: `brandPageSchema` in `lib/seo/schema.ts`**
+- [x] **Step 1: `brandPageSchema` in `lib/seo/schema.ts`**
 
 Append (imports at the top: `import type { ResolvedBrandPage } from "@/types/brand";`):
 
@@ -1324,7 +1324,7 @@ In `components/seo/page-schema.tsx` add `| { kind: "brand"; data: ResolvedBrandP
 
 Also add a `brand` row to the doc-comment table in that file.
 
-- [ ] **Step 2: Sections**
+- [x] **Step 2: Sections**
 
 Visual direction (all sections use `Container`, `SectionHeading`, `Reveal` stagger ≤0.08 s; section rhythm alternates `bg-background` / `bg-muted/40` like the suburb template):
 
@@ -1342,7 +1342,7 @@ Visual direction (all sections use `Container`, `SectionHeading`, `Reveal` stagg
 
 `related-brands.tsx`: `relatedBrands` as chips (`BrandMark size="sm"` + name) linking to their pages, plus a trailing chip "All {hub.shortName} →" to `/${hub.slug}`.
 
-- [ ] **Step 3: `brand-page-template.tsx`**
+- [x] **Step 3: `brand-page-template.tsx`**
 
 ```tsx
 import Link from "next/link";
@@ -1474,7 +1474,7 @@ export function BrandPageTemplate({ resolved, caseStudies }: BrandPageTemplatePr
 }
 ```
 
-- [ ] **Step 4: Wire `app/[slug]/page.tsx`**
+- [x] **Step 4: Wire `app/[slug]/page.tsx`**
 
 Add imports (`getBrandPageBySlug`, `getBrandPageSlugs`, `resolveBrandPage`, `getCaseStudiesForBrand` from `@/lib/data/brands`; `BrandPageTemplate`), add `getBrandPageSlugs()` to the `Promise.all` in `generateStaticParams` and to the `Set`, and insert as the **first** check in both `generateMetadata` and the page (before `getServicePageBySlug`):
 
@@ -1506,7 +1506,7 @@ Add imports (`getBrandPageBySlug`, `getBrandPageSlugs`, `resolveBrandPage`, `get
 
 Update the file's doc comment: five registries, brands first (local, no network; a CMS page under a brand slug is shadowed).
 
-- [ ] **Step 5: Sitemap + llms.txt**
+- [x] **Step 5: Sitemap + llms.txt**
 
 `app/sitemap.ts`: import `getBrandPages` and `getBrandHub`; in the `Promise.all` add `getBrandPages()`; add two static entries using the newest `updatedAt` of the kind's pages:
 
@@ -1526,11 +1526,11 @@ with `const newestBrand = (kind: "door" | "motor") => { const ds = brandPagesAll
     ...brandPagesAll.map((p) => `- [${p.hero.h1}](${url}/${p.slug})`),
 ```
 
-- [ ] **Step 6: Verify in the browser**
+- [x] **Step 6: Verify in the browser**
 
 Run: `npx tsc --noEmit`; then use the running dev server (`:3001` per memory, else `:3000`; if neither is `next dev`, start `npm run dev`). Open `/merlin-garage-door-motors-perth` and `/steel-line-garage-doors-perth` with the Chrome DevTools MCP at 390 px and 1280 px: exactly one `h1`; the plate renders logo (Steel-Line) and monogram (Merlin); the price table shows 5 rows; `#quote` iframe present; console has no `[seo]` warnings; `document.querySelectorAll('script[type="application/ld+json"]')` includes `Service`, `WebPage` (with `about.@type === "Brand"`), `FAQPage`, `BreadcrumbList`. Save screenshots to the scratchpad and note anything off.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add components/sections/brands lib/seo/schema.ts components/seo/page-schema.tsx "app/[slug]/page.tsx" app/sitemap.ts app/llms.txt/route.ts
@@ -1551,7 +1551,7 @@ git commit -m "feat(brands): brand page template, schema, [slug] resolution, sit
 - Consumes: `getBrandEntities`, `getBrandPages`, `getBrandHub`, `brandPageHref` (Task 1); `BrandMark` (Task 3); `buildPricingRows` + `cmsPublicPricing` for hub FAQ tokens; `QuoteDialog` (`components/sections/quote-dialog.tsx`, props `{ open, onOpenChange }`); `scrollToElement` (`lib/smooth-scroll.ts`); `track` (`lib/analytics.ts`); `collectionPageSchema`, `servicesItemListSchema`, `faqSchema`.
 - Produces: `BrandHubTemplate({ hub, tiles: HubTile[], faqs: FAQ[] })` where `HubTile = { entity: BrandEntity; href?: string }`.
 
-- [ ] **Step 1: Analytics event**
+- [x] **Step 1: Analytics event**
 
 In `lib/analytics.ts` add to `AnalyticsEvent`:
 ```ts
@@ -1559,7 +1559,7 @@ In `lib/analytics.ts` add to `AnalyticsEvent`:
   | "brand_search"
 ```
 
-- [ ] **Step 2: Hub schema**
+- [x] **Step 2: Hub schema**
 
 ```ts
 export function brandHubSchemas(hub: { slug: string; name: string; seo: { description: string } }, items: { name: string; url: string; image?: string }[]) {
@@ -1570,15 +1570,15 @@ export function brandHubSchemas(hub: { slug: string; name: string; seo: { descri
 }
 ```
 
-- [ ] **Step 3: `brand-finder.tsx`** (client)
+- [x] **Step 3: `brand-finder.tsx`** (client)
 
 Props `{ kind: BrandKind; tiles: HubTile[] }`. Input (`aria-label="Search brands"`, `autoComplete="off"`) with a suggestion list (max 8) matching `name` + `aliases` (`startsWith` first, then `includes`, normalised); each suggestion shows `BrandMark size="sm"`. Enter/click on a tile with `href` → `router.push(href)`; without `href` → `scrollToElement(document.getElementById(\`brand-${slug}\`))` and set `highlight` state (the directory reads `?highlight` via a shared `data-highlight` attribute — simpler: dispatch `window.dispatchEvent(new CustomEvent("cgd:brand-highlight", { detail: slug }))` and let `BrandDirectory` listen and add a ring for 2 s). No match after 800 ms debounce → render the conversion card: "Every brand in Perth, one number" + `CallNowButton` + `GetQuoteButton` + a link "How to find the badge ↓" (`#badge-guide`, routed through `scrollToElement`). Fire `track("brand_search", { query, results, kind })` debounced 800 ms, same pattern as `suburb_search`.
 
-- [ ] **Step 4: `brand-directory.tsx`** (client)
+- [x] **Step 4: `brand-directory.tsx`** (client)
 
 Props `{ kind, tiles }`. Chips: `All`, `Authorised dealer`, `Australian-made`, `WA-made`, and kind-specific (`Smart app` for motors; `Roller`, `Sectional`, `Tilt`, `Commercial` for doors) — only chips with ≥1 match render. State `filter`. Grid `grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4`; **every tile is rendered in the initial HTML** and hidden with `hidden` when filtered out (crawlers see all links). Tile: `id="brand-{slug}"`, `BrandMark size="lg"`, name, `summary` (2-line clamp), and a status pill ("Dealer" / "Serviced"). Tiles with `href` are `Link`s (`HoverPrefetchLink`); tiles without are `<button>`s that open one shared `<QuoteDialog>` (state `quoteOpen`). Hover: `-translate-y-1`, shadow; focus-visible ring. Listen for `cgd:brand-highlight` to flash `ring-2 ring-cta`.
 
-- [ ] **Step 5: `brand-facts-table.tsx`** (server), `badge-guide.tsx`, `dealer-strip.tsx`, `brand-ticker.tsx`
+- [x] **Step 5: `brand-facts-table.tsx`** (server), `badge-guide.tsx`, `dealer-strip.tsx`, `brand-ticker.tsx`
 
 Facts table: `<table>` in an `overflow-x-auto rounded-2xl border` wrapper, caption `sr-only`; columns Brand (mark + name) · Origin · Product lines · (motors: Smart control = has `smart-app` tag ? "App" : "—"; doors: Door types = tags ∩ {roller, sectional, tilt, commercial}) · What we do (dealer ? "Supply, install, service & repair" : "Service, repair & replace") · Page (link or "Call us").
 
@@ -1588,7 +1588,7 @@ Dealer strip: `entities.filter(e => e.dealer)` as `BrandMark size="md"` + name, 
 
 Ticker: reuse the `.cgd-brand-marquee` / `.cgd-brand-track` / `.cgd-brand-track-2` classes from `components/sections/brands-marquee.tsx` with `BrandMark size="sm"` + name pills, two identical tracks, `aria-hidden` on the second.
 
-- [ ] **Step 6: `brand-hub-template.tsx` + the two routes**
+- [x] **Step 6: `brand-hub-template.tsx` + the two routes**
 
 Template order: Breadcrumbs (Home › {hub.name}) · hero (`h1`, subtitle, `CallNowButton` + a "Find your brand" anchor to `#find-your-brand` routed through the finder like the suburb hero) · `BrandTicker` · `BrandFinder` (`id="find-your-brand"`) · intro paragraphs (two-column) · `BrandDirectory` · `BrandFactsTable` · `BadgeGuide` · `DealerStrip` · `FAQSection` (hub FAQs with tokens rendered) · CTA band (`CTASection` from `components/sections/cta-section.tsx`, buttons Call + Get a quote → `/quote`) · `StickyMobileCta`.
 
@@ -1634,11 +1634,11 @@ export default async function GarageDoorBrandsPage() {
 ```
 (Remove the unused `PageSchema` import — shown only to say hubs don't use it.)
 
-- [ ] **Step 7: Verify in the browser**
+- [x] **Step 7: Verify in the browser**
 
 Both hubs at 390/1280: every tile in HTML (`document.querySelectorAll('[id^="brand-"]').length` equals the kind's entity count); filter chips hide/show; finder: "merlin" → navigates; "genie" → scrolls + highlights; "zzz" → conversion card and a `brand_search` entry in `window.dataLayer` with `results: 0`; JSON-LD includes `CollectionPage`, `ItemList`, `FAQPage`.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add components/sections/brands app/garage-door-brands-perth app/garage-door-motor-brands-perth lib/analytics.ts lib/seo/schema.ts
@@ -1659,7 +1659,7 @@ git commit -m "feat(brands): door + motor brand hubs with finder, directory wall
 - Consumes: `NavigationMenu*` (`components/ui/navigation-menu.tsx`), `HoverPrefetchLink`, `BrandMark`, `BRAND_ENTITIES`, `MOTOR_IMAGES`/`MOTOR_PRICE`.
 - Produces: `NAV_MENUS`, `NavMenuKey`.
 
-- [ ] **Step 1: `config/nav-menus.ts`**
+- [x] **Step 1: `config/nav-menus.ts`**
 
 ```ts
 export type NavMenuKey = "services" | "doors" | "motors";
@@ -1767,7 +1767,7 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
 ```
 (Task 10 appends the Phase-2 brands to `items`.)
 
-- [ ] **Step 2: `config/site.ts`**
+- [x] **Step 2: `config/site.ts`**
 
 Replace `nav` with:
 ```ts
@@ -1786,21 +1786,21 @@ Replace `nav` with:
 ```
 and add to the `Resources` footer column: `{ label: "Garage Door Brands", href: "/garage-door-brands-perth" }`, `{ label: "Motor Brands", href: "/garage-door-motor-brands-perth" }`. Add a comment above `nav`: 10 items; `Home` is hidden below `xl` in the desktop nav (the logo links home) so the row never wraps at 1024 px — re-measure before adding an 11th.
 
-- [ ] **Step 3: `components/layout/mega-menu.tsx`** (client)
+- [x] **Step 3: `components/layout/mega-menu.tsx`** (client)
 
 Props `{ menu: NavMenu; onNavigate?: () => void }`. Panel `w-[min(60rem,calc(100vw-2rem))] p-6`, `grid gap-8` with `grid-cols-[repeat(N,1fr)]` for columns + (when `brands`) a right column `min-w-[18rem]`: title, `grid grid-cols-3 gap-2` of `HoverPrefetchLink` tiles (`BrandMark size="sm"` + name, `text-xs font-semibold`), then `allLabel →`. When `featured === "capital-motors"`: a card on the left spanning the column: `MOTOR_IMAGES.studio` (`next/image`, `width={320} height={240}`, `quality={60}`, `sizes="320px"`), "Capital 1100N & 1500N", `from $${MOTOR_PRICE.min} installed` (this constant already mirrors the catalog on the motors page), "5-year warranty", link `/garage-door-motors-perth`. Footer row: `footer.label →` right-aligned. All links use `NavigationMenuLink render={<HoverPrefetchLink href=… />}` so the menu closes and keyboard works; call `onNavigate` on click.
 
-- [ ] **Step 4: `components/layout/header.tsx`**
+- [x] **Step 4: `components/layout/header.tsx`**
 
 Desktop (`hidden lg:flex`): replace the `<nav>` map with `NavigationMenu` → `NavigationMenuList className="gap-1 xl:gap-3"`; for items with `menu`: `NavigationMenuItem` → `NavigationMenuTrigger` (styled like the current links: `text-sm font-medium text-muted-foreground hover:text-foreground`, chevron rotates on open) → `NavigationMenuContent` → `<MegaMenu menu={NAV_MENUS[item.menu]} />`; for plain items: `NavigationMenuLink render={<HoverPrefetchLink href={item.href} />}` with the existing underline span. `Home` gets `hidden xl:flex`. Keep `Get a Quote` (xl) and `Call Now` unchanged. Base UI opens on hover + focus and closes on Escape by default; verify.
 
 Mobile (inside the existing `open` overlay): map nav items; items with `menu` render a row `flex items-center justify-between`: `Link` (label, closes the menu) + `button` (44 px, chevron, `aria-expanded`, `aria-controls`) toggling `openMenu` (`NavMenuKey | null`, one at a time). The expanded panel lists each column's links (`text-base`), then brand chips (`BrandMark size="sm"` + name, `grid grid-cols-2 gap-2`), then `allLabel`. Keep the bottom quote/booking pair untouched.
 
-- [ ] **Step 5: Measure and verify**
+- [x] **Step 5: Measure and verify**
 
 Chrome DevTools MCP: resize to **1024×800** — the nav row must not wrap and `Call Now` must stay visible (`Home` hidden); **1280×800** — `Home` visible, all 10 items on one row; hover `Doors` → panel with brand marks; Tab through triggers → panels open on focus, Escape closes; **390×844** — hamburger → `Motors` row toggles an accordion with 6 brand chips; `Services` link navigates. Confirm no route payloads are fetched at load (Network: no `_next/data`/RSC prefetch for menu links before hover). Screenshots to the scratchpad.
 
-- [ ] **Step 6: Lint + commit**
+- [x] **Step 6: Lint + commit**
 
 ```bash
 npx eslint components/layout/header.tsx components/layout/mega-menu.tsx config/nav-menus.ts config/site.ts
@@ -1821,7 +1821,7 @@ git commit -m "feat(nav): Services/Doors/Motors mega-menus with brand logo grids
 **Interfaces:**
 - Consumes: `brandPageHref`, `getBrandEntities`, `BRAND_ENTITIES`, `brandPages`, `NAV_MENUS`, `BRAND_HUBS`, `PRICING_BY_ID`.
 
-- [ ] **Step 1: `brand-strip.tsx`** (server)
+- [x] **Step 1: `brand-strip.tsx`** (server)
 
 Props `{ kind: BrandKind; title: string; description: string }`. Renders `SectionHeading` + a wrap of chips (`BrandMark size="sm"` + name) for every entity of that kind **with a page**, linking to it, plus a final chip "All {hub.shortName} →". Mount it in `app/garage-door-motors-perth/page.tsx` between `<MotorInstallBand />` and `<WarrantyTiers …>`:
 
@@ -1833,11 +1833,11 @@ Props `{ kind: BrandKind; title: string; description: string }`. Renders `Sectio
       />
 ```
 
-- [ ] **Step 2: Marquee cards link to brand pages**
+- [x] **Step 2: Marquee cards link to brand pages**
 
 In `components/sections/brands-marquee.tsx` add `entity?: string` to `Brand` and set it on each `BRANDS` entry (`avanti`, `gliderol`, `b-and-d`, `steel-line`, `superlift`, `boss`, `perth-windsor-doors`, `jaytech`). In `BrandLogo`, compute `const internal = brand.entity ? brandPageHref(brand.entity, "door") ?? brandPageHref(brand.entity, "motor") : undefined;` and render an internal `Link` (no `target`) when `internal` exists, else the existing external anchor. Update the doc comment: internal brand pages take priority; the manufacturer link now lives on the brand page's plate.
 
-- [ ] **Step 3: `scripts/check-brand-content.ts`**
+- [x] **Step 3: `scripts/check-brand-content.ts`**
 
 ```ts
 /**
@@ -1961,12 +1961,12 @@ async function liveUrls(): Promise<Set<string>> {
 })();
 ```
 
-- [ ] **Step 4: Run the guard and fix what it finds**
+- [x] **Step 4: Run the guard and fix what it finds**
 
 Run: `npx tsx scripts/check-brand-content.ts`
 Expected: `✓ 30 entities, 12 brand pages, 2 hubs, 3 menus OK`. Fix content (not the script) for any listed problem, then re-run until clean.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add scripts/check-brand-content.ts components/sections/brands/brand-strip.tsx components/sections/brands-marquee.tsx app/garage-door-motors-perth/page.tsx content/brands
@@ -1982,7 +1982,7 @@ git commit -m "feat(brands): motors-page brand strip, marquee → brand pages, c
 **Files:**
 - Modify: `CLAUDE.md`, `on-page-seo.md`, `docs/superpowers/plans/2026-08-27-brand-pages.md` (tick boxes), memory `MEMORY.md` + new memory file
 
-- [ ] **Step 1: Static gates**
+- [x] **Step 1: Static gates**
 
 ```bash
 npx tsc --noEmit
@@ -1992,15 +1992,15 @@ npx eslint $(git diff --name-only 7900a29 -- '*.ts' '*.tsx' | tr '\n' ' ')
 ```
 Expected: all clean (lint: no NEW errors in changed files — the repo baseline has ~88 pre-existing errors elsewhere).
 
-- [ ] **Step 2: Production build**
+- [x] **Step 2: Production build**
 
 Run: `npm run build` (reaches the live CMS by default; if `localhost:5179` is serving a foreign DB — see memory — set `CMS_API_URL=https://cgd.runasp.net`). Expected: success; the route list shows the 12 brand slugs under `/[slug]` and the two hub routes as static.
 
-- [ ] **Step 3: Browser sweep (Chrome DevTools MCP)**
+- [x] **Step 3: Browser sweep (Chrome DevTools MCP)**
 
 On the dev server: `/garage-door-brands-perth`, `/garage-door-motor-brands-perth`, one motor page, one door page, the home page (marquee links now internal), `/garage-door-motors-perth` (brand strip) — at 390 and 1280. Check: single `h1`, no console errors/`[seo]` warnings, JSON-LD types per page (Task 5/6 lists), header at 1024 (no wrap). Run a Lighthouse audit (MCP `lighthouse_audit`) on one brand page — mobile performance must not regress below the site's current brand-new-page baseline (compare with `/garage-door-repairs-padbury`); if it does, find the culprit (usually an eager image) before continuing.
 
-- [ ] **Step 4: Docs**
+- [x] **Step 4: Docs**
 
 `CLAUDE.md` — add a **"Brand pages (Brand Atlas)"** bullet under *SEO* covering: local-content type (`content/brands`, `types/brand.ts`, `lib/data/brands.ts`), brands resolve **first** in `app/[slug]`, reserved hub slugs `/garage-door-brands-perth` + `/garage-door-motor-brands-perth`, `{{price:id}}` tokens + `pricingPins`, dealer set + claims rule, `scripts/check-brand-content.ts` must pass before a build, `config/nav-menus.ts` drives the three mega-menus (add a Phase-2 brand = content file + registry + nav entry), `brand_search` in the analytics table, and the research folder. Update the *Site chrome* paragraph (mega-menus, `Home` hidden below `xl`).
 
@@ -2008,7 +2008,7 @@ On the dev server: `/garage-door-brands-perth`, `/garage-door-motor-brands-perth
 
 Memory: write `brand-pages-launch-2026-08.md` (what shipped, Phase-2 list, GSC check date 2026-09-27 with the baseline file path) and add the index line to `MEMORY.md`.
 
-- [ ] **Step 5: Commit and report**
+- [x] **Step 5: Commit and report**
 
 ```bash
 git add CLAUDE.md on-page-seo.md docs/superpowers/plans/2026-08-27-brand-pages.md
@@ -2024,19 +2024,21 @@ Report to the user: what is live locally, the build result, screenshots, and tha
 
 **Model:** Sonnet, four parallel agents (E: centurion motors, avanti motors, ata; F: superlift motors, liftmaster, grifco, jaytech motors; G: dominator doors, avanti doors, superlift doors; H: perth-windsor-doors + PAA pulls). Same rules as Task 4.
 
-- [ ] **Step 1: PAA pulls** for `centurion garage door opener perth`, `avanti garage door opener perth`, `ata garage door opener perth`, `superlift garage door opener perth`, `liftmaster garage door opener perth`, `grifco roller door motor perth`, `jaytech garage door opener perth`, `dominator garage doors perth`, `avanti garage doors perth`, `superlift garage doors perth`, `perth windsor doors` — the Task 2 Step 2 loop with these rows (page slugs: `centurion-garage-door-motors-perth`, `avanti-garage-door-motors-perth`, `ata-garage-door-motors-perth`, `superlift-garage-door-motors-perth`, `liftmaster-garage-door-motors-perth`, `grifco-garage-door-motors-perth`, `jaytech-garage-door-motors-perth`, `dominator-garage-doors-perth`, `avanti-garage-doors-perth`, `superlift-garage-doors-perth`, `windsor-garage-doors-perth`).
-- [ ] **Step 2: Author the 11 files** (Perth Windsor Doors uses slug `windsor-garage-doors-perth` — the check script exempts it). Grifco is commercial: add `"commercial-roller"` to its pins and a commercial angle. Centurion motors page carries the two-companies note.
-- [ ] **Step 3: Register** in `content/brands/index.ts`; append to `NAV_MENUS.doors.brands.items` (dominator, avanti, superlift, perth-windsor-doors) and `NAV_MENUS.motors.brands.items` (centurion, avanti, ata, superlift, liftmaster, grifco, jaytech) — the mega-menu grid is 3 columns, so 10 and 13 tiles wrap to 4–5 rows; verify the panel still fits 800 px tall at 1024×800 (reduce tile padding if not).
-- [ ] **Step 4: Gates**: `npx tsx scripts/check-brand-content.ts` → `✓ 30 entities, 23 brand pages …`; `npx tsc --noEmit`; browser check of two new pages + both mega-menus.
-- [ ] **Step 5: Commit** `content(brands): phase-2 brand pages (11) + nav entries`.
+- [x] **Step 1: PAA pulls** for `centurion garage door opener perth`, `avanti garage door opener perth`, `ata garage door opener perth`, `superlift garage door opener perth`, `liftmaster garage door opener perth`, `grifco roller door motor perth`, `jaytech garage door opener perth`, `dominator garage doors perth`, `avanti garage doors perth`, `superlift garage doors perth`, `perth windsor doors` — the Task 2 Step 2 loop with these rows (page slugs: `centurion-garage-door-motors-perth`, `avanti-garage-door-motors-perth`, `ata-garage-door-motors-perth`, `superlift-garage-door-motors-perth`, `liftmaster-garage-door-motors-perth`, `grifco-garage-door-motors-perth`, `jaytech-garage-door-motors-perth`, `dominator-garage-doors-perth`, `avanti-garage-doors-perth`, `superlift-garage-doors-perth`, `windsor-garage-doors-perth`).
+- [x] **Step 2: Author the 11 files** (Perth Windsor Doors uses slug `windsor-garage-doors-perth` — the check script exempts it). Grifco is commercial: add `"commercial-roller"` to its pins and a commercial angle. Centurion motors page carries the two-companies note.
+- [x] **Step 3: Register** in `content/brands/index.ts`; append to `NAV_MENUS.doors.brands.items` (dominator, avanti, superlift, perth-windsor-doors) and `NAV_MENUS.motors.brands.items` (centurion, avanti, ata, superlift, liftmaster, grifco, jaytech) — the mega-menu grid is 3 columns, so 10 and 13 tiles wrap to 4–5 rows; verify the panel still fits 800 px tall at 1024×800 (reduce tile padding if not).
+- [x] **Step 4: Gates**: `npx tsx scripts/check-brand-content.ts` → `✓ 30 entities, 23 brand pages …`; `npx tsc --noEmit`; browser check of two new pages + both mega-menus.
+- [x] **Step 5: Commit** `content(brands): phase-2 brand pages (11) + nav entries`.
+
+> **Shipped 2026-08-27:** **9** Phase-2 pages, not 11 — the Task-2 research classified **Avanti** and **Superlift** as motor-only brands in Perth (`kinds: ["motor"]` in `entities.ts`), so `avanti-garage-doors-perth` and `superlift-garage-doors-perth` were dropped rather than invented. Final totals are therefore **28 entities / 21 brand pages** (13 motor + 8 door), not the 30/23 the design projected; the guard's success line reads `✓ 28 entities, 21 brand pages, 2 hubs, 3 menus OK`.
 
 ### Task 11: Phase-B CMS cross-links (`scripts/link-brand-hubs.ts`)
 
 **Model:** Sonnet. Pattern: `scripts/link-suburb-pages.ts` (login, read page, append-if-missing, update, prod via `CMS_API_URL=https://cgd.runasp.net CMS_ADMIN_PASSWORD=…`; the classifier may block prod runs — hand the user a `!` wrapper, see memory).
 
-- [ ] **Step 1:** Write the script: for `/garage-doors-perth` append a `RelatedServices` link `{ name: "Garage door brands in Perth", href: "/garage-door-brands-perth", description: "Every door brand we service, repair and install — find yours.", icon: "BadgeCheck" }`; for `/garage-door-opener-repair-perth` and `/garage-door-remote-replacement-perth` append `{ name: "Garage door motor brands", href: "/garage-door-motor-brands-perth", description: "Merlin, Chamberlain, B&D, Gliderol and every opener brand we repair.", icon: "Cpu" }`. Filter `routeGroup === "Flat"` on every slug lookup; idempotent (skip when the href is already present). Curl each destination for a 200 first.
+- [x] **Step 1:** Write the script: for `/garage-doors-perth` append a `RelatedServices` link `{ name: "Garage door brands in Perth", href: "/garage-door-brands-perth", description: "Every door brand we service, repair and install — find yours.", icon: "BadgeCheck" }`; for `/garage-door-opener-repair-perth` and `/garage-door-remote-replacement-perth` append `{ name: "Garage door motor brands", href: "/garage-door-motor-brands-perth", description: "Merlin, Chamberlain, B&D, Gliderol and every opener brand we repair.", icon: "Cpu" }`. Filter `routeGroup === "Flat"` on every slug lookup; idempotent (skip when the href is already present). Curl each destination for a 200 first.
 - [ ] **Step 2:** Run against LOCAL first (dry), then prod with the user's go-ahead; verify the three live pages show the new related link after the webhook revalidates.
-- [ ] **Step 3:** Commit `feat(scripts): link-brand-hubs.ts — CMS related links to the brand hubs`.
+- [x] **Step 3:** Commit `feat(scripts): link-brand-hubs.ts — CMS related links to the brand hubs`.
 
 ---
 

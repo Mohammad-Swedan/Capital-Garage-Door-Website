@@ -1,5 +1,3 @@
-import { BRAND_ENTITIES } from "@/content/brands/entities";
-
 export type NavMenuKey = "services" | "doors" | "motors";
 
 export interface NavMenuLink {
@@ -17,6 +15,13 @@ export interface NavBrandEntry {
   /** BrandEntity.slug from content/brands/entities.ts. */
   entity: string;
   href: string;
+  /**
+   * Display name, duplicated from BrandEntity.name. Kept here (not looked up
+   * from content/brands/entities.ts) so this data-only config never pulls the
+   * 28-entity brand registry into the header's initial bundle — only the
+   * lazy-loaded mega-menu/mobile-chip chunks import that file.
+   */
+  label: string;
 }
 
 export interface NavMenu {
@@ -89,14 +94,14 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
     brands: {
       title: "Door brands",
       items: [
-        { entity: "steel-line", href: "/steel-line-garage-doors-perth" },
-        { entity: "b-and-d", href: "/b-and-d-garage-doors-perth" },
-        { entity: "gliderol", href: "/gliderol-garage-doors-perth" },
-        { entity: "centurion", href: "/centurion-garage-doors-perth" },
-        { entity: "danmar", href: "/danmar-garage-doors-perth" },
-        { entity: "taurean", href: "/taurean-garage-doors-perth" },
-        { entity: "dominator", href: "/dominator-garage-doors-perth" },
-        { entity: "perth-windsor-doors", href: "/windsor-garage-doors-perth" },
+        { entity: "steel-line", href: "/steel-line-garage-doors-perth", label: "Steel-Line" },
+        { entity: "b-and-d", href: "/b-and-d-garage-doors-perth", label: "B&D" },
+        { entity: "gliderol", href: "/gliderol-garage-doors-perth", label: "Gliderol" },
+        { entity: "centurion", href: "/centurion-garage-doors-perth", label: "Centurion Garage Doors" },
+        { entity: "danmar", href: "/danmar-garage-doors-perth", label: "Danmar" },
+        { entity: "taurean", href: "/taurean-garage-doors-perth", label: "Taurean" },
+        { entity: "dominator", href: "/dominator-garage-doors-perth", label: "Dominator" },
+        { entity: "perth-windsor-doors", href: "/windsor-garage-doors-perth", label: "Perth Windsor Doors" },
       ],
       allLabel: "All door brands",
       allHref: "/garage-door-brands-perth",
@@ -118,19 +123,19 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
     brands: {
       title: "Motor brands we service",
       items: [
-        { entity: "merlin", href: "/merlin-garage-door-motors-perth" },
-        { entity: "chamberlain", href: "/chamberlain-garage-door-motors-perth" },
-        { entity: "b-and-d", href: "/b-and-d-garage-door-motors-perth" },
-        { entity: "gliderol", href: "/gliderol-garage-door-motors-perth" },
-        { entity: "steel-line", href: "/steel-line-garage-door-motors-perth" },
-        { entity: "boss", href: "/boss-garage-door-motors-perth" },
-        { entity: "centurion", href: "/centurion-garage-door-motors-perth" },
-        { entity: "avanti", href: "/avanti-garage-door-motors-perth" },
-        { entity: "ata", href: "/ata-garage-door-motors-perth" },
-        { entity: "superlift", href: "/superlift-garage-door-motors-perth" },
-        { entity: "liftmaster", href: "/liftmaster-garage-door-motors-perth" },
-        { entity: "grifco", href: "/grifco-garage-door-motors-perth" },
-        { entity: "jaytech", href: "/jaytech-garage-door-motors-perth" },
+        { entity: "merlin", href: "/merlin-garage-door-motors-perth", label: "Merlin" },
+        { entity: "chamberlain", href: "/chamberlain-garage-door-motors-perth", label: "Chamberlain" },
+        { entity: "b-and-d", href: "/b-and-d-garage-door-motors-perth", label: "B&D" },
+        { entity: "gliderol", href: "/gliderol-garage-door-motors-perth", label: "Gliderol" },
+        { entity: "steel-line", href: "/steel-line-garage-door-motors-perth", label: "Steel-Line" },
+        { entity: "boss", href: "/boss-garage-door-motors-perth", label: "Boss Openers" },
+        { entity: "centurion", href: "/centurion-garage-door-motors-perth", label: "Centurion Garage Doors" },
+        { entity: "avanti", href: "/avanti-garage-door-motors-perth", label: "Avanti" },
+        { entity: "ata", href: "/ata-garage-door-motors-perth", label: "ATA" },
+        { entity: "superlift", href: "/superlift-garage-door-motors-perth", label: "Superlift" },
+        { entity: "liftmaster", href: "/liftmaster-garage-door-motors-perth", label: "LiftMaster" },
+        { entity: "grifco", href: "/grifco-garage-door-motors-perth", label: "Grifco" },
+        { entity: "jaytech", href: "/jaytech-garage-door-motors-perth", label: "Jaytech" },
       ],
       allLabel: "All motor brands",
       allHref: "/garage-door-motor-brands-perth",
@@ -139,8 +144,6 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
     footer: { label: "Capital 1100N & 1500N motors", href: "/garage-door-motors-perth" },
   },
 };
-
-const BRAND_NAME_BY_SLUG = new Map(BRAND_ENTITIES.map((entity) => [entity.slug, entity.name]));
 
 /**
  * Every link reachable through NAV_MENUS, deduplicated by href — feeds the
@@ -162,7 +165,7 @@ export function navMenuHrefs(): { label: string; href: string }[] {
     }
     if (menu.brands) {
       for (const item of menu.brands.items) {
-        add(item.href, BRAND_NAME_BY_SLUG.get(item.entity) ?? item.entity);
+        add(item.href, item.label);
       }
       add(menu.brands.allHref, menu.brands.allLabel);
     }

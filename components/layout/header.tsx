@@ -3,11 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { Phone, FileText, CalendarCheck, ChevronDown, ArrowRight } from "lucide-react";
+import { Phone, FileText, CalendarCheck, ChevronDown } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Logo } from "@/components/layout/logo";
-import { MegaMenu, navBrandEntity } from "@/components/layout/mega-menu";
-import { BrandMark } from "@/components/sections/brands/brand-mark";
 import { HoverPrefetchLink } from "@/components/ui/hover-prefetch-link";
 import {
   NavigationMenu,
@@ -28,6 +26,32 @@ const BookingDialog = dynamic(
 );
 const QuoteDialog = dynamic(
   () => import("@/components/sections/quote-dialog").then((m) => m.QuoteDialog),
+  { ssr: false }
+);
+
+// The desktop mega-menu panel pulls in the 28-entity brand registry
+// (content/brands/entities.ts), BrandMark and motor-data — none of it needed
+// until a nav trigger is actually opened. Base UI mounts
+// NavigationMenuContent only on open, so this chunk loads on first
+// hover/focus/tap intent, not at page load. Match mega-menu.tsx's panel
+// width class so the popup doesn't jump once the real content swaps in.
+const MegaMenu = dynamic(
+  () => import("@/components/layout/mega-menu").then((m) => m.MegaMenu),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-[min(60rem,calc(100vw-2rem))] p-6 text-sm text-muted-foreground">
+        Loading…
+      </div>
+    ),
+  }
+);
+
+// Same reasoning for the mobile accordion's brand chip grid — it's the only
+// part of the mobile menu that needs BRAND_ENTITIES + BrandMark. Loaded once
+// the hamburger overlay opens.
+const MobileBrandChips = dynamic(
+  () => import("@/components/layout/mobile-brand-chips").then((m) => m.MobileBrandChips),
   { ssr: false }
 );
 
@@ -285,34 +309,12 @@ export function Header() {
                           <p className="mb-2 font-heading text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground">
                             {menu.brands.title}
                           </p>
-                          <ul className="grid grid-cols-2 gap-2">
-                            {menu.brands.items.map((brand) => {
-                              const entity = navBrandEntity(brand.entity);
-                              if (!entity) return null;
-                              return (
-                                <li key={brand.href}>
-                                  <HoverPrefetchLink
-                                    href={brand.href}
-                                    onClick={() => setOpen(false)}
-                                    className="flex min-h-11 items-center gap-2 rounded-xl border border-border/60 bg-background/60 p-1.5 transition-colors hover:border-cta/40"
-                                  >
-                                    <BrandMark entity={entity} size="sm" />
-                                    <span className="text-xs font-semibold leading-tight text-foreground">
-                                      {entity.name}
-                                    </span>
-                                  </HoverPrefetchLink>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                          <HoverPrefetchLink
-                            href={menu.brands.allHref}
-                            onClick={() => setOpen(false)}
-                            className="mt-2 flex min-h-11 items-center gap-1 text-base font-semibold text-primary transition-colors hover:text-cta"
-                          >
-                            {menu.brands.allLabel}
-                            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                          </HoverPrefetchLink>
+                          <MobileBrandChips
+                            items={menu.brands.items}
+                            allLabel={menu.brands.allLabel}
+                            allHref={menu.brands.allHref}
+                            onNavigate={() => setOpen(false)}
+                          />
                         </div>
                       )}
                     </div>

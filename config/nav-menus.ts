@@ -147,7 +147,7 @@ const BRAND_NAME_BY_SLUG = new Map(BRAND_ENTITIES.map((entity) => [entity.slug, 
  * header's `sr-only` "Site sections" nav. Base UI mounts a mega-menu panel's
  * content only once its trigger opens, and the mobile accordion only once
  * expanded, so none of this is otherwise present in the server-rendered HTML
- * — including all 12 brand pages and hubs like /garage-doors-perth, which had
+ * — including all 21 brand pages and hubs like /garage-doors-perth, which had
  * no other sitewide inlink.
  */
 export function navMenuHrefs(): { label: string; href: string }[] {

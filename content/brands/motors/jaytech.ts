@@ -31,7 +31,7 @@ export const jaytechGarageDoorMotorsPerth: BrandPage = {
   },
   quickFacts: [
     { label: "Origin", value: "Australia (founded 2012)" },
-    { label: "Warranty", value: "7-year warranty on the 1200 V4+ flagship" },
+    { label: "Door types", value: "Sectional, roller & industrial roller" },
     { label: "Known for", value: "1200 V4+ sectional & RDO roller openers" },
     { label: "Smart control", value: "Works with ismartgate & iZone WiFi add-ons" },
     { label: "What we do", value: "Supply, install, service & repair" },

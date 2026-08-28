@@ -40,7 +40,6 @@ export const liftmasterGarageDoorMotorsPerth: BrandPage = {
     { label: "Origin", value: "USA" },
     { label: "Known for", value: "LM60 & LM1000 Professional chain/belt-drive openers" },
     { label: "Door types", value: "Sectional" },
-    { label: "Sold in Australia by", value: "Liftmaster Electronics Pty Ltd" },
     { label: "What we do", value: "Service, repair & replace" },
   ],
   directAnswer:

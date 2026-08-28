@@ -18,7 +18,7 @@ export const windsorGarageDoorsPerth: BrandPage = {
   slug: "windsor-garage-doors-perth",
   updatedAt: "2026-08-28",
   seo: {
-    title: "Perth Windsor Doors Perth | Repairs, Service & Install",
+    title: "Windsor Garage Doors Perth | Repairs, Service & Install",
     description:
       "Authorised Perth Windsor Doors dealer for roller, sectional and cyclonic-rated door repairs, service and install. Same-day, WA-made panels. Call today.",
   },
@@ -71,7 +71,7 @@ export const windsorGarageDoorsPerth: BrandPage = {
     },
     {
       title: "Annual door service",
-      description: "Springs, tracks, rollers and hardware checked, lubricated and rebalanced so the door keeps running smoothly and safely.",
+      description: "Springs, tracks, rollers and hardware checked, lubricated and rebalanced every year against Perth's heat and dust so the door keeps running smoothly and safely.",
       icon: "ShieldCheck",
       href: "/garage-door-maintenance-perth",
     },
@@ -94,7 +94,7 @@ export const windsorGarageDoorsPerth: BrandPage = {
     heading: "Genuine Panels, Local Manufacturing — Or an Honest New-Door Quote",
     paragraphs: [
       "As an authorised Perth Windsor Doors dealer, and because the range is manufactured locally, we can order genuine roller and sectional panels, DecoWood and cyclonic-rated sections to match your existing door rather than guessing at an interstate equivalent. Springs, cables and hardware are replaced with correctly rated components for the door's exact size and weight.",
-      "A new door is the honest answer when an older door's finish or profile is no longer produced, or the door has genuinely reached the end of its working life. In those cases we quote a straightforward Perth Windsor Doors replacement in a comparable style, or point you to the full range of doors we supply and install across Perth at /garage-doors-perth — whichever suits your home and budget.",
+      "A new door is the honest answer when an older Perth Windsor Doors installation's custom colour or texture has been discontinued from the current range, when the frame and track hardware have reached the end of their working life alongside the panels, or when reworking a heavily weathered custom finish would cost close to a straightforward replacement. In those situations we quote a new Perth Windsor Doors install in a comparable style and finish, sized to your exact opening — or, if a different brand or budget suits better, the full range of doors we supply and install across Perth is at /garage-doors-perth.",
     ],
   },
   pricingPins: ["spring", "cable", "damaged", "service", "new-standard"],

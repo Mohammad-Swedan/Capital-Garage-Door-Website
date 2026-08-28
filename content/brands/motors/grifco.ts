@@ -39,7 +39,7 @@ export const grifcoGarageDoorMotorsPerth: BrandPage = {
     { label: "Origin", value: "Australia (Somersby, NSW)" },
     { label: "Known for", value: "E-Drive, M-Drive & Fire Shutter Operator ranges" },
     { label: "Smart control", value: "myQ app on selected models" },
-    { label: "Segment", value: "Commercial & industrial roller shutters, doors & fire shutters" },
+    { label: "Door types", value: "Roller shutters, roller doors & fire shutters (commercial)" },
     { label: "What we do", value: "Service, repair & replace" },
   ],
   directAnswer:

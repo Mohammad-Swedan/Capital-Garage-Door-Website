@@ -73,7 +73,7 @@ export const ataGarageDoorMotorsPerth: BrandPage = {
     {
       title: "Annual opener service",
       description:
-        "Chain tension and travel limits checked, safety reverse tested, and the drive inspected before it fails outright.",
+        "Chain tension checked, travel limits and safety reverse reset, the drive inspected before it fails outright, and the roller curtain aligned so the motor isn't straining against it.",
       icon: "ShieldCheck",
       href: "/garage-door-maintenance-perth",
     },
@@ -135,7 +135,7 @@ export const ataGarageDoorMotorsPerth: BrandPage = {
     {
       question: "Where can I find manuals for my ATA garage door opener?",
       answer:
-        "ATA publishes manuals and support material on its own website, automatictechnology.com. If you can't find the right one for your model, our technicians carry the reference material for the EasyRoller and Dave ranges and can identify your unit and its settings during a service visit.",
+        "ATA publishes manuals and support material on its own website, automatictechnology.com/au. If you can't find the right one for your model, our technicians carry the reference material for the EasyRoller and Dave ranges and can identify your unit and its settings during a service visit.",
     },
     {
       question: "What are the best brands of garage door openers in Australia, and does ATA rank among them?",

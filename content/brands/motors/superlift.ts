@@ -36,7 +36,6 @@ export const superliftGarageDoorMotorsPerth: BrandPage = {
     { label: "Origin", value: "Perth, WA" },
     { label: "Known for", value: "RDO-5, RDO-6 roller & SDO-5 sectional/tilt openers" },
     { label: "Door types", value: "Roller, sectional & tilt" },
-    { label: "Experience", value: "30+ years in the market" },
     { label: "What we do", value: "Supply, install, service & repair" },
   ],
   directAnswer:

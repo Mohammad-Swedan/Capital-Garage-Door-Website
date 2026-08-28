@@ -38,7 +38,7 @@ export const avantiGarageDoorMotorsPerth: BrandPage = {
     { label: "What we do", value: "Supply, install, service & repair" },
   ],
   directAnswer:
-    "Avanti garage door openers are supplied, installed, serviced and repaired across Perth by Capital Garage Doors, an authorised Avanti dealer. Whether you need a new SDO4 sectional or RDO roller door opener fitted, or an existing unit fixed, most call-outs are handled in one same-day visit. A full new-opener installation is {{price:motor-replace}} supplied and installed, remotes and programming included.",
+    "Avanti garage door openers are supplied, installed, serviced and repaired across Perth by Capital Garage Doors, an authorised Avanti dealer. Whether you need a new SDO4 sectional or RDO roller door opener fitted, or an existing unit fixed, most call-outs are handled in one same-day visit. A full new-opener installation is {{price:motor-replace}} supplied and installed, remotes and programming included, and every job — new install or repair — carries a written quote and a workmanship warranty before work begins.",
   intro: {
     heading: "Avanti — Perth's Value Opener, Supplied and Serviced Locally",
     paragraphs: [

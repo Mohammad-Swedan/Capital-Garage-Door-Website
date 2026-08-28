@@ -57,7 +57,7 @@ export const dominatorGarageDoorsPerth: BrandPage = {
     },
     {
       title: "Dominator panel replacement",
-      description: "Damaged Milano, Nevada, Sierra or Kinetic panels sourced and matched to your existing door wherever possible.",
+      description: "Damaged Milano, Nevada, Sierra or Kinetic panels sourced and matched to your existing door wherever possible, with import lead times on an exact profile explained honestly upfront.",
       icon: "LayoutPanelTop",
       href: "/garage-door-panel-replacement-perth",
     },
@@ -69,7 +69,7 @@ export const dominatorGarageDoorsPerth: BrandPage = {
     },
     {
       title: "Annual door service",
-      description: "Springs, tracks, rollers and hardware checked and rebalanced so the door keeps running smoothly and safely.",
+      description: "Springs, tracks, rollers and hardware checked, lubricated and rebalanced every year so the Dominator door keeps running smoothly, safely and quietly for years to come.",
       icon: "ShieldCheck",
       href: "/garage-door-maintenance-perth",
     },

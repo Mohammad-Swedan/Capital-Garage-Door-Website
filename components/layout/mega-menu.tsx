@@ -27,6 +27,15 @@ const PANEL_GRID: Record<NavMenuKey, string> = {
   services: "sm:grid-cols-3",
   doors: "sm:grid-cols-[minmax(0,17rem)_minmax(18rem,1fr)]",
   motors: "sm:grid-cols-[minmax(0,15rem)_minmax(0,14rem)_minmax(18rem,1fr)]",
+  more: "sm:grid-cols-1",
+};
+
+/** Panel width per menu — "more" is a short link list, not a full mega-menu spread. */
+const PANEL_WIDTH: Record<NavMenuKey, string> = {
+  services: "w-[min(60rem,calc(100vw-2rem))]",
+  doors: "w-[min(60rem,calc(100vw-2rem))]",
+  motors: "w-[min(60rem,calc(100vw-2rem))]",
+  more: "w-[min(16rem,calc(100vw-2rem))]",
 };
 
 /** The header's underline motif, reused for every link inside the panel. */
@@ -90,7 +99,7 @@ export function MegaMenu({ menu }: MegaMenuProps) {
   const brands = menu.brands;
 
   return (
-    <div className="w-[min(60rem,calc(100vw-2rem))] p-6">
+    <div className={cn("p-6", PANEL_WIDTH[menu.key])}>
       <div className={cn("grid gap-8", PANEL_GRID[menu.key])}>
         {menu.featured === "capital-motors" && (
           <NavigationMenuLink

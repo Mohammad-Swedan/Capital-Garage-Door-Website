@@ -82,10 +82,10 @@ export const siteConfig = {
     { label: "Doors", href: "/garage-doors-perth", menu: "doors" },
     { label: "Motors", href: "/garage-door-motors-perth", menu: "motors" },
     { label: "Service Areas", href: "/service-areas" },
-    { label: "Price Calculator", href: "/calculator" },
-    { label: "Gallery", href: "/gallery" },
-    { label: "Blog", href: "/blog" },
-    { label: "About", href: "/about" },
+    { label: "Pricing", href: "/calculator" },
+    // Gallery/Blog/About/Warranty/Reviews live in the "More" dropdown (config/nav-menus.ts) —
+    // on mobile they render flat. The href below is only a React key for the trigger.
+    { label: "More", href: "/about", menu: "more" },
     { label: "Contact", href: "/contact" },
   ] as const satisfies readonly { label: string; href: string; menu?: NavMenuKey }[],
 

@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
 import { SmartPriceCalculator } from "@/components/sections/smart-calculator";
-import { CalculatorSeoContent } from "@/components/sections/calculator-seo-content";
+import {
+  CalculatorSeoContent,
+  TABLE_SCENARIO_IDS,
+} from "@/components/sections/calculator-seo-content";
+import { buildPricingRows } from "@/lib/brands/pricing";
+import { cmsPublicPricing } from "@/lib/cms/pricing-client";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Price Calculator Perth | Capital Garage Doors",
+  title: "Garage Door Prices Perth | Instant Price Calculator",
   description:
-    "Get an instant cost estimate for garage door repairs, new door installations, motor replacements, and regular servicing across Perth. Free and no obligation.",
+    "Real Perth garage door prices: instant estimates for repairs, new doors, motor replacements and servicing from our live price list. Free, no obligation.",
   path: "/calculator",
 });
 
-export default function CalculatorPage() {
+// The guide-price table below the tool reads the live CMS pricing catalog (same override rule
+// as the brand pages' tables) — revalidate so price changes flow through without a deploy.
+export const revalidate = 3600;
+
+export default async function CalculatorPage() {
+  const catalog = await cmsPublicPricing();
+  const rows = buildPricingRows([...TABLE_SCENARIO_IDS], catalog);
+
   return (
     <div className="relative w-full overflow-hidden bg-[#f8fafc]">
       {/* Route's single <h1> — kept for search + screen readers. The calculator's own
           visible title is an <h2>, so this stays sr-only to keep the tool full-screen. */}
-      <h1 className="sr-only">Garage Door Price Calculator Perth</h1>
+      <h1 className="sr-only">Garage Door Prices Perth — Instant Price Calculator</h1>
 
       {/* Full-screen tool: fills the whole viewport below the sticky header (4rem + 1px
           bottom border — without the -1px the page gets a 1px scrollbar of its own), edge-to-edge
@@ -30,9 +42,10 @@ export default function CalculatorPage() {
       </div>
 
       {/* Crawlable content below the full-viewport tool — how it works, real
-          guide prices (from pricing-data.ts) and a FAQ. Fixes the audit's
-          "low word count": the route previously served zero readable text. */}
-      <CalculatorSeoContent />
+          guide prices (live CMS catalog with pricing-data.ts fallback) and a
+          FAQ. Fixes the audit's "low word count": the route previously served
+          zero readable text. */}
+      <CalculatorSeoContent rows={rows} />
     </div>
   );
 }

@@ -3,11 +3,8 @@ import { Container } from "@/components/layout/container";
 import { JsonLd } from "@/components/seo/json-ld";
 import { faqSchema } from "@/lib/seo/schema";
 import { FAQSection } from "@/components/sections/faq-section";
-import {
-  PRICING_BY_ID,
-  EMERGENCY_SURCHARGE,
-  type PricingScenario,
-} from "@/components/sections/smart-calculator/pricing-data";
+import { EMERGENCY_SURCHARGE } from "@/components/sections/smart-calculator/pricing-data";
+import type { ResolvedPriceRow } from "@/lib/brands/pricing";
 import type { FAQ } from "@/types";
 
 /**
@@ -22,7 +19,7 @@ import type { FAQ } from "@/types";
  */
 
 /** Scenario ids (stable, ASCII) → shown in the crawlable guide-price table. */
-const TABLE_SCENARIO_IDS = [
+export const TABLE_SCENARIO_IDS = [
   "spring",
   "cable",
   "motor-repair",
@@ -33,15 +30,13 @@ const TABLE_SCENARIO_IDS = [
   "new-standard",
 ] as const;
 
-function money(n: number): string {
-  return `$${n.toLocaleString("en-AU")}`;
-}
-
-function priceLabel(s: PricingScenario): string {
-  if (s.priceMin == null) return "Quoted on-site";
-  if (s.priceMax == null || s.priceMax === s.priceMin) return `From ${money(s.priceMin)}`;
-  return `${money(s.priceMin)}–${money(s.priceMax)}`;
-}
+/** The four cost-guide deep dives — each table row's "read more" surface. */
+const COST_GUIDE_LINKS = [
+  { label: "Repair cost guide", href: "/garage-door-repair-cost-perth" },
+  { label: "Spring replacement cost", href: "/garage-door-spring-replacement-cost-perth" },
+  { label: "Motor replacement cost", href: "/garage-door-motor-replacement-cost-perth" },
+  { label: "Service cost guide", href: "/garage-door-service-cost-perth" },
+];
 
 const FAQS: FAQ[] = [
   {
@@ -65,11 +60,7 @@ const FAQS: FAQ[] = [
   },
 ];
 
-export function CalculatorSeoContent() {
-  const scenarios = TABLE_SCENARIO_IDS.map((id) => PRICING_BY_ID.get(id)).filter(
-    (s): s is PricingScenario => s !== undefined,
-  );
-
+export function CalculatorSeoContent({ rows }: { rows: ResolvedPriceRow[] }) {
   return (
     <>
       <JsonLd data={faqSchema(FAQS)} />
@@ -125,12 +116,12 @@ export function CalculatorSeoContent() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {scenarios.map((s) => (
-                  <tr key={s.id} className="align-top">
-                    <td className="px-4 py-3 font-medium text-foreground">{s.label}</td>
-                    <td className="px-4 py-3 whitespace-nowrap text-foreground">{priceLabel(s)}</td>
+                {rows.map((row) => (
+                  <tr key={row.id} className="align-top">
+                    <td className="px-4 py-3 font-medium text-foreground">{row.label}</td>
+                    <td className="px-4 py-3 whitespace-nowrap text-foreground">{row.price}</td>
                     <td className="hidden px-4 py-3 text-muted-foreground sm:table-cell">
-                      {s.publicNote}
+                      {row.note}
                     </td>
                   </tr>
                 ))}
@@ -142,6 +133,31 @@ export function CalculatorSeoContent() {
             confirmed with a fixed quote before work starts. After-hours emergencies add a flat $
             {EMERGENCY_SURCHARGE} call-out surcharge.
           </p>
+
+          <p className="mt-6 text-muted-foreground">
+            Want the detail behind a number? Each guide breaks its job down — what&apos;s included,
+            what moves the price, and when to repair versus replace:
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
+            {COST_GUIDE_LINKS.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="font-medium text-primary underline underline-offset-4 hover:text-cta"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <Link
+                href="/cost-guides"
+                className="font-medium text-primary underline underline-offset-4 hover:text-cta"
+              >
+                All cost guides
+              </Link>
+            </li>
+          </ul>
         </Container>
       </section>
 

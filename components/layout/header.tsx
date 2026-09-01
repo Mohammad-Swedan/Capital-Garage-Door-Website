@@ -106,8 +106,8 @@ export function Header() {
           <Logo className="text-2xl sm:text-3xl lg:text-2xl xl:text-3xl" />
         </Link>
 
-        {/* gap tightens at lg so all 10 items + Call Now fit a 1024px viewport
-            (`Home` is xl-only — the logo already links home).
+        {/* gap tightens at lg so all 8 items + both CTAs fit a 1024px viewport
+            (Gallery/Blog/About live in the "More" dropdown — 2026-09-01).
             HoverPrefetchLink: these links sit in the viewport on every page
             load — default prefetching fired ~968 KB of route payloads at load
             time, starving the LCP resource on mobile. Prefetch now waits for
@@ -136,10 +136,7 @@ export function Header() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               ) : (
-                <NavigationMenuItem
-                  key={item.href}
-                  className={cn(item.href === "/" && "hidden xl:flex")}
-                >
+                <NavigationMenuItem key={item.href}>
                   <NavigationMenuLink
                     render={<HoverPrefetchLink href={item.href} />}
                     className="group/navlink relative whitespace-nowrap rounded-lg px-1 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-foreground focus:bg-transparent"
@@ -159,11 +156,12 @@ export function Header() {
         {/* shrink-0: at 1280 the 10-item nav + both CTAs fill the row exactly
             — without this the two buttons get squeezed and wrap to two lines. */}
         <div className="flex shrink-0 items-center gap-3">
-          {/* Quote CTA — xl-only so the nav items + Call Now still fit a
-              1024px viewport; below xl the mobile menu + sticky CTA carry it. */}
+          {/* Quote CTA — visible from lg since the "More" consolidation freed the
+              width (it was xl-only when 10 items had to fit); below lg the mobile
+              menu + sticky CTA carry it. */}
           <HoverPrefetchLink
             href="/quote"
-            className="hidden min-h-11 items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-cta/60 hover:text-cta xl:flex"
+            className="hidden min-h-11 items-center gap-1.5 rounded-full border border-border px-4 py-2.5 text-sm font-bold text-foreground transition-colors hover:border-cta/60 hover:text-cta lg:flex"
           >
             <FileText className="h-3.5 w-3.5" aria-hidden="true" />
             Get a Quote
@@ -240,6 +238,26 @@ export function Header() {
                 }
 
                 const menu = NAV_MENUS[item.menu];
+
+                // "More" exists only for desktop width — the full-screen mobile
+                // menu has room, so its links render flat like they always did.
+                if (item.menu === "more") {
+                  const flatLinks = [
+                    ...menu.columns.flatMap((column) => column.links),
+                    menu.footer,
+                  ];
+                  return flatLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className="py-0.5 font-display text-xl text-foreground transition-colors hover:text-cta sm:text-2xl"
+                    >
+                      {link.label}
+                    </Link>
+                  ));
+                }
+
                 const expanded = openMenu === item.menu;
                 const panelId = `mobile-nav-${item.menu}`;
 

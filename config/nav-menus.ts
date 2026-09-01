@@ -1,4 +1,4 @@
-export type NavMenuKey = "services" | "doors" | "motors";
+export type NavMenuKey = "services" | "doors" | "motors" | "more";
 
 export interface NavMenuLink {
   label: string;
@@ -142,6 +142,24 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
     },
     featured: "capital-motors",
     footer: { label: "Capital 1100N & 1500N motors", href: "/garage-door-motors-perth" },
+  },
+  // Desktop-crowding fix (2026-09-01): Gallery/Blog/About moved off the top level into this
+  // small dropdown. On MOBILE these links render flat (header.tsx special-cases "more") — the
+  // full-screen menu has room, so the dropdown exists only where width is scarce.
+  more: {
+    key: "more",
+    columns: [
+      {
+        title: "Explore",
+        links: [
+          { label: "Gallery — our work", href: "/gallery" },
+          { label: "Blog & guides", href: "/blog" },
+          { label: "About us", href: "/about" },
+          { label: "Warranty", href: "/warranty" },
+        ],
+      },
+    ],
+    footer: { label: "Customer reviews", href: "/reviews" },
   },
 };
 

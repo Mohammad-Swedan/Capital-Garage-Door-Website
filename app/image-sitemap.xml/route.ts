@@ -4,6 +4,7 @@ import { getCaseStudies } from "@/lib/data/case-studies";
 import { getServicePages } from "@/lib/data/service-pages";
 import { getProblems } from "@/lib/data/problems";
 import { getGalleryItems } from "@/lib/data/gallery";
+import { getBrandPages } from "@/lib/data/brands";
 import { MOTOR_IMAGES, MOTORS_PATH } from "@/components/sections/motors/motor-data";
 
 /**
@@ -40,12 +41,13 @@ function abs(pathOrUrl: string): string {
 }
 
 export async function GET() {
-  const [articles, caseStudies, servicePages, problems, gallery] = await Promise.all([
+  const [articles, caseStudies, servicePages, problems, gallery, brandPages] = await Promise.all([
     getArticles(),
     getCaseStudies(),
     getServicePages(),
     getProblems(),
     getGalleryItems(),
+    getBrandPages(),
   ]);
 
   const pages: PageImages[] = [];
@@ -125,6 +127,17 @@ export async function GET() {
         loc: abs(`/problems/${p.slug}`),
         // Problems carry no dedicated alt field — the problem name doubles as caption.
         images: [{ url: abs(p.heroImage), title: p.name, caption: p.name }],
+      });
+    }
+  }
+
+  // Brand guide pages — the same-brand product shot each page carries (a real
+  // "{brand} garage door opener" image-search opportunity).
+  for (const bp of brandPages) {
+    if (bp.productImage) {
+      pages.push({
+        loc: abs(`/${bp.slug}`),
+        images: [{ url: bp.productImage.src, title: bp.hero.h1, caption: bp.productImage.alt }],
       });
     }
   }

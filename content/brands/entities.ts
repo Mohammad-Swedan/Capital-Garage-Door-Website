@@ -65,7 +65,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     origin: "USA",
     dealer: false,
     tags: ["sectional"],
-    summary: "Chamberlain Group's professional-grade opener line — chain and belt-drive sectional models distributed in Australia.",
+    summary: "LiftMaster Professional chain- and belt-drive sectional openers (LM60, LM1000), distributed across Australia.",
     productLines: "LiftMaster Professional range — LM60K, LM60R, LM1000K, LM1000R",
     sources: [
       "https://www.liftmaster.com.au/about.html",

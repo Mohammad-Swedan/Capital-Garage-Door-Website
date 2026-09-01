@@ -10,7 +10,7 @@ import {
   renderPriceTokens,
   type ResolvedPriceRow,
 } from "@/lib/brands/pricing";
-import { textMentionsBrand } from "@/lib/brands/match";
+import { pickBrandCaseStudies } from "@/lib/brands/case-study-pick";
 import type { CaseStudyPage } from "@/types/case-study";
 import type { LocalLink } from "@/types";
 import type {
@@ -58,29 +58,16 @@ export function brandPageHref(entitySlug: string, kind: BrandKind): string | und
   return page ? `/${page.slug}` : undefined;
 }
 
-/** Case studies whose copy names the brand and that carry a real photo. Empty is normal. */
-export async function getCaseStudiesForBrand(entity: BrandEntity): Promise<CaseStudyPage[]> {
+/**
+ * Case studies for the page's "Recent work": the page's hand-picked `caseStudySlugs` first,
+ * else case studies whose copy names the brand. Photo-filtered, max 3. Empty is normal.
+ */
+export async function getCaseStudiesForBrand(
+  page: Pick<BrandPage, "caseStudySlugs">,
+  entity: BrandEntity,
+): Promise<CaseStudyPage[]> {
   const all = await getCaseStudies();
-  return all
-    .filter((cs) => cs.images.some((img) => /^https?:\/\//.test(img.src)))
-    .filter((cs) => {
-      const text = [
-        cs.title,
-        cs.subtitle,
-        cs.summary.problem,
-        cs.summary.diagnosis,
-        cs.summary.solution,
-        cs.problem.intro,
-        ...cs.problem.points,
-        cs.diagnosis.intro,
-        ...cs.diagnosis.points,
-        cs.solution.intro,
-        ...cs.solution.points,
-        ...cs.partsUsed,
-      ].join(" \n ");
-      return textMentionsBrand(text, entity);
-    })
-    .slice(0, 3);
+  return pickBrandCaseStudies(all, entity, page.caseStudySlugs);
 }
 
 const TOKENISED_FIELDS = (page: BrandPage, rows: ResolvedPriceRow[]): BrandPage => {

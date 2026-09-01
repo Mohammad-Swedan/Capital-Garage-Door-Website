@@ -12,7 +12,7 @@ export const centurionGarageDoorsPerth: BrandPage = {
   brand: "centurion",
   kind: "door",
   slug: "centurion-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Centurion Garage Doors Perth | Repairs, Service & Install",
     description:

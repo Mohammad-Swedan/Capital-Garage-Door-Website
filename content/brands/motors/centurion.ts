@@ -18,7 +18,7 @@ export const centurionGarageDoorMotorsPerth: BrandPage = {
   brand: "centurion",
   kind: "motor",
   slug: "centurion-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Centurion Garage Door Openers Perth | Repairs & Remotes",
     description:

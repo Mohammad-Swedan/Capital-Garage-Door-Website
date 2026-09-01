@@ -13,7 +13,7 @@ export const steelLineGarageDoorMotorsPerth: BrandPage = {
   brand: "steel-line",
   kind: "motor",
   slug: "steel-line-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Steel-Line Garage Door Motors Perth | Repairs & Remotes",
     description:
@@ -144,6 +144,10 @@ export const steelLineGarageDoorMotorsPerth: BrandPage = {
     { label: "Steel-Line garage doors Perth", href: "/steel-line-garage-doors-perth" },
   ],
   serviceAreas: ["Osborne Park", "Stirling", "Malaga", "Duncraig", "Kingsley", "Success", "Willetton", "Belmont"],
+  caseStudySlugs: [
+    "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
+    "steel-line-garage-door-installation-baldivis-perth",
+  ],
   cta: {
     heading: "Steel-Line Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model on the opener's head unit and what it's doing — you'll get a same-day slot and a fixed price before we start.",

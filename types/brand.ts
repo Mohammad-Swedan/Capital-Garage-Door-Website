@@ -85,6 +85,19 @@ export interface BrandParts {
   paragraphs: string[];
 }
 
+/** A legitimately licensed product image (manufacturer press/media asset or Wikimedia only). */
+export interface BrandProductImage {
+  /** Full CDN URL under capital-garage-door/brands/ (the check script enforces the prefix). */
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+  /** Optional visible caption — carry attribution here when the licence requires it. */
+  caption?: string;
+  /** Provenance: source page + licence basis. Never rendered (like BrandEntity.sources). */
+  source: string;
+}
+
 export interface BrandPage {
   /** BrandEntity.slug */
   brand: string;
@@ -121,6 +134,14 @@ export interface BrandPage {
   relatedServices: LocalLink[];
   /** Suburb names; linked to suburb pages when one exists. */
   serviceAreas: string[];
+  /**
+   * Explicit case-study slugs for "Recent work", in order (mirrors ServiceSuburbPage.caseStudySlugs).
+   * When omitted/empty the section auto-matches case studies whose copy mentions the brand.
+   * Only entries with a real (http) photo render; max 3 shown; empty → section hides itself.
+   */
+  caseStudySlugs?: string[];
+  /** Licensed product shot rendered below the intro. Absent → no section. */
+  productImage?: BrandProductImage;
   cta: { heading: string; subtitle: string };
 }
 

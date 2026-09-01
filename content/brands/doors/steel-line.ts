@@ -11,7 +11,7 @@ export const steelLineGarageDoorsPerth: BrandPage = {
   brand: "steel-line",
   kind: "door",
   slug: "steel-line-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Steel-Line Garage Doors Perth | Repairs, Service & Install",
     description:
@@ -153,6 +153,10 @@ export const steelLineGarageDoorsPerth: BrandPage = {
     { label: "Repair cost guide", href: "/garage-door-repair-cost-perth" },
   ],
   serviceAreas: ["Baldivis", "Piara Waters", "Harrisdale", "Forrestdale", "Southern River", "Canning Vale", "Success", "Rockingham"],
+  caseStudySlugs: [
+    "steel-line-garage-door-installation-baldivis-perth",
+    "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
+  ],
   cta: {
     heading: "Steel-Line Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

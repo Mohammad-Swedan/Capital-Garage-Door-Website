@@ -3,10 +3,12 @@
  * duplicate/invalid slugs, unknown entities, dealer wording on non-dealer pages, literal prices,
  * over-long titles/descriptions, missing FAQs, unknown pricing pins or problem slugs, hrefs that
  * don't resolve, nav menu hrefs that don't resolve, non-ISO updatedAt, missing logo files,
+ * off-CDN logo/productImage URLs, incomplete productImage fields, malformed caseStudySlugs,
  * unlisted prose paths on door pages, and unknown price tokens in hub FAQs.
  *
  *   npx tsx scripts/check-brand-content.ts            # checks hrefs against the LIVE sitemap
- *   npx tsx scripts/check-brand-content.ts --offline  # skips the network check
+ *                                                     # + HEAD-checks every CDN logo/product URL
+ *   npx tsx scripts/check-brand-content.ts --offline  # skips both network checks
  */
 export {};
 
@@ -20,6 +22,8 @@ import { PRICING_BY_ID } from "../components/sections/smart-calculator/pricing-d
 import { serviceSuburbPages } from "../content/service-suburb-pages";
 
 const DEALERS = new Set(["avanti", "b-and-d", "boss", "gliderol", "jaytech", "perth-windsor-doors", "steel-line", "superlift"]);
+/** Every remote brand asset (logo or productImage) must live in this Bunny folder. */
+const CDN_ASSET_PREFIX = "https://jadara-hub.b-cdn.net/capital-garage-door/brands/";
 const PROBLEMS = new Set([
   "garage-door-wont-open", "garage-door-wont-close", "garage-door-stuck-halfway", "garage-door-remote-not-working",
   "garage-door-motor-not-responding", "garage-door-spring-or-cable-broken", "garage-door-off-track", "noisy-garage-door",
@@ -120,6 +124,7 @@ function checkNoPathTokens(where: string, field: string, text: string) {
     seenEntity.add(e.slug);
     if (e.dealer !== DEALERS.has(e.slug)) fail(`entity ${e.slug}: dealer flag must be ${DEALERS.has(e.slug)}`);
     if (e.logo && e.logo.startsWith("/") && !existsSync(join(process.cwd(), "public", e.logo))) fail(`entity ${e.slug}: logo file missing ${e.logo}`);
+    if (e.logo && !e.logo.startsWith("/") && !e.logo.startsWith(CDN_ASSET_PREFIX)) fail(`entity ${e.slug}: logo must be /images/brands/* or ${CDN_ASSET_PREFIX}*`);
     if (e.url && !/^https:\/\//.test(e.url)) fail(`entity ${e.slug}: url must be https`);
     if (!/^#[0-9a-f]{6}$/i.test(e.accent)) fail(`entity ${e.slug}: accent must be a 6-digit hex`);
     if (e.summary.length > 120) fail(`entity ${e.slug}: summary > 120 chars`);
@@ -152,6 +157,14 @@ function checkNoPathTokens(where: string, field: string, text: string) {
       if (!p.pricingPins.includes(m[1]) && !(p.kind === "motor" && m[1] === "motor-replace")) fail(`${where}: token ${m[1]} not pinned`);
     }
     for (const f of p.faults) if (f.problemSlug && !PROBLEMS.has(f.problemSlug)) fail(`${where}: unknown problem slug ${f.problemSlug}`);
+    for (const s of p.caseStudySlugs ?? []) if (!/^[a-z0-9-]+$/.test(s)) fail(`${where}: malformed caseStudySlugs entry "${s}"`);
+    if (p.productImage) {
+      const img = p.productImage;
+      if (!img.src.startsWith(CDN_ASSET_PREFIX)) fail(`${where}: productImage.src must start with ${CDN_ASSET_PREFIX}`);
+      if (!img.alt.trim()) fail(`${where}: productImage.alt is empty`);
+      if (!img.source.trim()) fail(`${where}: productImage.source (provenance) is empty`);
+      if (!(img.width > 0) || !(img.height > 0)) fail(`${where}: productImage width/height must be > 0`);
+    }
     if (p.kind === "motor" && !p.decision) fail(`${where}: motor page needs decision`);
     if (p.kind === "door" && !p.parts) fail(`${where}: door page needs parts`);
     if (p.kind === "door" && p.parts) {
@@ -202,6 +215,20 @@ function checkNoPathTokens(where: string, field: string, text: string) {
     ];
     for (const h of hrefs) if (!urls.has(h)) fail(`nav ${menu.key}: href does not resolve ${h}`);
     for (const b of menu.brands?.items ?? []) if (!entityBySlug.has(b.entity)) fail(`nav ${menu.key}: unknown entity ${b.entity}`);
+  }
+
+  // CDN assets — BrandMark/BrandProductImage have no error fallback (a broken URL renders a blank
+  // white square), so this HEAD check is the fallback. Live mode only; --offline skips it.
+  if (!offline) {
+    const cdnUrls = new Set<string>();
+    for (const e of BRAND_ENTITIES) if (e.logo?.startsWith("https://")) cdnUrls.add(e.logo);
+    for (const p of brandPages) if (p.productImage) cdnUrls.add(p.productImage.src);
+    await Promise.all(
+      [...cdnUrls].map(async (url) => {
+        const res = await fetch(url, { method: "HEAD" }).catch(() => null);
+        if (!res || !res.ok) fail(`CDN asset unreachable (${res ? `HTTP ${res.status}` : "network error"}): ${url}`);
+      }),
+    );
   }
 
   if (errors.length) {

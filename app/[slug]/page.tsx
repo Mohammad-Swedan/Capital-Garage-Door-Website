@@ -128,7 +128,7 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
   const brandPage = await getBrandPageBySlug(slug);
   if (brandPage) {
     const resolved = await resolveBrandPage(brandPage);
-    const caseStudies = await getCaseStudiesForBrand(resolved.entity);
+    const caseStudies = await getCaseStudiesForBrand(resolved.page, resolved.entity);
     return (
       <>
         <PageSchema kind="brand" data={resolved} />

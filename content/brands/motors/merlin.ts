@@ -14,7 +14,7 @@ export const merlinGarageDoorMotorsPerth: BrandPage = {
   brand: "merlin",
   kind: "motor",
   slug: "merlin-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Merlin Garage Door Openers Perth | Repairs & Remotes",
     description:
@@ -180,6 +180,15 @@ export const merlinGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Joondalup", "Clarkson", "Midland", "Canning Vale", "Thornlie", "Cockburn Central", "Baldivis", "Mandurah"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/merlin-opener-installed.webp",
+    width: 1600,
+    height: 900,
+    alt: "Merlin garage door opener head unit mounted on a garage ceiling in Australia",
+    caption: "A Merlin opener installed in an Australian garage. Photo: Photnart, Wikimedia Commons (CC BY-SA 4.0).",
+    source:
+      "https://commons.wikimedia.org/wiki/File:Merlin_auto_garage_opener.jpg — Wikimedia: CC BY-SA 4.0 — attribution in caption",
+  },
   cta: {
     heading: "Merlin Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model on the opener's label and what it's doing — you'll get a same-day slot and a fixed price before we start.",

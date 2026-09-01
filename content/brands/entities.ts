@@ -1,6 +1,13 @@
 import type { BrandEntity } from "@/types/brand";
 
 /**
+ * Non-dealer brand logos live on the Bunny CDN (uploaded by scripts/fetch-brand-assets.ts, with
+ * provenance in scripts/brand-assets-manifest.ts); the 8 dealer logos stay in /public. Guardian
+ * (two unrelated companies) and Magic Button (no distinct official mark) keep the monogram.
+ */
+const BRAND_LOGO_CDN = "https://jadara-hub.b-cdn.net/capital-garage-door/brands";
+
+/**
  * Every garage-door / motor brand seen in Perth — one entity per manufacturer. Drives the nav
  * mega-menus (logos), the two hubs (tiles, facts table, finder) and each brand page's plate.
  *
@@ -15,6 +22,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "merlin",
     name: "Merlin",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/merlin.webp`,
     accent: "#1c4fa1",
     url: "https://www.gomerlin.com.au/",
     origin: "Australia / New Zealand",
@@ -32,6 +40,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "chamberlain",
     name: "Chamberlain",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/chamberlain.webp`,
     accent: "#0092bc",
     url: "https://www.chamberlaindiy.com.au/",
     origin: "USA",
@@ -43,6 +52,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     sources: [
       "https://www.chamberlaindiy.com.au/about-us/",
       "https://www.chamberlaindiy.com.au/garage-door-openers/",
+      "https://commons.wikimedia.org/wiki/File:Chamberlain_logo.svg",
     ],
   },
   {
@@ -50,6 +60,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     name: "LiftMaster",
     aliases: ["Lift Master"],
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/liftmaster.webp`,
     accent: "#f47216",
     origin: "USA",
     dealer: false,
@@ -114,7 +125,9 @@ export const BRAND_ENTITIES: BrandEntity[] = [
   {
     slug: "centurion",
     name: "Centurion Garage Doors",
+    aliases: ["Centurion"],
     kinds: ["door", "motor"],
+    logo: `${BRAND_LOGO_CDN}/centurion.webp`,
     accent: "#b91c1c",
     url: "https://www.cgdoors.com.au/",
     origin: "Australia",
@@ -149,6 +162,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "ata",
     name: "ATA",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/ata.webp`,
     accent: "#f2b705",
     url: "https://www.automatictechnology.com/au",
     origin: "Australia",
@@ -164,6 +178,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "grifco",
     name: "Grifco",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/grifco.webp`,
     accent: "#009999",
     url: "https://www.grifco.com.au/",
     origin: "Australia",
@@ -233,6 +248,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "dominator",
     name: "Dominator",
     kinds: ["door", "motor"],
+    logo: `${BRAND_LOGO_CDN}/dominator.webp`,
     accent: "#002d5c",
     url: "https://www.dominatornsw.com.au/",
     origin: "New Zealand",
@@ -246,6 +262,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "marantec",
     name: "Marantec",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/marantec.webp`,
     accent: "#1f4f8f",
     url: "https://www.marantec.com/en/",
     origin: "Germany",
@@ -261,6 +278,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     name: "Genie",
     matchTerms: ["Genie opener", "Genie motor"],
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/genie.webp`,
     accent: "#005baa",
     url: "https://www.geniecompany.com/",
     origin: "USA",
@@ -275,6 +293,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "somfy",
     name: "Somfy",
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/somfy.webp`,
     accent: "#0057b8",
     url: "https://www.somfy.com.au/",
     origin: "France",
@@ -283,7 +302,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     tags: ["smart-app"],
     summary: "Global Somfy Group's Australian arm — electric garage door automation with the TaHoma smart home hub.",
     productLines: "Electric Garage doors, TaHoma smart home hub",
-    sources: ["https://www.somfy.com.au/"],
+    sources: ["https://www.somfy.com.au/", "https://commons.wikimedia.org/wiki/File:Somfy_logo.svg"],
   },
   {
     slug: "magic-button",
@@ -305,6 +324,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     name: "Nice",
     matchTerms: ["Nice motor", "Nice opener", "Nice automation"],
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/nice.webp`,
     accent: "#e2001a",
     url: "https://www.niceaustralia.com.au/",
     origin: "Italy",
@@ -322,6 +342,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     name: "DEA",
     matchTerms: ["DEA motor", "DEA opener", "DEA System"],
     kinds: ["motor"],
+    logo: `${BRAND_LOGO_CDN}/dea.webp`,
     accent: "#ffcc00",
     url: "https://www.deasystem.com/en/",
     origin: "Italy",
@@ -335,6 +356,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "danmar",
     name: "Danmar",
     kinds: ["door"],
+    logo: `${BRAND_LOGO_CDN}/danmar.webp`,
     accent: "#333333",
     url: "https://www.danmardoorswa.com.au/",
     origin: "Perth, WA",
@@ -348,6 +370,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "taurean",
     name: "Taurean",
     kinds: ["door"],
+    logo: `${BRAND_LOGO_CDN}/taurean.webp`,
     accent: "#1e5aa8",
     url: "https://www.taureands.com.au/",
     origin: "Australia",
@@ -376,6 +399,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "doorworks",
     name: "Doorworks",
     kinds: ["door"],
+    logo: `${BRAND_LOGO_CDN}/doorworks.webp`,
     accent: "#f5c400",
     url: "https://doorworks.com.au/",
     origin: "Australia",
@@ -391,6 +415,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     slug: "best-doors",
     name: "Best Doors",
     kinds: ["door"],
+    logo: `${BRAND_LOGO_CDN}/best-doors.webp`,
     accent: "#334155",
     origin: "Australia",
     founded: 1975,
@@ -408,6 +433,7 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     name: "Hörmann",
     aliases: ["Hormann"],
     kinds: ["door"],
+    logo: `${BRAND_LOGO_CDN}/hormann.webp`,
     accent: "#003764",
     url: "https://www.4ddoors.com.au/",
     origin: "Germany",
@@ -418,12 +444,14 @@ export const BRAND_ENTITIES: BrandEntity[] = [
     sources: [
       "https://www.4ddoors.com.au/page/4ddoors-powered-by-hormann",
       "https://en.wikipedia.org/wiki/H%C3%B6rmann",
+      "https://commons.wikimedia.org/wiki/File:H%C3%B6rmann_(T%C3%BCrenhersteller)_logo.svg",
     ],
   },
   {
     slug: "gryphon",
     name: "Gryphon",
     kinds: ["door", "motor"],
+    logo: `${BRAND_LOGO_CDN}/gryphon.webp`,
     accent: "#1a1a1a",
     url: "https://gryphongaragedoors.com/",
     origin: "Perth, WA",

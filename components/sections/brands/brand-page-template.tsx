@@ -17,6 +17,7 @@ import { BrandModels } from "./brand-models";
 import { BrandFaults } from "./brand-faults";
 import { BrandDecision } from "./brand-decision";
 import { BrandParts } from "./brand-parts";
+import { BrandProductImage } from "./brand-product-image";
 import { RelatedBrands } from "./related-brands";
 import type { CaseStudyPage } from "@/types/case-study";
 import type { ResolvedBrandPage } from "@/types/brand";
@@ -85,6 +86,8 @@ export function BrandPageTemplate({ resolved, caseStudies }: BrandPageTemplatePr
           </Container>
         </section>
       )}
+
+      <BrandProductImage image={page.productImage} />
 
       <BrandServices entity={entity} services={page.services} />
       <BrandModels entity={entity} models={page.models ?? []} />

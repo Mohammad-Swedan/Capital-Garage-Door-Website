@@ -14,7 +14,7 @@ export const gliderolGarageDoorsPerth: BrandPage = {
   brand: "gliderol",
   kind: "door",
   slug: "gliderol-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Gliderol Garage Doors Perth | Repairs, Service & Install",
     description:
@@ -149,6 +149,15 @@ export const gliderolGarageDoorsPerth: BrandPage = {
     { label: "Repair cost guide", href: "/garage-door-repair-cost-perth" },
   ],
   serviceAreas: ["Joondalup", "Clarkson", "Padbury", "Kingsley", "Duncraig", "Stirling", "Osborne Park", "Malaga"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/gliderol-door-service.webp",
+    width: 1600,
+    height: 896,
+    alt: "Technician servicing a Gliderol sectional garage door — manufacturer image",
+    caption: "Servicing a Gliderol door. Image: Gliderol.",
+    source:
+      "https://gliderol.com.au/garage-doors/roller/ — official manufacturer image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Gliderol Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

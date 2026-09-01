@@ -152,6 +152,15 @@ export const centurionGarageDoorsPerth: BrandPage = {
     { label: "Garage door service cost guide", href: "/garage-door-service-cost-perth" },
   ],
   serviceAreas: ["Joondalup", "Clarkson", "Kingsley", "Duncraig", "Canning Vale", "Success", "Baldivis", "Mandurah"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/centurion-sectional-door.webp",
+    width: 1600,
+    height: 1050,
+    alt: "Centurion sectional garage door on an Australian home — manufacturer image",
+    caption: "Centurion sectional door. Image: Centurion Garage Doors.",
+    source:
+      "https://www.cgdoors.com.au/ — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Centurion Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

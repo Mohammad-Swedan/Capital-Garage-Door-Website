@@ -14,7 +14,7 @@ export const dominatorGarageDoorsPerth: BrandPage = {
   brand: "dominator",
   kind: "door",
   slug: "dominator-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Dominator Garage Doors Perth | Repairs, Service & Install",
     description:
@@ -145,6 +145,15 @@ export const dominatorGarageDoorsPerth: BrandPage = {
     { label: "Garage door repair cost guide", href: "/garage-door-repair-cost-perth" },
   ],
   serviceAreas: ["Stirling", "Osborne Park", "Malaga", "Rockingham", "Port Kennedy", "Mandurah", "Kalamunda", "Huntingdale"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/dominator-garage-door.webp",
+    width: 1600,
+    height: 1285,
+    alt: "Dominator garage door on a modern home — manufacturer image",
+    caption: "Dominator garage door. Image: Dominator.",
+    source:
+      "https://www.dominator.co.nz/garage-doors — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Dominator Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

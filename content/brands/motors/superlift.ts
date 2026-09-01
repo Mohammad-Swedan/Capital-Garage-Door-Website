@@ -15,7 +15,7 @@ export const superliftGarageDoorMotorsPerth: BrandPage = {
   brand: "superlift",
   kind: "motor",
   slug: "superlift-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Superlift Garage Door Openers Perth | Repairs & Remotes",
     description:
@@ -155,6 +155,15 @@ export const superliftGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Midland", "High Wycombe", "Kalamunda", "Forrestdale", "Canning Vale", "Thornlie", "Cockburn Central", "Rockingham"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/superlift-rdo-5-opener.webp",
+    width: 1600,
+    height: 1097,
+    alt: "Superlift RDO-5 roller door opener — manufacturer product image",
+    caption: "Superlift RDO-5 roller door opener. Image: Superlift.",
+    source:
+      "https://www.superliftgdo.com.au/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Superlift Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us what's printed on the motor's head unit and what it's doing — you'll get a same-day slot and a fixed price before we start.",

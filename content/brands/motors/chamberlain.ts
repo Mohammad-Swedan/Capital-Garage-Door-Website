@@ -15,7 +15,7 @@ export const chamberlainGarageDoorMotorsPerth: BrandPage = {
   brand: "chamberlain",
   kind: "motor",
   slug: "chamberlain-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Chamberlain Garage Door Openers Perth | Repairs",
     description:
@@ -176,6 +176,15 @@ export const chamberlainGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Scarborough", "Rockingham", "Success", "Atwell", "Padbury", "Bayswater", "Willetton", "Belmont"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/chamberlain-sectionallift-opener.webp",
+    width: 986,
+    height: 740,
+    alt: "Chamberlain SectionalLift garage door opener — manufacturer product image",
+    caption: "Chamberlain SectionalLift opener with myQ. Image: Chamberlain.",
+    source:
+      "https://www.chamberlaindiy.com.au/garage-door-openers/ — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Chamberlain Not Behaving? Get It Sorted Today",
     subtitle: "Tell us the model on the RollerLift or SectionalLift label and what it's doing — you'll get a same-day slot and a fixed price before we start.",

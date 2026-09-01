@@ -18,7 +18,7 @@ export const grifcoGarageDoorMotorsPerth: BrandPage = {
   brand: "grifco",
   kind: "motor",
   slug: "grifco-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Grifco Commercial Door Motors Perth | Repairs & Service",
     description:
@@ -160,6 +160,15 @@ export const grifcoGarageDoorMotorsPerth: BrandPage = {
     { label: "Garage door maintenance Perth", href: "/garage-door-maintenance-perth" },
   ],
   serviceAreas: ["Malaga", "Osborne Park", "Canning Vale", "Bayswater", "Cockburn Central", "Maddington", "Midland", "Belmont"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/grifco-e-drive-operator.webp",
+    width: 600,
+    height: 572,
+    alt: "Grifco E-Drive commercial door operator — manufacturer product image",
+    caption: "Grifco E-Drive commercial operator. Image: Grifco.",
+    source:
+      "https://www.grifco.com.au/ — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Grifco Operator Down? Get It Sorted Fast",
     subtitle: "Tell us the model on the operator's data plate and what your site's doing without it — you'll get a priority slot and a fixed quote before we start.",

@@ -14,7 +14,7 @@ export const ataGarageDoorMotorsPerth: BrandPage = {
   brand: "ata",
   kind: "motor",
   slug: "ata-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "ATA Garage Door Openers Perth | Repairs & EasyRoller",
     description:
@@ -168,6 +168,15 @@ export const ataGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Belmont", "Cannington", "Gosnells", "Maddington", "Huntingdale", "Thornlie", "Kalamunda", "Lathlain"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/ata-easyroller-opener.webp",
+    width: 1000,
+    height: 1000,
+    alt: "ATA EasyRoller GDO-6v5 roller door opener — manufacturer product image",
+    caption: "ATA EasyRoller roller door opener. Image: Automatic Technology.",
+    source:
+      "https://www.automatictechnology.com/au — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "ATA Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model — EasyRoller or Dave — and what it's doing, and you'll get a same-day slot and a fixed price before we start.",

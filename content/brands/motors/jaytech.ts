@@ -12,7 +12,7 @@ export const jaytechGarageDoorMotorsPerth: BrandPage = {
   brand: "jaytech",
   kind: "motor",
   slug: "jaytech-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Jaytech Garage Door Motors Perth | Repairs & Remotes",
     description:
@@ -153,6 +153,15 @@ export const jaytechGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Kingsley", "Duncraig", "Riverton", "Willetton", "Belmont", "Bayswater", "High Wycombe", "Maddington"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/jaytech-1200-v4-opener.webp",
+    width: 1417,
+    height: 1489,
+    alt: "Jaytech 1200 V4 sectional garage door opener — manufacturer product image",
+    caption: "Jaytech 1200 V4+ sectional opener. Image: Jaytech.",
+    source:
+      "https://www.jaytechopeners.com.au/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Jaytech Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model printed on the opener's head unit and what it's doing — you'll get a same-day slot and a fixed price before we start.",

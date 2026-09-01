@@ -170,6 +170,15 @@ export const centurionGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Malaga", "Osborne Park", "Stirling", "Kingsley", "Duncraig", "Joondalup", "Midland", "High Wycombe"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/centurion-euro-1250-opener.webp",
+    width: 1600,
+    height: 965,
+    alt: "Centurion Euro 1250 sectional garage door opener — manufacturer product image",
+    caption: "Centurion Euro 1250 sectional opener. Image: Centurion Garage Doors.",
+    source:
+      "https://www.cgdoors.com.au/store/garage-door-openers/centurion-sectional-openers/centurion-euro-1250/ — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Centurion Euro 1250 Playing Up? Get It Sorted Today",
     subtitle: "Tell us what the opener's doing and your suburb — you'll get a same-day slot and a fixed price before we start.",

@@ -14,7 +14,7 @@ export const avantiGarageDoorMotorsPerth: BrandPage = {
   brand: "avanti",
   kind: "motor",
   slug: "avanti-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Avanti Garage Door Openers Perth | Repairs & Install",
     description:
@@ -170,6 +170,15 @@ export const avantiGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Southern River", "Harrisdale", "Piara Waters", "Forrestdale", "Gosnells", "Cannington", "Lathlain", "Riverton"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/avanti-sdo4-opener.webp",
+    width: 612,
+    height: 408,
+    alt: "Avanti SDO4 sectional garage door opener — manufacturer product image",
+    caption: "Avanti SDO4 sectional opener. Image: Avanti.",
+    source:
+      "https://avantigdo.com/public-catalog/sdo4-garage-door-opener/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Need an Avanti Opener Supplied, Fitted or Fixed?",
     subtitle: "Tell us whether it's a new install or an existing opener playing up — you'll get a same-day slot and a fixed price before we start.",

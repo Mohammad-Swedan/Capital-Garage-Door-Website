@@ -11,7 +11,7 @@ export const bAndDGarageDoorsPerth: BrandPage = {
   brand: "b-and-d",
   kind: "door",
   slug: "b-and-d-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "B&D Garage Doors Perth | Repairs, Service & Installation",
     description:
@@ -152,6 +152,15 @@ export const bAndDGarageDoorsPerth: BrandPage = {
     { label: "Repair cost guide", href: "/garage-door-repair-cost-perth" },
   ],
   serviceAreas: ["Thornlie", "Midland", "Cannington", "Gosnells", "Maddington", "Bayswater", "Belmont", "Kalamunda"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/b-and-d-panelift-door.webp",
+    width: 951,
+    height: 490,
+    alt: "B&D Panelift Icon sectional garage door on a modern home — manufacturer image",
+    caption: "B&D Panelift Icon sectional door. Image: B&D Doors.",
+    source:
+      "https://www.bnd.com.au/garage-doors/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "B&D Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

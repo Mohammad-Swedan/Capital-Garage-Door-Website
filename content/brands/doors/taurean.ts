@@ -12,7 +12,7 @@ export const taureanGarageDoorsPerth: BrandPage = {
   brand: "taurean",
   kind: "door",
   slug: "taurean-garage-doors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Taurean Garage Doors Perth | Repairs, Service & Install",
     description:
@@ -148,6 +148,15 @@ export const taureanGarageDoorsPerth: BrandPage = {
     { label: "Commercial roller doors Perth", href: "/commercial-roller-doors-perth" },
   ],
   serviceAreas: ["Rockingham", "Port Kennedy", "Baldivis", "Mandurah", "Cockburn Central", "Atwell", "Success", "Kalamunda"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/taurean-sectional-door.webp",
+    width: 1600,
+    height: 800,
+    alt: "Taurean residential sectional garage door — manufacturer image",
+    caption: "Taurean residential sectional door. Image: Taurean Door Systems.",
+    source:
+      "https://www.taureands.com.au/ — official manufacturer product image — nominative use",
+  },
   cta: {
     heading: "Taurean Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

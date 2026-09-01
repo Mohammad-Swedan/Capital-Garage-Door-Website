@@ -157,6 +157,15 @@ export const steelLineGarageDoorsPerth: BrandPage = {
     "steel-line-garage-door-installation-baldivis-perth",
     "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
   ],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/steel-line-sectional-door.webp",
+    width: 1600,
+    height: 1066,
+    alt: "Steel-Line Slimline sectional garage door in Dover White on a Hamptons-style home — manufacturer image",
+    caption: "Steel-Line Slimline sectional door, Dover White. Image: Steel-Line.",
+    source:
+      "https://www.steel-line.com.au/garage-door-openers/sectional-door-openers/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Steel-Line Door Playing Up? Get It Sorted Today",
     subtitle: "Tell us the fault and your suburb — you'll get a same-day slot and a fixed price before we start.",

@@ -14,7 +14,7 @@ export const bAndDGarageDoorMotorsPerth: BrandPage = {
   brand: "b-and-d",
   kind: "motor",
   slug: "b-and-d-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "B&D Garage Door Motors Perth | Repairs & Replace",
     description:
@@ -169,6 +169,15 @@ export const bAndDGarageDoorMotorsPerth: BrandPage = {
     { label: "Motor replacement cost guide", href: "/garage-door-motor-replacement-cost-perth" },
   ],
   serviceAreas: ["Stirling", "Osborne Park", "High Wycombe", "Port Kennedy", "Maddington", "Huntingdale", "Kingsley", "Riverton"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/b-and-d-smart-pro-opener.webp",
+    width: 951,
+    height: 490,
+    alt: "B&D Smart Pro sectional garage door opener — manufacturer product image",
+    caption: "B&D Smart Pro sectional door opener. Image: B&D Doors.",
+    source:
+      "https://www.bnd.com.au/garage-door-openers/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "B&D Motor Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model on the opener's label and what it's doing — you'll get a same-day slot and a fixed, authorised-dealer price before we start.",

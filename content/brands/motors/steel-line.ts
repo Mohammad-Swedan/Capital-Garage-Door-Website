@@ -148,6 +148,15 @@ export const steelLineGarageDoorMotorsPerth: BrandPage = {
     "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
     "steel-line-garage-door-installation-baldivis-perth",
   ],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/steel-line-remotes.webp",
+    width: 1403,
+    height: 877,
+    alt: "Steel-Line garage door remote handsets — manufacturer product image",
+    caption: "Steel-Line remote handsets. Image: Steel-Line.",
+    source:
+      "https://www.steel-line.com.au/garage-door-openers/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Steel-Line Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model on the opener's head unit and what it's doing — you'll get a same-day slot and a fixed price before we start.",

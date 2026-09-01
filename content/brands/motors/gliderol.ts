@@ -14,7 +14,7 @@ export const gliderolGarageDoorMotorsPerth: BrandPage = {
   brand: "gliderol",
   kind: "motor",
   slug: "gliderol-garage-door-motors-perth",
-  updatedAt: "2026-08-28",
+  updatedAt: "2026-09-01",
   seo: {
     title: "Gliderol Garage Door Motors Perth | Repairs & Remotes",
     description:
@@ -154,6 +154,15 @@ export const gliderolGarageDoorMotorsPerth: BrandPage = {
     { label: "Gliderol garage doors Perth", href: "/gliderol-garage-doors-perth" },
   ],
   serviceAreas: ["Joondalup", "Midland", "Scarborough", "Baldivis", "Rockingham", "Canning Vale", "Cockburn Central", "Mandurah"],
+  productImage: {
+    src: "https://jadara-hub.b-cdn.net/capital-garage-door/brands/gliderol-glidermatic-motor.webp",
+    width: 419,
+    height: 568,
+    alt: "Gliderol Glidermatic roller door motor — manufacturer product image",
+    caption: "Gliderol Glidermatic roller door motor. Image: Gliderol.",
+    source:
+      "https://gliderol.com.au/motors/ — official manufacturer product image — nominative use (authorised dealer)",
+  },
   cta: {
     heading: "Gliderol Opener Playing Up? Get It Sorted Today",
     subtitle: "Tell us the model on the opener's head unit and what it's doing — you'll get a same-day slot and a fixed price before we start.",

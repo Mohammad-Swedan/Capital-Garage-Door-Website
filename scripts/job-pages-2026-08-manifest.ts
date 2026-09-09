@@ -61,6 +61,9 @@ export interface JobPage {
   crmJobId?: number;
   slug: string;
   suburb: string;
+  /** Publishable street: "Street Name, Suburb" — house/unit number STRIPPED (CRM pack
+   *  "Street (publishable)" line). Photo-only jobs (13–18) have none. */
+  location?: string;
   /** Approx. suburb centroid for the EXIF GPS tag. */
   geo: { lat: number; lng: number };
   /** Flat suburb-page slugs whose Recent-work should show this case study. */
@@ -144,6 +147,7 @@ export const JOBS: JobPage[] = [
     dir: "job 01 - JOB-20260722-001 - East Cannington",
     crmJobId: 7,
     slug: "garage-door-repairs-east-cannington-broken-springs-perth",
+    location: "Dotterel Way, East Cannington",
     suburb: "East Cannington",
     geo: { lat: -32.018, lng: 115.955 },
     wireSuburbSlugs: ["garage-door-repairs-cannington"],
@@ -246,6 +250,7 @@ export const JOBS: JobPage[] = [
     dir: "job 02 - JOB-20260804-003 - Jane Brook",
     crmJobId: 10,
     slug: "garage-door-repairs-jane-brook-snapped-cable-brackets-perth",
+    location: "Greenough Court, Jane Brook",
     suburb: "Jane Brook",
     geo: { lat: -31.87, lng: 116.06 },
     wireSuburbSlugs: ["garage-door-repairs-midland"],
@@ -367,6 +372,7 @@ export const JOBS: JobPage[] = [
     dir: "job 04 - JOB-20260804-001 - Claremont",
     crmJobId: 8,
     slug: "garage-door-repairs-claremont-opener-replacement-perth",
+    location: "Brockway Road, Claremont",
     suburb: "Claremont",
     geo: { lat: -31.981, lng: 115.781 },
     wireSuburbSlugs: [],
@@ -446,6 +452,7 @@ export const JOBS: JobPage[] = [
     dir: "job 05 - JOB-20260804-002 - Belmont",
     crmJobId: 9,
     slug: "garage-door-repairs-belmont-motor-springs-replacement-perth",
+    location: "Gardiner Street, Belmont",
     suburb: "Belmont",
     geo: { lat: -31.947, lng: 115.929 },
     wireSuburbSlugs: ["garage-door-repairs-belmont", "garage-door-repairs-lathlain"],
@@ -560,6 +567,7 @@ export const JOBS: JobPage[] = [
     dir: "job 06 - JOB-20260804-004 - Mount Pleasant",
     crmJobId: 11,
     slug: "garage-door-repairs-mount-pleasant-snapped-spring-perth",
+    location: "River View Terrace, Mount Pleasant",
     suburb: "Mount Pleasant",
     geo: { lat: -32.026, lng: 115.85 },
     wireSuburbSlugs: [],
@@ -662,6 +670,7 @@ export const JOBS: JobPage[] = [
     dir: "job 07 - JOB-20260804-005 - Byford",
     crmJobId: 12,
     slug: "garage-door-repairs-byford-roller-door-cable-off-drum-perth",
+    location: "Kokoda Boulevard, Byford",
     suburb: "Byford",
     geo: { lat: -32.221, lng: 115.995 },
     wireSuburbSlugs: ["garage-door-repairs-armadale", "garage-door-repairs-forrestdale"],
@@ -776,6 +785,7 @@ export const JOBS: JobPage[] = [
     dir: "job 08 - JOB-20260804-007 - Aveley",
     crmJobId: 14,
     slug: "garage-door-repairs-aveley-opener-replacement-perth",
+    location: "Vellum Loop, Aveley",
     suburb: "Aveley",
     geo: { lat: -31.783, lng: 115.984 },
     wireSuburbSlugs: ["garage-door-repairs-ellenbrook", "garage-door-repairs-dayton"],
@@ -888,6 +898,7 @@ export const JOBS: JobPage[] = [
     dir: "job 09 - JOB-20260804-008 - Lynwood",
     crmJobId: 15,
     slug: "garage-door-repairs-lynwood-steel-line-motor-replacement-perth",
+    location: "Nicholson Road, Lynwood",
     suburb: "Lynwood",
     geo: { lat: -32.04, lng: 115.93 },
     wireSuburbSlugs: ["garage-door-repairs-lynwood", "garage-door-repairs-riverton", "garage-door-repairs-cannington"],
@@ -996,6 +1007,7 @@ export const JOBS: JobPage[] = [
     dir: "job 10 - JOB-20260804-009 - Spearwood",
     crmJobId: 16,
     slug: "garage-door-repairs-spearwood-stuck-door-cables-brackets-perth",
+    location: "Rover Lane, Spearwood",
     suburb: "Spearwood",
     geo: { lat: -32.107, lng: 115.777 },
     wireSuburbSlugs: ["garage-door-repairs-cockburn-central", "garage-door-repairs-fremantle"],
@@ -1113,6 +1125,7 @@ export const JOBS: JobPage[] = [
     dir: "job 11 - JOB-20260804-010 - Bannett Springs",
     crmJobId: 17,
     slug: "garage-door-repairs-bennett-springs-car-impact-perth",
+    location: "Yarrow Drive, Bennett Springs",
     suburb: "Bennett Springs",
     geo: { lat: -31.876, lng: 115.943 },
     wireSuburbSlugs: ["garage-door-repairs-dayton"],
@@ -1241,6 +1254,7 @@ export const JOBS: JobPage[] = [
     dir: "job 12 - JOB-20260804-006 - Caversham",
     crmJobId: 13,
     slug: "garage-door-repairs-caversham-motor-springs-replacement-perth",
+    location: "Borah Court, Caversham",
     suburb: "Caversham",
     geo: { lat: -31.88, lng: 115.976 },
     wireSuburbSlugs: ["garage-door-repairs-dayton", "garage-door-repairs-midland"],

@@ -35,6 +35,9 @@ export interface CaseStudyPage {
   subtitle: string;
   service: string;
   suburb: string;
+  /** Publishable job location: street name + suburb, NEVER a house/unit number
+   *  (e.g. "Dotterel Way, East Cannington"). Optional — photo-only jobs have none. */
+  location?: string;
   doorType: string;
   jobType: string;
   result: string;

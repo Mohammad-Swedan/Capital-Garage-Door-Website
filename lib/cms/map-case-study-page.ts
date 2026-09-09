@@ -37,6 +37,7 @@ export function mapCaseStudyPage(dto: PageResolveDto): CaseStudyPage {
     subtitle: asString(data.subtitle),
     service: asString(data.service),
     suburb: asString(data.suburb),
+    location: asString(data.location) || undefined,
     doorType: asString(data.doorType),
     jobType: asString(data.jobType),
     result: asString(data.result),

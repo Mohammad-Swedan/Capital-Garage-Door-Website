@@ -303,6 +303,7 @@ function caseStudyData(job: JobPage) {
     subtitle: job.subtitle,
     service: job.service,
     suburb: job.suburb,
+    ...(job.location ? { location: job.location } : {}),
     doorType: job.doorType,
     jobType: job.jobType,
     result: job.result,

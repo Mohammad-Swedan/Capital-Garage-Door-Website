@@ -543,6 +543,19 @@ export function caseStudySchema(data: CaseStudyPage) {
     author: organizationRef(),
     publisher: organizationRef(),
     about: data.service,
+    // Street-level job location (street + suburb only — never a house number) for
+    // local E-E-A-T / GEO signals. Falls back to the suburb alone.
+    contentLocation: compact({
+      "@type": "Place",
+      name: data.location ?? `${data.suburb}, WA`,
+      address: compact({
+        "@type": "PostalAddress",
+        streetAddress: data.location ? data.location.split(",")[0].trim() : undefined,
+        addressLocality: data.suburb,
+        addressRegion: "WA",
+        addressCountry: "AU",
+      }),
+    }),
     mainEntityOfPage: new URL(`/case-studies/${data.slug}`, siteConfig.url).toString(),
   });
 }

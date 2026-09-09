@@ -20,7 +20,9 @@ interface CaseStudyHeroProps {
 export function CaseStudyHero({ data }: CaseStudyHeroProps) {
   const stats = [
     { icon: Wrench, label: "Service", value: data.service, path: "service" },
-    { icon: MapPin, label: "Suburb", value: data.suburb, path: "suburb" },
+    data.location
+      ? { icon: MapPin, label: "Location", value: data.location, path: "location" }
+      : { icon: MapPin, label: "Suburb", value: data.suburb, path: "suburb" },
     { icon: DoorOpen, label: "Door Type", value: data.doorType, path: "doorType" },
     { icon: Building2, label: "Job Type", value: data.jobType, path: "jobType" },
     { icon: CheckCircle2, label: "Result", value: data.result, path: "result" },

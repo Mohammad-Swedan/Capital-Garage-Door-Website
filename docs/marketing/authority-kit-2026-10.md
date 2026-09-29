@@ -39,7 +39,7 @@ Rules that keep you safe, whatever else you do:
 | # | Action | Time | Expected effect |
 |---|---|---|---|
 | 1 | Put the UTM website link on the profile (§2.1) | 5 min | Search Console starts showing exactly how many clicks the map pack sends (17–50% on comparable sites). Everything else gets measured against this. |
-| 2 | Replace the description with the provable version, fix the name, decide the hours (§2.3–2.5) | 20 min | Removes five claims the website cannot back (warranty, "flat rate", "licensed", "20+ years / 10,000 doors"). Profile and website finally agree. |
+| 2 | Replace the description with the provable version, fix the name, decide the hours (§2.3–2.5) | 20 min | Keeps only claims you can prove (warranty term, call-out fees, "licensed", "20+ years / 10,000 doors"). The **website makes the same claims** (see the callout under §2.5), so confirm the wording once and the developer updates the site to match — profile and website must say the same thing. |
 | 3 | Start the review routine: SMS after every job + QR card on the invoice (§3) | 30 min setup, 1 min per job | 15–20 new reviews a month. Pack leaders have 347–670; at 20/month you pass 347 in about 12 months. Reviews widen the radius in which you make the 3-pack. |
 | 4 | Enter 20 service areas and the priced services list (§2.6–2.7) | 45 min | Tells Google which suburbs you want to appear in and answers the "how much" question inside the pack. |
 | 5 | One post and 3–5 job photos every week (§2.8, §4) | 15 min/week | Fresh, local, price-led content on the profile; posts show in the knowledge panel and carry tracked links to the site. |
@@ -118,10 +118,20 @@ What the current description claims, and why each line is removed or changed:
 | Current claim | Problem | What replaces it |
 |---|---|---|
 | "Licensed and insured technicians" | Only say "licensed" if you can name the licence (for example an electrical licence for hard-wired motor work, or building-contractor registration) and show it on request. "Insured" is fine **only** if you hold public liability cover and can show the certificate — if so, say "public liability insured". (The website's default page description also says "Licensed, insured" — keep it on both, or take it off both, but make them match what you can prove.) | Omitted until you can name the licence / cover. |
-| "20+ years of experience and over 10,000 doors installed" | The website says neither. 10,000 doors over 20 years is 500 a year, every year — if job records prove it, keep it; if not, it is a false representation under the Australian Consumer Law, which applies to a Google profile exactly as it does to an ad. | Omitted. |
+| "20+ years of experience and over 10,000 doors installed" | The website says it too ("For over 20 years…" on the home and About pages, "Two decades and more than 10,000 doors" on About, and "Trusted by Perth homeowners for 20+ years" on most pages). 10,000 doors over 20 years is 500 a year, every year — if your records prove it, keep it on both; if not, it is a false representation under the Australian Consumer Law, which applies to a Google profile and a website exactly as it does to an ad. | Omitted until you confirm it. |
 | "Flat-rate pricing with no hidden callout fees" | Directly contradicted by the price list: prices are ranges, small parts jobs carry a **$140 attendance fee** (hinges/rollers are "$30 each + $140 call-out"), and after-hours work is **+$500**. A customer who reads both has a complaint ready-made. | "Free on-site quotes" and "after-hours surcharge applies". |
-| "Lifetime workmanship warranty" | The website's warranty page states **12-month workmanship** and **5-year motor (7 with annual servicing)**. A warranty term you don't honour is misleading, and the mismatch is visible to anyone who checks. | The real terms, word for word. |
+| "Lifetime workmanship warranty" | The website's warranty page states **12-month workmanship** and **5-year motor (7 with annual servicing)** — yet the website's own marketing copy on 9 pages also promises a "lifetime workmanship warranty". The site contradicts itself. A warranty term you don't honour is misleading, and the mismatch is visible to anyone who checks. | The real terms, word for word. |
 | "Fully stocked service vans" | Soft, but keep it honest. | "carry common springs, cables, rollers and motors" — say it only because it is true. |
+
+> **The website says these things too — decide once, fix both.** A crawl of all 169 live pages (30 Sep 2026)
+> found: "lifetime workmanship warranty" on 9 pages (home, About, services, custom, garage-doors, roller doors,
+> roller-door installation, sectional, tilt) against the warranty page's 12 months; "No hidden callout or travel
+> fees" on the home and About pages against the price list's $140 attendance fee and +$500 after-hours surcharge;
+> "20+ years" / "10,000 doors" on the home and About pages and in shared boilerplate; and "licensed" / "insured" on
+> almost every page. Tell the developer, in writing, which of these are true: (1) your real workmanship warranty
+> term, (2) whether any call-out/attendance fee applies, (3) years in business and doors installed, (4) the licence
+> and insurance you hold. The developer then makes the website match — and you paste the matching wording into the
+> profile. Until then, the profile description above only uses facts that already agree across the site.
 
 ### 2.6 Categories
 

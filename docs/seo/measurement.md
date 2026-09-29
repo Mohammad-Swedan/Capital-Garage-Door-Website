@@ -30,7 +30,12 @@ and the snapshot.
   query. They include the ~65% of clicks Search Console hides as anonymised
   queries, so never compare them with sums of query rows.
 - **clicks/day**: clicks divided by the window length.
-- **AU clicks**: the same window filtered to country = Australia.
+- **AU clicks**: the same window filtered to country = Australia. The total is
+  exact (dimensionless query), but Australia page rows are for relative
+  comparison only: Search Console drops anonymised-query clicks from page rows
+  once a country filter is applied, so the baseline's Australia page groups add
+  up to 61 of its 174 clicks (each block prints its `rows sum`); take
+  page-level click counts from the all-country rows.
 - **brand**: clicks from identifiable queries containing `capital` or `capitol`.
 - **non-brand**: clicks minus brand (includes anonymised queries).
 - **GBP-UTM (clicks / impr / pos)**: page URLs containing `utm_campaign=gbp` or

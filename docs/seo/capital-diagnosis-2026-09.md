@@ -70,5 +70,6 @@ In order of weight.
 
 - Use the `sc-domain:` property. The URL-prefix property under-reports historical windows.
 - Take totals from a dimensionless query, never by summing query rows: the query report leaves out anonymised queries (about 65% of Capital's clicks). `scripts/seo/gsc-report.py` does this.
-- Filter to Australia before judging demand. Worldwide impression spikes, like the August one, are noise.
+- Australia page rows are for relative comparison only. Search Console drops anonymised-query clicks from page rows once a country filter is applied, so the baseline's Australia page groups add up to 61 of the 174 Australian clicks. Use the all-country page rows for click counts; the Australia totals (174 clicks) come from the dimensionless query and are correct.
+- Filter to Australia before judging how much demand a query has. Worldwide impression spikes, like the August one, are noise.
 - Backlink, review-count, index-status and ranking figures in section 4 come from DataForSEO, Search Console and Google Business Profile checks in late September 2026 and were not re-measured for this document. Re-check them before quoting them as current.

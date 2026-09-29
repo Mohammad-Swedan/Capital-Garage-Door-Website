@@ -18,6 +18,14 @@ Australia alone:
 * a per-page table for the money pages in `docs/seo/tracked-pages.json`:
   clicks, impressions, position, and the position for each page's primary query.
 
+Totals are exact, but the rows under them are not: Search Console leaves
+anonymised-query clicks out of page and query rows, and once a country filter
+is combined with the page dimension it leaves out nearly all of them (the
+frozen baseline's Australia page groups add up to 61 of its 174 clicks). Every
+rows-based block therefore prints, and the snapshot stores as `rows_sum`, the
+clicks its rows add up to beside the exact total. Treat Australia rows as
+relative comparisons only; take click counts from the all-country rows.
+
 Writes a full snapshot to `docs/seo/gsc-snapshots/<label>.json` and appends one
 summary row to `docs/seo/measurement.md` (re-running a label replaces its row),
 unless `--no-write` is given.
@@ -62,6 +70,10 @@ BRAND_RE = re.compile(r"capital|capitol", re.I)
 # Page URLs carrying either marker are the Google Business Profile website
 # link (owner adds ?utm_source=google&utm_medium=organic&utm_campaign=gbp).
 GBP_MARKERS = ("utm_campaign=gbp", "utm_source=google")
+
+# If the page rows add up to less than this share of the exact total clicks
+# (Australia's do: about 35%), the printout warns under every rows-based block.
+LOW_COVERAGE = 0.9
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent.parent
@@ -385,6 +397,23 @@ def tracked_report(tracked: list[dict], page_rows: list[dict], pair_rows: list[d
     return report
 
 
+def rows_sums(win: dict) -> dict:
+    """Clicks summed over the rows of each rows-based block, to set beside `totals.clicks`.
+
+    `totals` (dimensionless query) is exact; page and query rows can add up to
+    less, because Search Console leaves anonymised-query clicks out of them -
+    nearly all of them once a country filter is combined with the page
+    dimension. Derived only from the window's own blocks, so it can be
+    recomputed for a snapshot that predates it.
+    """
+    return {
+        "page_groups": sum(g["clicks"] for g in win["page_groups"].values()),
+        "top_pages": sum(p["clicks"] for p in win["top_pages"]),
+        "tracked_pages": sum(t["clicks"] for t in win["tracked_pages"]),
+        "top_queries": sum(q["clicks"] for q in win["top_queries"]),
+    }
+
+
 def build_window(svc, start: str, end: str, aus_only: bool, tracked: list[dict]) -> dict:
     total = property_totals(svc, start, end, aus_only)
     daily_rows = query(svc, start, end, ["date"], aus_only=aus_only)
@@ -408,7 +437,7 @@ def build_window(svc, start: str, end: str, aus_only: bool, tracked: list[dict])
         key=lambda r: (-r["clicks"], -r["impressions"]),
     )[:50]
 
-    return {
+    win = {
         "totals": total,
         "daily": daily,
         "page_groups": group_by_page(page_rows),
@@ -418,6 +447,8 @@ def build_window(svc, start: str, end: str, aus_only: bool, tracked: list[dict])
         "gbp": gbp_line(page_rows),
         "tracked_pages": tracked_report(tracked, page_rows, pair_rows),
     }
+    win["rows_sum"] = rows_sums(win)
+    return win
 
 
 # --- output -----------------------------------------------------------------
@@ -427,6 +458,23 @@ def fmt_pos(p) -> str:
     return "-" if p is None else f"{p:.1f}"
 
 
+def print_rows_sum(win: dict, block: str, what: str) -> None:
+    """Under a rows-based block: the clicks its rows add up to, beside the exact total.
+
+    Warns when the page rows cover under LOW_COVERAGE of the total (the
+    Australia window), because the block's numbers are then only good for
+    comparing rows with each other.
+    """
+    total = win["totals"]["clicks"]
+    rs = win.get("rows_sum") or rows_sums(win)  # a snapshot older than rows_sum has none
+    share = f"{rs[block] / total:.0%}; " if total else ""
+    warn = ""
+    if block != "top_queries" and total and rs["page_groups"] < LOW_COVERAGE * total:
+        warn = ("  <- Search Console left anonymised-query clicks out of these rows: "
+                "compare rows with each other, not with the total")
+    print(f"  rows sum {rs[block]} of {total} total clicks ({share}{what}){warn}")
+
+
 def print_groups(title: str, win: dict) -> None:
     total = win["totals"]["clicks"]
     print(f"-- {title} --")
@@ -434,6 +482,7 @@ def print_groups(title: str, win: dict) -> None:
         share = f"{v['clicks'] / total:>4.0%}" if total else "   -"
         print(f"  {g:<11} clicks={v['clicks']:<5} {share}  impressions={v['impressions']:<7} "
               f"position={fmt_pos(v['position'])}")
+    print_rows_sum(win, "page_groups", "all page rows")
     print()
 
 
@@ -478,16 +527,19 @@ def print_report(label: str, start: str, end: str, days: int, all_win: dict, aus
             note = f"  [most impressions for it: {rival['page']}, pos {fmt_pos(rival['position'])}]" if rival else ""
             print(f"  {r['clicks']:>6} {r['impressions']:>7} {fmt_pos(r['position']):>6} "
                   f"{fmt_pos(pq['position']):>6} {pq['impressions']:>6}  {r['path']:<44} {pq['query']}{note}")
+        print_rows_sum(all_win, "tracked_pages", f"{len(all_win['tracked_pages'])} tracked pages")
         print()
 
     print("-- Top 25 pages (all countries) --")
     for p in all_win["top_pages"]:
         print(f"  {p['clicks']:<5} clicks  {p['impressions']:<7} imp  pos {p['position']:<6} "
               f"{p['group']:<10} {p['page']}")
+    print_rows_sum(all_win, "top_pages", f"top {len(all_win['top_pages'])} pages")
 
     print("\n-- Top 50 queries (all countries; identifiable queries only) --")
     for q in all_win["top_queries"]:
         print(f"  {q['clicks']:<5} clicks  {q['impressions']:<7} imp  pos {q['position']:<6} {q['query']}")
+    print_rows_sum(all_win, "top_queries", f"top {len(all_win['top_queries'])} identifiable queries")
     print()
 
 
@@ -536,7 +588,12 @@ and the snapshot.
   query. They include the ~65% of clicks Search Console hides as anonymised
   queries, so never compare them with sums of query rows.
 - **clicks/day**: clicks divided by the window length.
-- **AU clicks**: the same window filtered to country = Australia.
+- **AU clicks**: the same window filtered to country = Australia. The total is
+  exact (dimensionless query), but Australia page rows are for relative
+  comparison only: Search Console drops anonymised-query clicks from page rows
+  once a country filter is applied, so the baseline's Australia page groups add
+  up to 61 of its 174 clicks (each block prints its `rows sum`); take
+  page-level click counts from the all-country rows.
 - **brand**: clicks from identifiable queries containing `capital` or `capitol`.
 - **non-brand**: clicks minus brand (includes anonymised queries).
 - **GBP-UTM (clicks / impr / pos)**: page URLs containing `utm_campaign=gbp` or

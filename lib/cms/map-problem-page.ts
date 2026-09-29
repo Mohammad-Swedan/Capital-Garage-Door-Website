@@ -1,5 +1,6 @@
 import type { Problem } from "@/types";
 import type { PageResolveDto } from "@/lib/cms/client";
+import { formatCatalogPrice } from "@/lib/brands/pricing";
 
 function asString(v: unknown, fallback = ""): string {
   return typeof v === "string" ? v : fallback;
@@ -7,14 +8,6 @@ function asString(v: unknown, fallback = ""): string {
 
 function asArray<T = unknown>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
-}
-
-/** Indicative price column for a problem cost row, derived from the relational pricing row. */
-function priceRange(row: PageResolveDto["pricingRows"][number]): string {
-  if (row.priceLabel) return row.priceLabel;
-  if (row.priceMin != null && row.priceMax != null) return `$${row.priceMin}–$${row.priceMax}`;
-  if (row.priceMin != null) return `From $${row.priceMin}`;
-  return "";
 }
 
 /** A related-service link only carries a label + href in the resolve payload; derive the slug from the href. */
@@ -56,7 +49,8 @@ export function mapProblemPage(dto: PageResolveDto): Problem {
     })),
     costRows: dto.pricingRows.map((r) => ({
       scenario: r.scenario,
-      priceRange: priceRange(r),
+      // Indicative price column, derived from the relational pricing row.
+      priceRange: formatCatalogPrice(r),
       note: r.note ?? undefined,
     })),
     emergency: {

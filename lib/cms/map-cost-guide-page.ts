@@ -5,6 +5,7 @@ import type {
   CostGuideStep,
 } from "@/types/cost-guide";
 import type { PageResolveDto } from "@/lib/cms/client";
+import { formatCatalogPrice } from "@/lib/brands/pricing";
 
 function asString(v: unknown, fallback = ""): string {
   return typeof v === "string" ? v : fallback;
@@ -12,14 +13,6 @@ function asString(v: unknown, fallback = ""): string {
 
 function asArray<T = unknown>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
-}
-
-/** Indicative price column for a cost-guide row, derived from the relational pricing row. */
-function priceRange(row: PageResolveDto["pricingRows"][number]): string | undefined {
-  if (row.priceLabel) return row.priceLabel;
-  if (row.priceMin != null && row.priceMax != null) return `$${row.priceMin}–$${row.priceMax}`;
-  if (row.priceMin != null) return `From $${row.priceMin}`;
-  return undefined;
 }
 
 /**
@@ -55,7 +48,12 @@ export function mapCostGuidePage(dto: PageResolveDto): CostGuidePage {
         includes: r.includes ?? "",
         costFactors: r.costFactors ?? "",
         nextStep: r.nextStep ?? "",
-        priceRange: priceRange(r),
+        // Indicative price column (undefined = no price, so the column can hide).
+        priceRange: formatCatalogPrice(r) || undefined,
+        // The catalog numbers behind it, for the JSON-LD Offer — never re-parsed from the label.
+        // The live payload omits null fields, so absent bounds are normalised to null.
+        priceMin: r.priceMin ?? null,
+        priceMax: r.priceMax ?? null,
       })),
     },
     factors: {

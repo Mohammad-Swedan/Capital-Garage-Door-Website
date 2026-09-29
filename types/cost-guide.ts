@@ -12,6 +12,13 @@ export interface CostGuideRow {
   nextStep: string;
   /** Optional indicative price — column only renders if any row in the table supplies one. */
   priceRange?: string;
+  /**
+   * The catalog numbers behind `priceRange` (CMS pricing row), used for the JSON-LD Offer so a
+   * label such as "$95 each + $120 to attend & program" is never parsed into a range. Null when the
+   * row is label-only; absent on rows without catalog data (the Offer then parses `priceRange`).
+   */
+  priceMin?: number | null;
+  priceMax?: number | null;
 }
 
 export interface CostGuideTableData {

@@ -400,38 +400,52 @@ export function costGuideSchema(data: CostGuidePage) {
  * Offers (priceCurrency AUD). Rows without a `priceRange` are skipped. Returns
  * undefined when no row has a price (so the `offers` key is omitted entirely).
  *
- * Price strings like "$220–$450" / "From $180" are parsed into a numeric
- * `priceSpecification` (min/max) where possible; the human label is preserved
- * in the Offer `description` so the markup never loses the original wording.
+ * The numeric `priceSpecification` comes from the row's catalog numbers
+ * (`priceMin`/`priceMax`) when it has any; only a row without numbers (local
+ * content) falls back to parsing the label, and per-unit or surcharge labels
+ * ("$95 each + $120 …", "+$500") get no priceSpecification at all. The human
+ * label is kept in the Offer `description`, so the original wording survives.
  */
 export function costGuideOffers(data: CostGuidePage) {
   const offers = data.costTable.rows
     .filter((row) => row.priceRange && row.priceRange.trim().length > 0)
     .map((row) => {
-      const parsed = parsePriceRange(row.priceRange!);
+      const bounds =
+        row.priceMin != null || row.priceMax != null
+          ? { min: row.priceMin ?? undefined, max: row.priceMax ?? undefined }
+          : parsePriceRange(row.priceRange!);
       return compact({
         "@type": "Offer",
         name: row.repairType,
         description: row.priceRange,
         priceCurrency: "AUD",
         availability: "https://schema.org/InStock",
-        ...(parsed
-          ? {
-              priceSpecification: compact({
-                "@type": "PriceSpecification",
-                priceCurrency: "AUD",
-                minPrice: parsed.min,
-                maxPrice: parsed.max,
-              }),
-            }
-          : {}),
+        ...(bounds ? { priceSpecification: priceSpecification(bounds) } : {}),
       });
     });
   return offers.length > 0 ? offers : undefined;
 }
 
-/** Parse "$220–$450", "$180 - $300", "From $180", "$250" into numeric min/max. */
+/**
+ * An AUD PriceSpecification from numeric bounds: a single `price` when
+ * min === max, otherwise `minPrice`/`maxPrice` (either may be absent for an
+ * open-ended price).
+ */
+function priceSpecification({ min, max }: { min?: number; max?: number }) {
+  return compact({
+    "@type": "PriceSpecification",
+    priceCurrency: "AUD",
+    ...(min != null && min === max ? { price: min } : { minPrice: min, maxPrice: max }),
+  });
+}
+
+/**
+ * Parse "$220–$450", "$180 - $300", "From $180", "$250" into numeric min/max.
+ * Per-unit and surcharge labels ("$95 each + $120 to attend & program",
+ * "+$500", "From $140 + parts") are not a price range and return null.
+ */
 function parsePriceRange(label: string): { min?: number; max?: number } | null {
+  if (/\beach\b|\+/i.test(label)) return null;
   const nums = (label.match(/\d[\d,]*/g) ?? []).map((n) => Number(n.replace(/,/g, "")));
   if (nums.length === 0) return null;
   if (nums.length === 1) {

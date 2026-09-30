@@ -250,7 +250,7 @@ async function main() {
   }
 
   // ---- 2. Report (dry run) or write (--apply) ----
-  const counts = { updated: 0, skipped: 0, failed: 0, warnings: 0, priceRows: 0, reviews: 0, priceRowPages: 0, reviewPages: 0 };
+  const counts = { updated: 0, unverified: 0, skipped: 0, failed: 0, warnings: 0, priceRows: 0, reviews: 0, priceRowPages: 0, reviewPages: 0 };
   const tally = (plan: PagePinPlan) => {
     counts.updated++;
     counts.priceRows += plan.priceRows.length;
@@ -276,19 +276,28 @@ async function main() {
       tally(plan);
       continue;
     }
+    // A failed PUT means nothing was written: count it as failed. Once the PUT succeeds the page IS
+    // updated, so a failed re-read or a diff counts as "written but verification failed", never as
+    // failed too: one page must not appear under both headings in the summary.
     try {
       await api(`/api/admin/pages/${page.id}`, { method: "PUT", body: JSON.stringify(buildUpdateBody(page, plan)) });
-      logPlan("[applied]", plan);
-      tally(plan);
-      const problems = diffPageState(page, await api<AdminPage>(`/api/admin/pages/${page.id}`), plan);
-      if (problems.length === 0) console.log("      ✓ re-read after the write: page and children intact");
-      else {
-        counts.failed++;
-        for (const p of problems) console.error(`      ✗ post-write check: ${p}`);
-      }
     } catch (e) {
       counts.failed++;
-      console.error(`[FAILED] ${slug}: ${e instanceof Error ? e.message : e}`);
+      console.error(`[FAILED] ${slug}: write failed, nothing changed: ${e instanceof Error ? e.message : e}`);
+      continue;
+    }
+    logPlan("[applied]", plan);
+    tally(plan);
+    let problems: string[];
+    try {
+      problems = diffPageState(page, await api<AdminPage>(`/api/admin/pages/${page.id}`), plan);
+    } catch (e) {
+      problems = [`re-read failed: ${e instanceof Error ? e.message : e}`];
+    }
+    if (problems.length === 0) console.log("      ✓ re-read after the write: page and children intact");
+    else {
+      counts.unverified++;
+      for (const p of problems) console.error(`      ! written but verification failed: ${p}`);
     }
   }
 
@@ -297,13 +306,16 @@ async function main() {
   const pages = (n: number) => `${n} page${n === 1 ? "" : "s"}`;
   console.log(
     `\nSummary${apply ? "" : " (DRY RUN — nothing was written)"}: ${pages(targets.length)} targeted, ` +
-      `${counts.updated} ${apply ? "updated" : "to update"}, ${counts.skipped} skipped (nothing to add), ${counts.failed} failed.`,
+      `${counts.updated} ${apply ? "updated" : "to update"}, ${counts.skipped} skipped (nothing to add), ${counts.failed} failed (nothing written).`,
   );
+  if (counts.unverified > 0) {
+    console.log(`  written but verification failed: ${pages(counts.unverified)} (counted as updated; check them in /admin)`);
+  }
   console.log(`  price rows ${verb}: ${counts.priceRows} across ${pages(counts.priceRowPages)}`);
   console.log(`  reviews ${verb}: ${counts.reviews} across ${pages(counts.reviewPages)}`);
   if (counts.warnings > 0) console.log(`  warnings: ${counts.warnings} catalog scenario(s) missing, pin(s) skipped`);
   if (!apply && counts.updated > 0) console.log("Re-run with --apply to write these changes.");
-  if (counts.failed > 0) process.exitCode = 1;
+  if (counts.failed > 0 || counts.unverified > 0) process.exitCode = 1;
 }
 
 main().catch((e) => {

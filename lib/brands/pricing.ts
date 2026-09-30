@@ -4,7 +4,13 @@ import {
   type CmsSeedRow,
 } from "@/components/sections/smart-calculator/pricing-data";
 import type { CmsPublicPricingItem } from "@/lib/cms/pricing-client";
+import { formatRange } from "@/lib/pricing/format";
 import type { CostGuidanceRow } from "@/types";
+
+// The formatters live in the import-free lib/pricing/format.ts; re-exported so server imports from
+// here keep working. Client components must import lib/pricing/format directly: this module pulls
+// in pricing-data.ts and its private notes.
+export { formatAud, formatCatalogPrice, formatRange } from "@/lib/pricing/format";
 
 export interface ResolvedPriceRow extends CostGuidanceRow {
   /**
@@ -27,31 +33,6 @@ export interface ResolvedPriceRow extends CostGuidanceRow {
 }
 
 const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
-
-/** Whole-dollar AUD with en-AU thousands grouping: 3000 → "$3,000". */
-export function formatAud(n: number): string {
-  return `$${n.toLocaleString("en-AU")}`;
-}
-
-export function formatRange(min: number, max: number): string {
-  return min === max ? formatAud(min) : `${formatAud(min)}–${formatAud(max)}`;
-}
-
-/**
- * The display price of a CMS pricing row (a pinned page row or a catalog item): its authored label
- * when it has one ("From $140 + parts", "+$500"), else the range ("$3,000–$5,000"; a single price
- * when min === max), else "From $<min>" for an open-ended row, else "".
- */
-export function formatCatalogPrice(row: {
-  priceMin?: number | null;
-  priceMax?: number | null;
-  priceLabel?: string | null;
-}): string {
-  if (row.priceLabel && row.priceLabel.trim()) return row.priceLabel;
-  if (row.priceMin != null && row.priceMax != null) return formatRange(row.priceMin, row.priceMax);
-  if (row.priceMin != null) return `From ${formatAud(row.priceMin)}`;
-  return "";
-}
 
 /**
  * Pins → guide-price rows. The baked pricing-data.ts entry is the fallback; a live catalog row

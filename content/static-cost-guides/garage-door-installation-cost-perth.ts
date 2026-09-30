@@ -133,7 +133,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
         icon: "Truck",
         title: "Old door, access & making good",
         description:
-          "Removing the old door is part of a standard install. Tight access, an opening that isn't square, or a frame or brickwork that needs making good once the old door is out can add time and materials.",
+          "Removing the old door is part of a standard install. Tight access, an out-of-square opening, or framing or brickwork that needs repair once it's exposed can add time and materials.",
       },
       {
         icon: "Building2",
@@ -151,25 +151,25 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
         icon: "RefreshCw",
         title: "Replacing an old tilt door with a sectional",
         mayAffectQuote:
-          "It depends most on headroom for the tracks and the state of the frame once the tilt door is off. A standard sectional sits within the {{price:new-standard}} range installed; if the tilt door is still sound, a new arms kit with springs ({{price:tilt-arms-kit}}) may be all it needs.",
+          "It depends most on headroom for the tracks and the state of the frame once the tilt door is off. A standard sectional sits within the {{price:new-standard}} range installed. If the tilt door itself is in good shape, fresh arms and springs ({{price:tilt-arms-kit}}) could keep it working instead.",
       },
       {
         icon: "DoorOpen",
         title: "Swapping a worn roller door",
         mayAffectQuote:
-          "Width, colour and whether your existing motor suits the new door all play a part. Most standard roller doors fall within {{price:new-standard}}, including removal of the old one. If it has jammed and the garage can't be locked, an after-hours visit to secure it is charged extra ({{price:after-hours}}).",
+          "Width, colour and whether your existing motor suits the new door all play a part. Our standard supply-and-install range of {{price:new-standard}} covers a standard-size door, including removal of the old one. If the old door has jammed and the garage can't be locked, an after-hours visit to secure it is charged extra ({{price:after-hours}}).",
       },
       {
         icon: "Home",
         title: "A new build or renovation opening",
         mayAffectQuote:
-          "We measure once the opening is built and its finished size is known. Rendering around a door you're keeping? Taking it down and refitting it is {{price:roller-reinstall}} for a roller door or {{price:sectional-reinstall}} for a sectional.",
+          "We measure once the opening is built and its finished size is known. If you're keeping your current door while the walls are rendered, we can take it down first and put it back up afterwards: {{price:roller-reinstall}} on a roller door, {{price:sectional-reinstall}} on a sectional.",
       },
       {
         icon: "Cpu",
         title: "Adding a motor at the same time",
         mayAffectQuote:
-          "Fitting the opener on installation day saves a second visit, and {{price:motor-replace}} covers the motor, programming and remotes. The door's weight decides the model: heavy or insulated doors may need the stronger Capital 1500N.",
+          "Having the opener fitted on installation day means one visit instead of two, and {{price:motor-replace}} covers the motor, programming and remotes. On a sectional door, its weight decides the model: a heavy or insulated sectional may need the stronger Capital 1500N. A roller door needs its own type of opener.",
       },
     ],
   },
@@ -181,7 +181,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
     repairWhen: [
       "The fault is one worn part, such as a spring, cable or roller",
       "The panels or roller curtain are straight, with no rust coming through",
-      "A tilt door is sound but its arms and springs are tired: a new kit is {{price:tilt-arms-kit}}",
+      "A tilt door is solid but its arms and springs are worn: a replacement kit is {{price:tilt-arms-kit}}",
       "Parts for your door and opener are still easy to get",
     ],
     replaceWhen: [
@@ -217,7 +217,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
         icon: "Wrench",
         title: "Installation day",
         description:
-          "The old door comes out and the new door, tracks and hardware go in. Then we balance the door and program any motor and remotes.",
+          "We take the old door down and install the new one on fresh tracks and hardware, then balance it and program any motor and remotes.",
       },
       {
         icon: "ShieldCheck",
@@ -268,7 +268,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
     {
       name: "Garage Door Motors Perth",
       href: "/garage-door-motors-perth",
-      description: "Our own Capital 1100N and 1500N openers, fitted and programmed alongside a new door.",
+      description: "Our own Capital 1100N and 1500N sectional-door openers, fitted and programmed alongside a new door.",
       icon: "Cpu",
     },
     {
@@ -295,7 +295,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
     {
       question: "How much does it cost to install a garage door in Perth?",
       answer:
-        "A standard garage door costs {{price:new-standard}} supplied and installed in Perth, and that covers removing your old door plus new tracks and hardware. Custom and commercial doors are priced to the opening and specification, usually {{price:new-custom}}. Door type, opening size, material and whether you add a motor decide where your price lands, and we confirm the figure in a fixed written quote after measuring on site.",
+        "A standard garage door costs {{price:new-standard}} supplied and installed in Perth, and that covers removing your old door plus new tracks and hardware. Door type, opening size and material decide where your door lands in that range; a motor adds {{price:motor-replace}}. A custom or commercial door is priced to its opening and specification, usually {{price:new-custom}}. We confirm the figure in a fixed written quote after measuring on site.",
     },
     {
       question: "How much does it cost to replace a garage door?",
@@ -305,7 +305,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
     {
       question: "How much is a double garage door?",
       answer:
-        "Most standard double doors fall within our {{price:new-standard}} supply-and-install range, and a double generally sits higher in that range than a single. The extra width means more material, stronger springs and, if you want it automated, a motor sized to the weight. Insulated panels, premium finishes or an oversized opening can move it into custom pricing ({{price:new-custom}}), so we measure before we quote a figure.",
+        "Most standard double doors fall within our {{price:new-standard}} supply-and-install range, and a double generally sits higher in that range than a single. The extra width means more material, stronger springs and, if you want it automated, a motor sized to the weight. Insulated panels, premium finishes or an oversized opening can move it into custom pricing, typically {{price:new-custom}}, so we measure before we quote a figure.",
     },
     {
       question: "Is removal of my old door included?",
@@ -315,7 +315,7 @@ export const garageDoorInstallationCostPerth: StaticCostGuideSource = {
     {
       question: "How much is a new door with a motor?",
       answer:
-        "To budget for both, add the two prices from our list: {{price:new-standard}} for a standard door and {{price:motor-replace}} for a motor supplied, installed and programmed with remotes. Doing both in one visit saves a second trip and lets us size the opener to the door you choose; heavier insulated doors may need the Capital 1500N rather than the 1100N. Keeping a compatible opener you already have? WiFi control can be added for {{price:wifi}}.",
+        "To budget for both, add the two prices from our list: {{price:new-standard}} for a standard door and {{price:motor-replace}} for a motor supplied, installed and programmed with remotes. Fitting them together lets us match the opener to the door you choose: a heavy insulated sectional may call for the Capital 1500N rather than the 1100N, while a roller door takes a roller-door opener. Keeping an opener you already have? If it's compatible, WiFi control can be added for {{price:wifi}}.",
     },
     {
       question: "How long does installation take?",

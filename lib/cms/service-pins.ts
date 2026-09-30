@@ -262,19 +262,21 @@ export interface AdminPage {
   noIndex: boolean;
   seoTitle: string;
   seoDescription: string;
-  heroImageAssetId: number | null;
-  socialImageAssetId: number | null;
+  // The admin API serialises with NullValueHandling.Ignore: a null field comes back as an ABSENT
+  // key, so every nullable field here may be missing (undefined) on a page read back from it.
+  heroImageAssetId?: number | null;
+  socialImageAssetId?: number | null;
   data: Record<string, unknown>;
-  faqs: { id: number; question: string; answer: string; sortOrder: number; faqItemId: number | null }[];
+  faqs: { id: number; question: string; answer: string; sortOrder: number; faqItemId?: number | null }[];
   relatedLinks: {
     id: number;
-    targetPageId: number | null;
-    staticHref: string | null;
-    labelOverride: string | null;
+    targetPageId?: number | null;
+    staticHref?: string | null;
+    labelOverride?: string | null;
     linkGroup: string;
     sortOrder: number;
   }[];
-  pricingRows: { pricingItemId: number; sortOrder: number; noteOverride: string | null }[];
+  pricingRows: { pricingItemId: number; sortOrder: number; noteOverride?: string | null }[];
   reviews: { reviewId: number; sortOrder: number }[];
   services: { serviceId: number; sortOrder: number }[];
 }
@@ -357,24 +359,26 @@ export function planPagePins(
 
 // The update endpoint replaces EVERY child collection with what the body carries, so each one is
 // rebuilt from the page it read. Server-only fields (child ids, hero asset expansion, dates) are
-// left out.
+// left out. Every nullable field is normalised with `?? null`: the admin API omits null keys when
+// it serialises, so a row read back after the write lacks keys the body sent as null, and without
+// the normalisation the post-write diff would report that as drift.
 const faqBody = (f: AdminPage["faqs"][number]) => ({
   question: f.question,
   answer: f.answer,
   sortOrder: f.sortOrder,
-  faqItemId: f.faqItemId,
+  faqItemId: f.faqItemId ?? null,
 });
 const linkBody = (l: AdminPage["relatedLinks"][number]) => ({
-  targetPageId: l.targetPageId,
-  staticHref: l.staticHref,
-  labelOverride: l.labelOverride,
+  targetPageId: l.targetPageId ?? null,
+  staticHref: l.staticHref ?? null,
+  labelOverride: l.labelOverride ?? null,
   linkGroup: l.linkGroup,
   sortOrder: l.sortOrder,
 });
-const priceBody = (r: { pricingItemId: number; sortOrder: number; noteOverride: string | null }) => ({
+const priceBody = (r: { pricingItemId: number; sortOrder: number; noteOverride?: string | null }) => ({
   pricingItemId: r.pricingItemId,
   sortOrder: r.sortOrder,
-  noteOverride: r.noteOverride,
+  noteOverride: r.noteOverride ?? null,
 });
 const reviewBody = (r: { reviewId: number; sortOrder: number }) => ({
   reviewId: r.reviewId,
@@ -400,8 +404,8 @@ export function buildUpdateBody(page: AdminPage, plan: Pick<PagePinPlan, "priceR
     seoDescription: page.seoDescription,
     noIndex: page.noIndex,
     status: page.status,
-    heroImageAssetId: page.heroImageAssetId,
-    socialImageAssetId: page.socialImageAssetId,
+    heroImageAssetId: page.heroImageAssetId ?? null,
+    socialImageAssetId: page.socialImageAssetId ?? null,
     data: page.data,
     faqs: page.faqs.map(faqBody),
     relatedLinks: page.relatedLinks.map(linkBody),
@@ -423,7 +427,9 @@ function canonicalJson(value: unknown): string {
 /**
  * Compares the page as re-read after the write (`after`) with the page as read before (`before`)
  * plus the plan's pins. Returns one message per difference; an empty list means the write kept
- * everything intact. Child ids, ordering and JSON key order are ignored.
+ * everything intact. Child ids, ordering and JSON key order are ignored, and an absent key equals
+ * null (the admin API omits null fields, so a pin sent with `noteOverride: null` reads back without
+ * the key).
  */
 export function diffPageState(
   before: AdminPage,
@@ -443,7 +449,8 @@ export function diffPageState(
     "heroImageAssetId",
     "socialImageAssetId",
   ] as const) {
-    if (before[key] !== after[key]) {
+    // Absent and null are the same value (the admin API drops null keys when it serialises).
+    if ((before[key] ?? null) !== (after[key] ?? null)) {
       problems.push(`${key} changed: ${JSON.stringify(before[key])} -> ${JSON.stringify(after[key])}`);
     }
   }

@@ -1,6 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { join, relative, sep } from "node:path";
 import {
   buildPricingRows,
   formatAud,
@@ -10,6 +12,7 @@ import {
   renderPriceTokens,
   resolvePriceRows,
 } from "../pricing";
+import * as priceFormat from "../../pricing/format";
 import {
   PRICING_BY_ID,
   PRICING_SCENARIOS,
@@ -444,6 +447,54 @@ test("guide-links.ts has no imports (the admin editor loads it in the browser)",
   assert.doesNotMatch(src, /^\s*import\b/m);
   assert.doesNotMatch(src, /\bfrom\s+["']/);
   assert.doesNotMatch(src, /\brequire\s*\(/);
+});
+
+/* ------------------------------------------------------------------ *
+ * lib/pricing/format.ts — the client-safe formatters
+ * ------------------------------------------------------------------ */
+
+test("format.ts has no imports (the editor primitives ship it in every public page's JS)", () => {
+  const src = readFileSync(new URL("../../pricing/format.ts", import.meta.url), "utf8");
+  assert.doesNotMatch(src, /^\s*import\b/m);
+  assert.doesNotMatch(src, /\bfrom\s+["']/);
+  assert.doesNotMatch(src, /\brequire\s*\(/);
+});
+
+test("lib/brands/pricing re-exports the format.ts functions unchanged", () => {
+  assert.equal(formatAud, priceFormat.formatAud);
+  assert.equal(formatRange, priceFormat.formatRange);
+  assert.equal(formatCatalogPrice, priceFormat.formatCatalogPrice);
+});
+
+test("no client component outside the calculator imports lib/brands/pricing or pricing-data", () => {
+  // lib/brands/pricing.ts imports pricing-data.ts, whose private `internalNote` market figures must
+  // never reach the browser. A "use client" file that imports either module ships them to every
+  // page it renders on; the admin editor primitives (components/admin/editor/editable.tsx) render
+  // on most public pages, so admin files are scanned too. Type-only imports are erased, so they
+  // are allowed. The calculator's own folder is the one pre-existing exception: it loads as its own
+  // lazy chunk (next/dynamic) or on /calculator.
+  const root = fileURLToPath(new URL("../../../", import.meta.url));
+  const allowed = ["components/sections/smart-calculator/"];
+  const offenders: string[] = [];
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (/\.tsx?$/.test(entry.name)) {
+        const path = relative(root, full).split(sep).join("/");
+        if (allowed.some((prefix) => path.startsWith(prefix))) continue;
+        const src = readFileSync(full, "utf8");
+        if (!/^\s*["']use client["']/.test(src)) continue;
+        for (const m of src.matchAll(/^\s*(?:import|export)\s+(type\s+)?[^;]*?from\s*["']([^"']+)["']/gm)) {
+          if (m[1]) continue;
+          if (/(^|\/)brands\/pricing$|smart-calculator\/pricing-data$/.test(m[2])) offenders.push(`${path} → ${m[2]}`);
+        }
+      }
+    }
+  };
+  walk(join(root, "components"));
+  walk(join(root, "app"));
+  assert.deepEqual(offenders, []);
 });
 
 /* ------------------------------------------------------------------ *

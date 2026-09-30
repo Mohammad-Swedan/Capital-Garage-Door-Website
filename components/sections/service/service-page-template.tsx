@@ -18,6 +18,7 @@ import { ServiceQuoteForm } from "@/components/sections/service/quote-form";
 import { ServiceContactPanel } from "@/components/sections/service/service-contact-panel";
 import { RecentWork } from "@/components/page/recent-work";
 import { priceLinksFor } from "@/lib/pricing/guide-links";
+import { serviceShortName } from "@/lib/utils";
 import type { ServicePage } from "@/types/service-page";
 import type { CaseStudyPage } from "@/types/case-study";
 
@@ -69,7 +70,7 @@ export function ServicePageTemplate({ data, areaLinks, caseStudies = [] }: Servi
 
       <RecentWork
         eyebrow="Recent work"
-        title={`Recent Jobs — ${data.serviceName}`}
+        title={`Recent ${serviceShortName(data.serviceName)} Jobs in Perth`}
         description="Real completed jobs from around Perth — tap through for the photos and the full story."
         caseStudies={caseStudies}
       />

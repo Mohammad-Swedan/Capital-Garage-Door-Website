@@ -50,7 +50,7 @@ Source: GA4 property 544287277, Organic Search only, 2026-08-02 to 2026-09-28, 5
 
 In order of weight.
 
-1. **Authority ceiling.** DataForSEO counts 19 backlinks from 19 referring domains, a spam score of 60, only one `.com.au`, and 0 live citations. Local page-one competitors have 59 to 211 referring domains (for example perthgaragedoorsrepairs.com.au 106, edenrocgaragedoors.com.au 211, slideandglide.com.au 108). As a result:
+1. **Authority ceiling.** DataForSEO counts 19 backlinks from 19 referring domains, a spam score of 60, only one `.com.au`, and 0 live citations. Local page-one competitors have 59 to 211 referring domains (for example edenrocgaragedoors.com.au 211, slideandglide.com.au 108, and a leading local competitor with about 106). As a result:
    - Every competitive term sits on pages 2 to 5: the repairs cluster at about position 21, the emergency page 32, installation 52, commercial 41, and "garage doors perth" 37.
    - The home page outranks the dedicated pages: repairs 21 against 62, emergency 9 against 32.
    - Indexing is incomplete: 146 of 169 URLs are indexed. Recent suburb pages, case studies and 3 how-to posts are unknown or not indexed.

@@ -87,7 +87,10 @@ export function mergeCostGuideCards(cmsGuides: CostGuidePage[], staticGuides: Co
  */
 export async function getCostGuideCards(): Promise<CostGuideCard[]> {
   const [cmsGuides, staticGuides] = await Promise.all([
-    getCostGuidePages().catch((): CostGuidePage[] => []),
+    getCostGuidePages().catch((error: unknown): CostGuidePage[] => {
+      console.warn("[cost-guides] CMS cost guides unavailable; the hub lists the static guides only.", error);
+      return [];
+    }),
     getStaticCostGuides(),
   ]);
   return mergeCostGuideCards(cmsGuides, staticGuides);

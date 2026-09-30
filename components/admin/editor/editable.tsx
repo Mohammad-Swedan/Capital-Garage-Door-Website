@@ -14,8 +14,10 @@ import { ChevronDown, ChevronUp, ImageIcon, Plus, Trash2, X } from "lucide-react
 import { cn } from "@/lib/utils";
 import { iconMap, resolveIcon } from "@/lib/icons";
 // Same formatter the public mappers use, so a pinned row reads "$3,000–$5,000" (not "$3000–$5000")
-// in the editor too. Client-safe: its only value import is the calculator's plain pricing data.
-import { formatCatalogPrice } from "@/lib/brands/pricing";
+// in the editor too. Import it from the import-free lib/pricing/format, never lib/brands/pricing:
+// this file ships in every public page's JS, and lib/brands/pricing pulls in pricing-data.ts with
+// its private internal notes.
+import { formatCatalogPrice } from "@/lib/pricing/format";
 import { useEditable } from "./editable-context";
 import {
   CatalogPicker,

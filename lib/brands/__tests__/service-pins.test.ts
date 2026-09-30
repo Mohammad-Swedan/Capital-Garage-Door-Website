@@ -554,3 +554,44 @@ test("post-write check: flags a lost FAQ, link, service, changed data or status,
   assert.match(problems((p) => p.reviews.pop()).join("|"), /reviews/);
   assert.match(problems((p) => p.reviews.push({ reviewId: 99999, sortOrder: 9 })).join("|"), /reviews/);
 });
+
+/** Drops every null-valued key, recursively, like the admin API's NullValueHandling.Ignore does. */
+function withoutNullKeys<T>(value: T): T {
+  if (Array.isArray(value)) return value.map(withoutNullKeys) as T;
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value)
+        .filter(([, v]) => v !== null)
+        .map(([k, v]) => [k, withoutNullKeys(v)]),
+    ) as T;
+  }
+  return value;
+}
+
+test("post-write check: a read-back that omits null keys (the admin API's serialiser) is not drift", () => {
+  // The 2026-10 production run: every page written correctly, but the six that received NEW price
+  // rows were reported as failed, because a row sent with `noteOverride: null` came back with no
+  // `noteOverride` key at all. Nulls elsewhere (faqItemId, targetPageId, staticHref, labelOverride,
+  // socialImageAssetId) come back the same way.
+  const before = page();
+  const plan = planPagePins(before, CATALOG, tiePool());
+  assert.ok(plan.priceRows.length > 0, "fixture must plan new price rows");
+  const after = withoutNullKeys(afterWrite(before, plan));
+  assert.ok(!("noteOverride" in after.pricingRows[0]), "fixture must drop the null key");
+  assert.ok(!("socialImageAssetId" in after));
+  assert.deepEqual(diffPageState(before, after, plan), []);
+  // The same holds when the page read BEFORE the write also came from the API (keys already absent).
+  const beforeFromApi = withoutNullKeys(page({ pricingRows: [{ pricingItemId: 501, sortOrder: 0, noteOverride: null }] }));
+  const plan2 = planPagePins(beforeFromApi, CATALOG, tiePool());
+  assert.deepEqual(diffPageState(beforeFromApi, withoutNullKeys(afterWrite(beforeFromApi, plan2)), plan2), []);
+  // ...and the PUT body still sends the explicit nulls.
+  const body = buildUpdateBody(beforeFromApi, plan2);
+  assert.equal(body.pricingRows[0].noteOverride, null);
+  assert.equal(body.socialImageAssetId, null);
+  // A real difference is still caught: a note that was set and came back missing.
+  const withNote = page({ pricingRows: [{ pricingItemId: 501, sortOrder: 0, noteOverride: "Seasonal" }] });
+  const plan3 = planPagePins(withNote, CATALOG, tiePool());
+  const lostNote = structuredClone(afterWrite(withNote, plan3)); // afterWrite shares row objects with withNote
+  delete lostNote.pricingRows[0].noteOverride;
+  assert.match(diffPageState(withNote, lostNote, plan3).join("|"), /pricingRows/);
+});

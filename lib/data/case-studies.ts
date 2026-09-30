@@ -2,6 +2,7 @@ import { caseStudies } from "@/content/case-studies";
 import type { CaseStudyPage } from "@/types/case-study";
 import { cmsResolve, cmsSitemapSafe } from "@/lib/cms/client";
 import { mapCaseStudyPage } from "@/lib/cms/map-case-study-page";
+import { hasRealPhoto, pickCaseStudiesForService } from "@/lib/case-studies/service-pick";
 
 /**
  * Data-access layer for case-study pages.
@@ -28,11 +29,6 @@ export async function getCaseStudyBySlug(slug: string): Promise<CaseStudyPage | 
     return dto ? mapCaseStudyPage(dto) : undefined;
   }
   return caseStudies.find((page) => page.slug === slug);
-}
-
-/** True when a case study has at least one real (remote) job photo to show. */
-function hasRealPhoto(cs: CaseStudyPage): boolean {
-  return cs.images.some((img) => !!img.src && /^https?:\/\//.test(img.src));
 }
 
 /**
@@ -73,6 +69,20 @@ export async function getRecentCaseStudies(limit = 3): Promise<CaseStudyPage[]> 
       .filter(hasRealPhoto)
       .sort((a, b) => (b.updatedAt ?? "").localeCompare(a.updatedAt ?? ""))
       .slice(0, limit);
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Case studies for a flat service page's "Recent work" section: photo-backed jobs whose
+ * `relatedServices` link the page (or an alias — see `SERVICE_CASE_STUDY_ALIASES`), newest
+ * first, capped at `limit`. Failure-safe (`[]` on any CMS error): a CMS hiccup must never break
+ * a money page — the section just hides itself.
+ */
+export async function getCaseStudiesForServicePage(slug: string, limit = 3): Promise<CaseStudyPage[]> {
+  try {
+    return pickCaseStudiesForService(await getCaseStudies(), slug, limit);
   } catch {
     return [];
   }

@@ -66,7 +66,8 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
       {
         title: "Guides",
         links: [
-          { label: "Cost guides", href: "/cost-guides" },
+          { label: "Price list & cost guides", href: "/cost-guides" },
+          { label: "New door installation cost", href: "/garage-door-installation-cost-perth" },
           { label: "Common problems", href: "/problems" },
           { label: "Price calculator", href: "/calculator" },
           { label: "Roller vs sectional", href: "/roller-door-vs-sectional-door" },

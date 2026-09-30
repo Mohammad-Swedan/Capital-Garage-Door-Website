@@ -1,0 +1,2278 @@
+{
+  "label": "2026-09-27-baseline",
+  "property": "sc-domain:capitalgaragedoors.com.au",
+  "start": "2026-08-31",
+  "end": "2026-09-27",
+  "days": 28,
+  "generated": "2026-09-30",
+  "all": {
+    "totals": {
+      "clicks": 187,
+      "impressions": 35600,
+      "ctr": 0.0053,
+      "position": 25.4
+    },
+    "daily": [
+      {
+        "date": "2026-08-31",
+        "clicks": 7,
+        "impressions": 1576
+      },
+      {
+        "date": "2026-09-01",
+        "clicks": 10,
+        "impressions": 1504
+      },
+      {
+        "date": "2026-09-02",
+        "clicks": 7,
+        "impressions": 1318
+      },
+      {
+        "date": "2026-09-03",
+        "clicks": 3,
+        "impressions": 1115
+      },
+      {
+        "date": "2026-09-04",
+        "clicks": 8,
+        "impressions": 1143
+      },
+      {
+        "date": "2026-09-05",
+        "clicks": 1,
+        "impressions": 954
+      },
+      {
+        "date": "2026-09-06",
+        "clicks": 3,
+        "impressions": 1157
+      },
+      {
+        "date": "2026-09-07",
+        "clicks": 11,
+        "impressions": 1555
+      },
+      {
+        "date": "2026-09-08",
+        "clicks": 7,
+        "impressions": 2052
+      },
+      {
+        "date": "2026-09-09",
+        "clicks": 9,
+        "impressions": 1367
+      },
+      {
+        "date": "2026-09-10",
+        "clicks": 3,
+        "impressions": 1105
+      },
+      {
+        "date": "2026-09-11",
+        "clicks": 13,
+        "impressions": 1069
+      },
+      {
+        "date": "2026-09-12",
+        "clicks": 3,
+        "impressions": 1264
+      },
+      {
+        "date": "2026-09-13",
+        "clicks": 6,
+        "impressions": 1202
+      },
+      {
+        "date": "2026-09-14",
+        "clicks": 10,
+        "impressions": 1518
+      },
+      {
+        "date": "2026-09-15",
+        "clicks": 6,
+        "impressions": 1476
+      },
+      {
+        "date": "2026-09-16",
+        "clicks": 6,
+        "impressions": 1615
+      },
+      {
+        "date": "2026-09-17",
+        "clicks": 12,
+        "impressions": 1137
+      },
+      {
+        "date": "2026-09-18",
+        "clicks": 3,
+        "impressions": 1469
+      },
+      {
+        "date": "2026-09-19",
+        "clicks": 6,
+        "impressions": 1030
+      },
+      {
+        "date": "2026-09-20",
+        "clicks": 5,
+        "impressions": 1065
+      },
+      {
+        "date": "2026-09-21",
+        "clicks": 10,
+        "impressions": 1213
+      },
+      {
+        "date": "2026-09-22",
+        "clicks": 9,
+        "impressions": 1315
+      },
+      {
+        "date": "2026-09-23",
+        "clicks": 4,
+        "impressions": 1053
+      },
+      {
+        "date": "2026-09-24",
+        "clicks": 8,
+        "impressions": 1085
+      },
+      {
+        "date": "2026-09-25",
+        "clicks": 4,
+        "impressions": 1090
+      },
+      {
+        "date": "2026-09-26",
+        "clicks": 5,
+        "impressions": 1014
+      },
+      {
+        "date": "2026-09-27",
+        "clicks": 8,
+        "impressions": 1139
+      }
+    ],
+    "page_groups": {
+      "home": {
+        "clicks": 63,
+        "impressions": 5103,
+        "ctr": 0.0123,
+        "position": 15.1
+      },
+      "cost": {
+        "clicks": 57,
+        "impressions": 6036,
+        "ctr": 0.0094,
+        "position": 19.3
+      },
+      "door-type": {
+        "clicks": 26,
+        "impressions": 10880,
+        "ctr": 0.0024,
+        "position": 31.6
+      },
+      "service": {
+        "clicks": 14,
+        "impressions": 10442,
+        "ctr": 0.0013,
+        "position": 40.0
+      },
+      "blog": {
+        "clicks": 8,
+        "impressions": 2485,
+        "ctr": 0.0032,
+        "position": 9.3
+      },
+      "static": {
+        "clicks": 8,
+        "impressions": 3045,
+        "ctr": 0.0026,
+        "position": 33.8
+      },
+      "brand": {
+        "clicks": 11,
+        "impressions": 1842,
+        "ctr": 0.006,
+        "position": 26.9
+      },
+      "case-study": {
+        "clicks": 1,
+        "impressions": 154,
+        "ctr": 0.0065,
+        "position": 21.3
+      },
+      "suburb": {
+        "clicks": 3,
+        "impressions": 366,
+        "ctr": 0.0082,
+        "position": 8.8
+      },
+      "problem": {
+        "clicks": 0,
+        "impressions": 385,
+        "ctr": 0.0,
+        "position": 14.7
+      }
+    },
+    "top_pages": [
+      {
+        "page": "https://capitalgaragedoors.com.au/",
+        "group": "home",
+        "clicks": 63,
+        "impressions": 5103,
+        "position": 15.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-motor-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 22,
+        "impressions": 1809,
+        "position": 14.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-repair-cost-perth",
+        "group": "cost",
+        "clicks": 18,
+        "impressions": 1612,
+        "position": 16.9
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/cost-guides",
+        "group": "cost",
+        "clicks": 12,
+        "impressions": 2181,
+        "position": 19.8
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/tilt-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 8,
+        "impressions": 395,
+        "position": 16.4
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/roller-doors-perth",
+        "group": "door-type",
+        "clicks": 7,
+        "impressions": 3553,
+        "position": 26.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-panel-replacement-perth",
+        "group": "service",
+        "clicks": 7,
+        "impressions": 593,
+        "position": 12.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/blog/garage-door-springs-guide",
+        "group": "blog",
+        "clicks": 6,
+        "impressions": 1816,
+        "position": 10.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/custom-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 5,
+        "impressions": 307,
+        "position": 22.0
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/reviews",
+        "group": "static",
+        "clicks": 3,
+        "impressions": 155,
+        "position": 10.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/blog/garage-door-panel-replacement-cost",
+        "group": "cost",
+        "clicks": 3,
+        "impressions": 88,
+        "position": 7.0
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/commercial-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 2,
+        "impressions": 3202,
+        "position": 41.2
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/roller-door-installation-perth",
+        "group": "service",
+        "clicks": 2,
+        "impressions": 1626,
+        "position": 28.9
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/service-areas",
+        "group": "static",
+        "clicks": 2,
+        "impressions": 830,
+        "position": 16.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-motors-perth",
+        "group": "door-type",
+        "clicks": 2,
+        "impressions": 602,
+        "position": 26.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/centurion-garage-doors-perth",
+        "group": "brand",
+        "clicks": 2,
+        "impressions": 285,
+        "position": 8.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/roller-door-repairs-perth",
+        "group": "service",
+        "clicks": 2,
+        "impressions": 136,
+        "position": 32.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/boss-garage-door-motors-perth",
+        "group": "brand",
+        "clicks": 2,
+        "impressions": 31,
+        "position": 17.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/emergency-garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 2087,
+        "position": 34.4
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-opener-repair-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 1506,
+        "position": 42.9
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/services",
+        "group": "static",
+        "clicks": 1,
+        "impressions": 1481,
+        "position": 50.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/commercial-roller-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 919,
+        "position": 26.7
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/sectional-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 327,
+        "position": 31.2
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/calculator",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 242,
+        "position": 72.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/b-and-d-garage-door-motors-perth",
+        "group": "brand",
+        "clicks": 1,
+        "impressions": 107,
+        "position": 15.0
+      }
+    ],
+    "top_queries": [
+      {
+        "query": "capital garage doors",
+        "clicks": 13,
+        "impressions": 38,
+        "position": 2.3
+      },
+      {
+        "query": "capital garage door",
+        "clicks": 9,
+        "impressions": 29,
+        "position": 1.7
+      },
+      {
+        "query": "roller doors perth prices",
+        "clicks": 2,
+        "impressions": 69,
+        "position": 22.5
+      },
+      {
+        "query": "garage door motor replacement cost perth",
+        "clicks": 2,
+        "impressions": 25,
+        "position": 1.4
+      },
+      {
+        "query": "capital garage door reviews",
+        "clicks": 2,
+        "impressions": 15,
+        "position": 2.1
+      },
+      {
+        "query": "garage door service near me",
+        "clicks": 2,
+        "impressions": 11,
+        "position": 2.6
+      },
+      {
+        "query": "garage door repairs perth",
+        "clicks": 1,
+        "impressions": 338,
+        "position": 20.3
+      },
+      {
+        "query": "roller door installation",
+        "clicks": 1,
+        "impressions": 242,
+        "position": 16.3
+      },
+      {
+        "query": "garage doors perth",
+        "clicks": 1,
+        "impressions": 201,
+        "position": 42.3
+      },
+      {
+        "query": "commercial roller doors perth",
+        "clicks": 1,
+        "impressions": 156,
+        "position": 18.6
+      },
+      {
+        "query": "garage motor replacement cost",
+        "clicks": 1,
+        "impressions": 59,
+        "position": 10.0
+      },
+      {
+        "query": "garage door motor perth",
+        "clicks": 1,
+        "impressions": 40,
+        "position": 16.4
+      },
+      {
+        "query": "garage door repairs",
+        "clicks": 1,
+        "impressions": 40,
+        "position": 6.5
+      },
+      {
+        "query": "garage door panel replacement cost",
+        "clicks": 1,
+        "impressions": 38,
+        "position": 12.1
+      },
+      {
+        "query": "garage door repairs perth southern suburbs",
+        "clicks": 1,
+        "impressions": 34,
+        "position": 7.5
+      },
+      {
+        "query": "garage door motor repairs perth",
+        "clicks": 1,
+        "impressions": 33,
+        "position": 17.6
+      },
+      {
+        "query": "garage door service",
+        "clicks": 1,
+        "impressions": 19,
+        "position": 1.2
+      },
+      {
+        "query": "garage door spring repair cost",
+        "clicks": 1,
+        "impressions": 18,
+        "position": 29.3
+      },
+      {
+        "query": "tilt garage doors perth",
+        "clicks": 1,
+        "impressions": 9,
+        "position": 6.3
+      },
+      {
+        "query": "garage door service cost near me",
+        "clicks": 1,
+        "impressions": 7,
+        "position": 11.3
+      },
+      {
+        "query": "garage roller door replacement cost",
+        "clicks": 1,
+        "impressions": 7,
+        "position": 8
+      },
+      {
+        "query": "garage door remote repair near me",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 7.8
+      },
+      {
+        "query": "garage door repair panel",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 2.5
+      },
+      {
+        "query": "garage repair cost",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 2.8
+      },
+      {
+        "query": "bent garage door repair cost",
+        "clicks": 1,
+        "impressions": 3,
+        "position": 3
+      },
+      {
+        "query": "how much are garage door repairs",
+        "clicks": 1,
+        "impressions": 3,
+        "position": 4.3
+      },
+      {
+        "query": "average garage door repair cost",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 2
+      },
+      {
+        "query": "capitol garage doors",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 2
+      },
+      {
+        "query": "garage door motor repair cost",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 1
+      },
+      {
+        "query": "roller door panel replacement",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 2.5
+      },
+      {
+        "query": "cost to replace rollers on garage door",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 4
+      },
+      {
+        "query": "garage door balancing cost",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "garage door estimate",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "garage door repair costs",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 3
+      },
+      {
+        "query": "garage repair price",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 2
+      },
+      {
+        "query": "how much to change springs on garage door",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 2
+      },
+      {
+        "query": "sectional garage door opener",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 5
+      },
+      {
+        "query": "spring garage door price",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 3
+      },
+      {
+        "query": "standard service",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "commercial garage door maintenance",
+        "clicks": 0,
+        "impressions": 954,
+        "position": 61.1
+      },
+      {
+        "query": "emergency garage door repairs",
+        "clicks": 0,
+        "impressions": 835,
+        "position": 33.6
+      },
+      {
+        "query": "commercial garage door installation",
+        "clicks": 0,
+        "impressions": 703,
+        "position": 40.5
+      },
+      {
+        "query": "commercial garage door repairs",
+        "clicks": 0,
+        "impressions": 693,
+        "position": 49.5
+      },
+      {
+        "query": "commercial garage door service",
+        "clicks": 0,
+        "impressions": 579,
+        "position": 55.6
+      },
+      {
+        "query": "commercial garage door repair",
+        "clicks": 0,
+        "impressions": 484,
+        "position": 46.8
+      },
+      {
+        "query": "garage door installation",
+        "clicks": 0,
+        "impressions": 456,
+        "position": 60.2
+      },
+      {
+        "query": "urgent garage door repairs",
+        "clicks": 0,
+        "impressions": 438,
+        "position": 31.5
+      },
+      {
+        "query": "garage door motor replacement",
+        "clicks": 0,
+        "impressions": 410,
+        "position": 28.6
+      },
+      {
+        "query": "emergency garage door repair",
+        "clicks": 0,
+        "impressions": 331,
+        "position": 18.6
+      },
+      {
+        "query": "roller door",
+        "clicks": 0,
+        "impressions": 320,
+        "position": 26.0
+      }
+    ],
+    "brand_split": {
+      "brand": {
+        "clicks": 25,
+        "impressions": 106,
+        "ctr": 0.2358,
+        "position": 4.4
+      },
+      "non_brand": {
+        "clicks": 38,
+        "impressions": 27725,
+        "ctr": 0.0014,
+        "position": 30.2
+      },
+      "anonymised": {
+        "clicks": 124,
+        "impressions": 7769
+      }
+    },
+    "gbp": {
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0.0,
+      "position": null,
+      "pages": []
+    },
+    "tracked_pages": [
+      {
+        "path": "/",
+        "group": "home",
+        "clicks": 63,
+        "impressions": 5103,
+        "ctr": 0.0123,
+        "position": 15.1,
+        "primary_query": {
+          "query": "garage door repairs perth",
+          "clicks": 1,
+          "impressions": 296,
+          "position": 17.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/cost-guides",
+        "group": "cost",
+        "clicks": 12,
+        "impressions": 2181,
+        "ctr": 0.0055,
+        "position": 19.8,
+        "primary_query": {
+          "query": "garage door prices perth",
+          "clicks": 0,
+          "impressions": 11,
+          "position": 14.3,
+          "top_page": {
+            "page": "/roller-doors-perth",
+            "clicks": 0,
+            "impressions": 21,
+            "ctr": 0.0,
+            "position": 9.2
+          }
+        }
+      },
+      {
+        "path": "/garage-door-installation-cost-perth",
+        "group": "cost",
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0.0,
+        "position": null,
+        "primary_query": {
+          "query": "garage door installation cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/garage-door-installation-perth",
+            "clicks": 0,
+            "impressions": 19,
+            "ctr": 0.0,
+            "position": 79.6
+          }
+        }
+      },
+      {
+        "path": "/garage-door-repair-cost-perth",
+        "group": "cost",
+        "clicks": 18,
+        "impressions": 1612,
+        "ctr": 0.0112,
+        "position": 16.9,
+        "primary_query": {
+          "query": "garage door repair cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-motor-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 22,
+        "impressions": 1809,
+        "ctr": 0.0122,
+        "position": 14.6,
+        "primary_query": {
+          "query": "garage door motor replacement cost",
+          "clicks": 0,
+          "impressions": 75,
+          "position": 7.7,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-spring-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 39,
+        "ctr": 0.0256,
+        "position": 5.8,
+        "primary_query": {
+          "query": "garage door spring replacement cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-service-cost-perth",
+        "group": "cost",
+        "clicks": 0,
+        "impressions": 28,
+        "ctr": 0.0,
+        "position": 22.1,
+        "primary_query": {
+          "query": "garage door service cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/cost-guides",
+            "clicks": 0,
+            "impressions": 26,
+            "ctr": 0.0,
+            "position": 14.3
+          }
+        }
+      },
+      {
+        "path": "/calculator",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 242,
+        "ctr": 0.0041,
+        "position": 72.6,
+        "primary_query": {
+          "query": "garage door price calculator",
+          "clicks": 0,
+          "impressions": 1,
+          "position": 8.0,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 469,
+        "ctr": 0.0,
+        "position": 46.8,
+        "primary_query": {
+          "query": "garage door repair perth",
+          "clicks": 0,
+          "impressions": 38,
+          "position": 58.7,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 184,
+            "ctr": 0.0,
+            "position": 14.3
+          }
+        }
+      },
+      {
+        "path": "/emergency-garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 2087,
+        "ctr": 0.0005,
+        "position": 34.4,
+        "primary_query": {
+          "query": "emergency garage door repairs perth",
+          "clicks": 0,
+          "impressions": 26,
+          "position": 38.2,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 135,
+            "ctr": 0.0,
+            "position": 5.5
+          }
+        }
+      },
+      {
+        "path": "/garage-door-spring-repair-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 1073,
+        "ctr": 0.0,
+        "position": 18.1,
+        "primary_query": {
+          "query": "garage door spring replacement",
+          "clicks": 0,
+          "impressions": 180,
+          "position": 14.1,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-opener-repair-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 1506,
+        "ctr": 0.0007,
+        "position": 42.9,
+        "primary_query": {
+          "query": "garage door opener repair perth",
+          "clicks": 0,
+          "impressions": 17,
+          "position": 21.1,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 33,
+            "ctr": 0.0,
+            "position": 13.8
+          }
+        }
+      },
+      {
+        "path": "/garage-door-maintenance-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 608,
+        "ctr": 0.0,
+        "position": 67.0,
+        "primary_query": {
+          "query": "garage door servicing perth",
+          "clicks": 0,
+          "impressions": 48,
+          "position": 49.3,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 87,
+            "ctr": 0.0,
+            "position": 15.9
+          }
+        }
+      },
+      {
+        "path": "/garage-door-installation-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 2167,
+        "ctr": 0.0,
+        "position": 62.7,
+        "primary_query": {
+          "query": "garage door installation perth",
+          "clicks": 0,
+          "impressions": 124,
+          "position": 54.1,
+          "top_page": {
+            "page": "/roller-door-installation-perth",
+            "clicks": 0,
+            "impressions": 173,
+            "ctr": 0.0,
+            "position": 40.0
+          }
+        }
+      },
+      {
+        "path": "/garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 1552,
+        "ctr": 0.0,
+        "position": 33.7,
+        "primary_query": {
+          "query": "garage doors perth",
+          "clicks": 0,
+          "impressions": 50,
+          "position": 37.4,
+          "top_page": {
+            "page": "/garage-door-installation-perth",
+            "clicks": 0,
+            "impressions": 82,
+            "ctr": 0.0,
+            "position": 87.1
+          }
+        }
+      },
+      {
+        "path": "/roller-doors-perth",
+        "group": "door-type",
+        "clicks": 7,
+        "impressions": 3555,
+        "ctr": 0.002,
+        "position": 26.6,
+        "primary_query": {
+          "query": "roller doors perth prices",
+          "clicks": 2,
+          "impressions": 46,
+          "position": 8.9,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/sectional-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 328,
+        "ctr": 0.003,
+        "position": 31.1,
+        "primary_query": {
+          "query": "sectional garage doors perth",
+          "clicks": 0,
+          "impressions": 56,
+          "position": 45.9,
+          "top_page": {
+            "page": "/garage-doors-perth",
+            "clicks": 0,
+            "impressions": 153,
+            "ctr": 0.0,
+            "position": 19.3
+          }
+        }
+      },
+      {
+        "path": "/tilt-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 8,
+        "impressions": 395,
+        "ctr": 0.0203,
+        "position": 16.4,
+        "primary_query": {
+          "query": "tilt garage doors perth",
+          "clicks": 1,
+          "impressions": 9,
+          "position": 6.3,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/custom-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 5,
+        "impressions": 307,
+        "ctr": 0.0163,
+        "position": 22.0,
+        "primary_query": {
+          "query": "custom garage doors perth",
+          "clicks": 0,
+          "impressions": 62,
+          "position": 17.7,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/commercial-roller-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 919,
+        "ctr": 0.0011,
+        "position": 26.7,
+        "primary_query": {
+          "query": "commercial roller doors perth",
+          "clicks": 1,
+          "impressions": 133,
+          "position": 16.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/commercial-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 2,
+        "impressions": 3202,
+        "ctr": 0.0006,
+        "position": 41.2,
+        "primary_query": {
+          "query": "commercial garage door repairs perth",
+          "clicks": 0,
+          "impressions": 57,
+          "position": 12.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-panel-replacement-perth",
+        "group": "service",
+        "clicks": 7,
+        "impressions": 593,
+        "ctr": 0.0118,
+        "position": 12.3,
+        "primary_query": {
+          "query": "garage door panel replacement",
+          "clicks": 0,
+          "impressions": 86,
+          "position": 12.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-remote-replacement-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 79,
+        "ctr": 0.0127,
+        "position": 11.3,
+        "primary_query": {
+          "query": "garage door remote replacement",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 1,
+            "ctr": 0.0,
+            "position": 4.0
+          }
+        }
+      }
+    ],
+    "rows_sum": {
+      "page_groups": 191,
+      "top_pages": 175,
+      "tracked_pages": 151,
+      "top_queries": 63
+    }
+  },
+  "aus": {
+    "totals": {
+      "clicks": 174,
+      "impressions": 33854,
+      "ctr": 0.0051,
+      "position": 25.9
+    },
+    "daily": [
+      {
+        "date": "2026-08-31",
+        "clicks": 7,
+        "impressions": 1474
+      },
+      {
+        "date": "2026-09-01",
+        "clicks": 10,
+        "impressions": 1444
+      },
+      {
+        "date": "2026-09-02",
+        "clicks": 7,
+        "impressions": 1240
+      },
+      {
+        "date": "2026-09-03",
+        "clicks": 3,
+        "impressions": 1032
+      },
+      {
+        "date": "2026-09-04",
+        "clicks": 7,
+        "impressions": 1081
+      },
+      {
+        "date": "2026-09-05",
+        "clicks": 1,
+        "impressions": 884
+      },
+      {
+        "date": "2026-09-06",
+        "clicks": 3,
+        "impressions": 1078
+      },
+      {
+        "date": "2026-09-07",
+        "clicks": 11,
+        "impressions": 1480
+      },
+      {
+        "date": "2026-09-08",
+        "clicks": 6,
+        "impressions": 1988
+      },
+      {
+        "date": "2026-09-09",
+        "clicks": 7,
+        "impressions": 1311
+      },
+      {
+        "date": "2026-09-10",
+        "clicks": 3,
+        "impressions": 1059
+      },
+      {
+        "date": "2026-09-11",
+        "clicks": 13,
+        "impressions": 1031
+      },
+      {
+        "date": "2026-09-12",
+        "clicks": 3,
+        "impressions": 1208
+      },
+      {
+        "date": "2026-09-13",
+        "clicks": 6,
+        "impressions": 1160
+      },
+      {
+        "date": "2026-09-14",
+        "clicks": 10,
+        "impressions": 1470
+      },
+      {
+        "date": "2026-09-15",
+        "clicks": 6,
+        "impressions": 1392
+      },
+      {
+        "date": "2026-09-16",
+        "clicks": 6,
+        "impressions": 1542
+      },
+      {
+        "date": "2026-09-17",
+        "clicks": 9,
+        "impressions": 1055
+      },
+      {
+        "date": "2026-09-18",
+        "clicks": 3,
+        "impressions": 1366
+      },
+      {
+        "date": "2026-09-19",
+        "clicks": 6,
+        "impressions": 988
+      },
+      {
+        "date": "2026-09-20",
+        "clicks": 5,
+        "impressions": 1032
+      },
+      {
+        "date": "2026-09-21",
+        "clicks": 7,
+        "impressions": 1163
+      },
+      {
+        "date": "2026-09-22",
+        "clicks": 7,
+        "impressions": 1279
+      },
+      {
+        "date": "2026-09-23",
+        "clicks": 4,
+        "impressions": 956
+      },
+      {
+        "date": "2026-09-24",
+        "clicks": 8,
+        "impressions": 1052
+      },
+      {
+        "date": "2026-09-25",
+        "clicks": 3,
+        "impressions": 1037
+      },
+      {
+        "date": "2026-09-26",
+        "clicks": 5,
+        "impressions": 974
+      },
+      {
+        "date": "2026-09-27",
+        "clicks": 8,
+        "impressions": 1078
+      }
+    ],
+    "page_groups": {
+      "home": {
+        "clicks": 28,
+        "impressions": 4380,
+        "ctr": 0.0064,
+        "position": 16.1
+      },
+      "cost": {
+        "clicks": 17,
+        "impressions": 3794,
+        "ctr": 0.0045,
+        "position": 26.8
+      },
+      "door-type": {
+        "clicks": 7,
+        "impressions": 9201,
+        "ctr": 0.0008,
+        "position": 35.3
+      },
+      "service": {
+        "clicks": 5,
+        "impressions": 9364,
+        "ctr": 0.0005,
+        "position": 42.7
+      },
+      "blog": {
+        "clicks": 1,
+        "impressions": 936,
+        "ctr": 0.0011,
+        "position": 13.8
+      },
+      "suburb": {
+        "clicks": 1,
+        "impressions": 58,
+        "ctr": 0.0172,
+        "position": 12.6
+      },
+      "static": {
+        "clicks": 2,
+        "impressions": 2157,
+        "ctr": 0.0009,
+        "position": 42.2
+      },
+      "brand": {
+        "clicks": 0,
+        "impressions": 1039,
+        "ctr": 0.0,
+        "position": 40.9
+      },
+      "case-study": {
+        "clicks": 0,
+        "impressions": 45,
+        "ctr": 0.0,
+        "position": 32.3
+      },
+      "problem": {
+        "clicks": 0,
+        "impressions": 197,
+        "ctr": 0.0,
+        "position": 18.5
+      }
+    },
+    "top_pages": [
+      {
+        "page": "https://capitalgaragedoors.com.au/",
+        "group": "home",
+        "clicks": 28,
+        "impressions": 4380,
+        "position": 16.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-repair-cost-perth",
+        "group": "cost",
+        "clicks": 11,
+        "impressions": 1031,
+        "position": 23.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/roller-doors-perth",
+        "group": "door-type",
+        "clicks": 4,
+        "impressions": 2907,
+        "position": 30.2
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-motor-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 4,
+        "impressions": 1024,
+        "position": 21.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-panel-replacement-perth",
+        "group": "service",
+        "clicks": 3,
+        "impressions": 386,
+        "position": 14.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/roller-door-installation-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 1516,
+        "position": 30.0
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/cost-guides",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 1510,
+        "position": 25.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-opener-repair-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 1411,
+        "position": 44.4
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/blog/garage-door-springs-guide",
+        "group": "blog",
+        "clicks": 1,
+        "impressions": 867,
+        "position": 14.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/commercial-roller-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 847,
+        "position": 27.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-motors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 476,
+        "position": 31.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/service-areas",
+        "group": "static",
+        "clicks": 1,
+        "impressions": 452,
+        "position": 19.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/calculator",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 222,
+        "position": 77.7
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/tilt-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 129,
+        "position": 35.7
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/reviews",
+        "group": "static",
+        "clicks": 1,
+        "impressions": 40,
+        "position": 13.2
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-repairs-ellenbrook",
+        "group": "suburb",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/commercial-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 3086,
+        "position": 42.1
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-installation-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 2105,
+        "position": 63.6
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/emergency-garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 1846,
+        "position": 36.9
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/services",
+        "group": "static",
+        "clicks": 0,
+        "impressions": 1412,
+        "position": 52.5
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 1315,
+        "position": 37.3
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-spring-repair-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 967,
+        "position": 18.7
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-motor-brands-perth",
+        "group": "brand",
+        "clicks": 0,
+        "impressions": 612,
+        "position": 43.2
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-maintenance-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 585,
+        "position": 68.7
+      },
+      {
+        "page": "https://capitalgaragedoors.com.au/garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 429,
+        "position": 49.5
+      }
+    ],
+    "top_queries": [
+      {
+        "query": "capital garage doors",
+        "clicks": 13,
+        "impressions": 35,
+        "position": 1.7
+      },
+      {
+        "query": "capital garage door",
+        "clicks": 7,
+        "impressions": 17,
+        "position": 1.4
+      },
+      {
+        "query": "roller doors perth prices",
+        "clicks": 2,
+        "impressions": 66,
+        "position": 23.2
+      },
+      {
+        "query": "garage door motor replacement cost perth",
+        "clicks": 2,
+        "impressions": 25,
+        "position": 1.4
+      },
+      {
+        "query": "capital garage door reviews",
+        "clicks": 2,
+        "impressions": 14,
+        "position": 1.9
+      },
+      {
+        "query": "garage door service near me",
+        "clicks": 2,
+        "impressions": 11,
+        "position": 2.6
+      },
+      {
+        "query": "garage door repairs perth",
+        "clicks": 1,
+        "impressions": 329,
+        "position": 20.4
+      },
+      {
+        "query": "roller door installation",
+        "clicks": 1,
+        "impressions": 237,
+        "position": 16.4
+      },
+      {
+        "query": "garage doors perth",
+        "clicks": 1,
+        "impressions": 198,
+        "position": 42.2
+      },
+      {
+        "query": "commercial roller doors perth",
+        "clicks": 1,
+        "impressions": 154,
+        "position": 18.6
+      },
+      {
+        "query": "garage motor replacement cost",
+        "clicks": 1,
+        "impressions": 58,
+        "position": 10.0
+      },
+      {
+        "query": "garage door motor perth",
+        "clicks": 1,
+        "impressions": 40,
+        "position": 16.4
+      },
+      {
+        "query": "garage door repairs",
+        "clicks": 1,
+        "impressions": 40,
+        "position": 6.5
+      },
+      {
+        "query": "garage door panel replacement cost",
+        "clicks": 1,
+        "impressions": 37,
+        "position": 12.0
+      },
+      {
+        "query": "garage door repairs perth southern suburbs",
+        "clicks": 1,
+        "impressions": 33,
+        "position": 7.5
+      },
+      {
+        "query": "garage door service",
+        "clicks": 1,
+        "impressions": 19,
+        "position": 1.2
+      },
+      {
+        "query": "garage door spring repair cost",
+        "clicks": 1,
+        "impressions": 17,
+        "position": 30.1
+      },
+      {
+        "query": "tilt garage doors perth",
+        "clicks": 1,
+        "impressions": 9,
+        "position": 6.3
+      },
+      {
+        "query": "garage door service cost near me",
+        "clicks": 1,
+        "impressions": 7,
+        "position": 11.3
+      },
+      {
+        "query": "garage roller door replacement cost",
+        "clicks": 1,
+        "impressions": 7,
+        "position": 8
+      },
+      {
+        "query": "garage door remote repair near me",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 7.8
+      },
+      {
+        "query": "garage door repair panel",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 2.5
+      },
+      {
+        "query": "garage repair cost",
+        "clicks": 1,
+        "impressions": 4,
+        "position": 2.8
+      },
+      {
+        "query": "bent garage door repair cost",
+        "clicks": 1,
+        "impressions": 3,
+        "position": 3
+      },
+      {
+        "query": "how much are garage door repairs",
+        "clicks": 1,
+        "impressions": 3,
+        "position": 4.3
+      },
+      {
+        "query": "average garage door repair cost",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 2
+      },
+      {
+        "query": "garage door motor repair cost",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 1
+      },
+      {
+        "query": "roller door panel replacement",
+        "clicks": 1,
+        "impressions": 2,
+        "position": 2.5
+      },
+      {
+        "query": "capitol garage doors",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "cost to replace rollers on garage door",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 4
+      },
+      {
+        "query": "garage door balancing cost",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "garage door estimate",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "garage door repair costs",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 3
+      },
+      {
+        "query": "garage repair price",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 2
+      },
+      {
+        "query": "how much to change springs on garage door",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 2
+      },
+      {
+        "query": "sectional garage door opener",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 5
+      },
+      {
+        "query": "spring garage door price",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 3
+      },
+      {
+        "query": "standard service",
+        "clicks": 1,
+        "impressions": 1,
+        "position": 1
+      },
+      {
+        "query": "commercial garage door maintenance",
+        "clicks": 0,
+        "impressions": 952,
+        "position": 61.2
+      },
+      {
+        "query": "emergency garage door repairs",
+        "clicks": 0,
+        "impressions": 830,
+        "position": 33.7
+      },
+      {
+        "query": "commercial garage door installation",
+        "clicks": 0,
+        "impressions": 699,
+        "position": 40.4
+      },
+      {
+        "query": "commercial garage door repairs",
+        "clicks": 0,
+        "impressions": 686,
+        "position": 49.8
+      },
+      {
+        "query": "commercial garage door service",
+        "clicks": 0,
+        "impressions": 575,
+        "position": 55.9
+      },
+      {
+        "query": "commercial garage door repair",
+        "clicks": 0,
+        "impressions": 480,
+        "position": 47.1
+      },
+      {
+        "query": "garage door installation",
+        "clicks": 0,
+        "impressions": 454,
+        "position": 60.3
+      },
+      {
+        "query": "urgent garage door repairs",
+        "clicks": 0,
+        "impressions": 431,
+        "position": 31.8
+      },
+      {
+        "query": "garage door motor replacement",
+        "clicks": 0,
+        "impressions": 406,
+        "position": 28.2
+      },
+      {
+        "query": "roller door",
+        "clicks": 0,
+        "impressions": 318,
+        "position": 26.1
+      },
+      {
+        "query": "commercial roller door installation",
+        "clicks": 0,
+        "impressions": 311,
+        "position": 25.7
+      },
+      {
+        "query": "roller doors",
+        "clicks": 0,
+        "impressions": 309,
+        "position": 42.3
+      }
+    ],
+    "brand_split": {
+      "brand": {
+        "clicks": 23,
+        "impressions": 85,
+        "ctr": 0.2706,
+        "position": 4.6
+      },
+      "non_brand": {
+        "clicks": 37,
+        "impressions": 26922,
+        "ctr": 0.0014,
+        "position": 30.5
+      },
+      "anonymised": {
+        "clicks": 114,
+        "impressions": 6847
+      }
+    },
+    "gbp": {
+      "clicks": 0,
+      "impressions": 0,
+      "ctr": 0.0,
+      "position": null,
+      "pages": []
+    },
+    "tracked_pages": [
+      {
+        "path": "/",
+        "group": "home",
+        "clicks": 28,
+        "impressions": 4380,
+        "ctr": 0.0064,
+        "position": 16.1,
+        "primary_query": {
+          "query": "garage door repairs perth",
+          "clicks": 1,
+          "impressions": 288,
+          "position": 17.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/cost-guides",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 1510,
+        "ctr": 0.0007,
+        "position": 25.1,
+        "primary_query": {
+          "query": "garage door prices perth",
+          "clicks": 0,
+          "impressions": 10,
+          "position": 12.1,
+          "top_page": {
+            "page": "/roller-doors-perth",
+            "clicks": 0,
+            "impressions": 20,
+            "ctr": 0.0,
+            "position": 8.9
+          }
+        }
+      },
+      {
+        "path": "/garage-door-installation-cost-perth",
+        "group": "cost",
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0.0,
+        "position": null,
+        "primary_query": {
+          "query": "garage door installation cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/garage-door-installation-perth",
+            "clicks": 0,
+            "impressions": 19,
+            "ctr": 0.0,
+            "position": 79.6
+          }
+        }
+      },
+      {
+        "path": "/garage-door-repair-cost-perth",
+        "group": "cost",
+        "clicks": 11,
+        "impressions": 1031,
+        "ctr": 0.0107,
+        "position": 23.5,
+        "primary_query": {
+          "query": "garage door repair cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-motor-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 4,
+        "impressions": 1024,
+        "ctr": 0.0039,
+        "position": 21.3,
+        "primary_query": {
+          "query": "garage door motor replacement cost",
+          "clicks": 0,
+          "impressions": 74,
+          "position": 7.7,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-spring-replacement-cost-perth",
+        "group": "cost",
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 56.0,
+        "primary_query": {
+          "query": "garage door spring replacement cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-service-cost-perth",
+        "group": "cost",
+        "clicks": 0,
+        "impressions": 5,
+        "ctr": 0.0,
+        "position": 98.6,
+        "primary_query": {
+          "query": "garage door service cost perth",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/cost-guides",
+            "clicks": 0,
+            "impressions": 26,
+            "ctr": 0.0,
+            "position": 14.3
+          }
+        }
+      },
+      {
+        "path": "/calculator",
+        "group": "cost",
+        "clicks": 1,
+        "impressions": 222,
+        "ctr": 0.0045,
+        "position": 77.7,
+        "primary_query": {
+          "query": "garage door price calculator",
+          "clicks": 0,
+          "impressions": 1,
+          "position": 8.0,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 429,
+        "ctr": 0.0,
+        "position": 49.5,
+        "primary_query": {
+          "query": "garage door repair perth",
+          "clicks": 0,
+          "impressions": 36,
+          "position": 60.6,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 172,
+            "ctr": 0.0,
+            "position": 13.8
+          }
+        }
+      },
+      {
+        "path": "/emergency-garage-door-repairs-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 1846,
+        "ctr": 0.0,
+        "position": 36.9,
+        "primary_query": {
+          "query": "emergency garage door repairs perth",
+          "clicks": 0,
+          "impressions": 25,
+          "position": 38.1,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 125,
+            "ctr": 0.0,
+            "position": 5.4
+          }
+        }
+      },
+      {
+        "path": "/garage-door-spring-repair-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 967,
+        "ctr": 0.0,
+        "position": 18.7,
+        "primary_query": {
+          "query": "garage door spring replacement",
+          "clicks": 0,
+          "impressions": 180,
+          "position": 14.1,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-opener-repair-perth",
+        "group": "service",
+        "clicks": 1,
+        "impressions": 1411,
+        "ctr": 0.0007,
+        "position": 44.4,
+        "primary_query": {
+          "query": "garage door opener repair perth",
+          "clicks": 0,
+          "impressions": 17,
+          "position": 21.1,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 28,
+            "ctr": 0.0,
+            "position": 13.2
+          }
+        }
+      },
+      {
+        "path": "/garage-door-maintenance-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 585,
+        "ctr": 0.0,
+        "position": 68.7,
+        "primary_query": {
+          "query": "garage door servicing perth",
+          "clicks": 0,
+          "impressions": 48,
+          "position": 49.3,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 85,
+            "ctr": 0.0,
+            "position": 15.7
+          }
+        }
+      },
+      {
+        "path": "/garage-door-installation-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 2105,
+        "ctr": 0.0,
+        "position": 63.6,
+        "primary_query": {
+          "query": "garage door installation perth",
+          "clicks": 0,
+          "impressions": 124,
+          "position": 54.1,
+          "top_page": {
+            "page": "/roller-door-installation-perth",
+            "clicks": 0,
+            "impressions": 171,
+            "ctr": 0.0,
+            "position": 40.1
+          }
+        }
+      },
+      {
+        "path": "/garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 1315,
+        "ctr": 0.0,
+        "position": 37.3,
+        "primary_query": {
+          "query": "garage doors perth",
+          "clicks": 0,
+          "impressions": 49,
+          "position": 37.5,
+          "top_page": {
+            "page": "/garage-door-installation-perth",
+            "clicks": 0,
+            "impressions": 81,
+            "ctr": 0.0,
+            "position": 87.2
+          }
+        }
+      },
+      {
+        "path": "/roller-doors-perth",
+        "group": "door-type",
+        "clicks": 4,
+        "impressions": 2907,
+        "ctr": 0.0014,
+        "position": 30.2,
+        "primary_query": {
+          "query": "roller doors perth prices",
+          "clicks": 2,
+          "impressions": 43,
+          "position": 9.1,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/sectional-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 241,
+        "ctr": 0.0,
+        "position": 39.3,
+        "primary_query": {
+          "query": "sectional garage doors perth",
+          "clicks": 0,
+          "impressions": 54,
+          "position": 47.0,
+          "top_page": {
+            "page": "/garage-doors-perth",
+            "clicks": 0,
+            "impressions": 150,
+            "ctr": 0.0,
+            "position": 19.2
+          }
+        }
+      },
+      {
+        "path": "/tilt-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 129,
+        "ctr": 0.0078,
+        "position": 35.7,
+        "primary_query": {
+          "query": "tilt garage doors perth",
+          "clicks": 1,
+          "impressions": 9,
+          "position": 6.3,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/custom-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 184,
+        "ctr": 0.0,
+        "position": 28.0,
+        "primary_query": {
+          "query": "custom garage doors perth",
+          "clicks": 0,
+          "impressions": 59,
+          "position": 17.7,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/commercial-roller-doors-perth",
+        "group": "door-type",
+        "clicks": 1,
+        "impressions": 847,
+        "ctr": 0.0012,
+        "position": 27.5,
+        "primary_query": {
+          "query": "commercial roller doors perth",
+          "clicks": 1,
+          "impressions": 131,
+          "position": 16.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/commercial-garage-doors-perth",
+        "group": "door-type",
+        "clicks": 0,
+        "impressions": 3086,
+        "ctr": 0.0,
+        "position": 42.1,
+        "primary_query": {
+          "query": "commercial garage door repairs perth",
+          "clicks": 0,
+          "impressions": 57,
+          "position": 12.2,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-panel-replacement-perth",
+        "group": "service",
+        "clicks": 3,
+        "impressions": 386,
+        "ctr": 0.0078,
+        "position": 14.5,
+        "primary_query": {
+          "query": "garage door panel replacement",
+          "clicks": 0,
+          "impressions": 84,
+          "position": 12.1,
+          "top_page": null
+        }
+      },
+      {
+        "path": "/garage-door-remote-replacement-perth",
+        "group": "service",
+        "clicks": 0,
+        "impressions": 7,
+        "ctr": 0.0,
+        "position": 19.3,
+        "primary_query": {
+          "query": "garage door remote replacement",
+          "clicks": 0,
+          "impressions": 0,
+          "position": null,
+          "top_page": {
+            "page": "/",
+            "clicks": 0,
+            "impressions": 1,
+            "ctr": 0.0,
+            "position": 4.0
+          }
+        }
+      }
+    ],
+    "rows_sum": {
+      "page_groups": 61,
+      "top_pages": 61,
+      "tracked_pages": 55,
+      "top_queries": 60
+    }
+  }
+}

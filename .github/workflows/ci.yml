@@ -1,0 +1,41 @@
+name: CI (build check)
+
+# Build + checks for feature branches and PRs. This workflow never deploys —
+# deploy.yml (push to main) is the only production path. It mirrors the
+# Docker build (node:22, CMS_API_URL unset → the code default is the live
+# CMS https://cgd.runasp.net, which app/[slug] must reach to prerender).
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: ["seo/**", "feat/**", "fix/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npx tsc --noEmit
+      - name: Unit tests (node:test)
+        run: npx --yes tsx@4 --test lib/brands/__tests__/*.test.ts lib/case-studies/__tests__/*.test.ts
+      - name: Brand-content guard (offline)
+        run: npx --yes tsx@4 scripts/check-brand-content.ts --offline
+      - name: Production build (prerenders against the live CMS)
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+        run: npm run build

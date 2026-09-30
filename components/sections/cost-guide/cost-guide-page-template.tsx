@@ -15,6 +15,7 @@ import { RepairVsReplace } from "@/components/sections/cost-guide/repair-vs-repl
 import { CostGuideRelatedLinks } from "@/components/sections/cost-guide/related-links";
 import { CostGuideQuoteForm } from "@/components/sections/cost-guide/quote-form";
 import { siteConfig } from "@/config/site";
+import { siblingGuideLinks } from "@/lib/pricing/guide-links";
 import type { CostGuidePage } from "@/types/cost-guide";
 
 interface CostGuidePageTemplateProps {
@@ -36,7 +37,7 @@ export function CostGuidePageTemplate({ data }: CostGuidePageTemplateProps) {
         <Breadcrumbs
           items={[
             { name: "Home", url: "/" },
-            { name: "Cost Guides", url: "/cost-guides" },
+            { name: "Prices & Cost Guides", url: "/cost-guides" },
             { name: data.topicLabel, url: `/${data.slug}` },
           ]}
         />
@@ -59,7 +60,7 @@ export function CostGuidePageTemplate({ data }: CostGuidePageTemplateProps) {
 
       <DirectAnswer answer={data.directAnswer} />
 
-      <CostGuideTable table={data.costTable} />
+      <CostGuideTable table={data.costTable} links={siblingGuideLinks(data.slug)} />
 
       <CostFactorsGrid heading={data.factors.heading} items={data.factors.items} />
 

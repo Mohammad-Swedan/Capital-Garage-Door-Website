@@ -9,6 +9,7 @@ import type { LandingPage } from "@/types/landing-page";
 import type { Review } from "@/types/review";
 import type { CoverageRegion } from "@/types/coverage-area";
 import type { ResolvedBrandPage } from "@/types/brand";
+import type { ResolvedPriceListGroup } from "@/types/price-list";
 
 /* ------------------------------------------------------------------ *
  * Shared helpers
@@ -400,38 +401,52 @@ export function costGuideSchema(data: CostGuidePage) {
  * Offers (priceCurrency AUD). Rows without a `priceRange` are skipped. Returns
  * undefined when no row has a price (so the `offers` key is omitted entirely).
  *
- * Price strings like "$220–$450" / "From $180" are parsed into a numeric
- * `priceSpecification` (min/max) where possible; the human label is preserved
- * in the Offer `description` so the markup never loses the original wording.
+ * The numeric `priceSpecification` comes from the row's catalog numbers
+ * (`priceMin`/`priceMax`) when it has any; only a row without numbers (local
+ * content) falls back to parsing the label, and per-unit or surcharge labels
+ * ("$95 each + $120 …", "+$500") get no priceSpecification at all. The human
+ * label is kept in the Offer `description`, so the original wording survives.
  */
 export function costGuideOffers(data: CostGuidePage) {
   const offers = data.costTable.rows
     .filter((row) => row.priceRange && row.priceRange.trim().length > 0)
     .map((row) => {
-      const parsed = parsePriceRange(row.priceRange!);
+      const bounds =
+        row.priceMin != null || row.priceMax != null
+          ? { min: row.priceMin ?? undefined, max: row.priceMax ?? undefined }
+          : parsePriceRange(row.priceRange!);
       return compact({
         "@type": "Offer",
         name: row.repairType,
         description: row.priceRange,
         priceCurrency: "AUD",
         availability: "https://schema.org/InStock",
-        ...(parsed
-          ? {
-              priceSpecification: compact({
-                "@type": "PriceSpecification",
-                priceCurrency: "AUD",
-                minPrice: parsed.min,
-                maxPrice: parsed.max,
-              }),
-            }
-          : {}),
+        ...(bounds ? { priceSpecification: priceSpecification(bounds) } : {}),
       });
     });
   return offers.length > 0 ? offers : undefined;
 }
 
-/** Parse "$220–$450", "$180 - $300", "From $180", "$250" into numeric min/max. */
+/**
+ * An AUD PriceSpecification from numeric bounds: a single `price` when
+ * min === max, otherwise `minPrice`/`maxPrice` (either may be absent for an
+ * open-ended price).
+ */
+function priceSpecification({ min, max }: { min?: number; max?: number }) {
+  return compact({
+    "@type": "PriceSpecification",
+    priceCurrency: "AUD",
+    ...(min != null && min === max ? { price: min } : { minPrice: min, maxPrice: max }),
+  });
+}
+
+/**
+ * Parse "$220–$450", "$180 - $300", "From $180", "$250" into numeric min/max.
+ * Per-unit and surcharge labels ("$95 each + $120 to attend & program",
+ * "+$500", "From $140 + parts") are not a price range and return null.
+ */
 function parsePriceRange(label: string): { min?: number; max?: number } | null {
+  if (/\beach\b|\+/i.test(label)) return null;
   const nums = (label.match(/\d[\d,]*/g) ?? []).map((n) => Number(n.replace(/,/g, "")));
   if (nums.length === 0) return null;
   if (nums.length === 1) {
@@ -439,6 +454,94 @@ function parsePriceRange(label: string): { min?: number; max?: number } | null {
     return /from/i.test(label) ? { min: nums[0] } : { min: nums[0], max: nums[0] };
   }
   return { min: Math.min(...nums), max: Math.max(...nums) };
+}
+
+/**
+ * JSON-LD for the /cost-guides price list: a CollectionPage (speakable on the H1 and the
+ * `#direct-answer` paragraph, with the detailed cost guides as its parts) and the Service whose
+ * OfferCatalog holds one catalog per price group. Every Offer carries the row's displayed price
+ * (plus its visible detail) as its description; a PriceSpecification is added only from the row's
+ * NUMERIC bounds, which exist only for a real range, so label-only rows such as "+$500" or
+ * "From $140 + parts" are never parsed into numbers. FAQPage and BreadcrumbList are emitted
+ * separately (faqSchema at the route, BreadcrumbList by <Breadcrumbs>).
+ */
+export function priceListSchemas({
+  path,
+  title,
+  description,
+  year,
+  lastUpdated,
+  groups,
+  guides,
+}: {
+  path: string;
+  title: string;
+  description: string;
+  year: number;
+  lastUpdated: string;
+  groups: ResolvedPriceListGroup[];
+  guides: { title: string; href: string }[];
+}) {
+  const url = absUrl(path);
+  const catalogId = `${url}#price-list`;
+
+  const collectionPage = compact({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": BUSINESS_ID },
+    dateModified: lastUpdated,
+    mainEntity: { "@id": catalogId },
+    hasPart:
+      guides.length > 0
+        ? guides.map((guide) => ({ "@type": "WebPage", name: guide.title, url: absUrl(guide.href) }))
+        : undefined,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "#direct-answer"],
+    },
+  });
+
+  const service = compact({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: "Garage door repairs, servicing and installation",
+    serviceType: "Garage door repair and installation",
+    description,
+    url,
+    provider: providerRef(),
+    areaServed: { "@type": "City", name: "Perth" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      "@id": catalogId,
+      name: `Perth garage door price list ${year}`,
+      itemListElement: groups.map((group) => ({
+        "@type": "OfferCatalog",
+        name: group.heading,
+        url: `${url}#${group.id}`,
+        itemListElement: group.rows.map((row) => {
+          const detail = row.includes ?? row.note;
+          return compact({
+            "@type": "Offer",
+            name: row.label,
+            url: absUrl(row.href),
+            priceCurrency: "AUD",
+            description: detail ? `${row.price} — ${detail}` : row.price,
+            itemOffered: { "@type": "Service", name: row.label },
+            priceSpecification:
+              row.min != null && row.max != null ? priceSpecification({ min: row.min, max: row.max }) : undefined,
+          });
+        }),
+      })),
+    },
+  });
+
+  return [collectionPage, service];
 }
 
 /**
@@ -618,16 +721,25 @@ export function servicesItemListSchema(
   };
 }
 
-/** Builds LocalBusiness + areaServed JSON-LD for the /service-areas suburb directory. */
+/**
+ * Builds Service JSON-LD for the /service-areas suburb directory: one Service node whose
+ * `provider` is the site-wide business (by `@id`) and whose `areaServed` lists every suburb in
+ * the directory as a City.
+ *
+ * This must stay a Service, not a business node. It used to emit a second
+ * HomeAndConstructionBusiness under the site-wide BUSINESS_ID with a different `url`, so
+ * /service-areas contradicted the `@graph` business node for the same entity. The business is
+ * defined once, in `siteGraphSchema`.
+ */
 export function serviceAreasSchema(regions: CoverageRegion[]) {
   return {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": BUSINESS_ID,
-    name: siteConfig.name,
-    telephone: siteConfig.business.phone,
+    "@type": "Service",
+    "@id": `${siteConfig.url}/service-areas#service-area`,
+    name: "Garage Door Repairs & Installation Across Perth",
+    serviceType: "Garage door repair and installation",
     url: new URL("/service-areas", siteConfig.url).toString(),
-    address: businessPostalAddress(),
+    provider: providerRef(),
     areaServed: regions.flatMap((region) =>
       region.suburbs.map((suburb) => ({
         "@type": "City",

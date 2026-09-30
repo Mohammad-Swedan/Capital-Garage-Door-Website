@@ -8,10 +8,12 @@ import { buildPricingRows } from "@/lib/brands/pricing";
 import { cmsPublicPricing } from "@/lib/cms/pricing-client";
 import { buildMetadata } from "@/lib/seo/metadata";
 
+// Calculator intent only: the "garage door prices perth" intent belongs to the /cost-guides price
+// list, which ranks for those queries — this page targets "price calculator / instant estimate".
 export const metadata: Metadata = buildMetadata({
-  title: "Garage Door Prices Perth | Instant Price Calculator",
+  title: "Garage Door Price Calculator Perth | Instant Estimate",
   description:
-    "Real Perth garage door prices: instant estimates for repairs, new doors, motor replacements and servicing from our live price list. Free, no obligation.",
+    "Instant garage door cost estimate for Perth — repairs, springs, motors, new doors and servicing, priced from our live list. Free, no sign-up, no obligation.",
   path: "/calculator",
 });
 
@@ -27,7 +29,7 @@ export default async function CalculatorPage() {
     <div className="relative w-full overflow-hidden bg-[#f8fafc]">
       {/* Route's single <h1> — kept for search + screen readers. The calculator's own
           visible title is an <h2>, so this stays sr-only to keep the tool full-screen. */}
-      <h1 className="sr-only">Garage Door Prices Perth — Instant Price Calculator</h1>
+      <h1 className="sr-only">Garage Door Price Calculator Perth — Instant Estimate</h1>
 
       {/* Full-screen tool: fills the whole viewport below the sticky header (4rem + 1px
           bottom border — without the -1px the page gets a 1px scrollbar of its own), edge-to-edge

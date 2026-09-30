@@ -71,6 +71,14 @@ export const siteConfig = {
     yelp: "",
   },
 
+  // Google's "write a review" deep link (built from the GBP Place ID): opens the review composer
+  // straight away. Every WRITE-a-review CTA uses this one URL — the footer, /reviews (via
+  // content/reviews.ts) and the /review short link in next.config.ts, which repeats the literal
+  // on purpose (a failing import there would break every build); the redirects test fails if the
+  // two ever differ. It is deliberately NOT in `social`: that object feeds schema `sameAs`
+  // (profile URLs only), and `social.google` stays the Maps CID URL for "view us on Google".
+  googleWriteReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJe-GkxTxvuA8RFcLBLVb5y8Q",
+
   // 10 items. `menu` opts an item into a header mega-menu — the panel's content
   // lives in config/nav-menus.ts (NAV_MENUS), keyed by this value, never by the
   // label. `Home` is hidden below `xl` in the desktop nav (the logo links home)
@@ -82,7 +90,9 @@ export const siteConfig = {
     { label: "Doors", href: "/garage-doors-perth", menu: "doors" },
     { label: "Motors", href: "/garage-door-motors-perth", menu: "motors" },
     { label: "Service Areas", href: "/service-areas" },
-    { label: "Pricing", href: "/calculator" },
+    // Price-intent queries ("garage door prices perth") rank the /cost-guides price list, not
+    // /calculator. The label stays "Pricing" so the desktop row keeps its measured width.
+    { label: "Pricing", href: "/cost-guides" },
     // Gallery/Blog/About/Warranty/Reviews live in the "More" dropdown (config/nav-menus.ts) —
     // on mobile they render flat. The href below is only a React key for the trigger.
     { label: "More", href: "/about", menu: "more" },
@@ -108,7 +118,8 @@ export const siteConfig = {
       title: "Resources",
       links: [
         { label: "Blog", href: "/blog" },
-        { label: "Cost Guides", href: "/cost-guides" },
+        { label: "Prices & Cost Guides", href: "/cost-guides" },
+        { label: "Installation Cost", href: "/garage-door-installation-cost-perth" },
         { label: "Common Problems", href: "/problems" },
         { label: "Case Studies", href: "/case-studies" },
         { label: "Roller vs Sectional Doors", href: "/roller-door-vs-sectional-door" },

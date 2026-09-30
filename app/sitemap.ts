@@ -6,6 +6,8 @@ import { getProblemSlugs } from "@/lib/data/problems";
 import { getServicePageSlugs } from "@/lib/data/service-pages";
 import { getComparisonPageSlugs } from "@/lib/data/comparison-pages";
 import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
+import { getStaticCostGuides } from "@/lib/data/static-cost-guides";
+import { getPriceList } from "@/lib/data/price-list";
 import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
 import { getCaseStudySlugs } from "@/lib/data/case-studies";
 import { getBrandHub, getBrandPages } from "@/lib/data/brands";
@@ -56,6 +58,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     suburbPageSlugs,
     caseStudySlugs,
     brandPagesAll,
+    staticCostGuides,
+    priceList,
   ] = await Promise.all([
     readCmsFeed(),
     getArticleSlugs(),
@@ -66,6 +70,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getServiceSuburbPageSlugs(),
     getCaseStudySlugs(),
     getBrandPages(),
+    getStaticCostGuides(),
+    getPriceList(),
   ]);
 
   // Index the CMS feed by absolute URL for lastmod lookup, skipping noindex pages.
@@ -103,6 +109,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map((p) => new Date(p.updatedAt).getTime())
       .filter((t) => Number.isFinite(t));
     return ds.length ? new Date(Math.max(...ds)) : undefined;
+  };
+
+  /**
+   * /cost-guides is the price list plus the cost-guide cards, so it inherits the newest of the
+   * price list's own date (its review date, or a later live price change on a row it shows), the
+   * CMS guides' lastmods and the static guides' dates.
+   */
+  const newestCostGuidesHub = (): Date => {
+    const times = [
+      new Date(priceList.lastUpdated).getTime(),
+      newestOf(costGuidePageSlugs)?.getTime(),
+      ...staticCostGuides.map((guide) => new Date(guide.updatedAt).getTime()),
+    ].filter((t): t is number => t !== undefined && Number.isFinite(t));
+    return times.length ? new Date(Math.max(...times)) : DEPLOYED_AT;
   };
 
   /** Newest lastmod across the whole CMS feed (for the home page). */
@@ -145,7 +165,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     staticEntry("/garage-door-motors-perth", DEPLOYED_AT),
     staticEntry(`/${getBrandHub("door").slug}`, newestBrand("door") ?? DEPLOYED_AT),
     staticEntry(`/${getBrandHub("motor").slug}`, newestBrand("motor") ?? DEPLOYED_AT),
-    staticEntry("/cost-guides", newestOf(costGuidePageSlugs) ?? DEPLOYED_AT),
+    staticEntry("/cost-guides", newestCostGuidesHub()),
+    // Reserved slugs: repo-only cost guides (e.g. /garage-door-installation-cost-perth) are static
+    // routes with no CMS feed entry, so their lastmod is the guide's own updatedAt (its review date,
+    // or a later live price change on a row it shows).
+    ...staticCostGuides.map((guide) => staticEntry(`/${guide.slug}`, new Date(guide.updatedAt))),
     staticEntry("/calculator", DEPLOYED_AT),
     staticEntry("/quote", DEPLOYED_AT),
     staticEntry("/blog", newestOf(blogSlugs, "blog/") ?? DEPLOYED_AT),

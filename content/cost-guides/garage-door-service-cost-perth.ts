@@ -241,7 +241,7 @@ export const garageDoorServiceCostPerth: CostGuidePage = {
   },
 
   seo: {
-    title: "Garage Door Service & Maintenance Cost Perth",
+    title: "Garage Door Service Cost Perth (2026 Price Guide)",
     description:
       "Garage door service cost in Perth: full tune-up from $140, safety check-up $120, new seals $280–$480, rollers $30 each. Real price-list ranges, quoted upfront.",
   },

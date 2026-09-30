@@ -1,3 +1,4 @@
+import { siteConfig } from "@/config/site";
 import type { Review, ReviewsSummary } from "@/types/review";
 
 /**
@@ -18,13 +19,14 @@ import type { Review, ReviewsSummary } from "@/types/review";
 export const reviewsSummary: ReviewsSummary = {
   averageRating: 5.0,
   totalReviews: 24,
-  // Verified-working GBP link (curl 200 + used by the citations pack). The old
-  // g.page/r/CapitalGarageDoorPerth vanity token was invented and resolved for
-  // nobody — Semrush flagged it as the site's one broken external link
-  // (2026-08-05). If the user extracts the official "Ask for reviews" short
-  // link from the GBP dashboard, swap it into googleWriteReviewUrl only.
+  // "View on Google" — the verified-working GBP Maps link (curl 200 + used by the citations
+  // pack). The old g.page/r/CapitalGarageDoorPerth vanity token was invented and resolved for
+  // nobody — Semrush flagged it as the site's one broken external link (2026-08-05).
   googleProfileUrl: "https://www.google.com/maps?cid=14180702000236315157",
-  googleWriteReviewUrl: "https://www.google.com/maps?cid=14180702000236315157",
+  // "Leave a Review" — Google's write-review deep link, which opens the review composer. The
+  // profile link above used to be reused here, which only opened the listing. The URL lives in
+  // config/site.ts so the footer CTA and the /review short link can't drift from it.
+  googleWriteReviewUrl: siteConfig.googleWriteReviewUrl,
 };
 
 export const reviews: Review[] = [

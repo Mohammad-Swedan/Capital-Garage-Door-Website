@@ -6,7 +6,9 @@
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seo:report": "py -3.12 scripts/seo/gsc-report.py",
+    "seo:ga4": "py -3.12 scripts/seo/ga4-leads.py"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

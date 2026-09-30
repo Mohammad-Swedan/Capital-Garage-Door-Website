@@ -13,6 +13,11 @@ import Image, { type ImageProps } from "next/image";
 import { ChevronDown, ChevronUp, ImageIcon, Plus, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { iconMap, resolveIcon } from "@/lib/icons";
+// Same formatter the public mappers use, so a pinned row reads "$3,000–$5,000" (not "$3000–$5000")
+// in the editor too. Import it from the import-free lib/pricing/format, never lib/brands/pricing:
+// this file ships in every public page's JS, and lib/brands/pricing pulls in pricing-data.ts with
+// its private internal notes.
+import { formatCatalogPrice } from "@/lib/pricing/format";
 import { useEditable } from "./editable-context";
 import {
   CatalogPicker,
@@ -558,13 +563,6 @@ interface DraftCostRow {
   internalNote?: string | null;
 }
 
-function pricingPriceLabel(r: PricingCatalogRecord): string {
-  if (r.priceLabel) return r.priceLabel;
-  if (r.priceMin != null && r.priceMax != null) return `$${r.priceMin}–$${r.priceMax}`;
-  if (r.priceMin != null) return `From $${r.priceMin}`;
-  return "";
-}
-
 async function createPricingCatalog(values: Record<string, string>): Promise<PricingCatalogRecord | null> {
   const res = await fetch("/admin/api/pins", {
     method: "POST",
@@ -608,7 +606,7 @@ export function EditablePricingRows({ path, count, items }: EditablePricingRowsP
     return list.map((p) => ({
       id: p.id,
       label: p.scenario || `Item #${p.id}`,
-      sub: [pricingPriceLabel(p), p.category ?? ""].filter(Boolean).join(" · ") || undefined,
+      sub: [formatCatalogPrice(p), p.category ?? ""].filter(Boolean).join(" · ") || undefined,
     }));
   }, []);
 
@@ -621,7 +619,7 @@ export function EditablePricingRows({ path, count, items }: EditablePricingRowsP
 
   const rowFromRecord = (rec: PricingCatalogRecord): DraftCostRow => ({
     label: rec.scenario,
-    price: pricingPriceLabel(rec),
+    price: formatCatalogPrice(rec),
     note: rec.note ?? "",
     pricingItemId: rec.id,
     internalNote: rec.internalNote ?? null,

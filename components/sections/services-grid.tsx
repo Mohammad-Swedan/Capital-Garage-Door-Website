@@ -5,7 +5,12 @@ import { Container } from "@/components/layout/container";
 import { Reveal } from "@/components/motion/reveal";
 import { resolveIcon } from "@/lib/icons";
 import { getServices } from "@/lib/data/services";
+import { COST_GUIDE_LINKS, PRICE_LIST_LINK } from "@/lib/pricing/guide-links";
 import { cn } from "@/lib/utils";
+
+/** The exact-match anchor style shared by the "Most searched" and "Prices & new doors" rows. */
+const ANCHOR_CLASS =
+  "font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta";
 
 type Tone = "navy" | "red";
 
@@ -166,24 +171,50 @@ export async function ServicesGrid() {
               for its own keyword). */}
           <p className="max-w-2xl text-xs leading-relaxed text-white/50 sm:text-sm">
             Most searched:{" "}
-            <Link href="/garage-door-repairs-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+            <Link href="/garage-door-repairs-perth" className={ANCHOR_CLASS}>
               garage door repairs Perth
             </Link>
             {", "}
-            <Link href="/emergency-garage-door-repairs-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+            <Link href="/emergency-garage-door-repairs-perth" className={ANCHOR_CLASS}>
               emergency garage door repairs Perth
             </Link>
             {", "}
-            <Link href="/garage-door-spring-repair-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+            <Link href="/garage-door-spring-repair-perth" className={ANCHOR_CLASS}>
               garage door spring repair
             </Link>
             {", "}
-            <Link href="/garage-door-repair-cost-perth" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+            <Link href="/garage-door-repair-cost-perth" className={ANCHOR_CLASS}>
               garage door repair costs
             </Link>
             {" and "}
-            <Link href="/roller-door-vs-sectional-door" className="font-medium text-white/80 underline decoration-white/30 underline-offset-4 transition-colors hover:text-white hover:decoration-cta">
+            <Link href="/roller-door-vs-sectional-door" className={ANCHOR_CLASS}>
               roller vs sectional doors
+            </Link>
+            .
+          </p>
+          {/* Same idea for price and new-door intent: in-body anchors from the most-crawled
+              page to the price list, the installation cost guide and the door-type pages.
+              prefetch={false} keeps these extra links off the performance-tuned home load. */}
+          <p className="max-w-2xl text-xs leading-relaxed text-white/50 sm:text-sm">
+            Prices &amp; new doors:{" "}
+            <Link href={PRICE_LIST_LINK.href} prefetch={false} className={ANCHOR_CLASS}>
+              garage door prices Perth
+            </Link>
+            {", "}
+            <Link href={COST_GUIDE_LINKS.installation.href} prefetch={false} className={ANCHOR_CLASS}>
+              installation cost
+            </Link>
+            {", "}
+            <Link href="/garage-doors-perth" prefetch={false} className={ANCHOR_CLASS}>
+              new garage doors
+            </Link>
+            {", "}
+            <Link href="/roller-doors-perth" prefetch={false} className={ANCHOR_CLASS}>
+              roller doors
+            </Link>
+            {" and "}
+            <Link href="/sectional-garage-doors-perth" prefetch={false} className={ANCHOR_CLASS}>
+              sectional doors
             </Link>
             .
           </p>

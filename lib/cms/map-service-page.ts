@@ -1,6 +1,7 @@
 import { siteConfig } from "@/config/site";
 import type { ServicePage } from "@/types/service-page";
 import type { PageResolveDto } from "@/lib/cms/client";
+import { formatCatalogPrice } from "@/lib/brands/pricing";
 
 /** Fallback hero image when a CMS page has no hero asset yet (keeps next/image happy). */
 const FALLBACK_HERO = siteConfig.ogImage;
@@ -11,13 +12,6 @@ function asString(v: unknown, fallback = ""): string {
 
 function asArray<T = unknown>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
-}
-
-function priceLabel(row: PageResolveDto["pricingRows"][number]): string {
-  if (row.priceLabel) return row.priceLabel;
-  if (row.priceMin != null && row.priceMax != null) return `$${row.priceMin}–$${row.priceMax}`;
-  if (row.priceMin != null) return `From $${row.priceMin}`;
-  return "";
 }
 
 /**
@@ -65,7 +59,7 @@ export function mapServicePage(dto: PageResolveDto): ServicePage {
       intro: asString(data.costGuidanceIntro),
       rows: dto.pricingRows.map((r) => ({
         label: r.scenario,
-        price: priceLabel(r),
+        price: formatCatalogPrice(r),
         note: r.note ?? undefined,
         // Editor-only fields (undefined on the public path); used by the inline cost-row editor.
         pricingItemId: r.pricingItemId ?? null,

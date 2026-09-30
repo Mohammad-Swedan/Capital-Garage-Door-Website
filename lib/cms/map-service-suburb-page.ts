@@ -1,5 +1,6 @@
 import type { ServiceSuburbPage } from "@/types";
 import type { PageResolveDto } from "@/lib/cms/client";
+import { formatCatalogPrice } from "@/lib/brands/pricing";
 
 function asString(v: unknown, fallback = ""): string {
   return typeof v === "string" ? v : fallback;
@@ -7,15 +8,6 @@ function asString(v: unknown, fallback = ""): string {
 
 function asArray<T = unknown>(v: unknown): T[] {
   return Array.isArray(v) ? (v as T[]) : [];
-}
-
-/** Same formatting as lib/cms/map-service-page.ts so a scenario reads
- * identically whether it's pinned on a service page or a suburb page. */
-function priceLabel(row: PageResolveDto["pricingRows"][number]): string {
-  if (row.priceLabel) return row.priceLabel;
-  if (row.priceMin != null && row.priceMax != null) return `$${row.priceMin}–$${row.priceMax}`;
-  if (row.priceMin != null) return `From $${row.priceMin}`;
-  return "";
 }
 
 /**
@@ -58,10 +50,11 @@ export function mapServiceSuburbPage(dto: PageResolveDto): ServiceSuburbPage {
       intro: asString(costGuidance.intro),
       factors: asArray<string>(costGuidance.factors),
       note: asString(costGuidance.note) || undefined,
-      // Guide prices come from the CMS pricing catalog, never from `data`.
+      // Guide prices come from the CMS pricing catalog, never from `data`. Formatted by the shared
+      // formatCatalogPrice, so a scenario reads identically on service, suburb, problem and cost pages.
       rows: dto.pricingRows.map((r) => ({
         label: r.scenario,
-        price: priceLabel(r),
+        price: formatCatalogPrice(r),
         note: r.note ?? undefined,
       })),
     },

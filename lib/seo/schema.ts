@@ -9,6 +9,7 @@ import type { LandingPage } from "@/types/landing-page";
 import type { Review } from "@/types/review";
 import type { CoverageRegion } from "@/types/coverage-area";
 import type { ResolvedBrandPage } from "@/types/brand";
+import type { ResolvedPriceListGroup } from "@/types/price-list";
 
 /* ------------------------------------------------------------------ *
  * Shared helpers
@@ -453,6 +454,94 @@ function parsePriceRange(label: string): { min?: number; max?: number } | null {
     return /from/i.test(label) ? { min: nums[0] } : { min: nums[0], max: nums[0] };
   }
   return { min: Math.min(...nums), max: Math.max(...nums) };
+}
+
+/**
+ * JSON-LD for the /cost-guides price list: a CollectionPage (speakable on the H1 and the
+ * `#direct-answer` paragraph, with the detailed cost guides as its parts) and the Service whose
+ * OfferCatalog holds one catalog per price group. Every Offer carries the row's displayed price
+ * (plus its visible detail) as its description; a PriceSpecification is added only from the row's
+ * NUMERIC bounds, which exist only for a real range, so label-only rows such as "+$500" or
+ * "From $140 + parts" are never parsed into numbers. FAQPage and BreadcrumbList are emitted
+ * separately (faqSchema at the route, BreadcrumbList by <Breadcrumbs>).
+ */
+export function priceListSchemas({
+  path,
+  title,
+  description,
+  year,
+  lastUpdated,
+  groups,
+  guides,
+}: {
+  path: string;
+  title: string;
+  description: string;
+  year: number;
+  lastUpdated: string;
+  groups: ResolvedPriceListGroup[];
+  guides: { title: string; href: string }[];
+}) {
+  const url = absUrl(path);
+  const catalogId = `${url}#price-list`;
+
+  const collectionPage = compact({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": BUSINESS_ID },
+    dateModified: lastUpdated,
+    mainEntity: { "@id": catalogId },
+    hasPart:
+      guides.length > 0
+        ? guides.map((guide) => ({ "@type": "WebPage", name: guide.title, url: absUrl(guide.href) }))
+        : undefined,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "#direct-answer"],
+    },
+  });
+
+  const service = compact({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: "Garage door repairs, servicing and installation",
+    serviceType: "Garage door repair and installation",
+    description,
+    url,
+    provider: providerRef(),
+    areaServed: { "@type": "City", name: "Perth" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      "@id": catalogId,
+      name: `Perth garage door price list ${year}`,
+      itemListElement: groups.map((group) => ({
+        "@type": "OfferCatalog",
+        name: group.heading,
+        url: `${url}#${group.id}`,
+        itemListElement: group.rows.map((row) => {
+          const detail = row.includes ?? row.note;
+          return compact({
+            "@type": "Offer",
+            name: row.label,
+            url: absUrl(row.href),
+            priceCurrency: "AUD",
+            description: detail ? `${row.price} — ${detail}` : row.price,
+            itemOffered: { "@type": "Service", name: row.label },
+            priceSpecification:
+              row.min != null && row.max != null ? priceSpecification({ min: row.min, max: row.max }) : undefined,
+          });
+        }),
+      })),
+    },
+  });
+
+  return [collectionPage, service];
 }
 
 /**

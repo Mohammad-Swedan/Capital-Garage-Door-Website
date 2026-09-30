@@ -5,6 +5,7 @@ import { faqSchema } from "@/lib/seo/schema";
 import { FAQSection } from "@/components/sections/faq-section";
 import { EMERGENCY_SURCHARGE } from "@/components/sections/smart-calculator/pricing-data";
 import type { ResolvedPriceRow } from "@/lib/brands/pricing";
+import { COST_GUIDE_LINKS, PRICE_LIST_LINK, type GuideLink } from "@/lib/pricing/guide-links";
 import type { FAQ } from "@/types";
 
 /**
@@ -30,13 +31,11 @@ export const TABLE_SCENARIO_IDS = [
   "new-standard",
 ] as const;
 
-/** The four cost-guide deep dives — each table row's "read more" surface. */
-const COST_GUIDE_LINKS = [
-  { label: "Repair cost guide", href: "/garage-door-repair-cost-perth" },
-  { label: "Spring replacement cost", href: "/garage-door-spring-replacement-cost-perth" },
-  { label: "Motor replacement cost", href: "/garage-door-motor-replacement-cost-perth" },
-  { label: "Service cost guide", href: "/garage-door-service-cost-perth" },
-];
+/**
+ * The "read more" surface under the table: the price-list hub first, then the five cost guides
+ * (installation, repair, springs, motor, service), from the shared guide-link list.
+ */
+const PRICE_GUIDE_LINKS: GuideLink[] = [PRICE_LIST_LINK, ...Object.values(COST_GUIDE_LINKS)];
 
 const FAQS: FAQ[] = [
   {
@@ -76,7 +75,11 @@ export function CalculatorSeoContent({ rows }: { rows: ResolvedPriceRow[] }) {
               questions about your door and the problem, and it looks up the matching scenario,
               adjusts for quantity (springs, remotes, hinges), and shows the honest range we
               actually charge. When our live pricing catalog is reachable it even overrides the
-              baked-in ranges with today&apos;s prices.
+              baked-in ranges with today&apos;s prices. The same ranges are laid out job by job on our{" "}
+              <Link href={PRICE_LIST_LINK.href} className="font-medium text-primary underline underline-offset-4 hover:text-cta">
+                full Perth garage door price list
+              </Link>
+              .
             </p>
             <p>
               Prefer to talk it through? The{" "}
@@ -95,7 +98,7 @@ export function CalculatorSeoContent({ rows }: { rows: ResolvedPriceRow[] }) {
           </div>
 
           <h2 className="mt-10 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            Typical Garage Door Prices in Perth
+            Common Jobs the Calculator Prices
           </h2>
           <p className="mt-3 text-muted-foreground">
             The most common jobs from our price list — the same ranges the calculator uses:
@@ -139,7 +142,7 @@ export function CalculatorSeoContent({ rows }: { rows: ResolvedPriceRow[] }) {
             what moves the price, and when to repair versus replace:
           </p>
           <ul className="mt-3 flex flex-wrap gap-x-6 gap-y-2">
-            {COST_GUIDE_LINKS.map((link) => (
+            {PRICE_GUIDE_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
@@ -149,14 +152,6 @@ export function CalculatorSeoContent({ rows }: { rows: ResolvedPriceRow[] }) {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link
-                href="/cost-guides"
-                className="font-medium text-primary underline underline-offset-4 hover:text-cta"
-              >
-                All cost guides
-              </Link>
-            </li>
           </ul>
         </Container>
       </section>

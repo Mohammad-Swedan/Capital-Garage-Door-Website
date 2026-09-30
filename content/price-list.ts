@@ -159,7 +159,7 @@ export const PRICE_LIST: PriceListContent = {
       navLabel: "After-hours",
       heading: "After-Hours Call-Out Surcharge",
       intro:
-        "Work done outside business hours carries a flat surcharge on top of the job itself, which is priced from the tables above. We confirm the total with you before a technician is sent.",
+        "Work done outside business hours carries a flat surcharge on top of the job itself, which is priced from the tables above. We confirm the surcharge with you before a technician is sent, and the job price before any work starts.",
       rows: [
         {
           key: "after-hours",
@@ -264,7 +264,7 @@ export const PRICE_LIST: PriceListContent = {
     {
       question: "Do after-hours call-outs cost more?",
       answer:
-        "Yes. An after-hours or emergency call-out carries a surcharge ({{price:after-hours}}) on top of the normal price of the job, so a single spring replaced at night costs {{price:spring-x1}} plus the surcharge. If the door is safe and the garage can be locked, a booking during business hours avoids the extra charge. Either way, you'll know the full price before anyone is sent out.",
+        "Yes. An after-hours or emergency call-out carries a surcharge ({{price:after-hours}}) on top of the normal price of the job, so a single spring replaced at night costs {{price:spring-x1}} plus the surcharge. If the door is safe and the garage can be locked, a booking during business hours avoids the extra charge. Either way, you'll know about the surcharge before anyone is sent out, and the job price before work starts.",
     },
     {
       question: "Are these prices fixed?",

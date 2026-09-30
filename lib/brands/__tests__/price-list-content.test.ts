@@ -172,6 +172,12 @@ test("claims: dealer wording only for B&D, and no licence, insurance, rating or 
   for (const match of copy.matchAll(/[^.]*\bdealer\b[^.]*/gi)) {
     assert.match(match[0], /B&D/, `dealer wording outside the B&D answer: ${match[0]}`);
   }
+  // Before dispatch only the surcharge can be confirmed; the job price comes after diagnosis, on site.
+  for (const sentence of copy.split(/(?<=[.!?])\s+/)) {
+    if (/\b(sent|dispatch)/i.test(sentence)) {
+      assert.doesNotMatch(sentence, /\b(total|full price|exact price)\b/i, `pre-dispatch price promise: ${sentence}`);
+    }
+  }
 });
 
 test("the table price is the row's resolved price: a range beats a label, as on every other page", () => {

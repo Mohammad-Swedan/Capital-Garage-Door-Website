@@ -85,6 +85,7 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 - [ ] **Length** within ~20% of the top-3 results for the query.
 - [ ] **Short paragraphs (1–4 sentences)**, 8th–10th grade readability, active voice.
 - [ ] **Bold key phrases sparingly; use bullets/numbered lists** — article content blocks support `list` (ordered/unordered) and `checklist`.
+- [ ] **Prices come from the price source, never from hand-typed copy.** On repo-authored pages (brand pages, the `/cost-guides` price list, the static installation cost guide) write `{{price:<key>}}` tokens — a scenario id from `components/sections/smart-calculator/pricing-data.ts`, a per-count key such as `spring-x2`, or `after-hours` — which `renderPriceTokens()` fills from the live catalog row, else the baked range (`resolvePriceRows()` / `buildPricingRows()` in `lib/brands/pricing.ts`); a literal `$<digit>` in that content throws at build (`assertNoLiteralPrices`). On CMS pages and blog posts don't type a price that isn't on the price list either — pin catalog rows (`PricingItems`) on the page instead.
 
 ## 5. FAQ Section — every blog post (and service/cost/comparison/suburb pages)
 
@@ -123,10 +124,10 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 **In this repo:** site-wide `LocalBusiness` (HomeAndConstructionBusiness) + `Organization` + `WebSite` are emitted in `app/layout.tsx` — don't repeat them. Per-page schema comes from `lib/seo/schema.ts` via `PageSchema`/`JsonLd`.
 
 - [ ] **Article** on blog posts (+ Person author) and case studies.
-- [ ] **Service** on service / cost-guide / comparison / suburb / landing pages.
+- [ ] **Service** on service / cost-guide / comparison / suburb / landing pages. Cost guides (the CMS ones **and** the static `/garage-door-installation-cost-perth`) also emit `Offer`s via `costGuideOffers()`; a `PriceSpecification` is built from the row's **numeric** `priceMin`/`priceMax` (give rows numbers rather than leaning on the label-parsing fallback, which exists only for local content that has none), and open-ended, per-unit or surcharge rows ("From $140 + parts", "$95 each", "+$500") get a description only.
 - [ ] **FAQPage** wherever a FAQ renders (see §5).
 - [ ] **BreadcrumbList** on every page (free with `<Breadcrumbs>`).
-- [ ] **CollectionPage** on index/listing pages (`/services`, `/blog`, `/cost-guides`, `/gallery`, …).
+- [ ] **CollectionPage** on index/listing pages (`/services`, `/blog`, `/gallery`, …). **`/cost-guides` is the price-list hub**: `priceListSchemas()` emits CollectionPage (speakable `h1` + `#direct-answer`) + `Service` with `hasOfferCatalog` (an `OfferCatalog` per price group, an `Offer` per row, `PriceSpecification` from **numeric min/max only**), and the route adds FAQPage (the BreadcrumbList still comes from `<Breadcrumbs>`).
 - [ ] **Organization / LocalBusiness** — site-wide already; don't duplicate.
 - [ ] **Author/Person** — for blog bylines (enriched with `jobTitle`/`description` from `authorTitle`/`authorBio`).
 
@@ -187,7 +188,8 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 |---|---|---|---|---|---|
 | Service (flat) | ✅ hero | ✅ | Service · Review · speakable | ✅ | `#quote` form + `tel:` |
 | Comparison | ✅ | ✅ | Article · speakable | ✅ | `#quote` |
-| Cost-guide | ✅ | ✅ | Article · Service(+Offers) · speakable | ✅ | `#quote` |
+| Cost-guide (CMS guides + the static `/garage-door-installation-cost-perth`) | ✅ | ✅ | Article · Service(+Offers, `PriceSpecification` from numeric `priceMin`/`priceMax`) · speakable | ✅ | `#quote` |
+| Price-list hub (`/cost-guides`) | ✅ hero | ✅ | CollectionPage (speakable `h1` + `#direct-answer`) · Service(`hasOfferCatalog` → Offers, `PriceSpecification` from numeric min/max only) | ✅ | hero CTAs (`/quote` + `tel:`) + `SmartCta` |
 | Service-suburb | ✅ | ✅ | LocalBusiness · Service · speakable | ✅ | `#quote` |
 | Brand page | ✅ hero | ✅ | Service · WebPage(about: Brand, +speakable) | ✅ | `#quote` form + `tel:` |
 | Brand hub | ✅ | ✅ | CollectionPage · ItemList | ✅ | `tel:` + quote |

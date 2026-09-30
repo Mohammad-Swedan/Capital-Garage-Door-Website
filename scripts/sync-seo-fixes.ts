@@ -54,16 +54,18 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
     description:
       "New garage door installation & replacement across Perth. Local installers fit sectional, roller, tilt & custom doors and openers. Free measure & quote.",
   },
+  // CTR title pass 2026-10 — keep in lockstep with scripts/ctr-titles-2026-10.ts
   "garage-door-spring-repair-perth": {
-    title: "Garage Door Spring Repair Perth | Capital Garage Doors",
+    title: "Garage Door Spring Replacement Perth | Same-Day Repairs",
   },
   "garage-door-maintenance-perth": {
     title: "Garage Door Servicing Perth | Capital Garage Doors",
     description:
       "Garage door servicing and maintenance across Perth. Preventive tune-ups from $140 that catch problems early and keep your door quiet, safe and reliable.",
   },
+  // CTR title pass 2026-10 — keep in lockstep with scripts/ctr-titles-2026-10.ts
   "emergency-garage-door-repairs-perth": {
-    title: "Emergency Garage Door Repairs Perth | 24/7 Response",
+    title: "Emergency Garage Door Repairs Perth | 24 Hour Call-Outs",
   },
   // Description was 177 chars, so Google truncated it mid-sentence. The
   // commercial cluster is the site's worst converter (1,719 impressions / 4
@@ -117,9 +119,18 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
     description:
       "See how Capital Garage Doors diagnosed and repaired a jamming commercial roller door in Canning Vale — track straightening, roller replacement and testing.",
   },
+  // CTR title pass 2026-10 — keep in lockstep with scripts/ctr-titles-2026-10.ts
+  // (the three cost-guide entries below; also content/cost-guides/*.ts seo.title).
   "garage-door-repair-cost-perth": {
+    title: "Garage Door Repair Cost Perth (2026 Price Guide)",
     description:
       "Garage door repair costs in Perth: springs $240–$1,000, cables $280–$550, motors $380–$990, off-track doors $440–$770. Real ranges, quoted upfront.",
+  },
+  "garage-door-spring-replacement-cost-perth": {
+    title: "Garage Door Spring Replacement Cost Perth (2026 Guide)",
+  },
+  "garage-door-service-cost-perth": {
+    title: "Garage Door Service Cost Perth (2026 Price Guide)",
   },
 };
 

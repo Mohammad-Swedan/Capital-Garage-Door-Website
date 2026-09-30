@@ -255,7 +255,7 @@ export const garageDoorSpringReplacementCostPerth: CostGuidePage = {
   },
 
   seo: {
-    title: "Garage Door Spring & Cable Replacement Cost Perth",
+    title: "Garage Door Spring Replacement Cost Perth (2026 Guide)",
     description:
       "Garage door spring replacement cost in Perth: single $240–$280, pair $440–$550, heavy doors to $1,000. Cable replacement $280–$550. Quoted upfront.",
   },

@@ -9,7 +9,7 @@ import { formatHour } from "@/lib/utils";
 
 export function Footer() {
   const year = new Date().getFullYear();
-  const { business, social, footerNav } = siteConfig;
+  const { business, social, footerNav, googleWriteReviewUrl } = siteConfig;
 
   const navSections = footerNav.filter((section) => section.title !== "Legal");
   const legalLinks = footerNav.find((section) => section.title === "Legal")?.links ?? [];
@@ -163,10 +163,12 @@ export function Footer() {
             {/* Review prompt. Google review count is the dominant local/map-pack
                 ranking factor and this business trails its Perth rivals badly
                 (77 reviews vs 643/603/244), yet the only review CTA on the site
-                was buried on /reviews. This puts the ask on every page. */}
-            {social.google && (
+                was buried on /reviews. This puts the ask on every page. It uses
+                the write-review deep link (opens the review composer), not
+                social.google, which is only the Maps profile page. */}
+            {googleWriteReviewUrl && (
               <a
-                href={social.google}
+                href={googleWriteReviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3.5 py-2.5 text-sm font-medium text-white/80 transition-colors hover:border-white/30 hover:bg-white/10 hover:text-white"

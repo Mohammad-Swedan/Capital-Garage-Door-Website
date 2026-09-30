@@ -73,12 +73,27 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        // A quote request belongs on the quote page (the live quote embed), not the contact page.
         source: "/request-quote",
-        destination: "/contact",
+        destination: "/quote",
         permanent: true,
       },
-      // Old /services/{slug} detail links never had a route — redirect each
-      // to its flat canonical SEO page so old links/bookmarks don't 404.
+      {
+        // Short link for review requests (SMS, email, QR card, invoice footer): easier to say and
+        // print than Google's writereview URL. TEMPORARY (307) on purpose — the destination is a
+        // third-party URL we don't control, and a 301 would be cached by browsers indefinitely.
+        // The literal repeats `googleWriteReviewUrl` in config/site.ts: this file stays
+        // import-free so a broken import can never stop the build from loading its config.
+        // lib/brands/__tests__/redirects.test.ts fails if the two differ.
+        source: "/review",
+        destination: "https://search.google.com/local/writereview?placeid=ChIJe-GkxTxvuA8RFcLBLVb5y8Q",
+        permanent: false,
+      },
+      // Old /services/{slug} detail links never had a route — redirect each to the flat SEO page
+      // for the same topic so old links/bookmarks don't 404. (They all used to land on
+      // /garage-door-repairs-perth, which is only the right answer for the repair link.) These are
+      // exact-path rules, not /blogs/* ones, so their order against the catch-all doesn't matter.
+      // Every destination must return a plain 200 — curl it before changing one.
       {
         source: "/services/garage-door-repair",
         destination: "/garage-door-repairs-perth",
@@ -86,27 +101,27 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/services/garage-door-installation",
-        destination: "/garage-door-repairs-perth",
+        destination: "/garage-door-installation-perth",
         permanent: true,
       },
       {
         source: "/services/spring-repair",
-        destination: "/garage-door-repairs-perth",
+        destination: "/garage-door-spring-repair-perth",
         permanent: true,
       },
       {
         source: "/services/garage-door-opener-repair",
-        destination: "/garage-door-repairs-perth",
+        destination: "/garage-door-opener-repair-perth",
         permanent: true,
       },
       {
         source: "/services/emergency-garage-door-service",
-        destination: "/garage-door-repairs-perth",
+        destination: "/emergency-garage-door-repairs-perth",
         permanent: true,
       },
       {
         source: "/services/garage-door-maintenance",
-        destination: "/garage-door-repairs-perth",
+        destination: "/garage-door-maintenance-perth",
         permanent: true,
       },
       // ---------------------------------------------------------------------
@@ -159,9 +174,10 @@ const nextConfig: NextConfig = {
         // Distinct from the /request-quote rule above — this is the old site's
         // URL. The trailing-slash variant needs no rule of its own: with the
         // default `trailingSlash: false`, Next 308s /request-a-quote/ to
-        // /request-a-quote first, and this rule then fires.
+        // /request-a-quote first, and this rule then fires. Goes to the quote
+        // page (the live quote embed) like /request-quote, not the contact page.
         source: "/request-a-quote",
-        destination: "/contact",
+        destination: "/quote",
         permanent: true,
       },
       {
@@ -257,6 +273,13 @@ const nextConfig: NextConfig = {
         // site's booking entry points.
         source: "/book-now",
         destination: "/contact",
+        permanent: true,
+      },
+      {
+        // A mistyped URL (underscore for a hyphen) that earned a click in the GSC baseline window
+        // while returning 404 (docs/seo/capital-diagnosis-2026-09.md).
+        source: "/tilt-garage_doors-perth",
+        destination: "/tilt-garage-doors-perth",
         permanent: true,
       },
     ];

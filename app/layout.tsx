@@ -82,7 +82,7 @@ export default async function RootLayout({
 
   return (
     <html
-      lang="en"
+      lang="en-AU"
       className={`${heading.variable} ${body.variable} ${display.variable} h-full antialiased`}
       suppressHydrationWarning
     >

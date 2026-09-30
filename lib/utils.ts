@@ -19,6 +19,16 @@ export function formatHour(time: string) {
 }
 
 /**
+ * A service name without its trailing "Perth" / "in Perth" (case-insensitive), for headings that
+ * add their own "in Perth": "Garage Door Repairs Perth" → "Garage Door Repairs", so
+ * `Book {serviceShortName(name)} in Perth` never reads "…Perth in Perth". A name with no trailing
+ * Perth (including one that merely contains it, like "Perth Windsor Doors") is returned trimmed.
+ */
+export function serviceShortName(name: string): string {
+  return name.trim().replace(/\s+(?:in\s+)?perth$/i, "").trim()
+}
+
+/**
  * One-line business-hours summary derived from `siteConfig.business.hours`,
  * e.g. "Mon–Fri 7 AM–6 PM · Sat–Sun 8 AM–4 PM". Use this wherever hours are
  * written as prose (Contact page, FAQ copy) so they can never drift from the

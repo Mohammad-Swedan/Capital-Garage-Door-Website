@@ -49,8 +49,11 @@ export function ServiceSuburbPageTemplate({ page, caseStudies = [] }: ServiceSub
   // JSON-LD (LocalBusiness + Service + FAQPage + speakable) is emitted at the
   // route level via <PageSchema kind="service-suburb">. BreadcrumbList is still
   // emitted by <Breadcrumbs> below.
+  // A fragment, not <main>: the site chrome already wraps every page in
+  // <main id="main-content"> (components/layout/site-chrome.tsx), and a nested second <main>
+  // is invalid HTML (one main landmark per page).
   return (
-    <main>
+    <>
       <Container className="pt-6">
         <Breadcrumbs items={breadcrumbs} />
       </Container>
@@ -144,6 +147,6 @@ export function ServiceSuburbPageTemplate({ page, caseStudies = [] }: ServiceSub
       <SmartCta />
 
       <StickyMobileCta />
-    </main>
+    </>
   );
 }

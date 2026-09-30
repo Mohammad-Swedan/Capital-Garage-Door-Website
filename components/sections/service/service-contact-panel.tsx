@@ -1,6 +1,6 @@
 import { Phone, MapPin, Clock, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { formatHour } from "@/lib/utils";
+import { formatHour, serviceShortName } from "@/lib/utils";
 
 const { business } = siteConfig;
 
@@ -25,7 +25,7 @@ export function ServiceContactPanel({ serviceName }: { serviceName: string }) {
       <div>
         <p className="text-xs font-bold tracking-wider text-cta uppercase">Get a quote</p>
         <h2 className="mt-2 font-heading text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Book {serviceName} in Perth
+          Book {serviceShortName(serviceName)} in Perth
         </h2>
         <p className="mt-3 text-muted-foreground">
           Licensed, insured, and local. Send the form and we&apos;ll get back to you fast with a

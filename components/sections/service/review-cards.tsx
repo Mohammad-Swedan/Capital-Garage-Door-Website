@@ -17,8 +17,15 @@ interface ReviewCardsProps {
  * not from `data`. They are pinned/reordered in the Settings drawer (Phase 4/5 picker)
  * rather than free-text edited here; the `EditableGroup` labels the section while
  * editing. The pins are always round-tripped untouched on save.
+ *
+ * Renders nothing when the page has no pinned reviews. There is deliberately no site-wide
+ * fallback set: a page's visible reviews must match its Review JSON-LD
+ * (`reviewSchemasFromServiceReviews`), and an empty heading over an empty grid is just noise.
+ * The admin editor passes `reviews: []` (pins are managed in Settings), so it renders nothing too.
  */
 export function ReviewCards({ heading = "What Perth Homeowners Say", reviews }: ReviewCardsProps) {
+  if (reviews.length === 0) return null;
+
   return (
     <section className="bg-background py-14 sm:py-20">
       <Container>

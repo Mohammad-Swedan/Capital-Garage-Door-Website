@@ -71,6 +71,14 @@ export const siteConfig = {
     yelp: "",
   },
 
+  // Google's "write a review" deep link (built from the GBP Place ID): opens the review composer
+  // straight away. Every WRITE-a-review CTA uses this one URL — the footer, /reviews (via
+  // content/reviews.ts) and the /review short link in next.config.ts, which repeats the literal
+  // on purpose (a failing import there would break every build); the redirects test fails if the
+  // two ever differ. It is deliberately NOT in `social`: that object feeds schema `sameAs`
+  // (profile URLs only), and `social.google` stays the Maps CID URL for "view us on Google".
+  googleWriteReviewUrl: "https://search.google.com/local/writereview?placeid=ChIJe-GkxTxvuA8RFcLBLVb5y8Q",
+
   // 10 items. `menu` opts an item into a header mega-menu — the panel's content
   // lives in config/nav-menus.ts (NAV_MENUS), keyed by this value, never by the
   // label. `Home` is hidden below `xl` in the desktop nav (the logo links home)

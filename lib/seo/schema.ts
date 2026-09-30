@@ -721,16 +721,25 @@ export function servicesItemListSchema(
   };
 }
 
-/** Builds LocalBusiness + areaServed JSON-LD for the /service-areas suburb directory. */
+/**
+ * Builds Service JSON-LD for the /service-areas suburb directory: one Service node whose
+ * `provider` is the site-wide business (by `@id`) and whose `areaServed` lists every suburb in
+ * the directory as a City.
+ *
+ * This must stay a Service, not a business node. It used to emit a second
+ * HomeAndConstructionBusiness under the site-wide BUSINESS_ID with a different `url`, so
+ * /service-areas contradicted the `@graph` business node for the same entity. The business is
+ * defined once, in `siteGraphSchema`.
+ */
 export function serviceAreasSchema(regions: CoverageRegion[]) {
   return {
     "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    "@id": BUSINESS_ID,
-    name: siteConfig.name,
-    telephone: siteConfig.business.phone,
+    "@type": "Service",
+    "@id": `${siteConfig.url}/service-areas#service-area`,
+    name: "Garage Door Repairs & Installation Across Perth",
+    serviceType: "Garage door repair and installation",
     url: new URL("/service-areas", siteConfig.url).toString(),
-    address: businessPostalAddress(),
+    provider: providerRef(),
     areaServed: regions.flatMap((region) =>
       region.suburbs.map((suburb) => ({
         "@type": "City",

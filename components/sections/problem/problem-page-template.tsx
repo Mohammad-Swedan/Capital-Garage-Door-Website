@@ -14,6 +14,7 @@ import { QuoteForm } from "@/components/sections/problem/quote-form";
 import { StickyMobileCta } from "@/components/layout/sticky-mobile-cta";
 import { Container } from "@/components/layout/container";
 import { siteConfig } from "@/config/site";
+import { priceLinksFor } from "@/lib/pricing/guide-links";
 import type { Problem } from "@/types";
 
 interface ProblemPageTemplateProps {
@@ -64,7 +65,7 @@ export function ProblemPageTemplate({ problem }: ProblemPageTemplateProps) {
 
       <RelatedServices services={problem.relatedServices} />
 
-      <CostTable rows={problem.costRows} />
+      <CostTable rows={problem.costRows} links={priceLinksFor(`problems/${problem.slug}`)} />
 
       <CTASection
         tone="emergency"

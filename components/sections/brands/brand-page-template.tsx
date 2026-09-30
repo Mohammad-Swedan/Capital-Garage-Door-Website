@@ -19,6 +19,7 @@ import { BrandDecision } from "./brand-decision";
 import { BrandParts } from "./brand-parts";
 import { BrandProductImage } from "./brand-product-image";
 import { RelatedBrands } from "./related-brands";
+import { COST_GUIDE_LINKS, PRICE_LIST_LINK } from "@/lib/pricing/guide-links";
 import type { CaseStudyPage } from "@/types/case-study";
 import type { ResolvedBrandPage } from "@/types/brand";
 
@@ -107,6 +108,10 @@ export function BrandPageTemplate({ resolved, caseStudies }: BrandPageTemplatePr
         title={`${entity.name} ${noun} repair & replacement prices in Perth`}
         data={pricing}
         ctaText={`Request a fixed quote for your ${entity.name} ${noun}.`}
+        links={[
+          page.kind === "motor" ? COST_GUIDE_LINKS.motor : COST_GUIDE_LINKS.installation,
+          PRICE_LIST_LINK,
+        ]}
       />
 
       <RecentWork

@@ -22,8 +22,9 @@ function mapDetailBlock(raw: unknown): CaseStudyDetailBlock {
 /**
  * Maps the API's resolve payload onto the existing `CaseStudyPage` shape the template already
  * consumes. The bespoke parts come from `dto.data` (§6); FAQs and related services come from the
- * expanded top-level fields, and `updatedAt` from the real Page column. Image `assetId`s in the
- * blob have no resolved CDN url here, so `src` falls back to empty — captions are preserved.
+ * expanded top-level fields, and `updatedAt` from the real Page column (else `publishedAt`).
+ * Image `assetId`s in the blob have no resolved CDN url here, so `src` falls back to empty —
+ * captions are preserved.
  * Keeping this mapping here means the template stays unchanged.
  */
 export function mapCaseStudyPage(dto: PageResolveDto): CaseStudyPage {
@@ -66,6 +67,8 @@ export function mapCaseStudyPage(dto: PageResolveDto): CaseStudyPage {
       title: dto.seoTitle,
       description: dto.seoDescription,
     },
-    updatedAt: asString(dto.updatedAt),
+    // `updatedAt` is null on many live case studies; fall back to `publishedAt` so "newest first"
+    // sorting and the page's dateModified see a real date, not "".
+    updatedAt: asString(dto.updatedAt ?? dto.publishedAt),
   };
 }

@@ -15,6 +15,7 @@ import { RelatedServices } from "@/components/page/related-services";
 import { FAQSection } from "@/components/page/faq-section";
 import { SectionHeading } from "@/components/page/section-heading";
 import { QuoteForm } from "@/components/forms/quote-form";
+import { COST_GUIDE_LINKS, PRICE_LIST_LINK } from "@/lib/pricing/guide-links";
 import type { BreadcrumbItem, ServiceSuburbPage } from "@/types";
 import type { CaseStudyPage } from "@/types/case-study";
 
@@ -96,6 +97,7 @@ export function ServiceSuburbPageTemplate({ page, caseStudies = [] }: ServiceSub
         title={`${page.service} Cost in ${page.suburb}`}
         data={page.costGuidance}
         ctaText={`Request a quote for your ${page.suburb} property.`}
+        links={[COST_GUIDE_LINKS.repair, PRICE_LIST_LINK]}
       />
 
       <TrustCards

@@ -19,7 +19,7 @@ import {
   getCaseStudiesForBrand,
   resolveBrandPage,
 } from "@/lib/data/brands";
-import { getCaseStudiesForSuburbPage } from "@/lib/data/case-studies";
+import { getCaseStudiesForServicePage, getCaseStudiesForSuburbPage } from "@/lib/data/case-studies";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 interface FlatLandingPageProps {
@@ -142,7 +142,11 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
     // Link matching chips in the "Areas We Service" grid to their suburb pages
     // (hub→spoke internal links so suburb pages can outrank the homepage for
     // "garage door repairs {suburb}"). Keyed by lowercased suburb name.
-    const suburbSlugs = await getServiceSuburbPageSlugs();
+    // The page's "Recent work" case studies load in parallel (failure-safe → []).
+    const [suburbSlugs, caseStudies] = await Promise.all([
+      getServiceSuburbPageSlugs(),
+      getCaseStudiesForServicePage(servicePage.slug),
+    ]);
     const areaLinks = Object.fromEntries(
       suburbSlugs
         .filter((s) => s.startsWith("garage-door-repairs-"))
@@ -151,7 +155,7 @@ export default async function FlatLandingPage({ params }: FlatLandingPageProps) 
     return (
       <>
         <PageSchema kind="service" data={servicePage} />
-        <ServicePageTemplate data={servicePage} areaLinks={areaLinks} />
+        <ServicePageTemplate data={servicePage} areaLinks={areaLinks} caseStudies={caseStudies} />
       </>
     );
   }

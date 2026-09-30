@@ -82,7 +82,9 @@ export const siteConfig = {
     { label: "Doors", href: "/garage-doors-perth", menu: "doors" },
     { label: "Motors", href: "/garage-door-motors-perth", menu: "motors" },
     { label: "Service Areas", href: "/service-areas" },
-    { label: "Pricing", href: "/calculator" },
+    // Price-intent queries ("garage door prices perth") rank the /cost-guides price list, not
+    // /calculator. The label stays "Pricing" so the desktop row keeps its measured width.
+    { label: "Pricing", href: "/cost-guides" },
     // Gallery/Blog/About/Warranty/Reviews live in the "More" dropdown (config/nav-menus.ts) —
     // on mobile they render flat. The href below is only a React key for the trigger.
     { label: "More", href: "/about", menu: "more" },
@@ -108,7 +110,8 @@ export const siteConfig = {
       title: "Resources",
       links: [
         { label: "Blog", href: "/blog" },
-        { label: "Cost Guides", href: "/cost-guides" },
+        { label: "Prices & Cost Guides", href: "/cost-guides" },
+        { label: "Installation Cost", href: "/garage-door-installation-cost-perth" },
         { label: "Common Problems", href: "/problems" },
         { label: "Case Studies", href: "/case-studies" },
         { label: "Roller vs Sectional Doors", href: "/roller-door-vs-sectional-door" },

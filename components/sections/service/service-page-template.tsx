@@ -16,12 +16,21 @@ import { ServiceAreaGrid } from "@/components/sections/service/service-area-grid
 import { ReviewCards } from "@/components/sections/service/review-cards";
 import { ServiceQuoteForm } from "@/components/sections/service/quote-form";
 import { ServiceContactPanel } from "@/components/sections/service/service-contact-panel";
+import { RecentWork } from "@/components/page/recent-work";
+import { priceLinksFor } from "@/lib/pricing/guide-links";
 import type { ServicePage } from "@/types/service-page";
+import type { CaseStudyPage } from "@/types/case-study";
 
 interface ServicePageTemplateProps {
   data: ServicePage;
   /** Suburb-page links for the service-area grid, keyed by lowercased suburb name. */
   areaLinks?: Record<string, string>;
+  /**
+   * Real completed jobs for the "Recent work" section (resolved in the route by
+   * `getCaseStudiesForServicePage`). Optional so the admin live-editor can render the template
+   * with just `data`; the section hides itself when the list is empty.
+   */
+  caseStudies?: CaseStudyPage[];
 }
 
 /**
@@ -29,7 +38,7 @@ interface ServicePageTemplateProps {
  * new ServicePage content entry (content/service-pages/) to ship another
  * page — no component changes needed.
  */
-export function ServicePageTemplate({ data, areaLinks }: ServicePageTemplateProps) {
+export function ServicePageTemplate({ data, areaLinks, caseStudies = [] }: ServicePageTemplateProps) {
   return (
     <>
       <Container className="pt-6">
@@ -54,9 +63,16 @@ export function ServicePageTemplate({ data, areaLinks }: ServicePageTemplateProp
 
       <ProcessSteps steps={data.processSteps} />
 
-      <ServiceCostTable costGuidance={data.costGuidance} />
+      <ServiceCostTable costGuidance={data.costGuidance} links={priceLinksFor(data.slug)} />
 
       <WhyChoose items={data.whyChoose} />
+
+      <RecentWork
+        eyebrow="Recent work"
+        title={`Recent Jobs — ${data.serviceName}`}
+        description="Real completed jobs from around Perth — tap through for the photos and the full story."
+        caseStudies={caseStudies}
+      />
 
       <ServiceRelatedLinks links={data.relatedServices} />
 

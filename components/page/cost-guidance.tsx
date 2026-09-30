@@ -6,6 +6,8 @@ import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/page/section-heading";
 import { CallNowButton, RequestQuoteButton } from "@/components/page/cta-buttons";
 import { EditableText, EditableList } from "@/components/admin/editor/editable";
+import { PriceGuideLinks } from "@/components/sections/price-guide-links";
+import type { GuideLink } from "@/lib/pricing/guide-links";
 import type { CostGuidance as CostGuidanceData } from "@/types";
 
 interface CostGuidanceProps {
@@ -14,6 +16,8 @@ interface CostGuidanceProps {
   data: CostGuidanceData;
   /** CTA copy, e.g. "Request a quote for your Joondalup property." */
   ctaText: string;
+  /** Pricing-guide links shown under the guide-price table (only when the table renders). */
+  links?: GuideLink[];
 }
 
 /**
@@ -25,7 +29,7 @@ interface CostGuidanceProps {
  * page itself. Prices come from the CMS pricing catalog via
  * lib/cms/map-service-suburb-page.ts — never hand-written.
  */
-export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProps) {
+export function CostGuidance({ title, eyebrow, data, ctaText, links = [] }: CostGuidanceProps) {
   const rows = data.rows ?? [];
   return (
     <section className="bg-muted/40">
@@ -67,6 +71,7 @@ export function CostGuidance({ title, eyebrow, data, ctaText }: CostGuidanceProp
             <p className="border-t border-border px-4 py-3 text-xs text-muted-foreground sm:px-6">
               Guide prices only — the final cost is confirmed on inspection before any work begins.
             </p>
+            <PriceGuideLinks links={links} className="mt-0 px-4 pb-3 sm:px-6" />
           </Reveal>
         )}
 

@@ -15,7 +15,7 @@ interface CostGuideTableProps {
  * page can switch on indicative pricing later without a component change.
  */
 export function CostGuideTable({ table }: CostGuideTableProps) {
-  const { heading, intro, rows, disclaimer } = table;
+  const { heading, intro, rowHeader, rows, disclaimer } = table;
   const hasPriceColumn = rows.some((row) => row.priceRange);
 
   return (
@@ -41,7 +41,7 @@ export function CostGuideTable({ table }: CostGuideTableProps) {
             <thead>
               <tr className="bg-primary/5">
                 <th scope="col" className="px-4 py-3 font-heading font-semibold text-foreground sm:px-6 sm:py-4">
-                  Repair Type
+                  {rowHeader ?? "Repair Type"}
                 </th>
                 <th scope="col" className="hidden px-4 py-3 font-heading font-semibold text-foreground sm:table-cell sm:px-6 sm:py-4">
                   What It Includes

@@ -6,6 +6,7 @@ import { getProblemSlugs } from "@/lib/data/problems";
 import { getServicePageSlugs } from "@/lib/data/service-pages";
 import { getComparisonPageSlugs } from "@/lib/data/comparison-pages";
 import { getCostGuidePageSlugs } from "@/lib/data/cost-guides";
+import { getStaticCostGuides } from "@/lib/data/static-cost-guides";
 import { getServiceSuburbPageSlugs } from "@/lib/data/service-suburb-pages";
 import { getCaseStudySlugs } from "@/lib/data/case-studies";
 import { getBrandHub, getBrandPages } from "@/lib/data/brands";
@@ -56,6 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     suburbPageSlugs,
     caseStudySlugs,
     brandPagesAll,
+    staticCostGuides,
   ] = await Promise.all([
     readCmsFeed(),
     getArticleSlugs(),
@@ -66,6 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getServiceSuburbPageSlugs(),
     getCaseStudySlugs(),
     getBrandPages(),
+    getStaticCostGuides(),
   ]);
 
   // Index the CMS feed by absolute URL for lastmod lookup, skipping noindex pages.
@@ -146,6 +149,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     staticEntry(`/${getBrandHub("door").slug}`, newestBrand("door") ?? DEPLOYED_AT),
     staticEntry(`/${getBrandHub("motor").slug}`, newestBrand("motor") ?? DEPLOYED_AT),
     staticEntry("/cost-guides", newestOf(costGuidePageSlugs) ?? DEPLOYED_AT),
+    // Reserved slugs: repo-only cost guides (e.g. /garage-door-installation-cost-perth) are static
+    // routes with no CMS feed entry, so their lastmod is the guide's own updatedAt (its review date,
+    // or a later live price change on a row it shows).
+    ...staticCostGuides.map((guide) => staticEntry(`/${guide.slug}`, new Date(guide.updatedAt))),
     staticEntry("/calculator", DEPLOYED_AT),
     staticEntry("/quote", DEPLOYED_AT),
     staticEntry("/blog", newestOf(blogSlugs, "blog/") ?? DEPLOYED_AT),

@@ -28,7 +28,7 @@ const PROBLEMS = new Set([
   "garage-door-wont-open", "garage-door-wont-close", "garage-door-stuck-halfway", "garage-door-remote-not-working",
   "garage-door-motor-not-responding", "garage-door-spring-or-cable-broken", "garage-door-off-track", "noisy-garage-door",
 ]);
-const STATIC_ROUTES = new Set(["/", "/services", "/service-areas", "/garage-door-motors-perth", "/cost-guides", "/calculator", "/quote", "/blog", "/problems", "/case-studies", "/gallery", "/reviews", "/warranty", "/warranty-registration", "/about", "/contact", "/privacy", "/terms"]);
+const STATIC_ROUTES = new Set(["/", "/services", "/service-areas", "/garage-door-motors-perth", "/cost-guides", "/garage-door-installation-cost-perth", "/calculator", "/quote", "/blog", "/problems", "/case-studies", "/gallery", "/reviews", "/warranty", "/warranty-registration", "/about", "/contact", "/privacy", "/terms"]);
 
 // Live sitemap flat slugs as of 2026-08-27 — CMS-only pages that exist in no local registry
 // (services, door types, cost guides). Refresh when routes change. Unioned into the URL set in

@@ -124,10 +124,10 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 **In this repo:** site-wide `LocalBusiness` (HomeAndConstructionBusiness) + `Organization` + `WebSite` are emitted in `app/layout.tsx` — don't repeat them. Per-page schema comes from `lib/seo/schema.ts` via `PageSchema`/`JsonLd`.
 
 - [ ] **Article** on blog posts (+ Person author) and case studies.
-- [ ] **Service** on service / cost-guide / comparison / suburb / landing pages. Cost guides (the CMS ones **and** the static `/garage-door-installation-cost-perth`) also emit `Offer`s via `costGuideOffers()`; a `PriceSpecification` is built from the row's **numeric** `priceMin`/`priceMax` (give rows numbers rather than leaning on the label-parsing fallback, which exists only for local content that has none), and open-ended, per-unit or surcharge rows ("From $140 + parts", "$95 each", "+$500") get a description only.
+- [ ] **Service** on service / cost-guide / comparison / suburb / landing pages. Cost guides (the CMS ones **and** the static `/garage-door-installation-cost-perth`) also emit `Offer`s via `costGuideOffers()`, which builds a `PriceSpecification` from the row's **numeric** `priceMin`/`priceMax` (the visible label is never parsed when a row has numbers). On a **CMS guide** a two-bound range gives `minPrice`/`maxPrice` (`price` when they are equal), an open-ended row that has only `priceMin` ("From $140 + parts") gives a lower-bound-only spec (`minPrice`), and per-unit or surcharge rows ("$95 each + …", "+$500") carry no numbers and get a description only. On the **static guide** (and the price-list hub, below) only two-bound ranges get a spec; every open-ended, per-unit or surcharge row is description-only. Label parsing is only the fallback for a row with no numbers at all, and it rejects any label containing "+" or "each".
 - [ ] **FAQPage** wherever a FAQ renders (see §5).
 - [ ] **BreadcrumbList** on every page (free with `<Breadcrumbs>`).
-- [ ] **CollectionPage** on index/listing pages (`/services`, `/blog`, `/gallery`, …). **`/cost-guides` is the price-list hub**: `priceListSchemas()` emits CollectionPage (speakable `h1` + `#direct-answer`) + `Service` with `hasOfferCatalog` (an `OfferCatalog` per price group, an `Offer` per row, `PriceSpecification` from **numeric min/max only**), and the route adds FAQPage (the BreadcrumbList still comes from `<Breadcrumbs>`).
+- [ ] **CollectionPage** on index/listing pages (`/services`, `/blog`, `/gallery`, …). **`/cost-guides` is the price-list hub**: `priceListSchemas()` emits CollectionPage (speakable `h1` + `#direct-answer`) + `Service` with `hasOfferCatalog` (an `OfferCatalog` per price group, an `Offer` per row, a `PriceSpecification` for **two-bound ranges only** — label-only rows such as "From $140 + parts" or "+$500" are description-only), and the route adds FAQPage (the BreadcrumbList still comes from `<Breadcrumbs>`).
 - [ ] **Organization / LocalBusiness** — site-wide already; don't duplicate.
 - [ ] **Author/Person** — for blog bylines (enriched with `jobTitle`/`description` from `authorTitle`/`authorBio`).
 
@@ -189,7 +189,7 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 | Service (flat) | ✅ hero | ✅ | Service · Review · speakable | ✅ | `#quote` form + `tel:` |
 | Comparison | ✅ | ✅ | Article · speakable | ✅ | `#quote` |
 | Cost-guide (CMS guides + the static `/garage-door-installation-cost-perth`) | ✅ | ✅ | Article · Service(+Offers, `PriceSpecification` from numeric `priceMin`/`priceMax`) · speakable | ✅ | `#quote` |
-| Price-list hub (`/cost-guides`) | ✅ hero | ✅ | CollectionPage (speakable `h1` + `#direct-answer`) · Service(`hasOfferCatalog` → Offers, `PriceSpecification` from numeric min/max only) | ✅ | hero CTAs (`/quote` + `tel:`) + `SmartCta` |
+| Price-list hub (`/cost-guides`) | ✅ hero | ✅ | CollectionPage (speakable `h1` + `#direct-answer`) · Service(`hasOfferCatalog` → Offers, `PriceSpecification` for two-bound ranges only) | ✅ | hero CTAs (`/quote` + `tel:`) + `SmartCta` |
 | Service-suburb | ✅ | ✅ | LocalBusiness · Service · speakable | ✅ | `#quote` |
 | Brand page | ✅ hero | ✅ | Service · WebPage(about: Brand, +speakable) | ✅ | `#quote` form + `tel:` |
 | Brand hub | ✅ | ✅ | CollectionPage · ItemList | ✅ | `tel:` + quote |

@@ -25,7 +25,7 @@ export default function PrivacyPage() {
         <h1 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           Privacy Policy
         </h1>
-        <p className="mt-3 text-sm text-muted-foreground">Last updated: 23 June 2026</p>
+        <p className="mt-3 text-sm text-muted-foreground">Last updated: 11 October 2026</p>
 
         <div className="mt-8 flex flex-col gap-8 text-sm leading-relaxed text-muted-foreground sm:text-base">
           <section>
@@ -67,6 +67,23 @@ export default function PrivacyPage() {
               Our website may use cookies and similar technologies to remember preferences and understand how
               visitors use the site. You can disable cookies in your browser settings; this may affect some
               site features.
+            </p>
+            <p className="mt-2">
+              We also measure visits ourselves, so we can tell which pages and which advertising bring in work.
+              Through our own server, into the customer-management system we run, the site records the page you
+              landed on, the site that referred you (if your browser passes one), any campaign tags or ad click
+              identifiers in the address you arrived on, a coarse device type (phone, tablet or desktop), an
+              approximate location (country, and region or city when our network provider supplies one), the
+              pages you view, how far you scroll and how long each page is open, page-speed measurements, and
+              which buttons you tap (for example a phone number or the quote form) and where they sit on the page.
+            </p>
+            <p className="mt-2">
+              Two first-party cookies tie this together. <code>cgd_sid</code> identifies a single visit and
+              expires after 30 minutes without activity. <code>cgd_vid</code> is set by our server on your first
+              page view, contains only a random string, and lasts up to 400 days so a later visit can be
+              connected to an earlier one. Neither holds your name, contact details or a login. Your IP address is
+              used by our server for rate-limiting and that approximate location only, and is not stored with
+              these records.
             </p>
           </section>
 

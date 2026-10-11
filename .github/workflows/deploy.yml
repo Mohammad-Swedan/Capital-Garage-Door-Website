@@ -36,10 +36,17 @@ jobs:
             git reset --hard origin/main
             git clean -fd
             # Runtime secrets, kept out of git (repo is public).
+            # CRM_API_URL / TRACKING_PROXY_SECRET: the source-tracking events route
+            # (app/api/source-tracking/events) forwards to the booking API (not the
+            # CMS) with x-tracking-secret, which must equal the API's
+            # Tracking:ProxySecret. Both are read at request time from this .env
+            # (compose env_file), so no build arg is needed.
             cat > .env << 'ENVEOF'
             NEXT_PUBLIC_SITE_URL=https://capitalgaragedoors.com.au
+            CRM_API_URL=https://crmservice.runasp.net/api
             REVALIDATE_SECRET=${{ secrets.REVALIDATE_SECRET }}
             ASSISTANT_PROXY_SECRET=${{ secrets.ASSISTANT_PROXY_SECRET }}
+            TRACKING_PROXY_SECRET=${{ secrets.TRACKING_PROXY_SECRET }}
             ENVEOF
             docker compose up -d --build
             docker image prune -f

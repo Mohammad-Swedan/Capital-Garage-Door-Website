@@ -1,3 +1,6 @@
+// @module source-tracking:begin analytics-import
+import { captureFromAnalytics } from "@/modules/source-tracking";
+// @module source-tracking:end analytics-import
 /**
  * The single place the site emits analytics events.
  *
@@ -83,6 +86,11 @@ export function track(event: AnalyticsEvent | string, params: Record<string, unk
   w.dataLayer = w.dataLayer || [];
 
   const payload = { page: window.location.pathname, ...params };
+
+  // @module source-tracking:begin analytics-capture
+  // Sink 0 — first-party source tracking (allow-listed events, no PII; never throws).
+  captureFromAnalytics(event, payload);
+  // @module source-tracking:end analytics-capture
 
   // Sink 1 — GTM (container GTM-PLPC3F3L, live since 2026-08-08).
   w.dataLayer.push({ event, ...payload });

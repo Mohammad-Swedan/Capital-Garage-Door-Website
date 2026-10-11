@@ -1,0 +1,43 @@
+{
+  "$comment": "INSTANCE FILE (Capital Garage Doors) — created by scripts/module-sync.mjs on 2026-10-11, never overwritten by it. Page-group rules for the source-tracking module; first match wins, paths are lowercased before matching. Groups must come from pageGroupVocabulary in modules/source-tracking/taxonomy.json. Reviewed 2026-10-11 against app/ and all 169 live sitemap URLs (config/source-tracking.test.ts covers one per page type).",
+  "default": "other",
+  "rules": [
+    { "group": "home", "match": "exact", "value": "/" },
+    {
+      "group": "legacy",
+      "match": "regex",
+      "value": ["^/.+/$", "^/(wp-[a-z-]+|wp|category|tag|shop|cart|checkout|my-account|feed)(/|$)"],
+      "$comment": "Old-WordPress URL shapes; Next redirects most of them, so this mostly labels not_found hits."
+    },
+    { "group": "lp", "match": "prefix", "value": "/lp" },
+    { "group": "blog", "match": "prefix", "value": "/blog" },
+    { "group": "problems", "match": "prefix", "value": "/problems" },
+    { "group": "cost", "match": "regex", "value": "^/[a-z0-9-]+-(cost|costs|prices|pricing)(-[a-z0-9-]+)?$" },
+    { "group": "cost", "match": "prefix", "value": ["/cost-guides", "/calculator", "/pricing"] },
+    { "group": "products", "match": "prefix", "value": "/product" },
+    { "group": "categories", "match": "prefix", "value": "/products" },
+    { "group": "service-areas", "match": "prefix", "value": "/service-areas" },
+    {
+      "group": "suburbs",
+      "match": "slugPrefix",
+      "value": "garage-door-repairs-",
+      "exclude": ["garage-door-repairs-perth"],
+      "$comment": "/garage-door-repairs-<suburb> (44 suburb pages in Oct 2026); the -perth page is the head-term service page, so it falls through to services."
+    },
+    { "group": "contact", "match": "exact", "value": "/contact" },
+    { "group": "quote", "match": "prefix", "value": "/quote" },
+    { "group": "booking", "match": "prefix", "value": ["/booking-confirmed", "/book"] },
+    { "group": "reviews", "match": "prefix", "value": "/reviews" },
+    { "group": "about", "match": "exact", "value": "/about" },
+    { "group": "gallery", "match": "prefix", "value": ["/gallery", "/case-studies"] },
+    { "group": "legal", "match": "exact", "value": ["/privacy", "/terms", "/warranty"] },
+    { "group": "other", "match": "prefix", "value": ["/warranty-registration", "/admin", "/api"] },
+    { "group": "services", "match": "exact", "value": "/services" },
+    {
+      "group": "services",
+      "match": "regex",
+      "value": "^/[a-z0-9-]+$",
+      "$comment": "Every remaining flat /<slug> page: service, brand and comparison pages."
+    }
+  ]
+}

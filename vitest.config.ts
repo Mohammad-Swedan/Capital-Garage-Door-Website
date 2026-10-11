@@ -17,6 +17,11 @@ export default defineConfig({
   },
   test: {
     environment: "node",
-    include: ["proxy.test.ts", "lib/visitor.test.ts"],
+    include: [
+      // @module source-tracking:begin vitest-include
+      "modules/**/*.test.ts",
+      "config/**/*.test.ts",
+      // @module source-tracking:end vitest-include
+      "proxy.test.ts", "lib/visitor.test.ts"],
   },
 });

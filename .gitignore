@@ -68,3 +68,6 @@ skills-lock.json
 
 # Subagent-driven-development scratch (ledger, briefs, review packages)
 .superpowers/
+
+# Local exports and secrets for scripts (source-tracking export, credentials) — never commit
+.staging/

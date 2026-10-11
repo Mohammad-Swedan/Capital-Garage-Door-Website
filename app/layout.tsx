@@ -15,6 +15,9 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { siteGraphSchema } from "@/lib/seo/schema";
 import { getReviewsSummary } from "@/lib/data/reviews";
 import { siteConfig } from "@/config/site";
+// @module source-tracking:begin layout-import
+import { SourceTrackingProvider } from "@/modules/source-tracking";
+// @module source-tracking:end layout-import
 
 const heading = Poppins({
   variable: "--font-heading",
@@ -133,6 +136,12 @@ export default async function RootLayout({
             Renders nothing; mounted outside the production-only analytics gate
             below so the events can be verified in dev. */}
         <InteractionTracking />
+        {/* @module source-tracking:begin layout-mount */}
+        {/* First-party source tracking: page views, engagement, vitals and every
+            CTA click, posted to our own /api/source-tracking/events. Mounted in
+            every environment (like TouchReporter) so it can be verified in dev. */}
+        <SourceTrackingProvider />
+        {/* @module source-tracking:end layout-mount */}
       </body>
       {/* gtag.js loads on requestIdleCallback (was afterInteractive) — it was
           the top unused-JS contributor and long-task source on mobile. The

@@ -23,11 +23,14 @@ export const sourceTrackingConfig = defineSourceTrackingConfig({
   landingPagePrefixes: ["/lp"],
   // JSON imports widen string literals; the rules are validated at runtime by defineSourceTrackingConfig.
   pageGroups: pageGroupsJson as PageGroupRules,
-  // Dev only (production sets CRM_API_URL in deploy.yml). HTTP on purpose —
-  // Node's fetch rejects a self-signed dev cert. 5062 is the booking API's
-  // "http" launch profile (`dotnet run --launch-profile http`), which does not
-  // redirect to HTTPS.
-  crmApiFallbackUrl: "http://localhost:5062/api",
+  // Dev only (production sets CRM_API_URL in deploy.yml). The booking API's
+  // Program.cs listens on 5001 (HTTP) and 6001 (HTTPS) whatever the launch
+  // profile says, and redirects HTTP to HTTPS, so the fallback is HTTPS — the
+  // same base the booking app's dev config names. Node's fetch rejects the
+  // self-signed ASP.NET dev cert: export it (dotnet dev-certs https -ep dev.crt
+  // --format PEM) and start `next dev` with NODE_EXTRA_CA_CERTS=dev.crt, or
+  // events are dropped in dev.
+  crmApiFallbackUrl: "https://localhost:6001/api",
   // A CMS dashboard mounted in the same app is staff traffic, not a lead source.
   excludePathPrefixes: ["/admin"],
   // Set to true ONLY when the site is served through Cloudflare (orange-cloud):

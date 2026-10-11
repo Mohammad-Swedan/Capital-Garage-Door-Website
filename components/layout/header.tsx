@@ -74,7 +74,7 @@ export function Header() {
   const [quoteMounted, setQuoteMounted] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95">
+    <header data-cta-placement="header" className="sticky top-0 z-50 w-full border-b bg-background/95">
       {/* Crawlable, always server-rendered regardless of breakpoint. Base UI
           mounts a mega-menu panel's content only once its trigger opens, and
           the mobile accordion only once expanded, so without this list every

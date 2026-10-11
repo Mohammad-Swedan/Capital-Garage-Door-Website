@@ -170,7 +170,7 @@ export function Hero({ rating }: HeroProps) {
 
   return (
     <>
-      <section className="relative flex min-h-[calc(100svh-4rem)] items-center bg-background">
+      <section data-cta-placement="hero" className="relative flex min-h-[calc(100svh-4rem)] items-center bg-background">
         {/* Decorative background layer */}
         <div
           aria-hidden="true"

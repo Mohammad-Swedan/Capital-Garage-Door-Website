@@ -23,7 +23,7 @@ export function Footer() {
   const weekend = business.hours.find((h) => h.day === "Saturday");
 
   return (
-    <footer className="relative overflow-hidden bg-[#0d1f60] text-white">
+    <footer data-cta-placement="footer" className="relative overflow-hidden bg-[#0d1f60] text-white">
       {/* Ambient background — matches the dark sections above (service-area-map / smart-cta) */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute -left-32 -top-40 h-[480px] w-[480px] rounded-full bg-[#1b3b8c]/40 blur-3xl" />

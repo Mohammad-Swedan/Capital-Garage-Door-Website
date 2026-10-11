@@ -16,7 +16,7 @@ export function LandingFooter() {
   const legalLinks = footerNav.find((section) => section.title === "Legal")?.links ?? [];
 
   return (
-    <footer className="bg-[#0d1f60] text-white">
+    <footer data-cta-placement="lp-footer" className="bg-[#0d1f60] text-white">
       <Container className="flex flex-col items-center gap-6 py-10 text-center sm:py-12">
         <div className="inline-flex rounded-2xl bg-white p-3 shadow-[0_10px_40px_rgba(0,0,0,0.35)]">
           <Logo className="text-base" />

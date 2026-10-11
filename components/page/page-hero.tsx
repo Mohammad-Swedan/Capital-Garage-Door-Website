@@ -29,7 +29,7 @@ interface PageHeroProps {
  */
 export function PageHero({ eyebrow, title, subtitle, trustBadges, areaLabel }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section data-cta-placement="hero" className="relative overflow-hidden bg-background">
       {/* Decorative background — grid + soft ambient glows (matches homepage hero). */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,31,69,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,31,69,0.06)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_80%_70%_at_50%_0%,black_30%,transparent_85%)]" />

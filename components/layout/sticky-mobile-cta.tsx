@@ -148,6 +148,7 @@ export function StickyMobileCta() {
       {/* Mobile / tablet: full-width Call + Smart Chat bar (unchanged). */}
       <div
         ref={wrapperRef}
+        data-cta-placement="sticky-mobile"
         className={cn(
           "fixed inset-x-4 bottom-[calc(1rem+env(safe-area-inset-bottom))] z-40 mx-auto flex max-w-sm items-center gap-2 transition-[transform,opacity] duration-[350ms] ease-out lg:hidden",
           visible

@@ -30,7 +30,7 @@ export function LandingHero({ page }: LandingHeroProps) {
   const { business } = siteConfig;
 
   return (
-    <section className="relative overflow-hidden bg-background">
+    <section data-cta-placement="lp-hero" className="relative overflow-hidden bg-background">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(13,31,69,0.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(13,31,69,0.07)_1px,transparent_1px)] bg-size-[44px_44px] mask-[radial-gradient(ellipse_90%_70%_at_50%_0%,black_30%,transparent_85%)]" />
         <div className="absolute -top-24 left-1/3 h-90 w-200 -translate-x-1/2 rounded-full bg-primary/6 blur-3xl" />

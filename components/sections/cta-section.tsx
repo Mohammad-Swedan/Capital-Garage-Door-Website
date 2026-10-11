@@ -25,6 +25,7 @@ interface CTASectionProps {
 export function CTASection({ heading, body, buttons, tone = "primary" }: CTASectionProps) {
   return (
     <section
+      data-cta-placement="cta-band"
       className={cn(
         "relative overflow-hidden py-14 text-primary-foreground sm:py-20",
         tone === "emergency" ? "bg-[#0a1733]" : "bg-primary",

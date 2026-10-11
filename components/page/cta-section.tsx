@@ -10,7 +10,7 @@ interface CTASectionProps {
 /** Final conversion band — navy background, strong CTAs. */
 export function CTASection({ title, description }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0d1f60] to-[#0a1733]">
+    <section data-cta-placement="cta-band" className="relative overflow-hidden bg-gradient-to-br from-[#0d1f60] to-[#0a1733]">
       {/* Ambient glows */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute -top-20 right-10 h-72 w-72 rounded-full bg-[#0f4e9b]/30 blur-3xl" />

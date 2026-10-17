@@ -855,8 +855,11 @@ export function testimonialReviewSchemas(
 
 /** Review nodes from full Review[] (landing pages) — includes datePublished. Same supported-type fix as `reviewSchemasFromServiceReviews`. */
 export function reviewSchemasFromReviews(reviews: Review[] | undefined) {
-  if (!reviews || reviews.length === 0) return [];
-  return reviews.map((r) =>
+  // Reviews read live from Google (`live`) are shown but never marked up: the curated set is
+  // what the structured data describes, and a card without a node is fine (the reverse is not).
+  const curated = (reviews ?? []).filter((r) => !r.live);
+  if (curated.length === 0) return [];
+  return curated.map((r) =>
     compact({
       "@context": "https://schema.org",
       "@type": "Review",

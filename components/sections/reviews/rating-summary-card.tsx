@@ -33,7 +33,7 @@ export function RatingSummaryCard({ summary }: RatingSummaryCardProps) {
                 ))}
               </div>
               <p className="text-sm font-semibold text-muted-foreground">
-                Based on {summary.totalReviews}+ Perth customer reviews
+                Based on {summary.totalReviews} Perth customer reviews
               </p>
             </div>
 

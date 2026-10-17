@@ -12,6 +12,11 @@ export interface Review {
   date: string;
   /** Surfaced in the "Featured Reviews" section. */
   featured?: boolean;
+  /**
+   * Read live from Google (source-tracking 1.4), not curated. Shown like any other review,
+   * but never emitted as Review JSON-LD.
+   */
+  live?: boolean;
 }
 
 export interface ReviewsSummary {

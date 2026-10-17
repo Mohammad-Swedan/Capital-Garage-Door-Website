@@ -1,6 +1,7 @@
 import { cache } from "react";
 import { reviews, reviewsSummary } from "@/content/reviews";
 import { getGoogleRating } from "@/modules/source-tracking/server/google-rating";
+import { getGoogleReviews, newGoogleReviews, type GoogleReview } from "@/modules/source-tracking/server/google-reviews";
 import type { Review, ReviewsSummary } from "@/types/review";
 import { cmsPublicReviews, type CmsPublicReviewItem } from "@/lib/cms/reviews-client";
 
@@ -57,7 +58,8 @@ async function loadCmsReviews(): Promise<{ items: Review[]; summary: ReviewsSumm
   };
 }
 
-export async function getReviews(): Promise<Review[]> {
+/** The curated reviews: the CMS when it answers, else `content/reviews.ts`. */
+async function getCuratedReviews(): Promise<Review[]> {
   if (CMS_ON) {
     const cms = await loadCmsReviews();
     if (cms) return cms.items;
@@ -65,12 +67,51 @@ export async function getReviews(): Promise<Review[]> {
   return reviews;
 }
 
+/**
+ * Newest Google reviews shown automatically (source-tracking 1.4): the lowest star value and
+ * how many. Google reviews below this are never shown on the site; they still count in the
+ * Google rating/total. 0 switches the live reviews off.
+ */
+export const LIVE_REVIEWS = { minRating: 4, limit: 20 } as const;
+
+function mapGoogleReview(r: GoogleReview): Review {
+  return {
+    id: `google-${r.id}`,
+    customerName: r.author,
+    rating: r.rating,
+    text: r.text,
+    // Google has no suburb/service; the cards skip empty values and the /reviews filter lists
+    // them under "All" only.
+    suburb: "",
+    service: "",
+    source: "Google",
+    date: r.createdAt.slice(0, 10),
+    live: true,
+  };
+}
+
+/**
+ * Every review /reviews shows: the newest written Google reviews that are NOT already in the
+ * curated set (`newGoogleReviews` matches by words — curated copies carry no Google id), then
+ * the curated reviews. Live reviews are `live: true` and stay out of Review JSON-LD
+ * (`reviewSchemasFromReviews` skips them). If the CRM/Google read fails, this is the curated
+ * set alone. `cache()` so a page and its sections share one read per render.
+ */
+export const getReviews = cache(async (): Promise<Review[]> => {
+  const [curated, live] = await Promise.all([
+    getCuratedReviews(),
+    LIVE_REVIEWS.minRating > 0 ? getGoogleReviews() : Promise.resolve([]),
+  ]);
+  const extra = newGoogleReviews(
+    live,
+    curated.map((r) => ({ name: r.customerName, text: r.text })),
+    { minRating: LIVE_REVIEWS.minRating, limit: LIVE_REVIEWS.limit },
+  ).map(mapGoogleReview);
+  return extra.length ? [...extra, ...curated] : curated;
+});
+
 export async function getFeaturedReviews(): Promise<Review[]> {
-  if (CMS_ON) {
-    const cms = await loadCmsReviews();
-    if (cms) return cms.items.filter((review) => review.featured);
-  }
-  return reviews.filter((review) => review.featured);
+  return (await getCuratedReviews()).filter((review) => review.featured);
 }
 
 /**

@@ -22,6 +22,6 @@ export default defineConfig({
       "modules/**/*.test.ts",
       "config/**/*.test.ts",
       // @module source-tracking:end vitest-include
-      "proxy.test.ts", "lib/visitor.test.ts"],
+      "proxy.test.ts", "lib/visitor.test.ts", "lib/data/reviews.test.ts"],
   },
 });

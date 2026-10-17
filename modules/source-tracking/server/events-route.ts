@@ -21,6 +21,7 @@
  */
 import { sourceTrackingConfig as config } from "@/config/source-tracking";
 import type { ForwardedBatch } from "../types";
+import { crmApiBase } from "./crm-api";
 import { createRateLimiter } from "./rate-limit";
 import { clientIpFrom, contextFrom, visitorKeyFrom } from "./request-context";
 import { MAX_BODY_BYTES, validateBatch } from "./validate";
@@ -57,9 +58,7 @@ async function readJson(request: Request): Promise<unknown> {
   }
 }
 
-export function crmApiBase(): string {
-  return (process.env.CRM_API_URL || config.crmApiFallbackUrl).replace(/\/+$/, "");
-}
+export { crmApiBase };
 
 /**
  * The CRM refused or failed a batch. The browser never learns (always 202), so

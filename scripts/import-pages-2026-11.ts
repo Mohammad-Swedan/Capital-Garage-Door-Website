@@ -30,6 +30,7 @@
  *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-pages-2026-11.ts
  *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-pages-2026-11.ts --only garage-door-cable-repair-perth --phase a --apply
  *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-pages-2026-11.ts --phase b --apply
+ *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-pages-2026-11.ts --phase a --update --apply   # re-push DRAFTS only
  *
  * The admin password comes from CMS_ADMIN_PASSWORD, else (production only) from
  * the CMS repo's gitignored appsettings.Production.json (SeedAdmin.Password).
@@ -170,6 +171,8 @@ const CMS_APPSETTINGS_PROD =
 
 const args = process.argv.slice(2);
 const APPLY = args.includes("--apply");
+/** Re-push the content of a page that already exists as a DRAFT (never a Published page). */
+const UPDATE = args.includes("--update");
 const PHASE = (args.includes("--phase") ? args[args.indexOf("--phase") + 1] ?? "" : "both").toLowerCase();
 const ONLY = args.includes("--only") ? (args[args.indexOf("--only") + 1] ?? null) : null;
 if (!["a", "b", "both"].includes(PHASE)) throw new Error(`--phase must be a, b or both (got "${PHASE}")`);
@@ -395,8 +398,12 @@ async function phaseA(plan: PagePlan, pages: PageRef[]): Promise<void> {
   const p = plan.source;
   console.log(`\n== Phase A: ${p.slug}`);
   const existing = pages.find((x) => x.routeGroup === "Flat" && x.slug === p.slug);
-  if (existing) {
-    console.log(`  = already exists (id ${existing.id}, ${existing.status}) — skipped`);
+  if (existing && !UPDATE) {
+    console.log(`  = already exists (id ${existing.id}, ${existing.status}) — skipped (add --update to re-push a Draft)`);
+    return;
+  }
+  if (existing && existing.status !== "Draft") {
+    console.log(`  = already exists and is ${existing.status} — --update only touches Drafts; use an enhance script instead`);
     return;
   }
 
@@ -431,7 +438,38 @@ async function phaseA(plan: PagePlan, pages: PageRef[]): Promise<void> {
       `${payload.faqs.length} FAQs, ${payload.relatedLinks.length} related links, hero asset ${heroImageAssetId ?? "(new)"}`,
   );
   if (!APPLY) {
-    console.log("  dry run — nothing written (add --apply)");
+    console.log(`  dry run — nothing written (add --apply)${existing ? ` [would UPDATE draft id ${existing.id}]` : ""}`);
+    return;
+  }
+
+  if (existing) {
+    const current = await get<AdminPage>(`/api/admin/pages/${existing.id}`);
+    if (current.status !== "Draft") throw new Error(`${p.slug} is ${current.status} — refusing to overwrite a non-draft`);
+    const updateBody = {
+      ...toUpdateBody(current),
+      title: payload.title,
+      seoTitle: payload.seoTitle,
+      seoDescription: payload.seoDescription,
+      heroImageAssetId: payload.heroImageAssetId ?? current.heroImageAssetId,
+      data: payload.data,
+      faqs: payload.faqs.map((f) => ({ ...f, faqItemId: null })),
+      relatedLinks: payload.relatedLinks,
+      pricingRows: payload.pricingRows,
+      reviews: payload.reviews,
+    };
+    await api(`/api/admin/pages/${existing.id}`, { method: "PUT", body: JSON.stringify(updateBody) });
+    const after = await get<AdminPage>(`/api/admin/pages/${existing.id}`);
+    const bad: string[] = [];
+    if (after.status !== "Draft") bad.push(`status ${after.status}`);
+    if (after.seoTitle !== payload.seoTitle) bad.push("seoTitle");
+    if ((after.data as { directAnswer?: string }).directAnswer !== p.directAnswer) bad.push("directAnswer");
+    if (after.faqs.length !== payload.faqs.length) bad.push(`faqs ${after.faqs.length}`);
+    if (after.pricingRows.length !== pricingRows.length) bad.push(`pricingRows ${after.pricingRows.length}`);
+    if (after.reviews.length !== reviews.length) bad.push(`reviews ${after.reviews.length}`);
+    if (bad.length) {
+      process.exitCode = 1;
+      console.error(`  ! draft ${existing.id} updated but verification failed: ${bad.join(", ")}`);
+    } else console.log(`  ✓ draft ${existing.id} updated and verified (still Draft)`);
     return;
   }
 

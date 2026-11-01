@@ -108,12 +108,12 @@ export const garageDoorHingeRollerReplacementPerth: ServicePage = {
     rows: [
       {
         label: "Hinges & rollers / wheels",
-        price: "$140 + parts",
-        note: "One attendance fee plus each roller or hinge fitted",
+        price: "$30 each + $140 call-out",
+        note: "One call-out fee plus each roller or hinge fitted",
       },
       {
         label: "Safety check-up / inspection",
-        price: "From $140",
+        price: "$120",
         note: "If you would rather have the door assessed first",
       },
     ],
@@ -209,13 +209,15 @@ export const garageDoorHingeRollerReplacementPerth: ServicePage = {
     {
       name: "Chantelle N.",
       rating: 5,
-      text: "Quick, efficient and friendly service. Really happy with Mussab's professional work — knew exactly what he needed to do.",
+      text:
+        "Quick, efficient and friendly service. Really happy with Mussab's professional work — knew exactly what he needed to fix and gave us a full rundown before he left. Will definitely call again when we need service and repair work done.",
       service: "Garage Door Repair",
     },
     {
       name: "Khaled K.",
       rating: 5,
-      text: "Capital Garage Doors provided exceptional service from start to finish. Their team was professional, prompt and thorough.",
+      text:
+        "Capital Garage Doors provided exceptional service from start to finish. Their team was professional, prompt and knowledgeable, ensuring my garage door was repaired efficiently. The quality of work exceeded my expectations and the pricing was fair.",
       service: "Garage Door Service",
     },
   ],

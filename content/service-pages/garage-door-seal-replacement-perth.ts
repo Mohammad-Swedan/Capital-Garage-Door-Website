@@ -109,12 +109,12 @@ export const garageDoorSealReplacementPerth: ServicePage = {
     rows: [
       {
         label: "Weather seal (rubber & brush)",
-        price: "$180–$280",
+        price: "$280–$480",
         note: "Bottom rubber or brush seals supplied and fitted, door checked square",
       },
       {
         label: "Pelmet / hood replaced",
-        price: "$280–$440",
+        price: "$380–$480",
         note: "Roller door pelmet made to width, supplied and fitted",
       },
     ],
@@ -210,13 +210,15 @@ export const garageDoorSealReplacementPerth: ServicePage = {
     {
       name: "Khaled K.",
       rating: 5,
-      text: "Capital Garage Doors provided exceptional service from start to finish. Their team was professional, prompt and thorough.",
+      text:
+        "Capital Garage Doors provided exceptional service from start to finish. Their team was professional, prompt and knowledgeable, ensuring my garage door was repaired efficiently. The quality of work exceeded my expectations and the pricing was fair.",
       service: "Garage Door Service",
     },
     {
       name: "Charlotte D.",
       rating: 5,
-      text: "I highly recommend Capital Garage Doors and am very appreciative of Moussab's excellent, prompt and efficient work on our roller door.",
+      text:
+        "I highly recommend Capital Garage Doors and am very appreciative of Moussab's excellent, prompt and efficient service. He fixed my roller door at short notice with no fuss at all. Thank you so much, Moussab.",
       service: "Roller Door Repair",
     },
   ],

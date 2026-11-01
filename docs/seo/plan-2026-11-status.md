@@ -42,7 +42,9 @@ Title lockstep: `scripts/sync-seo-fixes.ts` `SEO_FIXES` now carries the E1 and E
 ## What the owner / you do next
 
 1. **Merge PR #9** (`https://github.com/Mohammad-Swedan/Capital-Garage-Door-Website/pull/9`). CI passed; the merge is the production deploy (about 10 minutes). It ships the roller door price guide, the Guides-menu and footer links to it, the home/service-areas descriptions and the home anchors.
-2. **Publish the drafts from /admin**, one or two a day as planned, in this order: cable repair → lock → sensor → off-track → hinge & roller → seal → Wangara.
+2. **Publish the drafts from /admin**, one or two a day as planned, **in this order**: cable repair → lock → sensor → off-track → hinge & roller → seal → Wangara. The order is load-bearing: the off-track draft links `/garage-door-cable-repair-perth` and the hinge draft links `/garage-door-off-track-repair-perth`, so publishing out of order ships a dead link until the earlier page goes live.
+
+   The drafts were re-pushed on 2026-11-01 after a content-integrity pass (verbatim Google review quotes, fallback price rows aligned to the catalog, no unverifiable claims); re-push a draft again with `--phase a --update --apply` if its content file changes before publishing.
 3. After each publish, run Phase B (idempotent; it only touches pages that are Published and return 200):
    ```
    CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-pages-2026-11.ts --phase b --apply

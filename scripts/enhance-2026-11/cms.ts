@@ -157,6 +157,15 @@ export function appendIntroParagraph(page: AdminPage, marker: string, paragraph:
   notes.push(`intro.paragraphs += "${marker}" paragraph`);
 }
 
+/** Replace a substring inside any `data.intro.paragraphs` entry (ServicePage) — for correcting a sentence already live. */
+export function replaceInIntro(page: AdminPage, from: string, to: string, notes: string[]): void {
+  const intro = (page.data.intro ?? {}) as { heading?: string; paragraphs?: string[] };
+  const paragraphs = Array.isArray(intro.paragraphs) ? intro.paragraphs : [];
+  if (!paragraphs.some((p) => p.includes(from))) return;
+  page.data.intro = { ...intro, paragraphs: paragraphs.map((p) => p.split(from).join(to)) };
+  notes.push(`intro.paragraphs: "${from.slice(0, 40)}…" → "${to.slice(0, 40)}…"`);
+}
+
 export function appendFaqs(page: AdminPage, faqs: { question: string; answer: string }[], notes: string[]): void {
   const questions = new Set(page.faqs.map((f) => norm(f.question)));
   let sort = page.faqs.reduce((m, f) => Math.max(m, f.sortOrder), -1) + 1;

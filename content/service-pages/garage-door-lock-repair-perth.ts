@@ -25,7 +25,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
   hero: {
     h1: "Garage Door Lock Repair & Replacement Perth",
     subtitle:
-      "Jammed, seized or broken roller door locks, bent lock arms and sectional door handles replaced across Perth, with new keys cut to the lock and the door tested closed and secure.",
+      "Jammed, seized or broken roller door locks, bent lock arms and sectional door handles replaced across Perth, with the keys supplied with the lock and the door tested closed and secure.",
     badges: [
       { icon: "Lock", label: "Roller & Sectional Locks" },
       { icon: "Clock3", label: "Same-Day Visits" },
@@ -39,13 +39,13 @@ export const garageDoorLockRepairPerth: ServicePage = {
   },
 
   directAnswer:
-    "Capital Garage Doors repairs and replaces garage door locks across Perth. On a roller door that means the centre lock and the two lock arms that slide into the guides; on a sectional or tilt door it is the handle, the latch and the inside slide bolt. We carry the common lock assemblies and arms on the van, so a seized or broken lock is usually replaced on the first visit, with new keys supplied and the door tested to close and lock properly before we leave.",
+    "Capital Garage Doors repairs and replaces garage door locks across Perth. On a roller door that means the centre lock and the two lock arms that slide into the guides; on a sectional or tilt door it is the handle, the latch and the inside slide bolt. We carry the common lock assemblies and arms on the van, so a seized or broken lock is usually replaced on the first visit, with its keys supplied and the door tested to close and lock properly before we leave.",
 
   intro: {
     heading: "Why Garage Door Locks Fail, and What We Fit Instead",
     paragraphs: [
       "A roller door lock lives a hard life. It sits at the bottom of a steel curtain that is slammed, rained on and wound up and down thousands of times, and its two spring-loaded arms wear a groove in the guides every time the door closes. Eventually the barrel seizes, a key snaps off inside it, an arm bends so the door will not latch, or the whole lock pulls out of the curtain. Sectional doors fail differently: the outside handle strips, the latch cable stretches, or the inside slide bolt is left engaged and the motor tears the latch out.",
-      "We replace the lock as an assembly rather than trying to rebuild a corroded barrel, because a repaired lock on a coastal door rarely lasts a summer. The new lock is fitted through the curtain or panel with fresh fixings, the arms are set so they engage the guides cleanly without binding, and we cut and supply keys for it. If the lock failed because the door itself is out of balance or the curtain is sitting crooked in the guides, we correct that first, or the new lock will jam the same way.",
+      "We replace the lock as an assembly rather than trying to rebuild a corroded barrel, because a repaired lock on a coastal door rarely lasts a summer. The new lock is fitted through the curtain or panel with fresh fixings, the arms are set so they engage the guides cleanly without binding, and the keys that come with it are tested. If the lock failed because the door itself is out of balance or the curtain is sitting crooked in the guides, we correct that first, or the new lock will jam the same way.",
       "A door that cannot be locked is a security problem, so lock jobs are booked as same-day visits where we can. If the door is a motorised roller or sectional door, we also check that the manual lock is not fighting the motor: a door that is locked and then driven by the opener strips the lock, the latch or the motor's gear, and that is the most common reason we see a lock job become a motor job.",
     ],
   },
@@ -62,7 +62,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
   includedItems: [
     "Roller door centre lock and lock arms replaced as an assembly",
     "Sectional and tilt door handles, latches and slide bolts replaced",
-    "New keys cut and supplied with the lock",
+    "New keys supplied with the lock",
     "Guides checked and cleared so the arms engage without binding",
     "Door balance and curtain alignment corrected if they caused the jam",
     "Motor and manual lock checked so they cannot fight each other",
@@ -90,9 +90,9 @@ export const garageDoorLockRepairPerth: ServicePage = {
       icon: "Wrench",
     },
     {
-      title: "Cut and test the keys",
+      title: "Supply and test the keys",
       description:
-        "Keys are cut to the new lock and tested from outside and inside, with the door closed and under its own weight.",
+        "The keys supplied with the new lock are tested from outside and inside, with the door closed and under its own weight.",
       icon: "Lock",
     },
     {
@@ -106,7 +106,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
   // Mirrors pricing-data.ts — the live CMS page pins the same catalog rows.
   costGuidance: {
     intro:
-      "Straight from our price list. A roller door lock is replaced as a complete assembly with its arms and keys; a sectional door's handle or latch is hardware fitted under one attendance fee. As a guide:",
+      "Straight from our price list. A roller door lock is replaced as a complete assembly with its arms and keys; a sectional door's handle or latch is hardware fitted under one call-out fee. As a guide:",
     rows: [
       {
         label: "Roller door lock and lock arms",
@@ -114,9 +114,9 @@ export const garageDoorLockRepairPerth: ServicePage = {
         note: "Complete assembly fitted, keys supplied, arms set to the guides",
       },
       {
-        label: "Sectional door handle, latch or slide bolt",
-        price: "$140 + parts",
-        note: "One attendance fee plus the hardware fitted on the day",
+        label: "Hinges & rollers / wheels (door hardware)",
+        price: "$30 each + $140 call-out",
+        note: "One call-out fee plus each handle, latch, hinge or roller fitted",
       },
     ],
   },
@@ -130,7 +130,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
     },
     {
       title: "Keys included",
-      description: "The new lock comes with its keys cut and tested, not a trip to a locksmith afterwards.",
+      description: "The new lock comes with its own keys, tested on the door, not a trip to a locksmith afterwards.",
       icon: "Lock",
     },
     {
@@ -213,13 +213,15 @@ export const garageDoorLockRepairPerth: ServicePage = {
     {
       name: "Janelle S.",
       rating: 5,
-      text: "Musab was extremely efficient, professional, organised and a nice bloke. Would highly recommend his service and will be using him again.",
+      text:
+        "Musab was extremely efficient, professional, organised and a nice bloke. Would highly recommend his service and installation of roller doors to anyone.",
       service: "Roller Door Repair",
     },
     {
       name: "Chantelle N.",
       rating: 5,
-      text: "Quick, efficient and friendly service. Really happy with Mussab's professional work — knew exactly what he needed to do.",
+      text:
+        "Quick, efficient and friendly service. Really happy with Mussab's professional work — knew exactly what he needed to fix and gave us a full rundown before he left. Will definitely call again when we need service and repair work done.",
       service: "Garage Door Repair",
     },
   ],
@@ -238,7 +240,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
     {
       question: "Can you replace a lock if I've lost the keys?",
       answer:
-        "Yes. For a roller door we fit a new lock assembly and supply new keys, which is quicker and cheaper than having the old barrel re-keyed on a corroded lock. For a sectional or tilt door with a keyed handle, we replace the handle and latch. If the door is motorised, you may not need a key at all day to day, and we can show you how the manual release works for power cuts.",
+        "Yes. For a roller door we fit a new lock assembly that comes with its own keys, which is quicker and cheaper than having the old barrel re-keyed on a corroded lock. For a sectional or tilt door with a keyed handle, we replace the handle and latch. If the door is motorised, you may not need a key at all day to day, and we can show you how the manual release works for power cuts.",
     },
     {
       question: "Why does my roller door lock keep seizing?",
@@ -253,7 +255,7 @@ export const garageDoorLockRepairPerth: ServicePage = {
     {
       question: "Can you fix a sectional garage door handle or latch?",
       answer:
-        "Yes. Sectional and tilt doors use an outside handle with a latch cable and an inside slide bolt rather than a roller door lock. A stripped handle, a stretched latch cable or a slide bolt that was left engaged while the motor ran are all replaced as hardware under one attendance fee, which is the second row in the guide-price table on this page.",
+        "Yes. Sectional and tilt doors use an outside handle with a latch cable and an inside slide bolt rather than a roller door lock. A stripped handle, a stretched latch cable or a slide bolt that was left engaged while the motor ran are all replaced as hardware under one call-out fee, which is the hinges-and-rollers row in the guide-price table on this page.",
     },
   ],
 

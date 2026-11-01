@@ -108,7 +108,7 @@ export const garageDoorSensorRepairPerth: ServicePage = {
     rows: [
       {
         label: "Safety sensors / photo eyes",
-        price: "$180–$280",
+        price: "$150–$300",
         note: "Pair supplied and fitted, aligned, wired and tested",
       },
       {
@@ -209,13 +209,15 @@ export const garageDoorSensorRepairPerth: ServicePage = {
     {
       name: "Ross L.",
       rating: 5,
-      text: "Great service. The team attended super quickly and solved the problem in minutes. They also previously replaced our motor and that was the same — quick, friendly and professional.",
+      text:
+        "Great service. The team attended super quickly and solved the problem in minutes. They also previously replaced a broken motor in very quick time and at a very reasonable price. Can't recommend highly enough.",
       service: "Opener Repair",
     },
     {
       name: "Jacques D.",
       rating: 5,
-      text: "Had an issue with the motor on an old SDO-1 unit. Called on a Monday, asked for Wednesday morning, and he came in early and gave me options. Quick and easy, with no issues.",
+      text:
+        "Had an issue with the motor on an old SDO-1 unit. Called on a Monday, asked for Wednesday morning, and he came in early and gave me options. I chose to fully replace my system and rollers, and he removed the old system and rails too. Quick and easy — not even 45 minutes, with no issues.",
       service: "Motor Replacement",
     },
   ],

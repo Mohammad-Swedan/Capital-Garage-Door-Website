@@ -19,7 +19,7 @@
  *                  RelatedServices link from the commercial hub.
  *             Every write is re-read and verified.
  *
- *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-wangara-page.ts [--phase a|b] [--apply]
+ *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/import-wangara-page.ts [--phase a|b] [--apply] [--update: re-push the DRAFT's content]
  */
 
 import { readFileSync } from "node:fs";
@@ -35,6 +35,7 @@ const CMS_APPSETTINGS_PROD =
   "C:\\Users\\Mohammad swedan\\source\\repos\\Capital Garage Door CMS\\CapitalGarageDoor.Cms.Api\\appsettings.Production.json";
 const args = process.argv.slice(2);
 const APPLY = args.includes("--apply");
+const UPDATE = args.includes("--update");
 const PHASE = (args.includes("--phase") ? (args[args.indexOf("--phase") + 1] ?? "") : "both").toLowerCase();
 if (!["a", "b", "both"].includes(PHASE)) throw new Error(`--phase must be a, b or both (got "${PHASE}")`);
 
@@ -256,8 +257,31 @@ async function main() {
   /* ---------------- Phase A ---------------- */
   if (PHASE === "a" || PHASE === "both") {
     const existing = flat().find((p) => p.slug === TARGET_SLUG);
-    if (existing) {
-      console.log(`  = ${TARGET_SLUG} already exists (id ${existing.id}, ${existing.status}) — Phase A skipped`);
+    if (existing && UPDATE && existing.status === "Draft") {
+      const pricingBody = await get<{ items?: { id: number; scenario: string }[] } | { id: number; scenario: string }[]>("/api/admin/pricing-items?pageSize=200");
+      const items = Array.isArray(pricingBody) ? pricingBody : (pricingBody.items ?? []);
+      const byScenario = new Map(items.map((p) => [p.scenario, p.id]));
+      const pricingRows = PRICING_PINS.map((scenario, i) => {
+        const id = byScenario.get(scenario);
+        if (!id) throw new Error(`pricing scenario not in catalog: "${scenario}"`);
+        return { pricingItemId: id, sortOrder: i, noteOverride: null as null };
+      });
+      const payload = toCreatePayload(pricingRows);
+      const current = await get<AdminPage>(`/api/admin/pages/${existing.id}`);
+      if (current.status !== "Draft") throw new Error("refusing to overwrite a non-draft");
+      console.log(`  plan: UPDATE draft ${existing.id} — ${payload.faqs.length} FAQs, ${payload.relatedLinks.length} links, ${pricingRows.length} price rows`);
+      if (APPLY) {
+        await api(`/api/admin/pages/${existing.id}`, { method: "PUT", body: JSON.stringify({ ...toUpdateBody(current), title: payload.title, seoTitle: payload.seoTitle, seoDescription: payload.seoDescription, data: payload.data, faqs: payload.faqs.map((f) => ({ ...f, faqItemId: null })), relatedLinks: payload.relatedLinks, pricingRows }) });
+        const after = await get<AdminPage>(`/api/admin/pages/${existing.id}`);
+        const ok = after.status === "Draft" && after.faqs.length === payload.faqs.length && (after.data as { directAnswer?: string }).directAnswer === wangaraPage.directAnswer;
+        if (ok) console.log(`  ✓ draft ${existing.id} updated and verified (still Draft)`);
+        else {
+          process.exitCode = 1;
+          console.error(`  ! draft ${existing.id} updated but verification failed`);
+        }
+      }
+    } else if (existing) {
+      console.log(`  = ${TARGET_SLUG} already exists (id ${existing.id}, ${existing.status}) — Phase A skipped${existing.status === "Draft" ? " (add --update to re-push the draft)" : ""}`);
     } else {
       const pricingBody = await get<{ items?: { id: number; scenario: string }[] } | { id: number; scenario: string }[]>("/api/admin/pricing-items?pageSize=200");
       const items = Array.isArray(pricingBody) ? pricingBody : (pricingBody.items ?? []);

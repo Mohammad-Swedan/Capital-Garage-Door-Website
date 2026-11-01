@@ -229,13 +229,15 @@ export const garageDoorCableRepairPerth: ServicePage = {
     {
       name: "Duane S.",
       rating: 5,
-      text: "Good efficient work. One of the springs on my garage door snapped in half. Service was fast and efficient — booked in and fixed without fuss.",
+      text:
+        "Good efficient work. One of the springs on my garage door snapped in half. Service was fast and efficient — both springs were replaced within an hour. Highly recommend for garage door troubles.",
       service: "Spring & Cable Repair",
     },
     {
       name: "Marty P.",
       rating: 5,
-      text: "Sam and crew responded very quickly on the same day to fix my broken garage door panel. The door works even better than before.",
+      text:
+        "Sam and crew responded very quickly on the same day to fix my broken garage door panel. The door works even better now. Highly recommend them — will be booking them for the regular service from now on.",
       service: "Same-Day Repair",
     },
   ],

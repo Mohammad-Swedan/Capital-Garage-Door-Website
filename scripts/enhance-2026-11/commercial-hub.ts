@@ -20,7 +20,7 @@
  *   CMS_API_URL=https://cgd.runasp.net npx tsx scripts/enhance-2026-11/commercial-hub.ts [--apply]
  */
 
-import { appendFaqs, appendIntroParagraph, guardCopy, runEnhancement } from "./cms";
+import { appendFaqs, appendIntroParagraph, guardCopy, replaceInIntro, runEnhancement } from "./cms";
 
 export {};
 
@@ -28,7 +28,7 @@ const TARGET_SLUG = "commercial-garage-doors-perth";
 
 const PARA_MARKER = "scheduled maintenance contract";
 const MAINTENANCE_PARAGRAPH =
-  "Most of our commercial work is a scheduled maintenance contract rather than a breakdown call: a quarterly or six-monthly visit to every roller door, roller shutter and sectional door on the site, with the springs, barrels, curtains, guides, motors, limits, safety edges and photo-eyes checked and adjusted, worn parts replaced before they stop the door, and a written condition report for the facilities manager. Commercial roller shutter servicing is the same visit on a shopfront or loading-dock shutter. We run these contracts for warehouses, workshops and depots across Perth's industrial belt — Wangara, Malaga, Osborne Park, Kewdale, Welshpool, Canning Vale, Bibra Lake and Jandakot — and price them per door from the commercial service row in the guide-price table below, with breakdown call-outs between visits at the listed rate.";
+  "Most of our commercial work is a scheduled maintenance contract rather than a breakdown call: a quarterly or six-monthly visit to every roller door, roller shutter and sectional door on the site, with the springs, barrels, curtains, guides, motors, limits, safety edges and photo-eyes checked and adjusted, worn parts replaced before they stop the door, and a written condition report for the facilities manager. Commercial roller shutter servicing is the same visit on a shopfront or loading-dock shutter. We offer these contracts to warehouses, workshops and depots across Perth's industrial belt — Wangara, Malaga, Osborne Park, Kewdale, Welshpool, Canning Vale, Bibra Lake and Jandakot — and price them per door from the commercial service row in the guide-price table below, with breakdown call-outs between visits at the listed rate.";
 
 const NEW_FAQS: { question: string; answer: string }[] = [
   {
@@ -58,6 +58,9 @@ runEnhancement({
     const notes: string[] = [];
     if (page.pricingRows.length === 0) console.warn("  ! the page has NO pinned price rows — expected 5");
     appendIntroParagraph(page, PARA_MARKER, MAINTENANCE_PARAGRAPH, notes);
+    // 2026-11-01 correction: the first run said "We run these contracts for…", which asserts existing
+    // customers nobody has verified. Rewrite that sentence wherever it is still live.
+    replaceInIntro(page, "We run these contracts for warehouses, workshops and depots", "We offer these contracts to warehouses, workshops and depots", notes);
     appendFaqs(page, NEW_FAQS, notes);
     return notes;
   },

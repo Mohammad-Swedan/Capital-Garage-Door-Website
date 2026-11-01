@@ -41,10 +41,12 @@ const ADMIN_PASSWORD = process.env.CMS_ADMIN_PASSWORD ?? "Admin#12345";
 
 /** slug → new seo title / description (only fields present are changed). */
 const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
+  // 2026-11 opener pass — keep in lockstep with scripts/enhance-2026-11/opener-page.ts
+  // OPENER_SEO (that script owns the same two fields).
   "garage-door-opener-repair-perth": {
-    title: "Garage Door Opener Repair Perth | Capital Garage Doors",
+    title: "Garage Door Opener Repair & Replacement Perth | Same-Day",
     description:
-      "Garage door opener repair and installation across Perth. Motor faults, remotes and sensors, plus smart Wi-Fi upgrades. Fast local service — get a free quote.",
+      "Garage door opener repair & motor replacement across Perth. Faulty motors, logic boards, sensors and remotes fixed same-day; new openers installed. Free quote.",
   },
   // Kept in lockstep with scripts/enhance-installation-page.ts (July 2026 GSC
   // surge: adds the "replacement" + "installers" query clusters) — the two

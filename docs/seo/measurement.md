@@ -54,3 +54,4 @@ frozen baseline; never re-run the script with that label. Full detail is in
 | label | window | clicks | clicks/day | impressions | avg pos | AU clicks | brand | non-brand | GBP-UTM (clicks / impr / pos) |
 |---|---|---|---|---|---|---|---|---|---|
 | 2026-09-27-baseline | 2026-08-31..2026-09-27 | 187 | 6.68 | 35,600 | 25.4 | 174 | 25 | 162 | 0 / 0 / - |
+| 2026-11-01 | 2026-10-02..2026-10-29 | 295 | 10.54 | 53,268 | 17.2 | 282 | 18 | 277 | 19 / 524 / 4.2 |

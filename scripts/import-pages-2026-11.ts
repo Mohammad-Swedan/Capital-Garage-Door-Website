@@ -40,6 +40,7 @@ import type { ServicePage } from "../types/service-page";
 import { garageDoorCableRepairPerth } from "../content/service-pages/garage-door-cable-repair-perth";
 import { garageDoorLockRepairPerth } from "../content/service-pages/garage-door-lock-repair-perth";
 import { garageDoorSensorRepairPerth } from "../content/service-pages/garage-door-sensor-repair-perth";
+import { garageDoorOffTrackRepairPerth } from "../content/service-pages/garage-door-off-track-repair-perth";
 
 export {};
 
@@ -111,6 +112,22 @@ const PLANS: PagePlan[] = [
       { slug: "garage-door-wont-close", routeGroup: "Problems" },
       { slug: "garage-door-motor-not-responding", routeGroup: "Problems" },
       { slug: "how-to-fix-garage-door-sensor", routeGroup: "Blog" },
+    ],
+  },
+  {
+    source: garageDoorOffTrackRepairPerth,
+    pricingPins: ["Door off track / stuck", "Cable snapped or off the drum", "Hinges & rollers / wheels"],
+    reviewPins: ["Marty P.", "Duane S.", "Ross L."],
+    inboundLinks: [
+      { slug: "garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "roller-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "emergency-garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
+      { slug: "garage-door-off-track", routeGroup: "Problems" },
+      { slug: "garage-door-stuck-halfway", routeGroup: "Problems" },
+      { slug: "roller-door-off-track-repair-gosnells-perth", routeGroup: "CaseStudies" },
+      { slug: "garage-door-repairs-secret-harbour-door-off-track-perth", routeGroup: "CaseStudies" },
+      { slug: "garage-door-repairs-padbury-roller-door-tracks-perth", routeGroup: "CaseStudies" },
     ],
   },
 ];

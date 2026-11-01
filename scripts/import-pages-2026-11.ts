@@ -42,6 +42,7 @@ import { garageDoorLockRepairPerth } from "../content/service-pages/garage-door-
 import { garageDoorSensorRepairPerth } from "../content/service-pages/garage-door-sensor-repair-perth";
 import { garageDoorOffTrackRepairPerth } from "../content/service-pages/garage-door-off-track-repair-perth";
 import { garageDoorHingeRollerReplacementPerth } from "../content/service-pages/garage-door-hinge-roller-replacement-perth";
+import { garageDoorSealReplacementPerth } from "../content/service-pages/garage-door-seal-replacement-perth";
 
 export {};
 
@@ -141,6 +142,17 @@ const PLANS: PagePlan[] = [
       { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
       { slug: "noisy-garage-door", routeGroup: "Problems" },
       { slug: "garage-door-hinge-roller-replacement-morley-perth", routeGroup: "CaseStudies" },
+    ],
+  },
+  {
+    source: garageDoorSealReplacementPerth,
+    pricingPins: ["Weather seal (rubber & brush)", "Pelmet / hood replaced"],
+    reviewPins: ["Khaled K.", "Charlotte D.", "Janelle S."],
+    inboundLinks: [
+      { slug: "garage-door-maintenance-perth", routeGroup: "Flat" },
+      { slug: "roller-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
+      { slug: "garage-door-wont-close", routeGroup: "Problems" },
     ],
   },
 ];

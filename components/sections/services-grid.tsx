@@ -209,6 +209,10 @@ export async function ServicesGrid() {
               installation cost
             </Link>
             {", "}
+            <Link href={COST_GUIDE_LINKS.installation.href} prefetch={false} className={ANCHOR_CLASS}>
+              garage door replacement cost
+            </Link>
+            {", "}
             <Link href="/garage-doors-perth" prefetch={false} className={ANCHOR_CLASS}>
               new garage doors
             </Link>

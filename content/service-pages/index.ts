@@ -15,6 +15,7 @@ import { garageDoorLockRepairPerth } from "@/content/service-pages/garage-door-l
 import { garageDoorSensorRepairPerth } from "@/content/service-pages/garage-door-sensor-repair-perth";
 import { garageDoorOffTrackRepairPerth } from "@/content/service-pages/garage-door-off-track-repair-perth";
 import { garageDoorHingeRollerReplacementPerth } from "@/content/service-pages/garage-door-hinge-roller-replacement-perth";
+import { garageDoorSealReplacementPerth } from "@/content/service-pages/garage-door-seal-replacement-perth";
 
 /**
  * Registry of flat service landing pages (e.g. /garage-door-repairs-perth).
@@ -38,4 +39,5 @@ export const servicePages: ServicePage[] = [
   garageDoorSensorRepairPerth,
   garageDoorOffTrackRepairPerth,
   garageDoorHingeRollerReplacementPerth,
+  garageDoorSealReplacementPerth,
 ];

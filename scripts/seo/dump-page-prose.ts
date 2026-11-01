@@ -9,11 +9,28 @@
  * extend `sources` if another registry needs the same check.
  */
 import { servicePages } from "../../content/service-pages";
+import { serviceSuburbPages } from "../../content/service-suburb-pages";
 
 const slug = process.argv[2];
+const suburb = serviceSuburbPages.find((p) => p.slug === slug);
+if (suburb) {
+  const blocks = [
+    suburb.hero.subtitle,
+    suburb.directAnswer,
+    ...suburb.localIntro,
+    ...suburb.availableServices.flatMap((s) => [s.title, s.description]),
+    ...suburb.problems.flatMap((p) => [p.title, p.description]),
+    suburb.costGuidance.intro,
+    ...suburb.costGuidance.factors,
+    ...suburb.whyChooseUs.flatMap((w) => [w.title, w.description]),
+    ...suburb.faqs.flatMap((f) => [f.question, f.answer]),
+  ];
+  process.stdout.write(blocks.join("\n\n") + "\n");
+  process.exit(0);
+}
 const page = servicePages.find((p) => p.slug === slug);
 if (!page) {
-  console.error(`unknown service page slug: ${slug}`);
+  console.error(`unknown service or suburb page slug: ${slug}`);
   process.exit(1);
 }
 const blocks: string[] = [

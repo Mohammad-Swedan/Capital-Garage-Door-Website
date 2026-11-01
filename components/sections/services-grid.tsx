@@ -183,6 +183,10 @@ export async function ServicesGrid() {
               garage door spring repair
             </Link>
             {", "}
+            <Link href="/garage-door-maintenance-perth" className={ANCHOR_CLASS}>
+              garage door service Perth
+            </Link>
+            {", "}
             <Link href="/garage-door-repair-cost-perth" className={ANCHOR_CLASS}>
               garage door repair costs
             </Link>

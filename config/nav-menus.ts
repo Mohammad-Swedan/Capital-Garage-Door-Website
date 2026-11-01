@@ -68,6 +68,7 @@ export const NAV_MENUS: Record<NavMenuKey, NavMenu> = {
         links: [
           { label: "Price list & cost guides", href: "/cost-guides" },
           { label: "New door installation cost", href: "/garage-door-installation-cost-perth" },
+          { label: "Roller door prices", href: "/roller-door-prices-perth" },
           { label: "Common problems", href: "/problems" },
           { label: "Price calculator", href: "/calculator" },
           { label: "Roller vs sectional", href: "/roller-door-vs-sectional-door" },

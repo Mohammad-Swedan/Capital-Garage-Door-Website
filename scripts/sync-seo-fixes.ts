@@ -60,10 +60,12 @@ const SEO_FIXES: Record<string, { title?: string; description?: string }> = {
   "garage-door-spring-repair-perth": {
     title: "Garage Door Spring Replacement Perth | Same-Day Repairs",
   },
+  // 2026-11 servicing pass — keep in lockstep with scripts/enhance-2026-11/servicing-page.ts
+  // SERVICING_SEO (that script owns the same two fields; no typed price in the description).
   "garage-door-maintenance-perth": {
-    title: "Garage Door Servicing Perth | Capital Garage Doors",
+    title: "Garage Door Service Perth | Servicing & Maintenance",
     description:
-      "Garage door servicing and maintenance across Perth. Preventive tune-ups from $140 that catch problems early and keep your door quiet, safe and reliable.",
+      "Garage door service in Perth: springs, cables, rollers, seals and opener checked, lubricated and adjusted in one visit. Same-day servicing across all suburbs.",
   },
   // CTR title pass 2026-10 — keep in lockstep with scripts/ctr-titles-2026-10.ts
   "emergency-garage-door-repairs-perth": {

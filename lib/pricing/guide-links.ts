@@ -18,15 +18,20 @@ export const PRICE_LIST_LINK: GuideLink = {
   href: "/cost-guides",
 };
 
-export type CostGuideKey = "installation" | "repair" | "springs" | "motor" | "service";
+export type CostGuideKey = "installation" | "repair" | "springs" | "motor" | "service" | "roller";
 
-/** The five cost guides, in display order (siblingGuideLinks keeps this order). */
+/**
+ * The cost guides, in display order (siblingGuideLinks and the hub's card order keep it). New
+ * guides are APPENDED so the five original cards keep their places; `roller` is the repo-only
+ * roller-door price guide added 2026-11.
+ */
 export const COST_GUIDE_LINKS: Record<CostGuideKey, GuideLink> = {
   installation: { label: "Garage door installation cost", href: "/garage-door-installation-cost-perth" },
   repair: { label: "Garage door repair cost guide", href: "/garage-door-repair-cost-perth" },
   springs: { label: "Spring & cable replacement cost", href: "/garage-door-spring-replacement-cost-perth" },
   motor: { label: "Motor replacement cost", href: "/garage-door-motor-replacement-cost-perth" },
   service: { label: "Service & maintenance cost", href: "/garage-door-service-cost-perth" },
+  roller: { label: "Roller door prices", href: "/roller-door-prices-perth" },
 };
 
 /**
@@ -45,15 +50,15 @@ const PAGE_GUIDE = new Map<string, CostGuideKey>([
   ["garage-door-maintenance-perth", "service"],
   // New doors and installation
   ["garage-door-installation-perth", "installation"],
-  ["roller-door-installation-perth", "installation"],
+  ["roller-door-installation-perth", "roller"],
   ["garage-doors-perth", "installation"],
-  ["roller-doors-perth", "installation"],
+  ["roller-doors-perth", "roller"],
   ["sectional-garage-doors-perth", "installation"],
   ["tilt-garage-doors-perth", "installation"],
   ["custom-garage-doors-perth", "installation"],
   ["commercial-garage-doors-perth", "installation"],
-  ["commercial-roller-doors-perth", "installation"],
-  ["industrial-roller-doors-perth", "installation"],
+  ["commercial-roller-doors-perth", "roller"],
+  ["industrial-roller-doors-perth", "roller"],
   // Problem pages
   ["problems/garage-door-wont-open", "repair"],
   ["problems/garage-door-wont-close", "repair"],

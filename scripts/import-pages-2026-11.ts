@@ -38,6 +38,8 @@
 import { readFileSync } from "node:fs";
 import type { ServicePage } from "../types/service-page";
 import { garageDoorCableRepairPerth } from "../content/service-pages/garage-door-cable-repair-perth";
+import { garageDoorLockRepairPerth } from "../content/service-pages/garage-door-lock-repair-perth";
+import { garageDoorSensorRepairPerth } from "../content/service-pages/garage-door-sensor-repair-perth";
 
 export {};
 
@@ -84,6 +86,31 @@ const PLANS: PagePlan[] = [
       { slug: "garage-door-repairs-forrestfield-snapped-cable-brackets-perth", routeGroup: "CaseStudies" },
       { slug: "garage-door-repairs-spearwood-stuck-door-cables-brackets-perth", routeGroup: "CaseStudies" },
       { slug: "garage-door-repairs-kardinya-cable-springs-motor-perth", routeGroup: "CaseStudies" },
+    ],
+  },
+  {
+    source: garageDoorLockRepairPerth,
+    pricingPins: ["Roller door lock + arms", "Hinges & rollers / wheels"],
+    reviewPins: ["Janelle S.", "Chantelle N.", "Ross L."],
+    inboundLinks: [
+      { slug: "roller-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
+      { slug: "garage-door-maintenance-perth", routeGroup: "Flat" },
+      { slug: "garage-door-wont-open", routeGroup: "Problems" },
+    ],
+  },
+  {
+    source: garageDoorSensorRepairPerth,
+    pricingPins: ["Safety sensors / photo eyes", "Motor / opener not working (repair)"],
+    reviewPins: ["Ross L.", "Jacques D.", "Kasem S."],
+    inboundLinks: [
+      { slug: "garage-door-opener-repair-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-maintenance-perth", routeGroup: "Flat" },
+      { slug: "garage-door-wont-close", routeGroup: "Problems" },
+      { slug: "garage-door-motor-not-responding", routeGroup: "Problems" },
+      { slug: "how-to-fix-garage-door-sensor", routeGroup: "Blog" },
     ],
   },
 ];

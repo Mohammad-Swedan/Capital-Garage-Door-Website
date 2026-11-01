@@ -38,7 +38,8 @@ Most public routes are thin: resolve slug → data layer → template + `generat
 | What's this URL/topic already ranking for, at what position, with what CTR? | `py -3.12 .../scripts/gsc_query.py --property "https://capitalgaragedoors.com.au/" --json` |
 | Is a specific page indexed / any coverage issues? | `py -3.12 .../scripts/gsc_inspect.py <url> --json` |
 | What organic traffic/engagement is a page or the site getting? | `py -3.12 .../scripts/ga4_report.py --property "properties/544287277" --json` |
-| Real search volume / difficulty / intent for candidate keywords | DataForSEO REST API — `curl -u "<login>:<password>" https://api.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live -d '...'` (credentials in `dataforseo-api.json`; see `references/tool-catalog.md` in the `seo-dataforseo` skill for endpoint shapes) |
+| Google's own search volume, competition and bids; keyword ideas (free) | `npm run seo:keywords -- metrics "kw one,kw two"` or `-- ideas --seeds "a,b"` (Perth by default; see the header of `scripts/seo/keyword-planner.py`) |
+| Difficulty / intent for candidate keywords, or volume data beyond Keyword Planner | DataForSEO REST API — `curl -u "<login>:<password>" https://api.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live -d '...'` (credentials in `dataforseo-api.json`; see `references/tool-catalog.md` in the `seo-dataforseo` skill for endpoint shapes) |
 | What's actually ranking in the SERP for a target keyword (competitors, PAA, featured snippets) | DataForSEO `serp_organic_live_advanced` equivalent REST endpoint |
 
 **Practical use when writing a new page or rewriting an existing one:**

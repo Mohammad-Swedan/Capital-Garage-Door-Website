@@ -41,6 +41,7 @@ import { garageDoorCableRepairPerth } from "../content/service-pages/garage-door
 import { garageDoorLockRepairPerth } from "../content/service-pages/garage-door-lock-repair-perth";
 import { garageDoorSensorRepairPerth } from "../content/service-pages/garage-door-sensor-repair-perth";
 import { garageDoorOffTrackRepairPerth } from "../content/service-pages/garage-door-off-track-repair-perth";
+import { garageDoorHingeRollerReplacementPerth } from "../content/service-pages/garage-door-hinge-roller-replacement-perth";
 
 export {};
 
@@ -128,6 +129,18 @@ const PLANS: PagePlan[] = [
       { slug: "roller-door-off-track-repair-gosnells-perth", routeGroup: "CaseStudies" },
       { slug: "garage-door-repairs-secret-harbour-door-off-track-perth", routeGroup: "CaseStudies" },
       { slug: "garage-door-repairs-padbury-roller-door-tracks-perth", routeGroup: "CaseStudies" },
+    ],
+  },
+  {
+    source: garageDoorHingeRollerReplacementPerth,
+    pricingPins: ["Hinges & rollers / wheels", "Safety check-up / inspection"],
+    reviewPins: ["Chantelle N.", "Khaled K.", "Janelle S."],
+    inboundLinks: [
+      { slug: "garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-maintenance-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
+      { slug: "noisy-garage-door", routeGroup: "Problems" },
+      { slug: "garage-door-hinge-roller-replacement-morley-perth", routeGroup: "CaseStudies" },
     ],
   },
 ];

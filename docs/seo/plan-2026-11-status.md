@@ -8,8 +8,8 @@ The plan is `plan-2026-11-pages.md`; the evidence is `serp-pulls-2026-11-01.md`.
 
 | Page | Where it is | Status | Next |
 |---|---|---|---|
-| `/garage-door-cable-repair-perth` | CMS Draft id 1147 (3 price rows, 3 reviews, 7 FAQs) | waiting for publish | publish from /admin, then Phase B |
-| `/roller-door-prices-perth` | **code**, branch `seo/nov-2026`, PR #9 | waiting for the PR to be merged (deploy) | merge PR #9, then the post-deploy steps below |
+| `/garage-door-cable-repair-perth` | CMS id 1147 (3 price rows, 3 reviews, 7 FAQs) | **Published 2026-11-02**, Phase B done (14 inbound links incl. 8 cable case studies) | IndexNow submitted 2026-11-02 |
+| `/roller-door-prices-perth` | **code**, PR #9 | **Merged + deployed 2026-11-02** (live, 7 Offers in JSON-LD); roller-doors + installation pages now link it; live guard OK; IndexNow submitted | 4–6-week split check (2026-12-01) |
 | `/garage-door-lock-repair-perth` | CMS Draft id 1148 | waiting for publish | publish, then Phase B |
 | `/garage-door-sensor-repair-perth` | CMS Draft id 1149 | waiting for publish | publish, then Phase B |
 | `/garage-door-off-track-repair-perth` | CMS Draft id 1150 | waiting for publish | publish, then Phase B |
@@ -41,8 +41,8 @@ Title lockstep: `scripts/sync-seo-fixes.ts` `SEO_FIXES` now carries the E1 and E
 
 ## What the owner / you do next
 
-1. **Merge PR #9** (`https://github.com/Mohammad-Swedan/Capital-Garage-Door-Website/pull/9`). CI passed; the merge is the production deploy (about 10 minutes). It ships the roller door price guide, the Guides-menu and footer links to it, the home/service-areas descriptions and the home anchors.
-2. **Publish the drafts from /admin**, one or two a day as planned, **in this order**: cable repair → lock → sensor → off-track → hinge & roller → seal → Wangara. The order is load-bearing: the off-track draft links `/garage-door-cable-repair-perth` and the hinge draft links `/garage-door-off-track-repair-perth`, so publishing out of order ships a dead link until the earlier page goes live.
+1. ~~Merge PR #9~~ **Done 2026-11-02** (deploy run 41410648518 green). Steps 4 and the IndexNow part of 6 were run the same day for the cable page and the roller guide.
+2. **Publish the drafts from /admin** (or ask Claude to run `scripts/publish-pages.ts --flat <slug>`), one or two a day as planned, **in this order**: ~~cable repair~~ (done 2026-11-02) → lock → sensor → off-track → hinge & roller → seal → Wangara. The order is load-bearing: the off-track draft links `/garage-door-cable-repair-perth` and the hinge draft links `/garage-door-off-track-repair-perth`, so publishing out of order ships a dead link until the earlier page goes live.
 
    The drafts were re-pushed on 2026-11-01 after a content-integrity pass (verbatim Google review quotes, fallback price rows aligned to the catalog, no unverifiable claims); re-push a draft again with `--phase a --update --apply` if its content file changes before publishing.
 3. After each publish, run Phase B (idempotent; it only touches pages that are Published and return 200):

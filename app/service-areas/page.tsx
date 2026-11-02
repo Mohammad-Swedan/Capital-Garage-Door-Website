@@ -24,7 +24,7 @@ import type { FAQ } from "@/types";
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Repairs Perth — Northern & Southern Suburbs",
   description:
-    "Same-day garage door repairs across every Perth suburb — northern suburbs from Joondalup to Two Rocks, south to Mandurah. Search your suburb & call now.",
+    "Garage door repairs Perth northern suburbs & southern suburbs: same-day service from Joondalup to Two Rocks and south to Mandurah. Find your suburb & call now.",
   path: "/service-areas",
 });
 

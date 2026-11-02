@@ -347,7 +347,7 @@ test("priceListPolicyNote falls back to the baked policy and prefers the live no
  * lib/pricing/guide-links.ts
  * ------------------------------------------------------------------ */
 
-test("guide links: the hub and five guides carry the agreed labels and URLs", () => {
+test("guide links: the hub and six guides carry the agreed labels and URLs", () => {
   assert.deepEqual(PRICE_LIST_LINK, { label: "Full Perth garage door price list", href: "/cost-guides" });
   assert.deepEqual(COST_GUIDE_LINKS, {
     installation: { label: "Garage door installation cost", href: "/garage-door-installation-cost-perth" },
@@ -355,9 +355,10 @@ test("guide links: the hub and five guides carry the agreed labels and URLs", ()
     springs: { label: "Spring & cable replacement cost", href: "/garage-door-spring-replacement-cost-perth" },
     motor: { label: "Motor replacement cost", href: "/garage-door-motor-replacement-cost-perth" },
     service: { label: "Service & maintenance cost", href: "/garage-door-service-cost-perth" },
+    roller: { label: "Roller door prices", href: "/roller-door-prices-perth" },
   });
-  // Key order is the display order siblingGuideLinks uses.
-  assert.deepEqual(Object.keys(COST_GUIDE_LINKS), ["installation", "repair", "springs", "motor", "service"]);
+  // Key order is the display order siblingGuideLinks uses; new guides are appended, never inserted.
+  assert.deepEqual(Object.keys(COST_GUIDE_LINKS), ["installation", "repair", "springs", "motor", "service", "roller"]);
 });
 
 test("priceLinksFor: a mapped page returns [its guide, the hub]", () => {
@@ -398,15 +399,15 @@ test("priceLinksFor follows the full page → guide table", () => {
     "garage-door-remote-replacement-perth": "motor",
     "garage-door-maintenance-perth": "service",
     "garage-door-installation-perth": "installation",
-    "roller-door-installation-perth": "installation",
+    "roller-door-installation-perth": "roller",
     "garage-doors-perth": "installation",
-    "roller-doors-perth": "installation",
+    "roller-doors-perth": "roller",
     "sectional-garage-doors-perth": "installation",
     "tilt-garage-doors-perth": "installation",
     "custom-garage-doors-perth": "installation",
     "commercial-garage-doors-perth": "installation",
-    "commercial-roller-doors-perth": "installation",
-    "industrial-roller-doors-perth": "installation",
+    "commercial-roller-doors-perth": "roller",
+    "industrial-roller-doors-perth": "roller",
     "problems/garage-door-wont-open": "repair",
     "problems/garage-door-wont-close": "repair",
     "problems/garage-door-stuck-halfway": "repair",
@@ -428,14 +429,15 @@ test("siblingGuideLinks: the hub first, then every other guide, never itself", (
     COST_GUIDE_LINKS.springs,
     COST_GUIDE_LINKS.motor,
     COST_GUIDE_LINKS.service,
+    COST_GUIDE_LINKS.roller,
   ]);
   for (const guide of Object.values(COST_GUIDE_LINKS)) {
     const links = siblingGuideLinks(guide.href.slice(1));
-    assert.equal(links.length, 5, guide.href);
+    assert.equal(links.length, 6, guide.href);
     assert.equal(links[0], PRICE_LIST_LINK);
     assert.ok(!links.some((l) => l.href === guide.href), `${guide.href} lists itself`);
   }
-  // A guide outside the five (a future CMS guide) gets the hub plus all five.
+  // A guide outside the six (a future CMS guide) gets the hub plus all six.
   assert.deepEqual(siblingGuideLinks("garage-door-roller-cost-perth"), [
     PRICE_LIST_LINK,
     ...Object.values(COST_GUIDE_LINKS),

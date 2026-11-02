@@ -183,6 +183,10 @@ export async function ServicesGrid() {
               garage door spring repair
             </Link>
             {", "}
+            <Link href="/garage-door-maintenance-perth" className={ANCHOR_CLASS}>
+              garage door service Perth
+            </Link>
+            {", "}
             <Link href="/garage-door-repair-cost-perth" className={ANCHOR_CLASS}>
               garage door repair costs
             </Link>
@@ -203,6 +207,10 @@ export async function ServicesGrid() {
             {", "}
             <Link href={COST_GUIDE_LINKS.installation.href} prefetch={false} className={ANCHOR_CLASS}>
               installation cost
+            </Link>
+            {", "}
+            <Link href={COST_GUIDE_LINKS.installation.href} prefetch={false} className={ANCHOR_CLASS}>
+              garage door replacement cost
             </Link>
             {", "}
             <Link href="/garage-doors-perth" prefetch={false} className={ANCHOR_CLASS}>

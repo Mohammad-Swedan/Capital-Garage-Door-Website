@@ -10,6 +10,12 @@ import { garageDoorsPerth } from "@/content/service-pages/garage-doors-perth";
 import { industrialRollerDoorsPerth } from "@/content/service-pages/industrial-roller-doors-perth";
 import { garageDoorRemoteReplacementPerth } from "@/content/service-pages/garage-door-remote-replacement-perth";
 import { garageDoorPanelReplacementPerth } from "@/content/service-pages/garage-door-panel-replacement-perth";
+import { garageDoorCableRepairPerth } from "@/content/service-pages/garage-door-cable-repair-perth";
+import { garageDoorLockRepairPerth } from "@/content/service-pages/garage-door-lock-repair-perth";
+import { garageDoorSensorRepairPerth } from "@/content/service-pages/garage-door-sensor-repair-perth";
+import { garageDoorOffTrackRepairPerth } from "@/content/service-pages/garage-door-off-track-repair-perth";
+import { garageDoorHingeRollerReplacementPerth } from "@/content/service-pages/garage-door-hinge-roller-replacement-perth";
+import { garageDoorSealReplacementPerth } from "@/content/service-pages/garage-door-seal-replacement-perth";
 
 /**
  * Registry of flat service landing pages (e.g. /garage-door-repairs-perth).
@@ -28,4 +34,10 @@ export const servicePages: ServicePage[] = [
   industrialRollerDoorsPerth,
   garageDoorRemoteReplacementPerth,
   garageDoorPanelReplacementPerth,
+  garageDoorCableRepairPerth,
+  garageDoorLockRepairPerth,
+  garageDoorSensorRepairPerth,
+  garageDoorOffTrackRepairPerth,
+  garageDoorHingeRollerReplacementPerth,
+  garageDoorSealReplacementPerth,
 ];

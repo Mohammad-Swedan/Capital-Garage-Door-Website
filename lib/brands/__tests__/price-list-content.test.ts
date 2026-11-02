@@ -304,7 +304,7 @@ test("priceListSchemas: a CollectionPage plus a Service whose Offers are priced 
   }
 });
 
-test("cost-guide cards: static guides win a slug clash, and the five guides lead in order", () => {
+test("cost-guide cards: static guides win a slug clash, and the listed guides lead in order", () => {
   const guide = (slug: string, h1: string): CostGuidePage =>
     ({ slug, hero: { h1, subtitle: `${h1} subtitle` }, updatedAt: "2026-08-01" }) as CostGuidePage;
   const cards = mergeCostGuideCards(

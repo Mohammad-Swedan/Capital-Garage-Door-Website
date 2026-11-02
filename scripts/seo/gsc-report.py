@@ -12,7 +12,7 @@ Australia alone:
 * the top 25 pages and the top 50 queries;
 * a brand vs non-brand split of the identifiable queries (brand regex:
   `capital|capitol`, case-insensitive), plus the anonymised remainder;
-* a separate GBP line: page URLs carrying `utm_campaign=gbp` or
+* a separate GBP line: page URLs carrying `utm_campaign=gbp`, `utm_source=gbp` or
   `utm_source=google` (the Google Business Profile website link - it measures
   local-pack clicks separately once the owner adds the UTM);
 * a per-page table for the money pages in `docs/seo/tracked-pages.json`:
@@ -69,7 +69,7 @@ BRAND_RE = re.compile(r"capital|capitol", re.I)
 
 # Page URLs carrying either marker are the Google Business Profile website
 # link (owner adds ?utm_source=google&utm_medium=organic&utm_campaign=gbp).
-GBP_MARKERS = ("utm_campaign=gbp", "utm_source=google")
+GBP_MARKERS = ("utm_campaign=gbp", "utm_source=google", "utm_source=gbp")
 
 # If the page rows add up to less than this share of the exact total clicks
 # (Australia's do: about 35%), the printout warns under every rows-based block.

@@ -1,5 +1,6 @@
 import type { StaticCostGuideSource } from "@/types/cost-guide";
 import { garageDoorInstallationCostPerth } from "@/content/static-cost-guides/garage-door-installation-cost-perth";
+import { rollerDoorPricesPerth } from "@/content/static-cost-guides/roller-door-prices-perth";
 
 /**
  * Registry of repo-only cost guides. Each one has its own static route (app/<slug>/page.tsx),
@@ -9,4 +10,4 @@ import { garageDoorInstallationCostPerth } from "@/content/static-cost-guides/ga
  * app/[slug]'s generateStaticParams, which would then collide with the static route. Their slugs
  * are reserved in the CMS too: a CMS page published under one would be shadowed by the route.
  */
-export const staticCostGuides: StaticCostGuideSource[] = [garageDoorInstallationCostPerth];
+export const staticCostGuides: StaticCostGuideSource[] = [garageDoorInstallationCostPerth, rollerDoorPricesPerth];

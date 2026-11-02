@@ -25,7 +25,7 @@ const ScrollDoorReveal = dynamic(() => import("@/components/sections/scroll-door
 export const metadata: Metadata = buildMetadata({
   title: "Garage Door Repairs Perth | Capital Garage Doors",
   description:
-    "Perth's garage door repair experts — emergency & same-day repairs, new installs, roller doors, motors & servicing across all suburbs. Free upfront quotes.",
+    "Emergency & same-day garage door repairs across Perth, 24/7 call-outs. Springs, cables, motors, roller doors, servicing & new doors, every suburb. Free quotes.",
   path: "/",
 });
 

@@ -120,6 +120,7 @@ export const siteConfig = {
         { label: "Blog", href: "/blog" },
         { label: "Prices & Cost Guides", href: "/cost-guides" },
         { label: "Installation Cost", href: "/garage-door-installation-cost-perth" },
+        { label: "Roller Door Prices", href: "/roller-door-prices-perth" },
         { label: "Common Problems", href: "/problems" },
         { label: "Case Studies", href: "/case-studies" },
         { label: "Roller vs Sectional Doors", href: "/roller-door-vs-sectional-door" },

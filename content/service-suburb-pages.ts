@@ -4,6 +4,7 @@ import { cockburnCentralPage } from "@/content/service-suburb-pages-cockburn-cen
 import { atwellPage } from "@/content/service-suburb-pages-atwell";
 import { daytonPage } from "@/content/service-suburb-pages-dayton";
 import { padburyPage } from "@/content/service-suburb-pages-padbury";
+import { wangaraPage } from "@/content/service-suburb-pages-wangara";
 import { serviceSuburbPagesBatch3 } from "@/content/service-suburb-pages-batch3";
 
 /**
@@ -1291,6 +1292,7 @@ export const serviceSuburbPages: ServiceSuburbPage[] = [
   // Atwell (2026-08): the Cockburn cluster's biggest uncaptured term (45 imp)
   // plus the installation intent already ranking 7.9 via the homepage.
   atwellPage,
+  wangaraPage,
 
   // Batch 3 (2026-08): 15 southern-corridor suburbs (Canning River / southern
   // growth / Armadale), each with a catalog-driven guide-price table.

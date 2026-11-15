@@ -306,7 +306,7 @@ export function buildLlmsTxt(data: LlmsData): string {
     "",
     `- Phone: ${business.phoneDisplay} (${business.phone})`,
     `- Base: ${business.address.addressLocality}, ${business.address.addressRegion} ${business.address.postalCode}, Australia — mobile technicians cover all Perth suburbs`,
-    `- Hours: ${formatHoursSummary(business.hours)} (24/7 for emergencies)`,
+    `- Hours: ${formatHoursSummary(business.hours)} (standard rates ${formatHoursSummary(business.standardRateHours)}; an after-hours surcharge applies outside them)`,
     `- Book online: ${url}/contact`,
     `- Get a free quote: ${url}/quote`,
     "",

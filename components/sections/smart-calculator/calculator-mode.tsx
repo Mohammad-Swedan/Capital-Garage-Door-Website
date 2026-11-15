@@ -432,7 +432,7 @@ export function CalculatorMode({
               <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
                 <OptionCard
                   title="Standard booking"
-                  description="Next available business-hours visit"
+                  description="Next available standard-hours visit"
                   icon={CalendarCheck}
                   selected={timingChosen && !form.emergency}
                   onClick={() => selectTiming(false)}

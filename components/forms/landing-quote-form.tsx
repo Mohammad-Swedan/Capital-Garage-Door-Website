@@ -18,7 +18,7 @@ export function LandingQuoteForm({ service }: LandingQuoteFormProps) {
         prefill={{ serviceId: bookingServiceIdFor(service) ?? BOOKING_SERVICE_IDS.repair }}
       />
       <p className="text-center text-xs text-muted-foreground">
-        No call-out fee to quote · We typically reply within the hour during business hours.
+        No call-out fee to quote · Open 24/7 · We typically reply within the hour.
       </p>
     </div>
   );

@@ -27,7 +27,7 @@ export const metadata: Metadata = buildMetadata({
 
 // Derived from siteConfig so the Contact page can never show different hours
 // to the footer/JSON-LD again (an audit found three conflicting sets on-site).
-const HOURS_SUMMARY = formatHoursSummary(siteConfig.business.hours);
+const STANDARD_HOURS = formatHoursSummary(siteConfig.business.standardRateHours);
 
 const PERTH_SUBURBS = [
   "Joondalup",
@@ -73,7 +73,7 @@ const WHY_CONTACT_US: TrustReason[] = [
 const FAQS: FAQ[] = [
   {
     question: "How quickly will you respond?",
-    answer: `We typically reply within the hour during business hours (${HOURS_SUMMARY}). Emergency requests are prioritised, with 24/7 emergency repairs available across Perth.`,
+    answer: `Our phone is answered 24 hours a day, 7 days a week. Form requests usually get a reply within the hour during standard hours (${STANDARD_HOURS}); for anything urgent, call and a technician can be sent any time, day or night.`,
   },
   {
     question: "What details should I include in my quote request?",
@@ -134,7 +134,7 @@ export default function ContactPage() {
           { icon: Phone, label: "Call Now", value: business.phoneDisplay, href: `tel:${phone}` },
           { icon: Mail, label: "Email", value: <ObfuscatedEmail className="hover:text-cta" /> },
           { icon: MapPin, label: "Service Areas", value: "All Perth Suburbs" },
-          { icon: Clock, label: "Business Hours", value: HOURS_SUMMARY },
+          { icon: Clock, label: "Business Hours", value: formatHoursSummary(business.hours) },
           { icon: Siren, label: "Emergency Repairs", value: "24/7 Availability", href: `tel:${phone}`, badge: "24/7" },
         ]}
       />
@@ -187,7 +187,7 @@ export default function ContactPage() {
                   Backed by Capital Garage Doors
                 </h3>
                 <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                  No call-out fee to quote, replies within the hour during business hours, and every job is
+                  No call-out fee to quote, replies within the hour, phones answered 24/7, and every job is
                   licensed, insured, and warranty-backed.
                 </p>
               </div>

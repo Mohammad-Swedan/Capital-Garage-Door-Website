@@ -49,7 +49,23 @@ export const siteConfig = {
       longitude: 115.9323079,
     },
     priceRange: "$$",
+    // Open 24/7 (owner instruction, 2026-11-16). 00:00–23:59 on every day is Google's documented
+    // way to express "open 24 hours" in OpeningHoursSpecification; the footer, the service-page
+    // contact panel and formatHoursSummary() detect it and print "Open 24 hours, 7 days".
+    // Keep the Google Business Profile hours identical (24 hours, every day).
     hours: [
+      { day: "Monday", opens: "00:00", closes: "23:59" },
+      { day: "Tuesday", opens: "00:00", closes: "23:59" },
+      { day: "Wednesday", opens: "00:00", closes: "23:59" },
+      { day: "Thursday", opens: "00:00", closes: "23:59" },
+      { day: "Friday", opens: "00:00", closes: "23:59" },
+      { day: "Saturday", opens: "00:00", closes: "23:59" },
+      { day: "Sunday", opens: "00:00", closes: "23:59" },
+    ],
+    // Standard-rate hours: the window in which normal pricing applies. Outside it the catalog's
+    // after-hours surcharge row applies. These are the pre-2026-11-16 opening hours, kept so the
+    // surcharge copy still has a defined window — PENDING OWNER CONFIRMATION of the real window.
+    standardRateHours: [
       { day: "Monday", opens: "07:00", closes: "18:00" },
       { day: "Tuesday", opens: "07:00", closes: "18:00" },
       { day: "Wednesday", opens: "07:00", closes: "18:00" },

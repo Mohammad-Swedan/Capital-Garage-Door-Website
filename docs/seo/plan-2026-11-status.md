@@ -62,6 +62,21 @@ Title lockstep: `scripts/sync-seo-fixes.ts` `SEO_FIXES` now carries the E1 and E
 7. **Day 10 (about 2026-11-11):** `npm run seo:report -- --label 2026-11-11`, `npm run seo:ga4`; live duplication check `py -3.12 check_dup.py --target https://capitalgaragedoors.com.au --paths <the 8 new paths> --against <4 sisters>`.
 8. **Day 30 (about 2026-12-01):** check that `/roller-door-prices-perth` and `/roller-doors-perth` split "prices" vs product intent (merge with a 301 if they keep swapping), and that the opener and servicing pages moved for their primary queries.
 
+## Owner focus, 2026-11-16 (branch `seo/owner-focus-2026-11`)
+
+The owner asked for Centurion repairs, Avanti/Centurion rail and belt repair, belt snaps, motor gear replacement, cable replacement and 24/7 hours. Evidence (Keyword Planner, GSC 90 days, two DataForSEO Perth SERPs): brand + part combinations have no search volume, so they are covered on existing pages rather than new URLs; the drive-train cluster ("garage door motor belt" 110/mo AU, "belt replacement" 90) gets one page.
+
+| Change | Where | Status |
+|---|---|---|
+| Open 24/7 (footer, contact panel, schema `00:00–23:59`, contact/quote copy, forms, llms.txt) + `standardRateHours` for surcharge copy | code | in PR |
+| `/centurion-garage-doors-perth` retitled "Centurion Garage Doors Perth \| 24/7 Repairs, Cables & Parts"; cable paragraph, cable service card, 3 FAQs, cable + Euro 1250 links | code (brand page) | in PR |
+| `/centurion-garage-door-motors-perth` retitled "…Opener Repairs Perth \| Belt & Rail"; belt/rail + drive-gear FAQs; "belt drive" (verified on cgdoors.com.au) | code | in PR |
+| `/avanti-garage-door-motors-perth` retitled "…Openers Perth \| Repairs, Belts & Install"; SDO4 belt + rail/gear FAQs (belt verified on avantigdo.com) | code | in PR |
+| `/garage-door-cable-repair-perth`: replacement description, Centurion paragraph, 2 FAQs, Centurion link | CMS, **applied 2026-11-16** (`scripts/enhance-2026-11/cable-page-replacement.ts`) | live |
+| `/garage-door-motor-belt-replacement-perth` (belt, chain, rail, gear) | CMS **Draft id 1154** | publish, then `import-pages-2026-11.ts --phase b --apply`; then add the belt-page link to the Avanti/Centurion motor brand pages |
+
+Owner to supply: a belt-replacement and a rail-replacement price row for the catalog (none exists; the page pins the opener repair/replacement rows and says belts and rails are quoted on inspection), and confirmation of the standard-rate hours that the after-hours surcharge applies outside. Change the Google Business Profile hours to "Open 24 hours" the same day this deploys.
+
 ## Not done, on purpose
 
 - No new nav/footer entries for the seven CMS drafts (they are 404s until published).

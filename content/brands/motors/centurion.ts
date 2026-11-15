@@ -18,11 +18,11 @@ export const centurionGarageDoorMotorsPerth: BrandPage = {
   brand: "centurion",
   kind: "motor",
   slug: "centurion-garage-door-motors-perth",
-  updatedAt: "2026-09-01",
+  updatedAt: "2026-11-16",
   seo: {
-    title: "Centurion Garage Door Openers Perth | Repairs & Remotes",
+    title: "Centurion Garage Door Opener Repairs Perth | Belt & Rail",
     description:
-      "Centurion Euro 1250 opener acting up? Perth-wide same-day repairs, remote coding and replacement. Call for a fixed quote.",
+      "Centurion Euro 1250 opener repairs in Perth, 24/7: snapped belts, worn drive gears and rails fixed, remotes coded, or a new motor fitted. Fixed quote first.",
   },
   hero: {
     h1: "Centurion Garage Door Motors & Openers in Perth — Euro 1250 Repairs & Remotes",
@@ -47,7 +47,7 @@ export const centurionGarageDoorMotorsPerth: BrandPage = {
     heading: "The Euro 1250 — Centurion Garage Doors' Own Opener",
     paragraphs: [
       "When Perth homeowners search for a Centurion garage door opener, they generally mean Centurion Garage Doors — the family-owned Australian manufacturer headquartered in Wangara, WA, in business since 1976 — not Centurion Systems, an unrelated South African gate-automation company that makes swing and sliding gate motors. Centurion Garage Doors builds its own sectional and roller doors and pairs them with its own-brand Euro 1250 opener, so the two products usually arrive as a matched package rather than an aftermarket opener bolted onto someone else's door. This page covers the Euro 1250 opener specifically, wherever it turns up on a Perth garage.",
-      "Because the Euro 1250 usually comes bundled with a new Centurion door rather than bought separately, most of our call-outs are on established homes where the opener has been running for years without a service. The faults we see most are a remote that has stopped pairing, safety sensors knocked out of alignment so the door reverses before it touches the floor, and a chain or belt drive labouring because the door's springs have lost tension and the motor is doing the springs' job as well as its own. Heat inside an uninsulated Perth garage also takes a toll on the logic board over a decade of summers.",
+      "Because the Euro 1250 usually comes bundled with a new Centurion door rather than bought separately, most of our call-outs are on established homes where the opener has been running for years without a service. The faults we see most are a remote that has stopped pairing, safety sensors knocked out of alignment so the door reverses before it touches the floor, and the belt drive labouring because the door's springs have lost tension and the motor is doing the springs' job as well as its own. Heat inside an uninsulated Perth garage also takes a toll on the logic board over a decade of summers.",
       "We didn't supply your door, and it makes no difference — we service and repair Euro 1250 openers no matter who fitted the door they're on. Most faults on a unit under about ten years old come down to a sensor, a remote or a gear kit, and a straightforward repair gets it running again the same day. Where the drive itself has failed, or the door has outgrown what the original opener was ever rated for, we fit a new belt-drive Capital motor with app control and a five-year warranty instead of chasing parts for a discontinued opener.",
     ],
   },
@@ -148,12 +148,22 @@ export const centurionGarageDoorMotorsPerth: BrandPage = {
     {
       question: "What are the most common problems with Centurion garage door motors?",
       answer:
-        "The faults we see most on Euro 1250 openers are a remote that has stopped pairing, safety sensors that have drifted out of alignment so the door reverses before it closes, and a chain or belt drive labouring because the door's springs have lost tension. Heat inside an uninsulated Perth garage also takes a toll on the logic board over a decade of summers, which is the one fault that usually points toward replacement rather than repair.",
+        "The faults we see most on Euro 1250 openers are a remote that has stopped pairing, safety sensors that have drifted out of alignment so the door reverses before it closes, and the belt drive labouring because the door's springs have lost tension. Heat inside an uninsulated Perth garage also takes a toll on the logic board over a decade of summers, which is the one fault that usually points toward replacement rather than repair.",
     },
     {
       question: "Is Centurion one of the most reliable garage door opener brands in Perth?",
       answer:
         "It holds up well against the other brands we service, largely because it's fitted new as a matched pair with a Centurion door rather than added on afterwards, so the motor and door are sized correctly for each other from day one. Reliability on any opener comes down mostly to whether the door itself is balanced and serviced — a Euro 1250 fighting an unbalanced door will fail sooner than the same unit on a well-maintained one.",
+    },
+    {
+      question: "Can you replace the belt or rail on a Centurion Euro 1250 opener?",
+      answer:
+        "Yes. The Euro 1250 is a belt-driven opener, and a snapped, stretched or slipping belt is one of the commonest reasons it runs without moving the door. We replace the belt and re-tension it on the rail, replace a bent or damaged rail section when a car or a forced manual release has twisted it, and check the door's balance before reconnecting, because a heavy door is what wears belts out early. The price is quoted once we've seen the rail and the head unit.",
+    },
+    {
+      question: "My Centurion opener hums or clicks but the door won't move. Is it the drive gear?",
+      answer:
+        "Often, yes. When the motor runs but the carriage on the rail doesn't travel, the plastic drive gear inside the head unit may have stripped its teeth, usually after years of lifting a door whose springs have lost tension. A snapped belt or a door left disengaged after a manual release can look the same, so we check all three. A gear repair is part of an opener repair ({{price:motor-repair}}); if the head unit itself has failed, a new motor is {{price:motor-replace}} supplied and installed.",
     },
     {
       question: "How much does it cost to replace a Centurion garage door opener in Perth?",

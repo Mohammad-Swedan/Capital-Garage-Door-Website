@@ -5,7 +5,7 @@ import { Logo } from "@/components/layout/logo";
 import { Reveal } from "@/components/motion/reveal";
 import { ObfuscatedEmail } from "@/components/ui/obfuscated-email";
 import { siteConfig } from "@/config/site";
-import { formatHour } from "@/lib/utils";
+import { hoursDisplayRows } from "@/lib/utils";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -14,13 +14,7 @@ export function Footer() {
   const navSections = footerNav.filter((section) => section.title !== "Legal");
   const legalLinks = footerNav.find((section) => section.title === "Legal")?.links ?? [];
 
-  const weekday = business.hours.find((h) => h.day === "Monday");
-  // Sat and Sun currently share identical hours; the footer only reads
-  // Saturday's entry under the combined "Sat-Sun" label below. If they ever
-  // diverge, this needs to render two separate rows again (the JSON-LD
-  // schema in lib/seo/schema.ts already reads both days independently and
-  // doesn't need this fix).
-  const weekend = business.hours.find((h) => h.day === "Saturday");
+  const hoursRows = hoursDisplayRows(business.hours);
 
   return (
     <footer data-cta-placement="footer" className="relative overflow-hidden bg-[#0d1f60] text-white">
@@ -108,24 +102,15 @@ export function Footer() {
               Business Hours
             </p>
             <ul className="mt-4 space-y-2.5 text-sm text-white/70">
-              <li className="flex items-center gap-3">
-                <Clock className="h-3.5 w-3.5 shrink-0 text-sky-300" aria-hidden="true" />
-                <span className="flex w-full justify-between gap-4">
-                  <span>Mon&ndash;Fri</span>
-                  <span className="font-medium text-white">
-                    {formatHour(weekday?.opens ?? "")} &ndash; {formatHour(weekday?.closes ?? "")}
+              {hoursRows.map((row) => (
+                <li key={row.label} className="flex items-center gap-3">
+                  <Clock className="h-3.5 w-3.5 shrink-0 text-sky-300" aria-hidden="true" />
+                  <span className="flex w-full justify-between gap-4">
+                    <span>{row.label}</span>
+                    <span className="font-medium text-white">{row.value}</span>
                   </span>
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Clock className="h-3.5 w-3.5 shrink-0 text-sky-300" aria-hidden="true" />
-                <span className="flex w-full justify-between gap-4">
-                  <span>Sat&ndash;Sun</span>
-                  <span className="font-medium text-white">
-                    {formatHour(weekend?.opens ?? "")} &ndash; {formatHour(weekend?.closes ?? "")}
-                  </span>
-                </span>
-              </li>
+                </li>
+              ))}
             </ul>
 
             <div className="mt-6 flex gap-2.5">

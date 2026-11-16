@@ -41,6 +41,7 @@ const KNOWN_LIVE_ROUTES = new Set([
   "/custom-garage-doors-perth",
   "/garage-door-installation-perth",
   "/garage-door-maintenance-perth",
+  "/garage-door-cable-repair-perth", // CMS service page, published 2026-11-02
   "/garage-door-opener-repair-perth",
   "/garage-door-panel-replacement-perth",
   "/garage-door-remote-replacement-perth",

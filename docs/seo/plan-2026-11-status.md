@@ -8,10 +8,10 @@ The plan is `plan-2026-11-pages.md`; the evidence is `serp-pulls-2026-11-01.md`.
 
 | Page | Where it is | Status | Next |
 |---|---|---|---|
-| `/garage-door-cable-repair-perth` | CMS Draft id 1147 (3 price rows, 3 reviews, 7 FAQs) | waiting for publish | publish from /admin, then Phase B |
-| `/roller-door-prices-perth` | **code**, branch `seo/nov-2026`, PR #9 | waiting for the PR to be merged (deploy) | merge PR #9, then the post-deploy steps below |
-| `/garage-door-lock-repair-perth` | CMS Draft id 1148 | waiting for publish | publish, then Phase B |
-| `/garage-door-sensor-repair-perth` | CMS Draft id 1149 | waiting for publish | publish, then Phase B |
+| `/garage-door-cable-repair-perth` | CMS id 1147 (3 price rows, 3 reviews, 7 FAQs) | **Published 2026-11-02**, Phase B done (14 inbound links incl. 8 cable case studies) | IndexNow submitted 2026-11-02 |
+| `/roller-door-prices-perth` | **code**, PR #9 | **Merged + deployed 2026-11-02** (live, 7 Offers in JSON-LD); roller-doors + installation pages now link it; live guard OK; IndexNow submitted | 4–6-week split check (2026-12-01) |
+| `/garage-door-lock-repair-perth` | CMS id 1148 | **Published 2026-11-03**, Phase B done (5 inbound links), IndexNow submitted | request indexing |
+| `/garage-door-sensor-repair-perth` | CMS id 1149 | **Published 2026-11-04**, Phase B done (6 inbound links incl. the sensor blog post), IndexNow submitted | request indexing |
 | `/garage-door-off-track-repair-perth` | CMS Draft id 1150 | waiting for publish | publish, then Phase B |
 | `/garage-door-hinge-roller-replacement-perth` | CMS Draft id 1151 | waiting for publish | publish, then Phase B |
 | `/garage-door-seal-replacement-perth` | CMS Draft id 1152 | waiting for publish | publish, then Phase B |
@@ -41,8 +41,8 @@ Title lockstep: `scripts/sync-seo-fixes.ts` `SEO_FIXES` now carries the E1 and E
 
 ## What the owner / you do next
 
-1. **Merge PR #9** (`https://github.com/Mohammad-Swedan/Capital-Garage-Door-Website/pull/9`). CI passed; the merge is the production deploy (about 10 minutes). It ships the roller door price guide, the Guides-menu and footer links to it, the home/service-areas descriptions and the home anchors.
-2. **Publish the drafts from /admin**, one or two a day as planned, **in this order**: cable repair → lock → sensor → off-track → hinge & roller → seal → Wangara. The order is load-bearing: the off-track draft links `/garage-door-cable-repair-perth` and the hinge draft links `/garage-door-off-track-repair-perth`, so publishing out of order ships a dead link until the earlier page goes live.
+1. ~~Merge PR #9~~ **Done 2026-11-02** (deploy run 41410648518 green). Steps 4 and the IndexNow part of 6 were run the same day for the cable page and the roller guide.
+2. **Publish the drafts from /admin** (or ask Claude to run `scripts/publish-pages.ts --flat <slug>`), one or two a day as planned, **in this order**: ~~cable repair~~ (done 2026-11-02) → ~~lock~~ (done 2026-11-03) → ~~sensor~~ (done 2026-11-04) → off-track → hinge & roller → seal → Wangara. The order is load-bearing: the off-track draft links `/garage-door-cable-repair-perth` and the hinge draft links `/garage-door-off-track-repair-perth`, so publishing out of order ships a dead link until the earlier page goes live.
 
    The drafts were re-pushed on 2026-11-01 after a content-integrity pass (verbatim Google review quotes, fallback price rows aligned to the catalog, no unverifiable claims); re-push a draft again with `--phase a --update --apply` if its content file changes before publishing.
 3. After each publish, run Phase B (idempotent; it only touches pages that are Published and return 200):
@@ -61,6 +61,21 @@ Title lockstep: `scripts/sync-seo-fixes.ts` `SEO_FIXES` now carries the E1 and E
 6. **IndexNow + Request indexing:** after each deploy/publish, submit the new URLs with the SEO skill's `indexnow_submit.py`, and press **Request indexing** in Search Console for (in this order): `/roller-door-prices-perth`, `/garage-door-cable-repair-perth`, `/garage-door-opener-repair-perth`, `/garage-door-maintenance-perth`, `/sectional-garage-doors-perth`, `/commercial-garage-doors-perth`, `/garage-door-repairs-wangara`, `/garage-door-repairs-kingsley`, `/garage-door-repairs-willetton`, `/problems/garage-door-off-track`.
 7. **Day 10 (about 2026-11-11):** `npm run seo:report -- --label 2026-11-11`, `npm run seo:ga4`; live duplication check `py -3.12 check_dup.py --target https://capitalgaragedoors.com.au --paths <the 8 new paths> --against <4 sisters>`.
 8. **Day 30 (about 2026-12-01):** check that `/roller-door-prices-perth` and `/roller-doors-perth` split "prices" vs product intent (merge with a 301 if they keep swapping), and that the opener and servicing pages moved for their primary queries.
+
+## Owner focus, 2026-11-16 (branch `seo/owner-focus-2026-11`)
+
+The owner asked for Centurion repairs, Avanti/Centurion rail and belt repair, belt snaps, motor gear replacement, cable replacement and 24/7 hours. Evidence (Keyword Planner, GSC 90 days, two DataForSEO Perth SERPs): brand + part combinations have no search volume, so they are covered on existing pages rather than new URLs; the drive-train cluster ("garage door motor belt" 110/mo AU, "belt replacement" 90) gets one page.
+
+| Change | Where | Status |
+|---|---|---|
+| Open 24/7 (footer, contact panel, schema `00:00–23:59`, contact/quote copy, forms, llms.txt) + `standardRateHours` for surcharge copy | code | in PR |
+| `/centurion-garage-doors-perth` retitled "Centurion Garage Doors Perth \| 24/7 Repairs, Cables & Parts"; cable paragraph, cable service card, 3 FAQs, cable + Euro 1250 links | code (brand page) | in PR |
+| `/centurion-garage-door-motors-perth` retitled "…Opener Repairs Perth \| Belt & Rail"; belt/rail + drive-gear FAQs; "belt drive" (verified on cgdoors.com.au) | code | in PR |
+| `/avanti-garage-door-motors-perth` retitled "…Openers Perth \| Repairs, Belts & Install"; SDO4 belt + rail/gear FAQs (belt verified on avantigdo.com) | code | in PR |
+| `/garage-door-cable-repair-perth`: replacement description, Centurion paragraph, 2 FAQs, Centurion link | CMS, **applied 2026-11-16** (`scripts/enhance-2026-11/cable-page-replacement.ts`) | live |
+| `/garage-door-motor-belt-replacement-perth` (belt, chain, rail, gear) | CMS **Draft id 1154** | publish, then `import-pages-2026-11.ts --phase b --apply`; then add the belt-page link to the Avanti/Centurion motor brand pages |
+
+Owner to supply: a belt-replacement and a rail-replacement price row for the catalog (none exists; the page pins the opener repair/replacement rows and says belts and rails are quoted on inspection), and confirmation of the standard-rate hours that the after-hours surcharge applies outside. Change the Google Business Profile hours to "Open 24 hours" the same day this deploys.
 
 ## Not done, on purpose
 

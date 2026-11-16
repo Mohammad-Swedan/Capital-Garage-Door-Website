@@ -27,12 +27,12 @@ export const metadata: Metadata = buildMetadata({
   path: "/quote",
 });
 
-const HOURS_SUMMARY = formatHoursSummary(siteConfig.business.hours);
+const STANDARD_HOURS = formatHoursSummary(siteConfig.business.standardRateHours);
 
 const FAQS: FAQ[] = [
   {
     question: "How fast will I get my garage door quote?",
-    answer: `We typically reply within the hour during business hours (${HOURS_SUMMARY}). Straightforward repairs are often quoted from your description and photos alone; for new doors and complex jobs we'll arrange a free measure first.`,
+    answer: `We typically reply within the hour during standard hours (${STANDARD_HOURS}), and our phone is answered 24/7. Straightforward repairs are often quoted from your description and photos alone; for new doors and complex jobs we'll arrange a free measure first.`,
   },
   {
     question: "Does a quote cost anything or commit me to booking?",
@@ -58,7 +58,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const TRUST_POINTS = [
   { icon: CircleDollarSign, text: "No call-out fee to quote — the price is agreed before any work starts" },
-  { icon: Clock, text: "Replies within the hour during business hours" },
+  { icon: Clock, text: "Open 24/7 · replies within the hour" },
   { icon: ShieldCheck, text: "Licensed, insured, and warranty-backed workmanship" },
 ] as const;
 

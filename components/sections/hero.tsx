@@ -455,7 +455,7 @@ export function Hero({ rating }: HeroProps) {
                     Emergency Booking
                   </span>
                   <span className="text-[11px] font-medium text-primary/70">
-                    Not recommended outside business hours
+                    After-hours surcharge applies
                   </span>
                 </button>
               </div>

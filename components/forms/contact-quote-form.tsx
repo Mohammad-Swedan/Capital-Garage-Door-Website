@@ -10,7 +10,7 @@ export function ContactQuoteForm() {
     <div className="flex flex-col gap-4">
       <QuoteFrame />
       <p className="text-center text-xs text-muted-foreground">
-        No call-out fee to quote · We typically reply within the hour during business hours.
+        No call-out fee to quote · Open 24/7 · We typically reply within the hour.
       </p>
     </div>
   );

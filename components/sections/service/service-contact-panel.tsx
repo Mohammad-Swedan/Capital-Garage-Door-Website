@@ -1,6 +1,6 @@
 import { Phone, MapPin, Clock, ShieldCheck } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import { formatHour, serviceShortName } from "@/lib/utils";
+import { hoursDisplayRows, serviceShortName } from "@/lib/utils";
 
 const { business } = siteConfig;
 
@@ -12,13 +12,7 @@ const { business } = siteConfig;
  */
 export function ServiceContactPanel({ serviceName }: { serviceName: string }) {
   const { address } = business;
-  const weekday = business.hours.find((h) => h.day === "Monday");
-  // Sat and Sun currently share identical hours; this panel only reads
-  // Saturday's entry under the combined "Sat-Sun" label below. If they ever
-  // diverge, this needs to render two separate rows again (the JSON-LD
-  // schema in lib/seo/schema.ts already reads both days independently and
-  // doesn't need this fix).
-  const weekend = business.hours.find((h) => h.day === "Saturday");
+  const hoursRows = hoursDisplayRows(business.hours);
 
   return (
     <div className="flex flex-col gap-6">
@@ -53,18 +47,12 @@ export function ServiceContactPanel({ serviceName }: { serviceName: string }) {
         <li className="flex items-start gap-3">
           <Clock className="mt-0.5 h-5 w-5 shrink-0 text-cta" aria-hidden="true" />
           <div className="flex-1 space-y-1 text-muted-foreground">
-            <div className="flex justify-between gap-6">
-              <span>Mon&ndash;Fri</span>
-              <span className="font-medium text-foreground">
-                {formatHour(weekday?.opens ?? "")} &ndash; {formatHour(weekday?.closes ?? "")}
-              </span>
-            </div>
-            <div className="flex justify-between gap-6">
-              <span>Sat&ndash;Sun</span>
-              <span className="font-medium text-foreground">
-                {formatHour(weekend?.opens ?? "")} &ndash; {formatHour(weekend?.closes ?? "")}
-              </span>
-            </div>
+            {hoursRows.map((row) => (
+              <div key={row.label} className="flex justify-between gap-6">
+                <span>{row.label}</span>
+                <span className="font-medium text-foreground">{row.value}</span>
+              </div>
+            ))}
           </div>
         </li>
       </ul>

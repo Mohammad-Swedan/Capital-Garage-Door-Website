@@ -54,6 +54,7 @@ export const garageDoorCableRepairPerth: ServicePage = {
       "The lift cables are the two steel ropes that carry the door's weight from the bottom brackets up to the drums on the torsion shaft. They do the heaviest work on the door and they wear quietly: strands fray near the bottom bracket where the cable bends, rust sets in on doors near the coast or in damp garages, and a cable that has stretched slackens enough to jump off its drum the next time the door closes on something. When one finally lets go, the whole weight of the door lands on the other side and the door twists in the tracks.",
       "That is why we never fit a single cable. Both cables went on together and have done the same number of cycles, so the survivor is weeks away from the same failure. We fit a matched pair sized to the door, inspect the bottom brackets and cable drums for the wear that usually caused the break, and check the springs, because a broken or tired spring overloads the cables and will chew through new ones just as quickly.",
       "Our technicians carry cables, bottom brackets, drums and springs for the sectional and tilt doors Perth homes actually have, so a cable repair is normally done on the first visit. If the door has been jammed with a car inside or is stuck open to the street, tell us when you call and we prioritise it as an emergency job. The warning signs are covered in our guide to cable repair signs and costs, linked below, and the recent work on this page shows real Perth cable jobs.",
+      "Cable replacement is the same job on every brand of sectional door, but the parts are not interchangeable. Centurion, B&D, Steel-Line, Gliderol and Taurean doors each use cables cut to the door's height and drums matched to its spring system, so we fit cables of the right length and rating for your door rather than a universal kit, replace them as a pair, re-seat both on the drums and re-tension the springs so the door lifts level. Centurion doors in particular are common across Perth, built in Wangara since 1976, and their cables are a routine replacement for us.",
     ],
   },
 
@@ -278,6 +279,16 @@ export const garageDoorCableRepairPerth: ServicePage = {
       answer:
         "Yes. A door hanging on one cable will not close properly, which leaves the house open or traps the car inside, so we treat it as a priority job. After-hours call-outs on nights, weekends and public holidays carry the surcharge shown in the guide-price table, and we tell you the total on the phone before anyone drives out.",
     },
+    {
+      question: "Do you replace cables on Centurion garage doors?",
+      answer:
+        "Yes. Centurion sectional doors are among the most common in Perth and their lift cables wear the same way as any other brand's: fraying at the bottom bracket, rust near the coast, or slipping off the drum when the door closes on something. We replace both cables with ones cut to the door's height, re-seat them on the drums and re-tension the springs, whoever installed the door.",
+    },
+    {
+      question: "How long does a garage door cable replacement take?",
+      answer:
+        "Most cable replacements are finished in a single visit, including re-tensioning the springs and testing the door through its full travel. It takes longer when the door has dropped crooked and jammed in the tracks, or when a bottom bracket or drum is damaged as well, because those are straightened or replaced before the new cables go on.",
+    },
   ],
 
   cta: {
@@ -289,6 +300,6 @@ export const garageDoorCableRepairPerth: ServicePage = {
   seo: {
     title: "Garage Door Cable Repair Perth | Snapped & Off-Drum Cables",
     description:
-      "Snapped, frayed or off-the-drum garage door cables replaced in pairs across Perth. Brackets, drums & springs checked, door re-balanced. Same-day call-outs.",
+      "Garage door cable repair & replacement across Perth: snapped, frayed or off-drum cables replaced in pairs on Centurion, B&D, Steel-Line & more. Open 24/7.",
   },
 };

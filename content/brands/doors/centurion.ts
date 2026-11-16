@@ -12,18 +12,18 @@ export const centurionGarageDoorsPerth: BrandPage = {
   brand: "centurion",
   kind: "door",
   slug: "centurion-garage-doors-perth",
-  updatedAt: "2026-09-01",
+  updatedAt: "2026-11-16",
   seo: {
-    title: "Centurion Garage Doors Perth | Repairs, Service & Install",
+    title: "Centurion Garage Doors Perth | 24/7 Repairs, Cables & Parts",
     description:
-      "Centurion garage door repairs, genuine panel matching and new-door installs across Perth. WA-made since 1976, same-day service. Call for a fixed quote.",
+      "Centurion garage door repairs across Perth, 24/7: snapped cables replaced, springs, rollers and panels matched. Fixed price before we start.",
   },
   hero: {
-    h1: "Centurion Garage Doors in Perth — Repairs, Panels & New Door Installs",
+    h1: "Centurion Garage Door Repairs in Perth — Cables, Springs, Panels & New Doors",
     subtitle:
-      "WA-made sectional and roller doors kept running by local technicians: panels matched, springs re-tensioned, and an honest call on repair versus a new door.",
+      "WA-made sectional and roller doors kept running by local technicians, 24 hours a day: snapped cables replaced, panels matched, springs re-tensioned, and an honest call on repair versus a new door.",
     pills: [
-      { icon: "Wrench", label: "Same-day Centurion repairs" },
+      { icon: "Wrench", label: "24/7 Centurion repairs" },
       { icon: "ShieldCheck", label: "Genuine panel matching" },
       { icon: "Building2", label: "WA-made since 1976" },
       { icon: "MapPin", label: "All Perth suburbs" },
@@ -44,6 +44,7 @@ export const centurionGarageDoorsPerth: BrandPage = {
       "When Perth homeowners search for \"Centurion garage doors\" they sometimes land on Centurion Systems, a South African gate-automation brand that has nothing to do with garage doors. The Centurion we cover here is Centurion Garage Doors, a family-owned Australian manufacturer that has built sectional, roller and commercial doors from its Wangara factory since 1976. Fifty years of local manufacturing means genuine panels, rollers and hardware are usually in stock rather than shipped from overseas — a real advantage when a damaged Colorbond panel needs matching, not guessing.",
       "Centurion's TimbaLook, Cosmopolitan Colorbond and Architectural sectional ranges turn up right across Perth, from established suburbs with a decades-old Centurion door still doing its job to newer estates that specified the brand off the display board. The doors hold up well, but Perth's climate still takes a toll: UV bakes seals and weatherstrip brittle within a few summers, sandy driveways wear roller bearings faster than they should, and coastal air corrodes fixings on doors within a few kilometres of the beach. The faults we're called out for most are a stiff or noisy roll, a panel dented by a reversing car, and a spring that's lost its tension.",
       "We repair Centurion doors whenever the door itself is sound — a new spring set, a track re-alignment, replacement hardware or a matched panel usually brings a Centurion door back to full working order for a fraction of what a new door costs. When a door has genuinely reached the end of its life, whether that's rust through the base panel or a track bent one too many times, we say so and quote a straightforward replacement rather than pushing repairs onto a door that won't hold them.",
+      "Lift cables are the Centurion repair that can't wait. A sectional door hangs on two steel cables wound onto drums at each end of the spring shaft, and when one frays through or slips off its drum the door drops crooked, jams in the tracks, or won't lift at all. We replace Centurion garage door cables as a pair, re-seat them on the drums, re-tension the springs to match and run the door through its full travel before we leave. Because our phone is answered 24 hours a day, 7 days a week, a door that drops on a Saturday night or stays jammed open over a long weekend gets a technician sent out, not a voicemail until Monday.",
     ],
   },
   services: [
@@ -69,11 +70,11 @@ export const centurionGarageDoorsPerth: BrandPage = {
       href: "/garage-door-installation-perth",
     },
     {
-      title: "Annual door service",
+      title: "Centurion cable replacement",
       description:
-        "Rollers, hinges, cables and the door's balance checked and adjusted so the opener isn't doing the springs' job and the door keeps running quietly.",
-      icon: "CalendarCheck",
-      href: "/garage-door-maintenance-perth",
+        "Frayed or snapped lift cables replaced as a pair, re-seated on the drums and the springs re-tensioned, so the door lifts level again the same day.",
+      icon: "Cable",
+      href: "/garage-door-cable-repair-perth",
     },
   ],
   models: [
@@ -133,6 +134,21 @@ export const centurionGarageDoorsPerth: BrandPage = {
         "A new standard Centurion sectional door supplied and installed in Perth starts from {{price:new-standard}}, including the new door, hardware, removal of the old one and a workmanship warranty. The final figure depends on size, insulation and finish — a double door or an Architectural Series panel will cost more than a standard single Colorbond sectional. We quote the exact figure before any work starts.",
     },
     {
+      question: "How much does a Centurion garage door cable replacement cost in Perth?",
+      answer:
+        "Replacing the lift cables on a Centurion sectional door is {{price:cable}} in Perth, covering one or both cables, re-seating them on the drums and re-tensioning the springs so the door runs level. If a cable has snapped because a spring has also broken, the spring is priced separately ({{price:spring}} for a single spring) and we tell you both figures before any work starts.",
+    },
+    {
+      question: "Can you repair a Centurion garage door after hours or on the weekend?",
+      answer:
+        "Yes. Our phone is answered 24 hours a day, 7 days a week, and a technician can be sent at night, on weekends and on public holidays when a Centurion door is stuck open, jammed or has dropped a cable. Work outside standard hours carries an after-hours surcharge on top of the normal job price (it is listed on our price list), and we confirm it with you before anyone is sent.",
+    },
+    {
+      question: "My Centurion Euro 1250 opener runs but the door doesn't move. What's wrong?",
+      answer:
+        "The Euro 1250 is a belt-driven opener, so when the motor hums or runs but the door stays put, the usual causes are a snapped or stretched drive belt, a worn drive gear inside the head unit, or the door still being disengaged from the rail after a manual release. A seized or unbalanced door can do the same. We check the door's balance first, then the belt, gear and rail, and quote the repair or a replacement opener before starting.",
+    },
+    {
       question: "Is Centurion Garage Doors the same company as Centurion Systems gate motors?",
       answer:
         "No — they're unrelated businesses that happen to share a name. Centurion Garage Doors is the WA manufacturer in Wangara that's made sectional, roller and commercial doors since 1976, which is the brand this page covers. Centurion Systems is a separate South African gate-automation company that makes swing and sliding gate motors, not garage doors. If your remote or motor is a Centurion Systems product, it isn't one we stock parts for.",
@@ -147,6 +163,8 @@ export const centurionGarageDoorsPerth: BrandPage = {
   relatedServices: [
     { label: "All garage door brands in Perth", href: "/garage-door-brands-perth" },
     { label: "Garage door repairs Perth", href: "/garage-door-repairs-perth" },
+    { label: "Garage door cable repair & replacement", href: "/garage-door-cable-repair-perth" },
+    { label: "Centurion Euro 1250 opener repairs", href: "/centurion-garage-door-motors-perth" },
     { label: "Garage door panel replacement", href: "/garage-door-panel-replacement-perth" },
     { label: "New garage door installation Perth", href: "/garage-door-installation-perth" },
     { label: "Garage door service cost guide", href: "/garage-door-service-cost-perth" },

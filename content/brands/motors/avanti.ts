@@ -14,11 +14,11 @@ export const avantiGarageDoorMotorsPerth: BrandPage = {
   brand: "avanti",
   kind: "motor",
   slug: "avanti-garage-door-motors-perth",
-  updatedAt: "2026-09-01",
+  updatedAt: "2026-11-16",
   seo: {
-    title: "Avanti Garage Door Openers Perth | Repairs & Install",
+    title: "Avanti Garage Door Openers Perth | Repairs, Belts & Install",
     description:
-      "Perth's Avanti dealer: same-day opener repairs, remote coding, and SDO4 or RDO roller door openers supplied and installed. Call for a fixed quote.",
+      "Perth's Avanti dealer: SDO4 belt, rail and gear repairs, remote coding, and new SDO4 or RDO openers supplied and installed. Open 24/7, fixed quote first.",
   },
   hero: {
     h1: "Avanti Garage Door Motors & Openers in Perth — Supply, Repairs & Remotes",
@@ -129,6 +129,16 @@ export const avantiGarageDoorMotorsPerth: BrandPage = {
       question: "How much does an Avanti garage door opener cost supplied and installed in Perth?",
       answer:
         "A brand-new Avanti SDO4 or RDO opener supplied and installed is {{price:motor-replace}}, covering the motor, remotes, wall control, safety sensors, programming and removal of anything it's replacing. If your existing Avanti just needs a repair, that's typically {{price:motor-repair}} — we quote both before starting any work.",
+    },
+    {
+      question: "Can you replace a snapped belt on an Avanti SDO4 opener?",
+      answer:
+        "Yes. The Avanti SDO4 drives the door with a belt along a galvanised steel rail, and a snapped or slipping belt is a common reason the motor runs but the door stays put. We fit a new belt, set its tension on the rail, reconnect the carriage and re-set the travel limits so the door closes and reverses correctly. We also check the door's springs and balance first, because a heavy door is the usual reason a belt wears out early.",
+    },
+    {
+      question: "Do you repair the rail and drive gear on Avanti openers?",
+      answer:
+        "Yes. A rail bent by a car or a forced manual release is straightened or replaced, and a stripped drive gear inside the head unit, which makes the motor hum or click without moving the door, is replaced as part of an opener repair ({{price:motor-repair}}). If the head unit itself has failed, a new Avanti or Capital motor supplied and installed is {{price:motor-replace}}, and we give you both figures before starting.",
     },
     {
       question: "How do I reset an Avanti garage door opener?",

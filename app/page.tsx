@@ -43,7 +43,7 @@ const HOME_FAQS: FAQ[] = [
   {
     question: "Do you offer emergency garage door repairs in Perth?",
     answer:
-      "Yes — we provide 24/7 emergency garage door repairs across all Perth suburbs, from Joondalup and Wanneroo down to Rockingham and Baldivis. Typical emergencies include a door stuck open, a car trapped inside, a snapped spring or cable, or a door that has come off its tracks and won't close securely. Call 0475 333 335 and we'll give you a clear arrival window — our technicians drive fully stocked vans, so most emergency repairs are finished on the first visit, and we aim to be on-site the same day. Standard repair pricing applies during business hours; after-hours emergency call-outs add a flat $500 surcharge, which we confirm with you before dispatching a technician — never after the work is done.",
+      "Yes — we provide 24/7 emergency garage door repairs across all Perth suburbs, from Joondalup and Wanneroo down to Rockingham and Baldivis. Typical emergencies include a door stuck open, a car trapped inside, a snapped spring or cable, or a door that has come off its tracks and won't close securely. Call 0475 333 335 and we'll give you a clear arrival window — our technicians drive fully stocked vans, so most emergency repairs are finished on the first visit, and we aim to be on-site the same day. We're open 24/7. Standard repair pricing applies during standard hours; after-hours emergency call-outs add a flat $500 surcharge, which we confirm with you before dispatching a technician — never after the work is done.",
   },
   {
     question: "How much does a garage door repair cost in Perth?",

@@ -55,7 +55,7 @@ const FAQS: FAQ[] = [
   },
   {
     question: "Do after-hours or emergency jobs cost more?",
-    answer: `Standard pricing applies during business hours. Genuine after-hours emergency call-outs add a flat $${EMERGENCY_SURCHARGE} surcharge, which the calculator includes when you flag the job as an emergency — and which we always confirm with you before dispatching a technician.`,
+    answer: `We're open 24/7, and standard pricing applies during standard hours. Genuine after-hours emergency call-outs add a flat $${EMERGENCY_SURCHARGE} surcharge, which the calculator includes when you flag the job as an emergency — and which we always confirm with you before dispatching a technician.`,
   },
 ];
 

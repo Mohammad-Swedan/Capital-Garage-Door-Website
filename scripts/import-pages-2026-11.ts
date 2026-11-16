@@ -44,6 +44,7 @@ import { garageDoorSensorRepairPerth } from "../content/service-pages/garage-doo
 import { garageDoorOffTrackRepairPerth } from "../content/service-pages/garage-door-off-track-repair-perth";
 import { garageDoorHingeRollerReplacementPerth } from "../content/service-pages/garage-door-hinge-roller-replacement-perth";
 import { garageDoorSealReplacementPerth } from "../content/service-pages/garage-door-seal-replacement-perth";
+import { garageDoorMotorBeltReplacementPerth } from "../content/service-pages/garage-door-motor-belt-replacement-perth";
 
 export {};
 
@@ -154,6 +155,20 @@ const PLANS: PagePlan[] = [
       { slug: "roller-door-repairs-perth", routeGroup: "Flat" },
       { slug: "garage-door-repair-cost-perth", routeGroup: "Flat" },
       { slug: "garage-door-wont-close", routeGroup: "Problems" },
+    ],
+  },
+  {
+    // Added 2026-11-16 (owner focus: belts, rails, gears; Avanti + Centurion openers).
+    source: garageDoorMotorBeltReplacementPerth,
+    pricingPins: ["Motor / opener not working (repair)", "Motor / opener replacement"],
+    reviewPins: ["Jacques D.", "Ross L."],
+    inboundLinks: [
+      { slug: "garage-door-opener-repair-perth", routeGroup: "Flat" },
+      { slug: "garage-door-repairs-perth", routeGroup: "Flat" },
+      { slug: "garage-door-motor-replacement-cost-perth", routeGroup: "Flat" },
+      { slug: "garage-door-motor-not-responding", routeGroup: "Problems" },
+      { slug: "noisy-garage-door", routeGroup: "Problems" },
+      { slug: "garage-door-repairs-kingsley-opener-chain-snapped-perth", routeGroup: "CaseStudies" },
     ],
   },
 ];

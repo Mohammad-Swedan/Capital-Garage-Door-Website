@@ -34,9 +34,39 @@ export function serviceShortName(name: string): string {
  * written as prose (Contact page, FAQ copy) so they can never drift from the
  * footer/JSON-LD again — an audit found three conflicting hour sets on-site.
  */
+type HoursEntry = { day: string; opens: string; closes: string }
+
+const WEEK = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+/** True when every day of the week runs 00:00–23:59 (the schema.org "open 24 hours" form). */
+export function isOpen24x7(hours: readonly HoursEntry[]) {
+  return WEEK.every((day) => {
+    const h = hours.find((e) => e.day === day)
+    return !!h && h.opens === "00:00" && h.closes === "23:59"
+  })
+}
+
+/**
+ * Display rows for an hours block (footer, service contact panel): one "Mon–Sun · Open 24 hours"
+ * row when the business is open around the clock, else "Mon–Fri" + "Sat–Sun" rows (which assume
+ * Sat and Sun share hours — schema.ts reads every day independently).
+ */
+export function hoursDisplayRows(hours: readonly HoursEntry[]): { label: string; value: string }[] {
+  if (isOpen24x7(hours)) return [{ label: "Mon–Sun", value: "Open 24 hours" }]
+  const span = (day: string) => {
+    const h = hours.find((e) => e.day === day)
+    return h && h.opens && h.closes ? `${formatHour(h.opens)} – ${formatHour(h.closes)}` : "Closed"
+  }
+  return [
+    { label: "Mon–Fri", value: span("Monday") },
+    { label: "Sat–Sun", value: span("Saturday") },
+  ]
+}
+
 export function formatHoursSummary(
-  hours: readonly { day: string; opens: string; closes: string }[],
+  hours: readonly HoursEntry[],
 ) {
+  if (isOpen24x7(hours)) return "Open 24 hours, 7 days"
   const byDay = (day: string) => hours.find((h) => h.day === day)
   const span = (entry?: { opens: string; closes: string }) =>
     entry && entry.opens && entry.closes
